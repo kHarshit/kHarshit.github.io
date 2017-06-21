@@ -1,0 +1,104 @@
+/*body {
+	margin: 60px auto;
+    width: 70%;
+}*/
+body {
+/*    font: 15px/1.5 Arial, Helvatica, sans-serif;*/
+/*    width: 100%;*/
+    display: ;
+    background-color: #f4f4f4;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+
+header, section, article, footer, aside, nav, hgroup {
+    display: block;
+}
+
+.container {
+    width: 80%;
+/*    border: 1px solid black;*/
+    text-align: left;
+    margin: auto; /* moves everything to middle */
+    overflow: auto; /* doesn't let the children to get out */
+    padding: ;
+}
+
+
+#top_header {
+    /*background-color: #35424a;
+    color: #ffffff;*/
+/*    border: 1px solid black;*/
+    padding-top: 30px;
+    min-height: 70px;
+    border-bottom: #e8491d 3px solid;
+/*    margin: 0px;*/
+}
+
+p {
+    font-family: sans-serif;
+    font-variant: normal;
+    font-weight: ;
+    vertical-align: ;
+    text-decoration: none;
+    text-indent: ;  /* indents only first line of para */
+    word-spacing: normal;
+
+}*/
+
+header #top_header {
+    float: left;
+}
+
+nav {
+    float: right;
+    margin-top: -40px;
+}
+
+nav a {
+    /*color: #ffffff;*/
+    text-decoration: none;  /* removes underline from links */
+    text-transform: uppercase;
+    display: inline-block;
+    list-style: none;
+/*    padding: 20px; */
+}
+
+ul {
+    margin: 0px;
+    padding: 0px;  /* also removes bullets from list items */
+/*    border: 1px solid black;*/
+}
+
+nav li {
+/*    float: left;*/
+    font-family:'Helvetica', 'Arial', 'Sans-Serif';
+    display: inline;
+    padding: 15px; /* top right bottom left */
+}
+
+nav a:hover {
+    color: #111111 /*#cccccc*/;
+    font-weight: bold;
+}
+
+#showcase h1 {
+    margin-top: 70px;
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+
+
+
+#last_footer {
+    clear: both; /* clears floating property */
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+  /*  background-color: #e8491d;*/
+  border-top: 1px solid #d5d5d5;
+    /*border-top: 1px solid black;*/
+
+}
