@@ -130,7 +130,9 @@ article#main-art {
 @media(max-width: 768px) {
 	header #branding,
     nav,
-	nav li{
+	nav li,
+	article#main-art,
+    aside#sidebar{
 		float: none;
         text-align: center;
         width: 100%;
