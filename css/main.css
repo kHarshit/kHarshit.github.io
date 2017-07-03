@@ -78,7 +78,13 @@ nav li {
 
 nav a:hover {
     color: #111111 /*#cccccc*/;
-    font-weight: bold;
+    font-weight: 500;
+/*	text-decoration: underline;*/
+}
+
+nav .current a{
+	color: #e8491d;
+	font-weight: bold;
 }
 
 #showcase{
