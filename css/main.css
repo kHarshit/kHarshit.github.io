@@ -7,7 +7,6 @@ body {
 /*    width: 100%;*/
     display: ;
     background-color: #f4f4f4;
-    text-align: center;
     padding: 0px;
     margin: 0px;
 }
@@ -17,11 +16,10 @@ header, section, article, footer, aside, nav, hgroup {
 }
 
 .container {
-    width: 80%;
+    width: 75%;
 /*    border: 1px solid black;*/
-    text-align: left;
     margin: auto; /* moves everything to middle */
-    overflow: auto; /* doesn't let the children to get out */
+    overflow: hidden; /* doesn't let the children to get out */
     padding: ;
 }
 
@@ -81,6 +79,10 @@ nav li {
 nav a:hover {
     color: #111111 /*#cccccc*/;
     font-weight: bold;
+}
+
+#showcase{
+	text-align: center;
 }
 
 #showcase h1 {
