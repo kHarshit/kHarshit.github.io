@@ -51,7 +51,7 @@ header #branding {
 
 nav {
     float: right;
-    margin-top: -40px;
+    margin-top: -45px;
 }
 
 nav a {
@@ -73,7 +73,7 @@ nav li {
 /*    float: left;*/
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
     display: inline;
-    padding: 15px; /* top right bottom left */
+    padding: 20px; /* top right bottom left */
 }
 
 nav a:hover {
