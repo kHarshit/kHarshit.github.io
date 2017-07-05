@@ -4,6 +4,7 @@
 }*/
 body {
 /*    font: 15px/1.5 Arial, Helvatica, sans-serif;*/
+	font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
 /*    width: 100%;*/
     display: ;
     background-color: #f4f4f4;
@@ -16,7 +17,7 @@ header, section, article, footer, aside, nav, hgroup {
 }
 
 .container {
-    width: 75%;
+    width: 70%;
 /*    border: 1px solid black;*/
     margin: auto; /* moves everything to middle */
     overflow: hidden; /* doesn't let the children to get out */
@@ -28,8 +29,8 @@ header, section, article, footer, aside, nav, hgroup {
     background-color: #35424a;
     color: #ffffff;
 /*    border: 1px solid black;*/
-    padding-top: 30px;
-    min-height: 90px;
+    padding-top: 20px;
+    min-height: 70px;
     border-bottom: #e8491d 3px solid;
 /*    margin: 0px;*/
 }
@@ -49,9 +50,13 @@ header #branding {
     float: left;
 }
 
+#branding h1{
+	margin-bottom: 30px;
+}
+
 nav {
     float: right;
-    margin-top: -45px;
+    margin-top: -65px;
 }
 
 nav a {
@@ -139,11 +144,16 @@ article#main-art {
 	header #branding,
     nav,
 	nav li,
-	article#main-art,
     aside#sidebar{
 		float: none;
         text-align: center;
         width: 100%;
+	}
+	article#main-art,
+	article#blog{
+		float: none;
+		text-align: justify;
+		width: 100%;
 	}
 	nav{
 		margin-top: 10px;
