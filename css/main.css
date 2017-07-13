@@ -54,6 +54,17 @@ header #branding {
 	margin-bottom: 30px;
 }
 
+#branding a{
+	text-decoration: none;
+	color: #ffffff;
+	display: inline-block;
+	outline: none;
+}
+
+#branding a:hover{
+	color: #cccccc;
+}
+
 nav {
     float: right;
     margin-top: -65px;
