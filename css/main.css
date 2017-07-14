@@ -119,6 +119,21 @@ aside {
     margin-top: 10px;
 }
 
+#sidebar a, #main-art a{
+	text-decoration: none;
+	color: lightseagreen;
+/*	display: inline-block;*/
+	outline: none;
+}
+
+#sidebar a:hover{
+	color: #cccccc;
+}
+
+#main-art a:hover{
+	color: darkgray;
+}
+
 article#main-art {
     float: left;
     width: 65%;
@@ -170,7 +185,7 @@ article#main-art {
 	article#main-art,
 	article#blog{
 		float: none;
-		text-align: justify;
+/*		text-align: justify;*/
 		width: 100%;
 	}
 	nav{
