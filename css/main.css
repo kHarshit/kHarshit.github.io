@@ -3,7 +3,6 @@
     width: 70%;
 }*/
 body {
-/*    font: 15px/1.5 Arial, Helvatica, sans-serif;*/
 	font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
 /*    width: 100%;*/
     display: ;
@@ -116,7 +115,11 @@ nav .current a{
 aside {
     float: right;
     width: 30%;
-    margin-top: 10px;
+    margin-top: 20px;
+}
+
+#main{
+	margin-bottom: 40px;
 }
 
 #sidebar a, #main-art a{
@@ -134,9 +137,14 @@ aside {
 	color: darkgray;
 }
 
-article#main-art {
+article#main-art{
     float: left;
     width: 65%;
+}
+
+#projects{
+	margin-top: 30px;
+	font-family: sans-serif;
 }
 
 #mypic img{
