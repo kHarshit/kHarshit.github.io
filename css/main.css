@@ -92,9 +92,8 @@ nav li {
 }
 
 nav a:hover {
-    color: #cccccc /*#111111 */;
+    color: #cccccc;
     font-weight: 500;
-/*	text-decoration: underline;*/
 }
 
 nav .current a{
@@ -125,7 +124,6 @@ aside {
 #sidebar a, #main-art a{
 	text-decoration: none;
 	color: lightseagreen;
-/*	display: inline-block;*/
 	outline: none;
 }
 
@@ -172,9 +170,11 @@ article#main-art{
     text-align: center;
     padding: 20px;
     margin-top: 20px;
-  /*  background-color: #e8491d;*/
-  border-top: 1px solid #d5d5d5;
+/*    background-color: #e8491d;*/
+	color: slategray;
+	border-top: 1px solid #d5d5d5;
     /*border-top: 1px solid black;*/
+	font-size: 15px;
 
 }
 
