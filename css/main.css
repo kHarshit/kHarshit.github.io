@@ -78,7 +78,7 @@ nav a {
 /*    padding: 20px; */
 }
 
-ul {
+nav ul {
     margin: 0px;
     padding: 0px;  /* also removes bullets from list items */
 /*    border: 1px solid black;*/
@@ -144,7 +144,7 @@ article#main-art{
     width: 65%;
 }
 
-#projects{
+#projects, #skills{
 	margin-top: 30px;
 	font-family: sans-serif;
 }
