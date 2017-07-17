@@ -195,6 +195,9 @@ article#main-art{
 
 
 @media(max-width: 768px) {
+	.container{
+		width: 80%;
+	}
 	header #branding,
     nav,
 	nav li,
@@ -202,6 +205,7 @@ article#main-art{
 		float: none;
         text-align: center;
         width: 100%;
+		word-wrap: break-word;  /* to break the link into multiple lines */
 	}
 	article#main-art,
 	article#blog{
