@@ -1,0 +1,30 @@
+---
+layout: default
+---
+
+    <header id="top_header">
+            <div class="container">
+            <div id="branding">
+            		<h1><a href="/index.html">Harshit Kumar</a></h1>
+				</div>
+
+            <nav>
+                <ul>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/blog.html">Blog</a></li>
+                </ul>
+
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>{{ page.title }}</h1>
+        <p class="meta">{{ page.date | date_to_string }}</p>
+
+
+        <div id="post">
+          {{ content }}
+        </div>
+    </div>
