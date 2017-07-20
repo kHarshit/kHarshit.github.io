@@ -194,6 +194,19 @@ article#main-art{
 
 
 
+#e404 a{
+    color: lightseagreen;
+    text-decoration: none;
+}
+
+#e404 a:hover{
+    color: orangered;
+}
+
+
+
+
+
 @media(max-width: 768px) {
 	.container{
 		width: 80%;
