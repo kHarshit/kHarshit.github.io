@@ -1,0 +1,45 @@
+---
+layout: default
+title: Blog | Categories
+---
+
+<header id="top_header">
+            <div class="container">
+            <div id="branding">
+            		<h1><a href="/index.html">Harshit Kumar</a></h1>
+				</div>
+
+            <nav>
+                <ul>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/blog.html">Blog</a></li>
+                </ul>
+
+            </nav>
+        </div>
+    </header>
+
+
+<div class="container">
+    <div id="post">
+        <h1>Categories</h1>
+        <div id="archives">
+            {% for category in site.categories %}
+                <div class="archive-group">
+                    {% capture category_name %}{{ category | first }}{% endcapture %}
+                    <div id="#{{ category_name | slugize }}"></div>
+                    <p></p>
+                    
+                    <h3 class="category-head">{{ category_name }}</h3>
+                    <a name="{{ category_name | slugize }}"></a>
+                    {% for post in site.categories[category_name] %}
+                    <article class="archive-item">
+                        <h4><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></h4>
+                    </article>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

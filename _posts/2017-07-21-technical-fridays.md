@@ -2,6 +2,7 @@
 layout: post
 title: "Technical Fridays"
 date: 2017-07-21
+categories: [Personal, Technical Fridays]
 ---
 
 <div style="text-align: center">
