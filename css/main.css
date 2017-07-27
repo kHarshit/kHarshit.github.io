@@ -11,7 +11,7 @@ body {
     margin: 0px;
 }
 
-header, section, article, footer, aside, nav, hgroup {
+header, section, article, footer, aside, nav, hgroup, h1, h2, h3, h4, h5, h6 {
     display: block;
 }
 
@@ -249,3 +249,9 @@ iframe, object, embed {
         height: 80%;
     }
 }
+
+
+/* The box model: to see every box that makes up the page */
+/** {
+   border: 1px solid red !important;
+}*/
