@@ -1,12 +1,5 @@
-/*body {
-	margin: 60px auto;
-    width: 70%;
-}*/
 body {
 	font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-/*    width: 100%;*/
-    display: ;
-    /*background-color: #f4f4f4;*/  /* for code in post */
     padding: 0px;
     margin: 0px;
 }
@@ -24,36 +17,25 @@ h6 { margin-block-start: 2.33em; margin-block-end: 2.33em; font-size: 0.67em; fo
 
 .container {
     width: 70%;
-/*    border: 1px solid black;*/
     margin: auto; /* moves everything to middle */
     overflow: hidden; /* doesn't let the children to get out */
-    padding: ;
 }
 
 
 #top_header {
     background-color: #35424a;
-    color: #ffffff;
-/*    border: 1px solid black;*/
+    color: #ffffff;   
     padding-top: 20px;
     min-height: 70px;
     border-bottom: #e8491d 3px solid;
-/*    margin: 0px;*/
 }
 
 p {
     font-family: sans-serif;
     font-variant: normal;
-    font-weight: ;
-    vertical-align: ;
     text-decoration: none;
-    text-indent: ;  /* indents only first line of para */
     word-spacing: normal;
 
-}*/
-
-header #branding {
-    float: left;
 }
 
 #branding h1{
@@ -88,11 +70,9 @@ nav a {
 nav ul {
     margin: 0px;
     padding: 0px;  /* also removes bullets from list items */
-/*    border: 1px solid black;*/
 }
 
 nav li {
-/*    float: left;*/
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
     display: inline;
     padding: 20px; /* top right bottom left */
@@ -181,10 +161,8 @@ article#main-art{
     text-align: center;
     padding: 20px;
     margin-top: 20px;
-/*    background-color: #e8491d;*/
 	color: slategray;
 	border-top: 1px solid #d5d5d5;
-    /*border-top: 1px solid black;*/
 	font-size: 15px;
 
 }
@@ -234,7 +212,6 @@ iframe, object, embed {
 	article#main-art,
 	article#blog{
 		float: none;
-/*		text-align: justify;*/
 		width: 100%;
 	}
 	nav{
