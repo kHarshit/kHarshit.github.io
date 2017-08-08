@@ -3,3 +3,12 @@ name: Harshit Kumar
 # Build settings
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
+
+
+# Google services
+google_analytics: UA-103268503-1
+
+
+gems:
+  - jekyll-feed
+
