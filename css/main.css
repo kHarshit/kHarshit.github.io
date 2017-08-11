@@ -189,7 +189,7 @@ article#main-art{
 }
 
 
-iframe, object, embed {
+iframe, object, embed, video{
     max-width: 100%;
 }
 
@@ -221,7 +221,7 @@ iframe, object, embed {
 	header {
         padding-bottom: 20px;
     }
-    iframe{
+    iframe, video{
         max-width: 100%;
         height: 80%;
     }
