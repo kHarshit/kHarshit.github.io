@@ -104,3 +104,23 @@
 .mbtablestyle tr:hover{
     background-color:lightgray;
 }
+
+
+#scroll_top{
+    display: none;  /* Hidden by default */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;  /* Make sure it does not overlap */
+    border: none;
+    outline: none;
+    color: white;
+    background: rgba(0, 0, 0, 0.4);  /* a for opacity */
+    cursor: pointer;  /* Add a mouse pointer on hover */
+    padding: 15px;
+    border-radius: 10px;  /* Rounded corners */
+}
+
+#scroll_top:hover{
+    background: rgba(0, 0, 0, 0.9);
+}
