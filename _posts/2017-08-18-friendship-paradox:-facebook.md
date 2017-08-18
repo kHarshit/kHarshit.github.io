@@ -78,7 +78,7 @@ In[10]: plt.xlabel('Friend count')
 In[11]: plt.ylabel('Number')
 In[12]: plt.suptitle("Histogram of Friend Counts")
 In[13]: for (x, c) in zip([avg, median, my_friends], ['k', 'b', 'r']):
-   ...:    plt.vlines(x, 0, 120, colors=c)
+   ...:    plt.vlines(x, 0, 40, colors=c)
 In[14]: plt.show()
 {% endhighlight %}
 
