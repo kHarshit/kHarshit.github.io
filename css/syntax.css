@@ -124,3 +124,27 @@
 #scroll_top:hover{
     background: rgba(0, 0, 0, 0.9);
 }
+
+.PageNavigation {
+    font-size: 14px;
+    display: block;
+    width: auto;
+    overflow: hidden;
+    color: yellowgreen;
+  }
+  
+  .PageNavigation a {
+    display: block;
+    width: 50%;
+    float: left;
+    color: darkslategray;
+    margin: 1em 0;
+  }
+
+  .PageNavigation a:hover{
+      color: darkgreen;
+  }
+  
+  .PageNavigation .next {
+    text-align: right;
+  }
