@@ -64,7 +64,7 @@ nav a {
     text-transform: uppercase;
     display: inline-block;
     list-style: none;
-	outline: none;  /* outline provides accessiblity feature, but still I don't like :) */
+	/* outline: none;  outline provides accessiblity feature */
 }
 
 nav ul {
@@ -114,12 +114,9 @@ aside {
 	outline: none;
 }
 
-#sidebar a:hover{
-	color: #cccccc;
-}
-
-#main-art a:hover{
-	color: darkgray;
+#main-art a:hover, #sidebar a:hover{
+    /* color: darkgray; */
+    opacity: 0.75;
 }
 
 #univ a:hover, #post a:hover{
