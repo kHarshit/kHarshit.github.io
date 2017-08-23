@@ -16,4 +16,4 @@ google_analytics: UA-103268503-1
 
 gems:
   - jekyll-feed
-
+  - jekyll-sitemap  # sitemap at /sitemap.xml
