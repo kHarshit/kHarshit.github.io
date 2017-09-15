@@ -16,7 +16,7 @@ HTTPS (Hypertext Transfer Protocol Secure) is the protocol for secure communicat
 
 SSL certificates creates trust by ensuring a secure connection, shown by  browsers by giving visual clues, such as a lock icon or a green bar.
 
-<img src="/img/01.png" style="float: center; display: block; margin: auto; width: 70%; max-width: 100%;">
+<img src="/img/SSL.png" style="float: center; display: block; margin: auto; width: 70%; max-width: 100%;">
 
 When a browser attempts to access a website that is secured by SSL, the browser and the web server establishes an SSL connection i.e. SSL handshake. SSL certificates have a key pair: a public and a private key<sup id="a1">[1](#myfootnote1)</sup>. Encryption is done with the public key while decryption using the private key. Because encryption and decryption takes a lot of processing power (computationally costly<sup id="a2">[2](#myfootnote2)</sup>) as assymetric keys being larger than the symmetric keys<sup id="a3">[3](#myfootnote3)</sup>, they are only used during the SSL handshake to create (share) a symmetric session key. After the secure connection is made, the session key is used to encrypt all transmitted data<sup id="a4">[4](#myfootnote4)</sup>.
 
