@@ -2,7 +2,7 @@
 layout: post
 title: "Email spam filtering: Text analysis in R"
 date: 2017-08-25
-categories: [Technical Fridays, R]
+categories: [Technical Fridays, Data Science, R]
 ---
 
 Email spam<sup id="a1">[1](#myfootnote1)</sup>, also known as junk email, is a type of electronic spam where unsolicited messages are sent by email.

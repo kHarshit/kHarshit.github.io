@@ -2,7 +2,7 @@
 layout: post
 title: "Moneyball: Why no prediction can't be made for baseball champion"
 date: 2017-08-04
-categories: [Technical Fridays, R]
+categories: [Technical Fridays, Data Science, R]
 ---
 
 <img src="/img/moneyball.jpeg" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;">

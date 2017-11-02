@@ -2,7 +2,7 @@
 layout: post
 title: "Friendship paradox: facebook"
 date: 2017-08-18
-categories: [Technical Fridays, Python]
+categories: [Technical Fridays, Data Science, Python]
 ---
 
 <div style="text-align: center">
