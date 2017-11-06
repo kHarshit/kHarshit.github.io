@@ -5,7 +5,7 @@ layout: default
     <header id="top_header">
             <div class="container">
             <div id="branding">
-            		<h1><a href="/categories.html">Technical Fridays</a></h1>
+            		<h1><a href="/categories">Technical Fridays</a></h1>
 				</div>
 
             <nav>
@@ -26,7 +26,11 @@ layout: default
 
         <div id="post">
           {{ content }}
-           
+        
+        </div>
+
+        <!-- For Tags (Categories) -->
+        <div id="tags">
             <div class="post-categories">
                 {% if post %}
                     {% assign categories = post.categories %}
@@ -38,7 +42,7 @@ layout: default
                 {% unless forloop.last %}&nbsp;{% endunless %}
                 {% endfor %}
             </div>
-        </div>
+        </div>     
 
         <div class="PageNavigation">
                 {% if page.previous.url %}

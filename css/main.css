@@ -114,6 +114,19 @@ aside {
 	outline: none;
 }
 
+#tags a{
+    text-decoration: none;
+    background-color: lightseagreen;
+    color: white;
+    padding: 3px 6px;
+    display: inline-block;
+    text-align: center;
+}
+
+#tags a:hover{
+    opacity: 0.75;
+}
+
 #main-art a:hover, #sidebar a:hover{
     /* color: darkgray; */
     opacity: 0.75;
