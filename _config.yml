@@ -14,6 +14,6 @@ permalink: /blog/:year/:month/:day/:title
 google_analytics: UA-103268503-1
 
 
-gems:
+plugins:
   - jekyll-feed
   - jekyll-sitemap  # sitemap at /sitemap.xml
