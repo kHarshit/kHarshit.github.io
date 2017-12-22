@@ -2,7 +2,7 @@
 layout: post
 title: "Mathematics and Beauty"
 date: 2017-09-22
-categories: [Technical Fridays]
+categories: [Technical Fridays, Mathematics]
 ---
 
 > Mathematics when rightly viewed, possesses not only truth but supreme beauty.

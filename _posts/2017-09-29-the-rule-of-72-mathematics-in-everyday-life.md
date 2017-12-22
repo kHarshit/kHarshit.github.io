@@ -2,7 +2,7 @@
 layout: post
 title: "The Rule of 72: Mathematics in everyday life"
 date: 2017-09-29
-categories: [Technical Fridays]
+categories: [Technical Fridays, Mathematics]
 ---
 
 > Compound interest is the greatest mathematical discovery of all time.
