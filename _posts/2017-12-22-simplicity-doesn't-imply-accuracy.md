@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Simplicity doesn't imply accuracy"
-date: 2017-12-24
+date: 2017-12-22
 categories: [Technical Fridays, Data Science]
 ---
 
