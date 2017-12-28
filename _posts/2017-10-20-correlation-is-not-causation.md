@@ -25,6 +25,10 @@ On the other hand, Tufte states that saying *Correlation is not causation* is in
 > &mdash; <cite>Tufte</cite>
 
 
+<img src="https://imgs.xkcd.com/comics/correlation.png" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;">
+<div style="text-align: center">
+<figcaption>xkcd: <a href="https://xkcd.com/552/">Correlation</a></figcaption></div>
+
 **Resources:**  
 <a name="myfootnote1"></a>1: [Cum Hoc, Ergo Propter Hoc](http://www.fallacyfiles.org/cumhocfa.html): *With this, therefore because of this*, Latin [↩](#a1)  
 <a name="myfootnote2"></a>2: [Spurious correlation](http://www.tylervigen.com/spurious-correlations) [↩](#a2)  
