@@ -246,6 +246,24 @@ input#lightswitch {
    left: -9999px;
 }
 
+#contact-form form input, #contact-form form textarea {
+    margin-bottom: 0.5em;
+}
+
+#contact-form input, #contact-form textarea {
+    border: 1px solid #ddd; 
+    background: #fff;
+    padding: 0.2em;
+    width: 97%;
+}
+
+#contact-form button, #contact-form input, #contact-form select, #contact-form textarea {
+    font-size: 100%;
+    margin: 0;
+    vertical-align: baseline;
+}
+
+
 @media(max-width: 768px) {
 	.container{
 		width: 80%;
@@ -282,6 +300,6 @@ input#lightswitch {
 
 
 /* The box model: to see every box that makes up the page */
-/** {
+/* * {
    border: 1px solid red !important;
-}*/
+} */
