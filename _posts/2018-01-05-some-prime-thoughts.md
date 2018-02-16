@@ -11,6 +11,7 @@ But first, what is a prime number? A prime number is a number greater than 1 tha
 
 {% highlight python %}
 def is_prime(n):
+    """returns True if given number is prime"""
     if n > 1:
         for i in range(2, int(n**0.5)+1, 1):
             if n % i == 0:
