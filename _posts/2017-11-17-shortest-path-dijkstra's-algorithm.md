@@ -2,7 +2,7 @@
 layout: post
 title: "Shortest Path: Dijkstra's Algorithm"
 date: 2017-11-17
-categories: [Technical Fridays, Algorithms]
+categories: [Algorithms]
 ---
 
 Every day we use Google Maps for commuting. Do you know how it works? 

@@ -2,7 +2,7 @@
 layout: post
 title: "Simplicity doesn't imply accuracy"
 date: 2017-12-22
-categories: [Technical Fridays, Data Science]
+categories: [Data Science]
 ---
 
 Often, people say things like *beauty lies in simplicity*, *simplicity is the glory of expression, complexity is the enemy of execution*. But to what extent, these statements are true?

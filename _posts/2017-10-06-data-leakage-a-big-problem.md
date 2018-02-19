@@ -2,7 +2,7 @@
 layout: post
 title: "Data leakage: A big problem"
 date: 2017-10-06
-categories: [Technical Fridays]
+categories: [Data Science]
 ---
 
 Let's say your machine learning model performs better than than you expect it to in the test set. You are happy. Well, you should be. Now, you release the model to the world, or say you apply the model on different data. But, then something awful happens. Oops! your model performs worse than it did in your test set. And not just worse, it does not make a single accurate prediction. The model which you trained for hours and gave a great R<sup>2</sup> value is abandoning you now. You spend hours in debugging. Then, you find the culprit: data leakage. 

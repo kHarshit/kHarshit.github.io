@@ -2,7 +2,7 @@
 layout: post
 title: "Some Prime Thoughts"
 date: 2018-01-05
-categories: [Technical Fridays, Mathematics, Python, Cryptography]
+categories: [Mathematics, Python, Cryptography]
 ---
 
 The *Fundamental Theorem of Arithmetic* states that every positive integer can be factored into primes in a unique way.

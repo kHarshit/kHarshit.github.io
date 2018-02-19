@@ -2,7 +2,7 @@
 layout: post
 title: "Dealing with categorical data"
 date: 2018-01-19
-categories: [Technical Fridays, Data Science, Python]
+categories: [Data Science, Python]
 ---
 
 Often in our machine learning model, we encounter qualitative predictors.

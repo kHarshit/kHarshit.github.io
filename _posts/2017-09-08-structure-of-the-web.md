@@ -2,7 +2,7 @@
 layout: post
 title: "Structure of the web"
 date: 2017-09-08
-categories: [Technical Fridays]
+categories: [Algorithms]
 ---
 
 A study<sup id="a1">[1](#myfootnote1)</sup> of the web's structure reveals that it isn't the fully interconnected network that we've been led to believe. The study suggests that the chance of being able to surf between two randomly chosen pages is less than one in four.

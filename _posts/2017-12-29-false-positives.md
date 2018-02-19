@@ -2,7 +2,7 @@
 layout: post
 title: "False positives"
 date: 2017-12-29
-categories: [Technical Fridays, Data Science]
+categories: [Data Science]
 ---
 
 A false positive error or **false positive** (false alarm) is a result that indicates a given condition exists when it doesn't.

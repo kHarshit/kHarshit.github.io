@@ -2,7 +2,7 @@
 layout: post
 title: "Anscombe's Quartet"
 date: 2018-02-02
-categories: [Technical Fridays, Data Science, Python]
+categories: [Data Science, Python]
 ---
 
 We often look for summary statistics during EDA (Exploratory Data Analysis). But, sometimes these statistics may give us wrong interpretation of the data. In 1973, a statistician Francis Anscombe demonstrated it with the help of four datasets known as Anscombe's quartet.

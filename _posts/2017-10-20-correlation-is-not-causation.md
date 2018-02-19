@@ -2,7 +2,7 @@
 layout: post
 title: "Correlation is not causation"
 date: 2017-10-20
-categories: [Technical Fridays, Data Science]
+categories: [Data Science]
 ---
 
 We often calculate correlation during EDA (Exploratory data analysis) to check how strongly two variables are correlated to one another. It's tempting to assume that one variable causes the other. But **correlation proves causation** is a <abbr title="use of invalid or otherwise faulty reasoning  in the construction of an argument">logical fallacy</abbr> known as `Cum Hoc, Ergo Propter Hoc`<sup id="a1">[1](#myfootnote1)</sup>. 

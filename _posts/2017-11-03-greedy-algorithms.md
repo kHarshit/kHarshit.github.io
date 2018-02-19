@@ -2,7 +2,7 @@
 layout: post
 title: "Greedy Algorithms"
 date: 2017-11-03
-categories: [Technical Fridays, Algorithms]
+categories: [Algorithms]
 ---
 
 Let's say you want to count out a certain amount of money, using the fewest possible number of coins.  

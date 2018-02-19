@@ -2,7 +2,7 @@
 layout: post
 title: "How secure are we?"
 date: 2017-09-15
-categories: [Technical Fridays, Cryptography]
+categories: [Cryptography]
 ---
 
 Most of us are connected to the internet in some way or the other and are constantly sharing our information online. But how secure are we in an online world?

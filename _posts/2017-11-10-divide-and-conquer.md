@@ -2,7 +2,7 @@
 layout: post
 title: "Divide and Conquer"
 date: 2017-11-10
-categories: [Technical Fridays, Algorithms]
+categories: [Algorithms]
 ---
 
 Say you want to go to Harvard for your graduate studies in a year. But, the academic fee of $40,000 is intimidating. And, with every passing week, it's getting worse. So, what do you do?  

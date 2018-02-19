@@ -2,7 +2,7 @@
 layout: post
 title: "Turtle in Python: A Traffic light"
 date: 2017-08-11
-categories: [Technical Fridays, Python]
+categories: [Python]
 ---
 
 We’re going to build a program that uses a turtle in python to simulate the traffic lights.
