@@ -1,5 +1,6 @@
 body {
-	font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /* font: font-style font-variant font-weight font-size/line-height font-family */
+    font: 400 17px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding: 0px;
     margin: 0px;
 }
