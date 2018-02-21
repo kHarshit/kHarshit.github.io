@@ -236,7 +236,7 @@ label#light {
     background: #eee;
     text-align: center;
     font: 14px/25px Helvetica, Arial, sans-serif;
-    margin: 123px 0;
+    margin: 130px 0;
     position: absolute;
 }
 
@@ -272,7 +272,7 @@ input#lightswitch {
 
 @media(max-width: 768px) {
 	.container{
-		width: 80%;
+		width: 86%;
 	}
 	header #branding,
     nav,
