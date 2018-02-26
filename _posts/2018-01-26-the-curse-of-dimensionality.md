@@ -2,7 +2,7 @@
 layout: post
 title: "The Curse of Dimensionality"
 date: 2018-01-26
-categories: [Data Science]
+categories: [Data Science, Machine Learning]
 ---
 
 While applying k nearest neighbors approach in solving a problem, we can sometimes notice that there is a deterioration in the kNN performance when the number of predictors, `p` is large. The reason for this can be the high number of dimensions. This problem is known as *the curse of dimensionality*.

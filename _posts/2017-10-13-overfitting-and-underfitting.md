@@ -2,7 +2,7 @@
 layout: post
 title: "Overfitting and Underfitting"
 date: 2017-10-13
-categories: [Data Science]
+categories: [Data Science, Machine Learning,]
 ---
 
 In machine learning, sometimes the prediction of our model may not be satisfactory. Although there may be many reasons for that, often it is due to either overfitting or underfitting of the model.

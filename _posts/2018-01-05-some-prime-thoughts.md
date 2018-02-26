@@ -42,7 +42,7 @@ $$p*$$ is either prime or not. If it's prime, then it was not in our list. If it
 
 ## The Quest of larger primes
 
-One of the widely used appication of primes is in the [public-key cryptography]({{ site.url }}{% post_url 2017-09-15-how-secure-are-we %}) e.g. in the RSA cryptosystem. The RSA algorithm is based on the concept of trapdoor, a one-way function. Its strength lies in the fact that it's computationally hard (impossible) to factorize large numbers. For now, there doesn't exists any efficient algorithm for prime factorization.
+One of the widely used applications of primes is in the [public-key cryptography]({{ site.url }}{% post_url 2017-09-15-how-secure-are-we %}#myfootnote1) e.g. in the RSA cryptosystem. The RSA algorithm is based on the concept of trapdoor, a one-way function. Its strength lies in the fact that it's computationally hard (impossible) to factorize large numbers. For now, there doesn't exists any efficient algorithm for prime factorization.
 
 For example, It's easy for a computer to multiply two large prime numbers. But let's say you multiply two large prime numbers together to get a resulting number. Now, if you give this new number to a computer and try to factorize, the computer will struggle e.g. to find which two prime nubmers are multiplied together to get 18848997161 is difficult.
 

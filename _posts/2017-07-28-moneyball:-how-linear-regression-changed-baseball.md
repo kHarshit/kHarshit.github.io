@@ -2,7 +2,7 @@
 layout: post
 title: "Moneyball: How linear regression changed baseball"
 date: 2017-07-28
-categories: [Data Science, R]
+categories: [Data Science, Machine Learning, R]
 ---
 
 > It's unbelievable how much you don't know about the game you've been playing all your life.  
