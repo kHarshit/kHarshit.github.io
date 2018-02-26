@@ -27,10 +27,10 @@ title: Harshit Kumar | Blog
 
                 <h1>Blog | Technical Fridays</h1>
 
-                A blog about data science and other technical as well as personal stuff:
+                <p>A blog about data science and other technical as well as personal stuff:
                 <a style="text-decoration: none; color: seagreen;" href="{{ site.url }}{% post_url 2017-07-21-technical-fridays %}" 
                 onMouseOver="this.style.color='#3bd382'"
-                onMouseOut="this.style.color='#2e8b57'">Technical Fridays</a>
+                onMouseOut="this.style.color='#2e8b57'">Technical Fridays</a></p>
 
                 <gcse:search></gcse:search>
                 
@@ -54,8 +54,11 @@ title: Harshit Kumar | Blog
                      Look at the <a href="/categories">categories</a>
                 </div>
 
-                <form style="padding:3px;text-align:center;" action="https://tinyletter.com/kHarshit" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/kHarshit', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true"><p><input type="text" style="width:200px" name="email" id="tlemail" placeholder="Your email"/></p><input type="hidden" value="1" name="embed"/><input type="submit" value="Subscribe" /></form>
-                
+                <form id="timyletter-form" style="padding:3px;text-align:center;" action="https://tinyletter.com/kHarshit" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/kHarshit', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+                    <p><input type="text" style="width:200px; height:25px;" name="email" id="tlemail" placeholder="Your email"/>
+                    <input type="hidden" value="1" name="embed"/>
+                    <input type="submit" style="font-size: 100%; margin: 0.2em" value="Subscribe" /></p></form>
+
                 Subscibe via <a class="fa fa-rss" href="/feed.xml"></a>
             </div>
         </footer>
