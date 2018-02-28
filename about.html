@@ -3,92 +3,108 @@ layout: default
 title: Harshit Kumar | About
 ---
 
-        <header id="top_header">
-            <div class="container">
-            <div id="branding">
-            		<h1><a href="index.html">Harshit Kumar</a></h1>
-				</div>
+<header id="top_header">
+    <div class="container">
+       	<div id="branding">
+            <h1><a href="index.html">Harshit Kumar</a></h1>
+		</div>
 
-            <nav>
-                <ul>
-                    <li><a href="/index.html">Home</a></li>
-                    <li class="current"><a href="/about.html">About</a></li>
-                    <li><a href="/blog">Blog</a></li>
-                </ul>
-
+       	<nav>
+            <ul>
+                <li><a href="/index.html">Home</a></li>
+                <li class="current"><a href="/about.html">About</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
             </nav>
-        </div>
-        </header>
+    </div>
+</header>
 
-           <section id="main">
-            <div class="container">
-                <article id="main-art">
-                    <h1 class="page-title">About Me</h1>
-					<p>I'm Harshit Kumar (हर्षित कुमार), a 19-year old passionate programmer.</p>
-					<p>I enjoy learning regardless of subject; sometimes I find myself studying microeconomics but my primary interest lies in data science.</p>
-					<p>Currently, I'm pursuing B.Tech (Bachelor of Technology) in Computer Science and Engineering (CSE) at <a href="https://www.aiactr.ac.in">Ambedkar Institute of Advanced Communication Technologies and Research (AIACTR)</a>, Delhi.</p>
-                    
-					<p>You can find more about me on <a href="https://linkedin.com/in/k-harshit">LinkedIn</a>.</p>
+<section id="main">
+    <div class="container">
+        <article id="main-art">
+            <h1 class="page-title">About Me</h1>
+			<p>I'm Harshit Kumar (हर्षित कुमार), a 19-year old passionate programmer.</p>
+			<p>I enjoy learning regardless of subject; sometimes I find myself studying microeconomics but my primary interest lies in data science.</p>
+			<p>Currently, I'm pursuing B.Tech (Bachelor of Technology) in Computer Science and Engineering (CSE) at <a href="https://www.aiactr.ac.in">
+				Ambedkar Institute of Advanced Communication Technologies and Research (AIACTR)</a>, Delhi.</p>
 
-				<section id="skills">
-					<h3>Skills</h3>
-					<ul>
-						<li>Programming/Markup languages:
-							<ul>
-								<li>Python</li>
-								<li>C</li>
-								<li>SQL</li>
-								<li>HTML5</li>
-								<li>CSS</li>
-								<li>R</li>
-							</ul>
-						</li>	
-						<li>Tools and Operating systems:
-							<ul>
-								<li>Git</li>
-								<li>Django</li>
-								<li>Linux</li>
-								<li>Windows</li>
-							</ul>
-							
-						</li>
-						
-					</ul>
-				</section>
+			<section id="skills">
+				<h3>Skills</h3>
+				<ul>
+					<li>Programming/Markup languages:
+						<ul>
+							<li>Python</li>
+							<li>C</li>
+							<li>SQL</li>
+							<li>HTML5</li>
+							<li>CSS</li>
+							<li>R</li>
+						</ul>
+					</li>	
+					<li>Tools and Operating systems:
+						<ul>
+							<li>Git</li>
+							<li>Django</li>
+							<li>Linux</li>
+							<li>Windows</li>
+						</ul>	
+					</li>	
+				</ul>
+			</section>
 				
 					
-				<section id="projects">
-					<h3>My Projects</h3>	
-					<ul>
-						<li><a href="https://www.kaggle.com/k2harshit/housing-price-prediction">Housing price prediction</a>: Predicting housing price using advanced regression techniques.</li>
-						<li><a href="https://www.kaggle.com/k2harshit/titanic-survivors">Titanic survivors</a>: Predicting survival on the Titanic using machine learning techniques.</li>
-						<li><a href="https://kHarshit.github.io">Technical Fridays - personal website and blog</a>: This is my personal website.</li>
-						<li><a href="http://harshitkumar7.pythonanywhere.com/blog/">blog in django</a>: A blog developed in Django, a high-level python web framework.</li>
-					</ul>
-				</section>
+			<section id="projects">
+				<h3>My Projects</h3>	
+				<ul>
+					<li><a href="https://www.kaggle.com/k2harshit/housing-price-prediction">Housing price prediction</a>: Predicting housing price using advanced regression techniques.</li>
+					<li><a href="https://www.kaggle.com/k2harshit/titanic-survivors">Titanic survivors</a>: Predicting survival on the Titanic using machine learning techniques.</li>
+					<li><a href="https://kHarshit.github.io">Technical Fridays - personal website and blog</a>: This is my personal website.</li>
+					<li><a href="http://harshitkumar7.pythonanywhere.com/blog/">blog in django</a>: A blog developed in Django, a high-level python web framework.</li>
+				</ul>
+			</section>
 				<p>Check <a style="color: seagreen;" href="projects.html">projects</a> page for more details.</p>
 					
-                </article>
+        </article>
 
 
-                <aside id="sidebar">
-                    <div class="dark">
-                        <h2>Contact</h2>
-                        <p>Questions or suggestions?<br>
-							You can email me: <a href="mailto:{{ site.email }}">{{ site.email }}</a><br>
-							I'm on<span class="fa fa-github"></span><a href="https://github.com/{{ site.github_username }}">GitHub ({{ site.github_username }})</a>.<br>
-							Check me on <span class="fa fa-kagg"></span><a href="https://www.kaggle.com/{{ site.kaggle_username }}">kaggle ({{ site.kaggle_username }})</a>.</p>
+        <aside id="sidebar">
+            <div class="dark">
+                <h2>Contact</h2>
+				<p>Questions or suggestions?
+				<ul id="social-icons">
+					{% if site.github_username %}
+						<li>
+							<a href="https://github.com/{{ site.github_username }}">
+							<span class="fa fa-github"></span>
+							</a>
+						</li>
+					{% endif %}
+					{% if site.linkedin_username %}
+						<li>
+							<a href="https://linkedin.com/in/{{ site.linkedin_username }}">
+							<span class="fa fa-linkedin"></span>
+							</a>
+						</li>
+					{% endif %}
+					{% if site.kaggle_username %}
+						<li>
+							<a href="https://www.kaggle.com/{{ site.kaggle_username }}">
+							<i class="fa fa-kagg"></i>
+							</a>
+						</li>
+					{% endif %}		
+				</ul>	
+				You can email me: <a href="mailto:{{ site.email }}">{{ site.email }}</a><br />
+				</p>
 						
-						<section id="contact-form">
-							<form method="POST" action="https://formspree.io/{{ site.email }}">
-								<input type="email" name="email" placeholder="Your email">
-								<textarea name="message" placeholder="Your message"></textarea>
-								<button type="submit">Send</button>
-							</form>	
-						</section>
-                    </div>
-                </aside>
-
+				<section id="contact-form">
+					<form method="POST" action="https://formspree.io/{{ site.email }}">
+						<input type="email" name="email" placeholder="Your email">
+						<textarea name="message" placeholder="Your message"></textarea>
+						<button type="submit">Send</button>
+					</form>	
+				</section>
             </div>
-
-        </section>
+        </aside>
+    </div>
+</section>

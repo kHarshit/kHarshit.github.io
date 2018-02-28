@@ -162,6 +162,14 @@ article#main-art{
     margin-bottom: 10px;
 }
 
+.fa {
+    padding: 5px;
+}
+  
+.fa:hover {
+    opacity: 0.7;
+}
+
 .fa-kagg:before {
     font-family: roboto;
     color: #429bf4;
@@ -169,8 +177,14 @@ article#main-art{
     content: "k";
 }
 
+#social-icons li{
+    padding-left: 10px;
+    padding-right: 10px;
+}
 
-
+#social-icons li{
+    display: inline-block;
+}
 
 #last_footer {
     clear: both; /* clears floating property */
@@ -208,20 +222,6 @@ article#main-art{
 iframe, object, embed, video{
     max-width: 100%;
 }
-
-.fa {
-    padding: 5px;
-    font-size: 30px;
-    width: 10px;
-    text-align: center;
-    text-decoration: none;
-    margin: 5px 2px;
-    border-radius: 50%;
-  }
-  
-  .fa:hover {
-      opacity: 0.7;
-  }
   
 /* Light Switch */
 input#lightswitch:checked + .light_switch{
