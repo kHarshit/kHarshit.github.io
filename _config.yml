@@ -14,7 +14,12 @@ permalink: /blog/:year/:month/:day/:title
 # Google services
 google_analytics: UA-103268503-1
 
+# Pagination
+paginate: 10
+paginate_path: "/blog/page:num/"
+
 
 plugins:
   - jekyll-feed
   - jekyll-sitemap  # sitemap at /sitemap.xml
+  - jekyll-paginate
