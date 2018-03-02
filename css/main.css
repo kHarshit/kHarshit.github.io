@@ -119,6 +119,7 @@ aside {
     background-color: lightseagreen;
     color: white;
     padding: 3px 6px;
+    margin-top: 3px;
     display: inline-block;
     text-align: center;
 }
