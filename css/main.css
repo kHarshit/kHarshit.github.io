@@ -22,7 +22,6 @@ h6 { margin-top: 2.33em; margin-bottom: 2.33em; font-size: 0.67em; font-weight: 
     overflow: hidden; /* doesn't let the children to get out */
 }
 
-
 #top_header {
     background-color: #35424a;
     color: #ffffff;   
@@ -207,8 +206,6 @@ article#main-art{
 	text-decoration: underline;
 }
 
-
-
 #e404 a{
     color: lightseagreen;
     text-decoration: none;
@@ -217,7 +214,6 @@ article#main-art{
 #e404 a:hover{
     color: orangered;
 }
-
 
 iframe, object, embed, video{
     max-width: 100%;
@@ -328,6 +324,7 @@ input#lightswitch {
     }
 
 .pagination {
+    margin-top: 15px;
     text-align: center;
  }
 
