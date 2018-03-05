@@ -147,6 +147,11 @@ article#main-art{
 	font-family: sans-serif;
 }
 
+/* My projects */
+ul#myprojects li{
+    margin-top: 10px;
+  }
+
 #mypic img{
 	display: block;
 	margin: auto;
