@@ -20,8 +20,7 @@ layout: default
 <div class="container">
     <h1>{{ page.title }}</h1>
     
-    {{ page.date | date: "%A, %B %-d, %Y" }}
-    <i class="fa fa-ellipsis-v"></i>
+    {{ page.date | date: "%A, %B %-d, %Y" }}<br />
     {% include readtime.html %}
         
     <div id="post">
