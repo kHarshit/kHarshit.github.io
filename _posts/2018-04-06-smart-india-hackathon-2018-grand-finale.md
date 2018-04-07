@@ -7,6 +7,8 @@ categories: [Personal]
 
 Recently, I attended Smart India Hackathon grand finale 2018<sup id="a1">[1](#myfootnote1)</sup> at Pune, India. We're one of the few teams selected for the finale. Our idea, which was under CSIR<sup id="a2">[2](#myfootnote2)</sup>, was to develop an android application which could give real-time location-based dengue-risk-index using machine learning techniques.
 
+<img src="/img/defeatdengueapp.jpg" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
+
 The application followed a client-server architecture consisting of two key components:
 * An android app,
 * A <a href="https://dengueapp.herokuapp.com">web-server</a>
