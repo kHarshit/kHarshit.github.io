@@ -26,7 +26,6 @@ One hot encoding is one of the widespread method used to deal with the categoric
 
 For example, if one categorical variable has n values. One-hot encoding converts it into n variables, while dummy encoding converts it into n-1 variables.
 
-
 ### Using pandas
 
 {% highlight python %}
@@ -71,9 +70,11 @@ Out[9]:
 
 ### Using scikit-learn
 
-`scikit-learn` also provides mehods to deal with categorical variables e.g. `sklearn.preprocessing.LabelEncoder()`. `LabelEncoder` is incremental encoding, such as 0,1,2,3,4,... We can also use scikit-learn's `sklearn.preprocessing.OneHotEncoder()`.
+`scikit-learn` also provides methods to deal with categorical variables e.g. `sklearn.preprocessing.LabelEncoder()`. `LabelEncoder` is incremental encoding, such as 0,1,2,3,4,... We can also use scikit-learn's `sklearn.preprocessing.OneHotEncoder()`. There is one more type of encoding, Frequency encoding, which maps categories to their frequencies.
 
+Label and Frequency encodings are often used for tree based methods while one hot encoding is used for non-tree-based models.
 
 **References:**  
+
 1. [pandas.get_dummies](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html)
 2. [sklearn.preprocessing.OneHotEncoder](http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html)
