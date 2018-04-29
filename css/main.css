@@ -30,6 +30,17 @@ h6 { margin-top: 2.33em; margin-bottom: 2.33em; font-size: 0.67em; font-weight: 
     border-bottom: #e8491d 3px solid;
 }
 
+#top_header_algo {
+    background-color: #1E423B;
+}
+
+#header_algo {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #065150;
+    color: #ffffff;
+}
+
 p, li {
     font-family: sans-serif;
     font-variant: normal;
@@ -70,6 +81,10 @@ nav a {
 nav ul {
     margin: 0px;
     padding: 0px;  /* also removes bullets from list items */
+}
+
+nav #post_algo{
+    margin-top: 30px;
 }
 
 nav li {
@@ -354,9 +369,13 @@ input#lightswitch {
 		width: 100%;
 	}
 	nav{
-		margin-top: 10px;
-		overflow: hidden;
-	}
+		margin-top: 0px;
+        overflow: hidden;
+        padding-top: 0px;
+    }
+    nav #post_algo{
+        margin-top: 0px;
+    }
 	header {
         padding-bottom: 20px;
     }
