@@ -52,4 +52,3 @@ In machine learning, the Bayes theorem is the idea behind a classification algor
 1. [Bayesian networks](https://www.bu.edu/sph/files/2014/05/bayesian-networks-final.pdf)
 2. [Bayes theorem](https://brilliant.org/wiki/bayes-theorem/)
 3. [Introduction to Conditional probability & Bayes theorem for Data Science](https://www.analyticsvidhya.com/blog/2017/03/conditional-probability-bayes-theorem/)
-
