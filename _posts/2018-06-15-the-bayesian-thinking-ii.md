@@ -2,7 +2,7 @@
 layout: post
 title: "The Bayesian Thinking - II"
 date: 2018-06-15
-categories: [Mathematics]
+categories: [Data Science, Mathematics]
 ---
 
 Statistics is the study of uncertainity. One way to deal with uncertainity is by probabilities.
