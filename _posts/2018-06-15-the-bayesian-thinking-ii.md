@@ -46,6 +46,8 @@ The Bayesian methods work for any number of data points (i.e. for any $$\mid X\m
 
 The frequentist train their model using maximum liklihood principle ($$ \hat\theta = max(P[X \mid \theta]))$$ i.e. they try to find the parameter that maximizes the liklihood, the probability of data given parameters. However, the Bayesian will try to compute the posterior probability, the probability of parameters given data, using Bayes theorem. $$P[\theta \mid X] = \frac{P[X\mid\theta].P(\theta)}{P(X)}$$
 
+[[Read the last part: The Bayesian Thinking - III]]({% post_url 2018-06-22-the-bayesian-thinking-iii %})
+
  **References:**  
  
  1. [A Primer on Bayesian Statistics in Health Economics and Outcomes Research (also image source)](https://www.sheffield.ac.uk/polopoly_fs/1.80635!/file/primer.pdf)
