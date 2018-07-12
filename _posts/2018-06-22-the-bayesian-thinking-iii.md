@@ -39,11 +39,11 @@ This method of fitting the model parameters is called *Ordinary Least Squares (O
 
 In the Bayesian view, the response, `y`, is not estimated as a single value, but is drawn from a probability distribution.
 
-$$y \sim N(\mu, \sigma)$$
+$$y \sim N(\mu, \sigma^2)$$
 
-$$\mu = \hat{β_{0}} + \hatβ_{1}X_{1} + \hatβ_{2}X_{2} + ... + \hatβ_{p}X_{p}$$  
+$$\mu = \hat{α} + \hatβ_{1}X_{1} + \hatβ_{2}X_{2} + ... + \hatβ_{p}X_{p}$$  
 
-wherer $$\sigma$$ represents the observation error.
+where $$\sigma$$ represents the observation error.
 
 The response, `y` is generated from a normal (Gaussian) distribution. In Bayesian linear regression, we determine the posterior distribution of model parameters rather than finding a single best value as in frequentist approach. Using the Bayes theorem, the posterior probability of parameters is given by 
 
@@ -51,6 +51,60 @@ $$P(β|y,X) = \frac{liklihood * prior}{normalization} = \frac{P(y|β,X)*P(β|X)}
 
 We include the *guess, of what the parameters' value can be,* in our model, unlike the frequentist approach where everything comes from the data. If we don't have any estimates, we can non-informative priors such as normal distribution.
 
+{% highlight python %}
+import pymc3 as pm
+import numpy as np
+import matplotlib.pyplot as plt
+
+# true parameter values
+alpha, sigma = 1, 1
+beta = [1, 2.5]
+
+# size of dataset
+size = 100
+
+# predictor variable
+X1 = np.random.randn(size)
+X2 = np.random.randn(size) * 0.2
+
+# simulate response variable
+Y = alpha + beta[0]*X1 + beta[1]*X2 + np.random.randn(size)*sigma
+
+fig, axes = plt.subplots(1, 2, sharex=True, figsize=(10, 4))
+axes[0].scatter(X1, Y)
+axes[1].scatter(X2, Y)
+axes[0].set_ylabel('Y')
+axes[0].set_xlabel('X1')
+axes[1].set_xlabel('X2')
+{% endhighlight %}
+
+<img src="/img/bayesian_data.png" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
+
+{% highlight python %}
+# creates new Model object
+basic_model = pm.Model()
+
+with basic_model:
+    # objects introduced here are added to the model behind the scenes
+    
+    # create stochastic random variables with Normal prior distributions
+    alpha = pm.Normal('alpha', mu=0, sd=10)  # intercept
+    beta = pm.Normal('beta', mu=0, sd=10, shape=2)
+    sigma = pm.HalfNormal('sigma', sd=1)
+    
+    # expected value of response (deterministic random variable)
+    mu = alpha + beta[0]*X1 + beta[1]*X2
+    
+    # liklihood (sampling distribution) of observations (responses)
+    Y_obs = pm.Normal('Y_obs', mu=mu, sd=sigma, observed=Y)
+
+with basic_model:
+    # draw 500 posterior samples
+    trace = pm.sample(500)
+
+# posterior analysis
+pm.traceplot(trace)
+{% endhighlight %}
 
 ## Conclusion
 
