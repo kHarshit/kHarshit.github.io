@@ -15,13 +15,26 @@ The problem with this approach is that the combination of words has no meaning i
 
 ## Representing words by their contexts
 
-The core idea in this approach is that the words are represented by the context they have i.e. a word's meaning is given by the words that frequently appear close-by.
+The core idea in this approach is that the words are represented by the context they have i.e. a word's meaning is given by the words that frequently surrounds it.
 
 word2vec<sup id="a1">[1](#myfootnote1)</sup> is a model for learning word vectors.
 
+While talking about word2vec, we focus on two model variants:  
 
-**To be continued...**
+* **Skip-grams (SG):** Predict context words (position independent) given center word
+* **Continuous Bag of Words (CBOW):** Predict center word from (bag of) context words
 
+Every word in vocabulary is represented by a vector. In Skip-gram model, we use the similarity of word vectors to calculate the probability of a word being context word. The word vectors are adjusted to maximize this probability.
+
+The below figure demonstrates example windows and process for computing $$P(w_{t+2} \mid w_t)$$.
+
+<img src="/img/word_prob.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+We can implement word2vec model in `python` as follows:
+
+{% highlight python %}
+from genism.model import Word2Vec
+{% endhighlight %}
 
 **References:**  
 <a name="myfootnote1"></a>1: [word2vec:  Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781) [↩](#a1) 
