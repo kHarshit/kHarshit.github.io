@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Transfer learning: How to build accurate models"
-date: 2018-08-11
+date: 2018-08-10
 categories: [Data Science, Deep Learning, Python]
 ---
 
