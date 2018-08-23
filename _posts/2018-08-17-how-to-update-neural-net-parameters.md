@@ -78,7 +78,7 @@ x += - learning_rate * dx / (np.sqrt(cache) + eps)
 
 ## Adam
 
-Adam is almost similar to RMSProp. Instead of adapting the parameter learning rate based only on the first moment (mean) as in RMSProp, Adam also uses the second moment of the gradients (variance). That is, it calculates the exponential average of the gradient (*i.e. mean) and the squared gradient (*i.e. variance*). The Adam upate also includes the *bias correction* to compensate the bias at zero of `m` and `v` during initialization.
+Adam is almost similar to RMSProp. Instead of adapting the parameter learning rate based only on the first moment (mean) as in RMSProp, Adam also uses the second moment of the gradients (variance). That is, it calculates the exponential average of the gradient (*i.e. mean*) and the squared gradient (*i.e. variance*).
 
 {% highlight python %}
 # t is your iteration counter going from 1 to infinity
@@ -88,6 +88,8 @@ v = beta2*v + (1-beta2)*(dx**2)
 vt = v / (1-beta2**t)
 x += - learning_rate * mt / (np.sqrt(vt) + eps)
 {% endhighlight %}
+
+The Adam upate also includes the *bias correction* to compensate the bias at zero of `m` and `v` during initialization.
 
 ## Conclusion
 
