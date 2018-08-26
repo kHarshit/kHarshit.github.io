@@ -51,6 +51,14 @@ layout: default
         {% endif %}
     </div>
 
+    <!-- Subscription form -->
+    <form id="timyletter-form" style="padding:3px;text-align:center;" 
+          action="https://tinyletter.com/kHarshit" method="post" target="popupwindow" 
+          onsubmit="window.open('https://tinyletter.com/kHarshit', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+          <p><input type="text" style="width:200px; height:25px;" name="email" id="tlemail" placeholder="Your email"/>
+          <input type="hidden" value="1" name="embed"/>
+          <input type="submit" style="font-size: 100%; margin: 0.2em" value="Subscribe" /></p></form>
+
     <!-- Related posts -->
     <h4>You May Also Like</h4> 
     <div id="post">
