@@ -5,9 +5,7 @@ date: 2017-07-21
 categories: [Personal]
 ---
 
-<div style="text-align: center">
-<iframe src="https://giphy.com/embed/xUPGcy1SP080IEoMkE" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/video-computer-xUPGcy1SP080IEoMkE"></a></p>
-</div>
+<img src="/img/technical_fridays.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 From today, I'll start technical writing. I have never written blog posts before, though I always wanted to. To be able to write has been the primary purpose and motivation for building this blog for me.
 
@@ -21,3 +19,4 @@ I'm excited about this adventurous journey of writing.
 **Footnotes:**  
 <a name="myfootnote1"></a>1: [Open Souce Friday](https://github.com/blog/2386-contribute-on-open-source-friday) [↩](#a1)  
 <a name="myfootnote2"></a>2: [R (programming language)](https://cran.r-project.org) [↩](#a2)  
+<a name="myfootnote3"></a>3: [Image source](https://media.giphy.com/media/xUPGcy1SP080IEoMkE/giphy.gif) 

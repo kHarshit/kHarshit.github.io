@@ -5,9 +5,7 @@ date: 2017-08-18
 categories: [Data Science, Python]
 ---
 
-<div style="text-align: center">
-<iframe src="https://giphy.com/embed/3o6Zt6c6km1BV9WeTm" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-</div>
+<img src="/img/friends.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 According to a 2012 study by <cite>Pew Research Center’s Internet and American Life Project<sup id="a1">[1](#myfootnote1)</sup></cite>:  
 > On Facebook, the average person has 245 friends. However, the average friend of a person has 359 Facebook friends. The finding, that people’s friends have more friends than they do, was nearly universal.
@@ -94,3 +92,4 @@ I have 208 facebook friends, but on average, my friends have 594 facebook friend
 <a name="myfootnote1"></a>1: [2012 Pew Research Center's study](http://www.pewinternet.org/Reports/2012/Facebook-users.aspx) [↩](#a1)  
 <a name="myfootnote2"></a>2: [Friendship paradox](https://en.wikipedia.org/wiki/Friendship_paradox) [↩](#a2)  
 <a name="myfootnote3"></a>3: [Regex editor](https://regex101.com/) [↩](#a3)  
+<a name="myfootnote4"></a>4: [Image source](https://media.giphy.com/media/3o6Zt6c6km1BV9WeTm/giphy.gif)  

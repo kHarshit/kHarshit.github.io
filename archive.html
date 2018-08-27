@@ -26,11 +26,25 @@ title: Technical Fridays | Archives
         {% assign postsByYearMonth = site.posts | group_by_exp:"post", "post.date | date: '%Y %b'"  %}
         {% for yearMonth in postsByYearMonth %}
             <h3>{{ yearMonth.name }}</h3>
-            <ul>
+            
             {% for post in yearMonth.items %}
-                <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+            <div class="card">
+                <div style="text-align: center">
+                    {% assign foundImage = 0 %}
+                    {% assign images = post.content | split:"<img " %}
+                    {% for image in images %}
+                      {% if image contains 'src' %}
+                          {% if foundImage == 0 %}
+                              {% assign html = image | split:"/>" | first %}
+                              <img style="width:400px; height: 200px; max-width: 100%;" {{ html }} />
+                              {% endif %}
+                              {% assign foundImage = 1 %}
+                          {% endif %}
+                    {% endfor %}
+                    <a href="{{ post.url }}">{{ post.title }}</a>
+                 </div>
+             </div>
             {% endfor %}
-            </ul>
         {% endfor %}
     </div>
 </div>

@@ -11,9 +11,7 @@ But, after examining the individual departments, it appeared that no department 
 
 It was a case of Simpson's paradox<sup id="a1">[1](#myfootnote1)</sup>, a phenomenon in which a trend appears in different groups of data but disappears or reverses when these groups are combined.
 
-<div style="text-align: center">
-<iframe src="https://giphy.com/embed/xT5LMv7ScakR9zwvSw" width="480" height="368" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-</div>
+<img src="/img/simpson.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 Let's analyze the UC Berkeley graduate admissions data of 1973.
 R comes preloaded with dataset<sup id="a2">[2](#myfootnote2)</sup> UCBAdmissions.
@@ -134,5 +132,4 @@ would they?
 <a name="myfootnote2"></a>2: [UCBAdmissions dataset](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/UCBAdmissions.html) [↩](#a2)  
 <a name="myfootnote3"></a>3: [Mosaic plot](https://en.wikipedia.org/wiki/Mosaic_plot) [↩](#a3)  
 <a name="myfootnote4"></a>4: [Research paper: Berkeley gender bias](http://homepage.stat.uiowa.edu/~mbognar/1030/Bickel-Berkeley.pdf) [↩](#a4)  
-
-
+<a name="myfootnote5"></a>5: [Image source](https://media.giphy.com/media/xT5LMv7ScakR9zwvSw/giphy.gif)

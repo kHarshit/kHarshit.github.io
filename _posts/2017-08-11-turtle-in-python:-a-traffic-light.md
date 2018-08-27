@@ -108,6 +108,9 @@ wn.mainloop()  # Wait for user to close window
 
 Our traffic light will look like this:
 
+<!-- <img source="" /> 
+    Added for functionality of archive page first image retrieval -->
+
 <div style="text-align: center">
 <video controls width="600" height="337"><source src="/assets/traffic_light.webm" type="video/webm">Your browser doesn't support video tag or WebM!</video>
 </div>
