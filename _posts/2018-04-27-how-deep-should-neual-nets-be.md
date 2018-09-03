@@ -7,6 +7,7 @@ categories: [Data Science, Deep Learning]
 
 How do we decide on what architecture to use while solving a problem using neural networks? Should we use no hidden layers? One hidden layer? Two hidden layers? How large should each layer be?
 
+
 ## Types of layers
 
 There are three types of layers in neural networks.
@@ -18,6 +19,8 @@ The input layer contains neurons equal to number of features.
 ### Output layer
 
 There is one output layer. Most of the time, it has only one neuron.
+
+<img src="/img/deep_neural_net.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ### Hidden layer
 

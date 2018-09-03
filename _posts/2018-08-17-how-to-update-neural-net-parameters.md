@@ -25,6 +25,9 @@ But, there are many more methods to improve on this. Few of them are:
 
 ## Momentum update
 
+>  Here’s a popular story about momentum: gradient descent is a man walking down a hill. He follows the steepest path downwards; his progress is slow, but steady. Momentum is a heavy ball rolling down the same hill. The added inertia acts both as a smoother and an accelerator, dampening oscillations and causing us to barrel through narrow valleys, small humps and local minima.  
+> &mdash; <cite>Distill.pub (magazine)</cite>
+
 Here, the gradient instead of directly influencing the position, it influences the velocity, which in turn has an effect on the position. The momentum update builds up the velocity in directions having a gentle but consistent gradient.
 
 {% highlight python %}
@@ -98,4 +101,5 @@ Adam is recommended the default choice of optimization algorithm. However, it's 
 
 **References:**  
 1. [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.github.io/neural-networks-3/#update)  
-2. [Neural Networks for Machine Learning](http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf)
+2. [Neural Networks for Machine Learning](http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf) 
+3. Goh, "Why Momentum Really Works", Distill, 2017. http://doi.org/10.23915/distill.00006
