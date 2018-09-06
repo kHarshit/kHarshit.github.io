@@ -47,14 +47,15 @@ $$time = \text{number of subproblems} * time / \text{subproblem} = n * \theta(1)
 In fact, here we used a *top-down approach* by solving the subproblems we encountered while solving the problem, there also exists a *bottom-up approach* of dynamic programming where we first solve all the subproblems before arriving at the problem itself.
 
 {% highlight python %}
-def fib = {}
+def fib(n):
+    fib = {}
     for k in range(1, n):
         if k <= 2:
             f = 1
         else:
             f = fib[k - 1] + fib[k - 2]
             fib[k] = f
-            return fib[n]
+    return fib[n]
 {% endhighlight %}
 
 A problem must possess the following characteristics in order to be solvable by dynamic programming:
