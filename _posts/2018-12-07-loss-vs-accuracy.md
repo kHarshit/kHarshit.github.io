@@ -2,7 +2,7 @@
 layout: post
 title: "Loss vs Accuracy"
 date: 2018-12-07
-categories: [Deep Learning]
+categories: [Deep Learning, Machine Learning]
 ---
 
 A [loss function]({% post_url 2018-08-24-loss-functions %}) is used to [optimize]({% post_url 2018-03-02-gradient-descent-the-core-of-neural-networks %}) the model (e.g. a neural network) you've built to solve a problem.

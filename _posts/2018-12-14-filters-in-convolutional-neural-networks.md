@@ -2,7 +2,7 @@
 layout: post
 title: "Filters in Convolutional Neural Networks"
 date: 2018-12-14
-categories: [Deep Learning]
+categories: [Deep Learning, Computer Vision]
 ---
 
 ***Note:*** *This post is inspired by the [answer](https://stackoverflow.com/a/53692847/6210807) I gave on stackoverflow.*
