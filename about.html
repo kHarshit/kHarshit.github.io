@@ -74,8 +74,9 @@ title: Harshit Kumar | About
 					</li>
 					<br />
 					<li><a href="#">Machine Learning Intern</a><i style="float: right">May 2018 - Jun 2018</i>
-						<br /><i><a style="color: seagreen" href="https://www.redcatindia.com/">REDACAT Labs</a></i><br />
+						<br /><i><a style="color: seagreen" href="https://www.redcatindia.com/">REDCAT Labs</a></i><br />
 						Developed a traffic sign detection and recognition system using Convolutional Neural Networks (CNNs).
+						Implemented VGG and ResNet architectures with the help of Transfer learning.
 					</li>
 				</ul>
 			</section>
@@ -90,9 +91,7 @@ title: Harshit Kumar | About
 					<li><a href="https://dengueapp.herokuapp.com">
 						DengueApp: Location based dengue prediction
 						</a>: Developed an Android app that gives real-time location-based dengue risk index to the user using machine learning techniques.</li>
-					<li><a href="https://www.kaggle.com/k2harshit/housing-price-prediction">
-						Housing price prediction
-						</a>: Predicting housing price using advanced regression techniques.</li>
+
 				</ul>
 			</section>
 				<p>Check <a style="color: seagreen;" href="projects.html">projects</a> page for more details.</p>
@@ -119,20 +118,20 @@ title: Harshit Kumar | About
 							</a>
 						</li>
 					{% endif %}
+					{% if site.stackoverflow_username %}
+						<li>
+							<a style="color:orangered;" href="https://stackoverflow.com/users/{{ site.stackoverflow_username }}">
+							<i class="fa fa-stack-overflow"></i>
+							</a>
+						</li>
+					{% endif %}
 					{% if site.kaggle_username %}
 						<li>
 							<a href="https://www.kaggle.com/{{ site.kaggle_username }}">
 							<i class="fa fa-kagg"></i>
 							</a>
 						</li>
-					{% endif %}	
-					{% if site.kaggle_username %}
-						<li>
-							<a style="color:orangered;" href="https://stackoverflow.com/users/{{ site.stackoverflow_username }}">
-							<i class="fa fa-stack-overflow"></i>
-							</a>
-						</li>
-					{% endif %}		
+					{% endif %}			
 				</ul>	
 				
 				You can email me: <a href="mailto:{{ site.email }}">{{ site.email }}</a><br />
