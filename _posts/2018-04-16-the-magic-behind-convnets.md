@@ -2,7 +2,7 @@
 layout: post
 title: "The magic behind ConvNets"
 date: 2018-04-13
-categories: [Data Science, Deep Learning]
+categories: [Deep Learning, Computer Vision]
 ---
 
 Ordinary neural networks consists of neurons that have learnable weights and biases. The input is a single vector (of features) that is transfomed through a number of hidden layers.  Each hidden layer is made up of a set of neurons, where each neuron is fully connected to all neurons in the previous layer. In case of Convolutional neural networks (CNNs), the inputs are images i.e. the input has a third dimension, `depth` in additon to `width` and `height`. 

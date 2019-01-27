@@ -2,7 +2,7 @@
 layout: post
 title: "Generative models"
 date: 2018-09-28
-categories: [Data Science, Deep Learning]
+categories: [Deep Learning, Computer Vision]
 ---
 
 In **supervised learning**, we have data `x` and response (label) `y` and the goal is to learn a function to map `x` to `y` e.g. regression, classification, object detection; while in **unsupervised learning**, there are no labels and the goal is to find some underlying hidden structure of the data e.g. clustering, dimensionality reduction, feature learning. The goal of **generative models** is to generate new samples of data from a distribution. These models are used in problems such as density estimation, a problem of unsupervised learning.
