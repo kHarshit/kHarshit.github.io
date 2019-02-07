@@ -2,7 +2,7 @@
 layout: post
 title: "Transfer learning: How to build accurate models"
 date: 2018-08-10
-categories: [Data Science, Deep Learning, Python]
+categories: [Deep Learning, Computer Vision, Python]
 ---
 
 A good Covolutional Neural Network model requires a large dataset and good amount of training, which is often not possible in practice. Transfer learning provides a turn around it. It's a method to use pre-trained models to obtain better results. A pre-trained model has been previously trained on a dataset and contains the weights and biases that represent the features of whichever dataset it was trained on. There are two ways to achieve this:
@@ -19,6 +19,35 @@ The following table summarizes the method to be adopted according to your datase
 | small           || different                     || train classifier from activations somewhere earlier in the network |
 | large           || different                    || can build model from scratch, initialize weight from pre-trained model  |
 {:.mbtablestyle}
+
+
+**Case I: Small dataset, dimilar data** 
+
+* slice off the end of the neural network
+* add a new fully connected layer that matches the number of classes in the new data set
+* randomize the weights of the new fully connected layer; freeze all the weights from the pre-trained network *(so that the network behaves as fixed feature-extractor)*
+* train the network to update the weights of the new fully connected layer
+
+**Case II: Small dataset, Different data**
+
+* slice off all but some of the pre-trained layers near the beginning of the network
+* add to the remaining pre-trained layers a new fully connected layer that matches the number of classes in the new data set
+* randomize the weights of the new fully connected layer; freeze all the weights from the pre-trained network
+* train the network to update the weights of the new fully connected layer
+
+**Case III: Large dataset, Similar data**
+
+* remove the last fully connected layer and replace with a layer matching the number of classes in the new data set
+* randomly initialize the weights in the new fully connected layer
+* initialize the rest of the weights using the pre-trained weights
+* re-train the entire neural network
+
+**Case IV: Large dataset, Different data**
+
+* remove the last fully connected layer and replace with a layer matching the number of classes in the new data set
+* retrain the network from scratch with randomly initialized weights
+* alternatively, you could just use the same strategy as the "large and similar" data case
+
 
 The following guide used ResNet50<sup id="a1">[1](#myfootnote1)</sup> as pre-trained model and uses it as feature extractor for building a ConvNet for CIFAR10<sup id="a2">[2](#myfootnote2)</sup> dataset. The CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images. 
 
@@ -93,6 +122,8 @@ print('Accuracy on test set: {}'.format(score[1]))
 
 The use of transfer learning is possible because the features that ConvNets learn in the first layers are independent of the dataset, so are often transferable to different dataset.
 
+**Update:** Also, check implementation in PyTorch on GitHub at *[kHarshit/transfer-learning](https://github.com/kHarshit/transfer-learning)*.
+
 **Footnotes:**  
 
 <a name="myfootnote1"></a>1: [ResNet-50](https://www.kaggle.com/keras/resnet50) [↩](#a1)  
@@ -103,3 +134,4 @@ The use of transfer learning is possible because the features that ConvNets lear
 1. [Transfer Learning - CS231n](http://cs231n.github.io/transfer-learning/)
 2. [How transferable are features in deep neural networks?](https://arxiv.org/abs/1411.1792)
 3. [Machine learning - Hackerearth](https://www.hackerearth.com/practice/machine-learning/)
+4. [PyTorch Deep Learning Nanodegree - Udacity](https://in.udacity.com/course/deep-learning-nanodegree--nd101)
