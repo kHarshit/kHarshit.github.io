@@ -7,6 +7,8 @@ categories: [Data Science]
 
 A false positive error or **false positive** (false alarm) is a result that indicates a given condition exists when it doesn't.
 
+The confusion matrix is described as follows:
+
 |            | Predicted = 0       | Predicted = 1      | Total |
 |------------|:-------------------:|:------------------:|:-----:|
 | **Actual = 0** | True Negative (TN)  | False Positive(FP) | *N*     |
@@ -15,6 +17,7 @@ A false positive error or **false positive** (false alarm) is a result that indi
 {:.mbtablestyle}
 
 In statistical hypothesis testing, the false positive rate is equal to the significance level, $$\alpha$$ and $$1 - \alpha$$ is defined as the specificity of the test. Complementarily, the false negative rate is given by $$\beta$$.  
+
 The different measures for classification:
 
 | Name                          | Definition | Synonyms                                   |
@@ -27,7 +30,23 @@ The different measures for classification:
 | **Overall error rate** | (FP + FN)/N      |                                            |
 {:.mbtablestyle}
 
-Also, note that F-score is the harmonic mean of precision and recall. $$F1 score = \frac{2.precision.recall}{precision + recall}$$
+Also, note that F-score is the harmonic mean of precision and recall. 
+
+$$\text{F1 score} = \frac{2.precision.recall}{precision + recall}$$
+
+---
+
+For example, in cancer detection, sensitivity and specificity are the following:
+
+* Sensitivity: Of all the people *with* cancer, how many were correctly diagnosed?
+* Specificity: Of all the people *without* cancer, how many were correctly diagnosed?
+
+And precision and recall are the following:
+
+* Recall: Of all the people who *have cancer*, how many did *we diagnose* as having cancer?
+* Precision: Of all the people *we diagnosed* with cancer, how many actually *had cancer*?
+
+---
 
 Often, we want to make binary prediction e.g. in predicting the quality of care of the patient in the hospital, whether the patient receive poor care or good care? We can do this using a threshold value $$t$$.
 * if $$P(poor care = 1) \geq t$$, predict poor quality
@@ -62,6 +81,7 @@ Below is xkcd comic regarding the wrong interpretation of [p-value]({{ site.url 
 Explanation of above comic on <a href="https://www.explainxkcd.com/wiki/index.php/882:_Significant">explain xkcd wiki</a>.
 
 **References:**  
-1. <a href="http://www-bcf.usc.edu/~gareth/ISL/">An Introduction to Statistical Learning</a>
-2. <a href="https://en.wikipedia.org/wiki/False_positives_and_false_negatives">False positives and false negatives - Wikipedia</a>  
-3. <a href="https://en.wikipedia.org/wiki/Sensitivity_and_specificity">Sensitivity and specificity - Wikipedia</a>
+1. [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/)
+2. [False positives and false negatives - Wikipedia](https://en.wikipedia.org/wiki/False_positives_and_false_negatives)   
+3. [Sensitivity and specificity - Wikipedia](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)  
+4. [Precision and recall - Wikipedia](https://en.wikipedia.org/wiki/Precision_and_recall)
