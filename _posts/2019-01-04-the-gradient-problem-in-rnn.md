@@ -25,6 +25,8 @@ But, the gradient flow in RNNs often lead to the following problems:
 
 The gradient computation involves recurrent multiplication of $$W$$. This multiplying by $$W$$ to each cell has a bad effect. *Think like this:* If you a scalar (number) and you multiply gradients by it over and over again for say 100 times, if that number > 1, it'll explode the gradient and if < 1, it'll vanish towards 0.
 
+> In the backpropagation process, we adjust our weight matrices with the use of a gradient. In the process, gradients are calculated by continuous multiplications of derivatives. The value of these derivatives may be so small, that these continuous multiplications may cause the gradient to practically "vanish".
+
 The problem of exploding gradients can be solved by *gradient clipping* i.e. if gradient is larger than the threshold, scale it by dividing. LSTM solves the problem of vanishing gradients.
 
 ## LSTM
