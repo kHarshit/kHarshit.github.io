@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "How to update Neural Net parameters"
+title: "Optimizers"
 date: 2018-08-17
 categories: [Data Science, Deep Learning]
 ---
 
-Building neural networks, we compute [gradients]({% post_url 2018-03-02-gradient-descent-the-core-of-neural-networks %}) with the [backpropagation]({% post_url 2018-03-09-computational-graphs-backpropagation %}) algorithm. These gradients are used to perform the parameter updates. The default way of doing this is to update gradient along the negative gradient direction.
+Building neural networks, we compute [gradients]({% post_url 2018-03-02-gradient-descent-the-core-of-neural-networks %}) with the [backpropagation]({% post_url 2018-03-09-computational-graphs-backpropagation %}) algorithm. These gradients are used to perform the parameter updates. The default way of doing this is to update gradient along the negative gradient direction i.e. using the gradient descent optimizer.
 
 {% highlight python %}
 # SGD
@@ -21,7 +21,7 @@ while True:
 
 There are certain problems with SGD. If the loss function has a local minima or a saddle point, the gradient becomes zero (gradient descent get stuck).
 
-But, there are many more methods to improve on this. Few of them are:
+But, there are many more methods to improve on this. Few of the optimizers are:
 
 ## Momentum update
 
