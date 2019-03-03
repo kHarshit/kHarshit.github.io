@@ -57,9 +57,15 @@ v = mu * v - learning_rate * dx # velocity update stays the same # dx is gradien
 x += -mu * v_prev + (1 + mu) * v # position update changes
 {% endhighlight %}
 
+### Learning Rate Decay
+
+<img src="/img/lrdecay.png" style="display: block; margin: auto; width: 35%; max-width: 100%;">
+
+Sometimes, the chosen reasonable learning rate can only decrease the error upto a certain value as shown in the figure. In this scenario, it's useful to decrease the learning rate. It's accomplished by using learning rate decay e.g. the learning rate can be decreased by half every 7 epochs.
+
 ## Adagrad
 
-All the above methods manipulate the learning rate globally and equally for all the parameters. Adagrad is an adaptive learning rate method that adaptively tune the learning rates per parameter.
+All the above methods manipulate the learning rate globally and equally for all the parameters. Adagrad is an adaptive learning rate method that adaptively (increase or decrease as required) tune the learning rates per parameter.
 
 {% highlight python %}
 # adagrad
