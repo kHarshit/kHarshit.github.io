@@ -7,6 +7,8 @@ categories: [Deep Learning, Computer Vision]
 
 Object detection deals with the detection of object instances in an image. There are a number of methods to accomplish it. The following post summarizes few important object detection methods.
 
+<a href="https://commons.wikimedia.org/wiki/File:Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg#/media/File:Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg" alt="Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg" width="640" height="412" style="display: block; margin: auto; width: auto; max-width: 100%;"></a>
+
 ## Classification and Localization
 
 This method treats object detection as a regression problem. Given a number of objects in an image, localization deals with classification of all the objects in the image by drawing a bounding box by finding its location in the image.
