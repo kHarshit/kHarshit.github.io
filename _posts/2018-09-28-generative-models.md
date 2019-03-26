@@ -27,6 +27,30 @@ GANs has two networks, competing with each other:
 
 <img src="/img/gan.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
+### Training
+
+Training involves alternating between training the discriminator and the generator. The `real loss` and `fake loss` are used to calculate the discriminator losses as follows.
+
+<img src="/img/gan_MNIST.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+**Discriminator (D) training**
+
+For the real images, we want `D(real images) = 1`. That is, we want the discriminator to classify the the real images with a label = 1, indicating that these are real. The discriminator loss for the fake data is similar. We want `D(fake images) = 0`, where the fake images are the generator output, `fake_images = G(z)`.
+
+1. Compute the discriminator loss on real, training images
+2. Generate fake images
+3. Compute the discriminator loss on fake, generated images
+4. Add up real and fake loss
+5. Perform backpropagation + an optimization step to update the discriminator's weights
+
+**Generator (G) training**
+
+The generator's goal is to get `D(fake_images) = 1`.
+
+1. Generate fake images
+2. Compute the discriminator loss on fake images, using flipped labels.
+3. Perform backpropagation + an optimization step to update the generator's weights
+
 After training the network, we can remove the discriminator and use generator network to generate new images.
 
 There are many other types of generative models such as PixelRNN and PixelCNN, Variational Autoencoders (VAE).
