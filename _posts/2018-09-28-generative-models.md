@@ -45,7 +45,7 @@ For the real images, we want `D(real images) = 1`. That is, we want the discrimi
 
 **Generator (G) training**
 
-The generator's goal is to get `D(fake_images) = 1`.
+The generator's goal is to get `D(fake images) = 1`.
 
 1. Generate fake images
 2. Compute the discriminator loss on fake images, using flipped labels.
