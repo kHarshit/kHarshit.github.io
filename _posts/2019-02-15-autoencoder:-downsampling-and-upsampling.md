@@ -5,7 +5,7 @@ date: 2019-02-15
 categories: [Deep Learning]
 ---
 
-An autoencoder is a neural network that learns data representations in an unsupervised manner. Its structure consists of *Encoder*, which learn the compact representation of input data, and *Decoder*, which decompresses it to reconstruct the input data. A similar concept is used in [generative models]({% post_url 2018-09-28-generative-models %}).
+An autoencoder is a neural network that learns data representations in an unsupervised manner. Its structure consists of *Encoder*, which learn the compact representation of input data, and *Decoder*, which decompresses it to reconstruct the input data. A similar concept is used in [generative models]({% post_url 2018-09-28-generative-models-and-generative-adversarial-networks %}).
 
 For example, in case of MNIST dataset,
 
