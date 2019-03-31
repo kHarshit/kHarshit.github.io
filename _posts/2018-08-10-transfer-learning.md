@@ -21,7 +21,7 @@ The following table summarizes the method to be adopted according to your datase
 {:.mbtablestyle}
 
 
-**Case I: Small dataset, dimilar data** 
+**Case I: Small dataset, dissimilar data** 
 
 * slice off the end of the neural network
 * add a new fully connected layer that matches the number of classes in the new data set

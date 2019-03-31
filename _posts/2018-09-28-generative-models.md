@@ -40,7 +40,7 @@ For the real images, we want `D(real images) = 1`. That is, we want the discrimi
 1. Compute the discriminator loss on real, training images
 2. Generate fake images
 3. Compute the discriminator loss on fake, generated images
-4. Add up real and fake loss
+4. Add up real and fake loss to get total loss
 5. Perform backpropagation + an optimization step to update the discriminator's weights
 
 **Generator (G) training**
