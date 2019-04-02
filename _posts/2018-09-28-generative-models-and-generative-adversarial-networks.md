@@ -51,6 +51,11 @@ The generator's goal is to get `D(fake images) = 1`.
 2. Compute the discriminator loss on fake images, using flipped labels.
 3. Perform backpropagation + an optimization step to update the generator's weights
 
+<div id="gan-loss"></div>
+$$D(G(z))$$ is the probability that the output of the generator G is a real image. $$D$$ and $$G$$ play a minimax game in which D tries to maximize the probability it correctly classifies reals and fakes $$(logD(x))$$, and G tries to minimize the probability that $$D$$ will predict its outputs are fake $$(log(1−D(G(x))))$$. The GAN loss is defined as:
+
+$$\underset{G}{\text{min}} \underset{D}{\text{max}}V(D,G) = \mathbb{E}_{x\sim p_{data}(x)}\big[logD(x)\big] + \mathbb{E}_{z\sim p_{z}(z)}\big[log(1-D(G(z)))\big]$$
+
 After training the network, we can remove the discriminator and use generator network to generate new images.
 
 There are many other types of generative models such as PixelRNN and PixelCNN, Variational Autoencoders (VAE).

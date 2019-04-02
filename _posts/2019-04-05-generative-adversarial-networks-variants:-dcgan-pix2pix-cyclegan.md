@@ -51,6 +51,10 @@ Pix2pix uses a conditional generative adversarial network (cGAN) to learn a mapp
 
 > To train the discriminator, first the generator generates an output image. The discriminator looks at the input/target pair and the input/output pair and produces its guess about how realistic they look. The weights of the discriminator are then adjusted based on the classification error of the input/output pair and the input/target pair. The generator’s weights are then adjusted based on the output of the discriminator as well as the difference between the output and target image.
 
+The generator consists of Encoder that converts the input image into a smaller feature representation, and Decoder, which looks like a typical generator, a series of transpose-convolution layers that reverse the actions of encoder layers. The discriminator, instead of identifying a single image as real or fake, will look at pairs of images (input image and unknown image that is either targete image or generated image), and output a label for pair as real or fake. The loss function is *(compare with [this]({% post_url 2018-09-28-generative-models-and-generative-adversarial-networks %}#gan-loss))*:
+
+$$\underset{G}{\text{min}} \underset{D}{\text{max}} \mathbb{E}_{x,y}\big[logD(x,G(x))\big] + \mathbb{E}_{x,y}\big[log(1-D(G(x,y)))\big]$$
+
 The problem with pix2pix is training because the two image spaces are needed to be pre-formatted into a single X/Y image that held both tightly-correlated images.
 
 ## CycleGAN
