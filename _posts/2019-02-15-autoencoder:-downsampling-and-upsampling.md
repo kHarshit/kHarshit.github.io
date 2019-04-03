@@ -5,7 +5,11 @@ date: 2019-02-15
 categories: [Deep Learning]
 ---
 
+***Note:*** *Read the post on [Autoencoder](https://iq.opengenus.org/autoencoder/) written by me at OpenGenus as a part of [GSSoC](https://gssoc.tech/).*
+
 An autoencoder is a neural network that learns data representations in an unsupervised manner. Its structure consists of *Encoder*, which learn the compact representation of input data, and *Decoder*, which decompresses it to reconstruct the input data. A similar concept is used in [generative models]({% post_url 2018-09-28-generative-models-and-generative-adversarial-networks %}).
+
+> Given a set of unlabeled training examples $${x_1,x_2,x_3,…}$$, an autoencoder neural network is an unsupervised learning algorithm that applies backpropagation, setting the target values to be equal to the inputs. i.e., it uses $$y_i=x_i$$.
 
 For example, in case of MNIST dataset,
 
