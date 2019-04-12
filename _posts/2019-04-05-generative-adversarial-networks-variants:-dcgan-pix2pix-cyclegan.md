@@ -45,6 +45,8 @@ The generator is comprised of transpose-convolutional layers, batch norm layers,
 
 The training is same as in case of [GAN]({% post_url 2018-09-28-generative-models-and-generative-adversarial-networks %}).
 
+***Note:*** *The complete DCGAN implementation on face generation is available at [kHarshit/pytorch-projects](https://github.com/kHarshit/pytorch-projects#project-4-generate-faces).*
+
 ## Pix2pix
 
 Pix2pix uses a conditional generative adversarial network (cGAN) to learn a mapping from an input image to an output image. It's used for image-to-image translation.
