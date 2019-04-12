@@ -2,7 +2,7 @@
 layout: post
 title: "Why Batch Normalization?"
 date: 2018-12-28
-categories: [Deep Learning]
+categories: [Deep Learning, Computer Vision]
 ---
 
 As mentioned in [Scaling Vs Normalization]({% post_url 2018-03-23-scaling-vs-normalization %}), applying normalization to the input features increases the convergence rate of our algorithm i.e. it speeds up the learning process.
@@ -31,5 +31,10 @@ The idea is that even when the exact values of inputs to hidden layers change, t
 
 The other benefit of batch normalization is that it acts as **regularization**. Each mini-batch is scaled using its mean and standard deviation. This introduces some noise to each layer, providing a regularization effect.
 
+Due to numerous benefits of batch normalization, it's extensively used nowadays as evident from the below figure.
+
+<img src="/img/batch_norm_milestone.png" style="display: block; margin: auto; width: 420px; max-width: 100%;">
+
 **References:**  
 1. [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/pdf/1502.03167v3.pdf)  
+2. [Batch norm usage (Image source)](https://youtu.be/m3TN9FFmqsI)
