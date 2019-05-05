@@ -10,7 +10,7 @@ categories: [Data Science, Machine Learning]
 
 ## Scaling
 
-In scaling, you transform the data such that the features are within a specific range e.g. [0, 1].
+In scaling *(also called min-max scaling)*, you transform the data such that the features are within a specific range e.g. [0, 1].
 
 $$x' = \frac{x - x_{min}}{x_{max} - x_{min}}$$
 
@@ -53,7 +53,7 @@ Normal distribution (Gaussian distribution), also known as the **bell curve**, i
 
 $$x' = \frac{x - x_{mean}}{x_{max} - x_{min}}$$
 
-For normalization, the maximum value you can get after applying the formula is 1, and the minimum value is 0. So all the values will be between 0 and 1. That's why it's also called *min-max scaling*.
+For normalization, the maximum value you can get after applying the formula is 1, and the minimum value is 0. So all the values will be between 0 and 1.
 
 {% highlight python %}
 # for Box-Cox Transformation
