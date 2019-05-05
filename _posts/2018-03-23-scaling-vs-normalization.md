@@ -16,7 +16,7 @@ $$x' = \frac{x - x_{min}}{x_{max} - x_{min}}$$
 
 where x' is the normalized value.
 
-Scaling is important in the algorthms such as support vector machines (SVM) and k-nearest neighbors (KNN) where distance betYouen the data points is important. For example, in the dataset containing prices of products; without scaling, SVM might treat 1 USD equivalent to 1 INR though 1 USD = 65 INR.
+Scaling is important in the algorithms such as support vector machines (SVM) and k-nearest neighbors (KNN) where distance between the data points is important. For example, in the dataset containing prices of products; without scaling, SVM might treat 1 USD equivalent to 1 INR though 1 USD = 65 INR.
 
 {% highlight python %}
 import numpy as np
@@ -85,11 +85,12 @@ $$x' = \frac{x - x_{mean}}{\sigma}$$
 
 where x is the original feature vector, $$x_{mean}$$ is the mean of that feature vector, and σ is its standard deviation.
 
-It's widely used in SVMs, logistics regression and neural networks.
+It's widely used in SVM, logistics regression and neural networks.
 
 ## Applications
 
 In stochastic gradient descent, feature scaling can sometimes improve the convergence speed of the algorithm. In support vector machines, it can reduce the time to find support vectors.
 
-**References:**  
+**Further Readings:**  
 1. [Feature scaling - Wikipedia](https://en.wikipedia.org/wiki/Feature_scaling)
+2. [What algorithms need feature scaling, beside from SVM?](https://stats.stackexchange.com/q/244507/194589)

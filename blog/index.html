@@ -35,7 +35,7 @@ title: Technical Fridays | Blog
     <div id="post">
       <ul class="posts">
 
-        <!-- This loops through the paginated posts -->
+        <!-- This loops through the paginated posts date: '%b %d, %Y'-->
         {% for post in paginator.posts %}
           <li><span>{{ post.date | date_to_string }}</span> » <a href="{{ post.url }}" title="{{
             post.title }}">{{ post.title }}</a></li>
