@@ -53,7 +53,7 @@ Normal distribution (Gaussian distribution), also known as the **bell curve**, i
 
 $$x' = \frac{x - x_{mean}}{x_{max} - x_{min}}$$
 
-For normalization, the maximum value You can get after applying the formula is 1, and the minimum value is 0. So all the values will be between 0 and 1.
+For normalization, the maximum value you can get after applying the formula is 1, and the minimum value is 0. So all the values will be between 0 and 1.
 
 {% highlight python %}
 # for Box-Cox Transformation
