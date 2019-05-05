@@ -30,7 +30,7 @@ np.random.seed(0)
 # generate 1000 data points randomly drawn from an exponential distribution
 original_data = np.random.exponential(size = 1000)
 
-# mix-max scale the data betYouen 0 and 1
+# mix-max scale the data between 0 and 1
 scaled_data = minmax_scale(original_data)
 
 # plot both together to compare
@@ -53,7 +53,7 @@ Normal distribution (Gaussian distribution), also known as the **bell curve**, i
 
 $$x' = \frac{x - x_{mean}}{x_{max} - x_{min}}$$
 
-For normalization, the maximum value you can get after applying the formula is 1, and the minimum value is 0. So all the values will be between 0 and 1.
+For normalization, the maximum value you can get after applying the formula is 1, and the minimum value is 0. So all the values will be between 0 and 1. That's why it's also called *min-max scaling*.
 
 {% highlight python %}
 # for Box-Cox Transformation
@@ -79,7 +79,7 @@ You need to normalize our data if you're going use a machine learning or statist
 
 ## Standardization
 
-Standardization transforms your data such that the resulting distribution has a mean of 0 and a standard deviation of 1.
+Standardization *(also called z-score normalization)* transforms your data such that the resulting distribution has a mean of 0 and a standard deviation of 1.
 
 $$x' = \frac{x - x_{mean}}{\sigma}$$
 
