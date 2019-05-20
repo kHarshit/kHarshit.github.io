@@ -15,32 +15,32 @@ The following table summarizes the method to be adopted according to your datase
 | Size of dataset || Compared to original dataset || Method                                                                  |
 |-----------------|------------------------------|-------------------------------------------------------------------------|
 | small           || similar                      || train a linear classifier on CNN nodes                                  |
-| large           || similar                      || fine-tune the model                                                     |
 | small           || different                     || train classifier from activations somewhere earlier in the network |
+| large           || similar                      || fine-tune the model                                                     |
 | large           || different                    || can build model from scratch, initialize weight from pre-trained model  |
 {:.mbtablestyle}
 
 
-**Case I: Small dataset, dissimilar data** 
+**Case I: Small dataset, similar data** 
 
-* slice off the end of the neural network
+* slice off the end of the neural network <abbr title="Since the data sets are similar, images from each data set will have similar higher level features">only</abbr>
 * add a new fully connected layer that matches the number of classes in the new data set
-* randomize the weights of the new fully connected layer; freeze all the weights from the pre-trained network *(so that the network behaves as fixed feature-extractor)*
+* randomize the weights of the new fully connected layer; <abbr title="To avoid overfitting on the small data set, the weights of the original network will be held constant rather than re-training the weights. ">freeze all the weights</abbr> from the pre-trained network *(so that the network behaves as fixed feature-extractor)*
 * train the network to update the weights of the new fully connected layer
 
 **Case II: Small dataset, Different data**
 
-* slice off all but some of the pre-trained layers near the beginning of the network
+* slice off <abbr title="But the original training set and the new data set do not share higher level features. In this case, the new network will only use the layers containing lower level features.">all</abbr> but some of the pre-trained layers near the beginning of the network
 * add to the remaining pre-trained layers a new fully connected layer that matches the number of classes in the new data set
-* randomize the weights of the new fully connected layer; freeze all the weights from the pre-trained network
+* randomize the weights of the new fully connected layer; <abbr title="to combat overfitting while re-training">freeze</abbr> all the weights from the pre-trained network
 * train the network to update the weights of the new fully connected layer
 
 **Case III: Large dataset, Similar data**
 
 * remove the last fully connected layer and replace with a layer matching the number of classes in the new data set
 * randomly initialize the weights in the new fully connected layer
-* initialize the rest of the weights using the pre-trained weights
-* re-train the entire neural network
+* initialize the rest of the weights using the *pre-trained* weights
+* re-train the <abbr title="overfitting no longer concern due to large dataset">entire</abbr> neural network
 
 **Case IV: Large dataset, Different data**
 
