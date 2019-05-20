@@ -41,7 +41,15 @@ A Long Short Term Memory (LSTM) utilizes four gates that perform a specific func
 * Output gate ($$o$$): controls how much to reveal cell
 * The fourth gate ($$g$$) controls how much to write to the cell
 
+Inside the cell state, we can either remember or forget our previous state, and we can either increment or decrement each element of that cell state by up to 1 in each time step. These cell states can be interpreted as counters (counting by 1 or -1 at each time step). We want to squash that counter value in [0, 1] range using tanh. Then, we use our updated cell state to calculate our hidden state, which we'll reveal to outside world.
+
+> The first step in our LSTM is to decide what information we’re going to throw away from the cell state. This decision is made by a sigmoid layer called the “forget gate layer.” It looks at $$h_{t-1}$$ and $$x_t$$, and outputs a number between 0 and 1 for each number in the cell state $$c_{t−1}$$. A 1 represents “completely keep this” while a 0 represents “completely get rid of this.”
+
 <img src="/img/gradient_flow_lstm.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+> The next step is to decide what new information we’re going to store in the cell state. This has two parts. First, a sigmoid layer called the “input gate layer” decides which values we’ll update. Next, a tanh layer creates a vector of new candidate values, $$c_t$$, that could be added to the state. In the next step, we’ll combine these two to create an update to the state.
+
+> Finally, we need to decide what we’re going to output. This output will be based on our cell state, but will be a filtered version. First, we run a sigmoid layer which decides what parts of the cell state we’re going to output. Then, we put the cell state through tanh (to push the values to be between −1 and 1) and multiply it by the output of the sigmoid gate, so that we only output the parts we decided to.
 
 In LSTM, the backpropagation only involves element-wise multiplication by $$f$$, and no matrix multiplication by $$W$$ i.e. the cell state gradient is multiplied only by the forget gate element-wise (better than full matrix multiplication). Also, in vanilla RNN, we're multiplying by same $$W$$ over and over again leading to exploding or vanishing gradient problems. But, here this forget gate will vary at each time-step (e.g. values sometimes > 1 or < 1) thus avoiding these problems.
 
