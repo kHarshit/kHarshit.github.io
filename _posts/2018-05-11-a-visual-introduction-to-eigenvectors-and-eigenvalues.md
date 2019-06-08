@@ -76,10 +76,9 @@ c & d
 0 & \lambda 
 \end{bmatrix}
 \end{vmatrix}
- = 0 
-\\
-\lambda ^ 2 - (a+d)\lambda + ad - bc = 0
-$$
+ = 0$$
+
+$$\lambda ^ 2 - (a+d)\lambda + ad - bc = 0$$
 
 The solution of this equation gives the eigvenvalues. Put these eigenvalues in the original expression to get their corresponding eigenvectors.  
 
