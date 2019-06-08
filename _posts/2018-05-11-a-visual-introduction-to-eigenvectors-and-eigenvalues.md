@@ -36,7 +36,7 @@ In 180 degree rotation of square, all vectors are still laying on the same span,
 
 <img src="/img/eigenvectors_180.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
-In case of 3d rotation transformation of cube, the eigenvector gives the axis of rotation as evident from the below figure.
+In case of 3d rotation transformation of cube, the eigenvector gives the axis of rotation.
 
 
 ## Mathematics
