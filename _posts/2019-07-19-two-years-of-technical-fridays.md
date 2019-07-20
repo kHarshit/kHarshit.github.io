@@ -13,7 +13,7 @@ In the last year (July 20, 2018 - July 19, 2019), the site had 10,099 users from
 
 <img src="/img/kHarshit.github.io_Analytics_world_18_19.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
-From Dec 2018, I've been working mainly in the field of [Computer Vision]({{site.baseurl}}/categories/#computer-vision), so I expect to write more blog posts related to it. Once again, thank you to all the readers, it has been an incredible journey so far, and I hope to continue writing on some of the amazing topics in the future.
+For the past few months, I've been working mainly in the field of [Computer Vision]({{site.baseurl}}/categories/#computer-vision), so I expect to write more blog posts related to it. Once again, thank you to all the readers, it has been an incredible journey so far, and I hope to continue writing on some of the amazing topics in the future.
 
 Regards,  
 Harshit
