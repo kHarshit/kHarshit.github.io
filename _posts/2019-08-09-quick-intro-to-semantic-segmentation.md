@@ -77,7 +77,7 @@ The process can be described as 12x12x3 — (5x5x1x1) — > (1x1x3x256) — >12x
 
 DeepLabv3+ uses xception (pointwise conv is followed by depthwise conv) as the feature extractor in the encoder portion. The depthwise separable convolutions are applied inplace of max-pooling. The encoder uses output stride of 16, while in decoder, the encoded features by the encoder are first upsampled by 4, then concatenated with corresponding features from the encoder, then upsampled again to give output segmentation map.
 
-Let's test the DeepLab model pretrained on MS COCO dataset in PyTorch.
+Let's test the DeepLabv3 model, which uses resnet101 as its backbone, pretrained on MS COCO dataset, in PyTorch.
 
 {% highlight python %}
 import torch
