@@ -7,7 +7,7 @@ categories: [Deep Learning, Computer Vision]
 
 Suppose you've an image, consisting of cats. You want to classify every pixel of the image as cat or background. This process is called semantic segmentation.
 
-One of the ways to do so is to use a **Fully Convolutional Network (FCN)** i.e. you stack a bunch of convolutional layers in a encoder-decoder fashion. The encoder downsamples the image using strided convolution giving a compressed feature representation of the image, and the decoder upsamples the image using methods like transpose convolution to give the segmented output.
+One of the ways to do so is to use a **Fully Convolutional Network (FCN)** i.e. you stack a bunch of convolutional layers in a encoder-decoder fashion. The encoder downsamples the image using strided convolution giving a compressed feature representation of the image, and the decoder upsamples the image using methods like transpose convolution to give the segmented output *([Read more about downsampling and upsampling]({% post_url 2019-02-15-autoencoder:-downsampling-and-upsampling %}))*.
 
 <img src="/img/segmentation_fcn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
