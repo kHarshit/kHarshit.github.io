@@ -17,7 +17,32 @@ Mask R-CNN is a state-of-the-art model for instance segmentation. It extends Fas
 
 <img src="/img/seg_mask_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
-[Source](http://lernapparat.de/static/artikel/pytorch-jit-android/thomas_viehmann.pytorch_jit_android_2018-12-11.pdf)
+
+
+
+
+
+Before getting into Mask R-CNN, let's take a look at Faster R-CNN.
+
+## Faster R-CNN
+
+Faster R-CNN consists of two stages. The first stage is a deep convolutional network with Region Proposal Network (RPN), which proposes regions of interest (ROI) from the feature maps output by the convolutional neural network. The RPN uses a sliding window method to get relevant anchor boxes (the fixed sized boundary boxes that are placed throughout the image and have different shapes and sizes so as to save the time to search) from the feature maps. It then does a binary classification that the anchor has object or not (into classes fg or bg), and bounding box regression to refine bounding boxes. The anchor is classified as positive label (fg class) if the anchor(s) has highest Intersection-over-Union (IoU) with the ground truth box, or, it has IoU overlap greater than 0.7 with the ground truth. 
+
+Hence, at this stage, there are two losses i.e. bbox binary classification loss and bbox regression loss.
+
+<img src="/img/faster_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+The second stage is essentially Fast R-CNN, which using RoI pooling layer, extracts feature maps from each RoI, and performs classification and bounding box regression. The RoI pooling layer converts feature maps into same size to be fed into a fully connected layer, which performs softmax classification of objects into classes (e.g. car, person, bg),  and the same bounding box regression to refine bounding boxes.
+
+Thus, at the second stage as well, there are two losses i.e. object classification loss (into multiple classes), and bbox regression loss.
+
+## Mask prediction
+
+Mask R-CNN has the identical first stage, and in second stage, it also predicts binary mask in addition to class score and bbox. The mask branch takes positive RoI and predicts mask using a fully convolutional network (FCN). In simple terms, Mask R-CNN = Faster R-CNN + FCN
+
+*To be added: RoIAlign, backbone, FPN* ...
+
+## Implementation
 
 The following Mask R-CNN implementation is from `facebookresearch/maskrcnn-benchmark`<sup id="a1">[1](#myfootnote1)</sup>. First, install it as follows.
 
@@ -53,7 +78,7 @@ wget https://raw.githubusercontent.com/facebookresearch/maskrcnn-benchmark/maste
 wget https://raw.githubusercontent.com/facebookresearch/maskrcnn-benchmark/master/configs/caffe2/e2e_mask_rcnn_R_50_FPN_1x_caffe2.yaml
 {% endhighlight %}
 
-Here, for inference, we'll use model pretrained on MS COCO dataset.
+Here, for inference, we'll use Mask R-CNN model pretrained on MS COCO dataset.
 
 {% highlight python %}
 import numpy as np
@@ -96,10 +121,14 @@ plt.savefig("segmented_output.png", bbox_inches='tight')
 {% endhighlight %}
 
 
+
 <img src="/img/segmentation_cat_output_instance.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
+Notice that, here, both the instances of cats are segmented separately, unlike [semantic segmentation]({% post_url 2019-08-09-quick-intro-to-semantic-segmentation %}).
 
 **References:**  
-<a></a>1: [Mask R-CNN paper](https://arxiv.org/abs/1703.06870)  
-<a name="myfootnote1"></a>2: [facebookresearch/maskrcnn-benchmark - Faster R-CNN and Mask R-CNN in PyTorch 1.0](https://github.com/facebookresearch/maskrcnn-benchmark) [↩](#a1)  
-<a></a>3: 
+<a></a>1. [Mask R-CNN paper](https://arxiv.org/abs/1703.06870)  
+<a name="myfootnote1"></a>2. [facebookresearch/maskrcnn-benchmark - Faster R-CNN and Mask R-CNN in PyTorch 1.0](https://github.com/facebookresearch/maskrcnn-benchmark) [↩](#a1)  
+<a></a>3. [CS231n: Convolutional Neural Networks for Visual Recognition (image source)](http://cs231n.stanford.edu/)  
+<a></a>4. [Faster R-CNN paper](https://arxiv.org/pdf/1506.01497.pdf)  
+<a></a>5. [Mask R-CNN image source](http://lernapparat.de/static/artikel/pytorch-jit-android/thomas_viehmann.pytorch_jit_android_2018-12-11.pdf)  
