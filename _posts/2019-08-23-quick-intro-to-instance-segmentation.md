@@ -17,39 +17,68 @@ Mask R-CNN is a state-of-the-art model for instance segmentation. It extends Fas
 
 <img src="/img/seg_mask_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
-
-
-
-
-
 Before getting into Mask R-CNN, let's take a look at Faster R-CNN.
 
 ## Faster R-CNN
 
-Faster R-CNN consists of two stages. The first stage is a deep convolutional network with Region Proposal Network (RPN), which proposes regions of interest (ROI) from the feature maps output by the convolutional neural network. The RPN uses a sliding window method to get relevant anchor boxes (the fixed sized boundary boxes that are placed throughout the image and have different shapes and sizes so as to save the time to search) from the feature maps. It then does a binary classification that the anchor has object or not (into classes fg or bg), and bounding box regression to refine bounding boxes. The anchor is classified as positive label (fg class) if the anchor(s) has highest Intersection-over-Union (IoU) with the ground truth box, or, it has IoU overlap greater than 0.7 with the ground truth. 
+Faster R-CNN consists of two stages. The *first stage* is a deep convolutional network with **Region Proposal Network (RPN)**, which proposes regions of interest (ROI) from the feature maps output by the convolutional neural network. The CNN used in this case, often called **backbone**, is usually a pretrained network such as ResNet101. The classification layers from the backbone network are removed so as to used it as a feature extractor. This also makes the network fully convolutional, thus it can take any input size image.
 
-Hence, at this stage, there are two losses i.e. bbox binary classification loss and bbox regression loss.
+The RPN uses a sliding window method to get relevant anchor boxes *(the fixed sized boundary boxes that are placed throughout the image and have different shapes and sizes so as to save the time to search)* from the feature maps. It then does a binary classification that the anchor has object or not (into classes fg or bg), and bounding box regression to refine bounding boxes. The anchor is classified as positive label (fg class) if the anchor(s) has highest Intersection-over-Union (IoU) with the ground truth box, or, it has IoU overlap greater than 0.7 with the ground truth. 
+
+Hence, at this stage, there are two losses i.e. bbox binary classification loss, $$L_{cls_1}$$  and bbox regression loss, $$L_{bbox_1}$$.
 
 <img src="/img/faster_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
-The second stage is essentially Fast R-CNN, which using RoI pooling layer, extracts feature maps from each RoI, and performs classification and bounding box regression. The RoI pooling layer converts feature maps into same size to be fed into a fully connected layer, which performs softmax classification of objects into classes (e.g. car, person, bg),  and the same bounding box regression to refine bounding boxes.
+The *second stage* is essentially **Fast R-CNN**, which using RoI pooling layer, extracts feature maps from each RoI, and performs classification and bounding box regression. The RoI pooling layer converts feature maps into same size to be fed into a fully connected layer, which performs softmax classification of objects into classes (e.g. car, person, bg),  and the same bounding box regression to refine bounding boxes.
 
-Thus, at the second stage as well, there are two losses i.e. object classification loss (into multiple classes), and bbox regression loss.
+Thus, at the second stage as well, there are two losses i.e. object classification loss (into multiple classes), $$L_{cls_2}$$, and bbox regression loss, $$L_{bbox_2}$$.
 
 ## Mask prediction
 
-Mask R-CNN has the identical first stage, and in second stage, it also predicts binary mask in addition to class score and bbox. The mask branch takes positive RoI and predicts mask using a fully convolutional network (FCN). In simple terms, Mask R-CNN = Faster R-CNN + FCN
+Mask R-CNN has the identical first stage, and in second stage, it also predicts binary mask in addition to class score and bbox. The mask branch takes positive RoI and predicts mask using a fully convolutional network (FCN). 
 
-*To be added: RoIAlign, backbone, FPN* ...
+<img src="/img/mask_head.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+In simple terms, Mask R-CNN = Faster R-CNN + FCN
+
+Finally, the loss function is 
+
+$$L = L_{cls} + L_{bbox} + L_{mask}$$
+
+The $$L_{cls} (L_{cls_1} + L_{cls_2})$$ is the classification loss, which tells how close the predictions are to the true class, and $$L_{bbox} (L_{bbox_1} + L_{bbox_2})$$ is the bounding box loss, which tells how good the model is at localization, as discussed above. In addition, there is also $$L_{mask}$$, loss for mask prediction, which is calculated by taking the binary cross-entropy between the predicted mask and the ground truth. This loss penalizes wrong per-pixel binary classifications (fg/bg w.r.t ground truth label).
+
+> Mask R-CNN encodes a binary mask per class for each of the RoIs, and the mask loss for a specific RoI is calculated based only on the mask corresponding to its true class, which prevents the mask loss from being affected by class predictions.
+
+> The mask branch has a $$Km^2$$-dimensional output for each RoI, which encodes `K` binary masks of resolution `m×m`, one for each of the `K` classes. To this we apply a per-pixel sigmoid, and define $$L_{mask}$$ as the average binary cross-entropy loss.
+
+In total, there are five losses as follows:
+
+* rpn_class_loss, $$L_{cls_1}$$: RPN (bbox) anchor binary classifier loss
+* rpn_bbox_loss, $$L_{bbox_1}$$: RPN bbox regression loss 
+* fastrcnn_class_loss, $$L_{cls_2}$$: loss for the classifier head of Mask R-CNN
+* fastrcnn_bbox_loss, $$L_{bbox_2}$$: loss for Mask R-CNN bounding box refinement
+* maskrcnn_mask_loss, $$L_{mask}$$: mask binary cross-entropy loss for the mask head
+
+
+## Other improvements
+
+Mask R-CNN also utilizes a more effective backbone network architecture called **Feature Pyramid Network (FPN)** along with ResNet, which results in better performance in terms of both accuracy and speed. 
+
+> Faster R-CNN with an FPN backbone extracts RoI features from different levels of the feature  pyramid  according  to  their  scale,  but  otherwise  the rest of the approach is similar to vanilla ResNet.
+
+As discussed above, RoIPool layer extracts small feature maps from each RoI. **RoIAlign** is an improvement over the RoIPool operation. It uses bilinear interpolation to smooth the RoIs (which has different aspect sizes) into fixed size feature vectors without using *quantization*, which is used in RoIPool. 
+
+*To be added: more description on FPN, RoIAlign* ...
 
 ## Implementation
 
 The following Mask R-CNN implementation is from `facebookresearch/maskrcnn-benchmark`<sup id="a1">[1](#myfootnote1)</sup>. First, install it as follows.
 
 {% highlight python %}
-# maskrcnn_benchmark and coco api dependencies
+# install dependencies
 pip install ninja yacs cython matplotlib tqdm opencv-python
 
+# install COCO API
 git clone https://github.com/cocodataset/cocoapi.git
 cd cocoapi/PythonAPI
 python setup.py build_ext install
@@ -60,13 +89,13 @@ rm -rf apex
 git clone https://github.com/NVIDIA/apex.git
 cd apex
 git pull
+# if no GPU available, try installing removing --cuda_ext
 python setup.py install --cuda_ext --cpp_ext
 cd ../
 
-# install PyTorch Detection
+# install maskrcnn-benchmark 
 git clone https://github.com/facebookresearch/maskrcnn-benchmark.git
 cd maskrcnn-benchmark
-
 # the following will install the lib with symbolic links, so that you can modify
 # the files if you want and won't need to re-build it
 python setup.py build develop
