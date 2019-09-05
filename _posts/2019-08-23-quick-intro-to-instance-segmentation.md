@@ -21,15 +21,45 @@ Before getting into Mask R-CNN, let's take a look at Faster R-CNN.
 
 ## Faster R-CNN
 
-Faster R-CNN consists of two stages. The *first stage* is a deep convolutional network with **Region Proposal Network (RPN)**, which proposes regions of interest (ROI) from the feature maps output by the convolutional neural network. The CNN used in this case, often called **backbone**, is usually a pretrained network such as ResNet101. The classification layers from the backbone network are removed so as to used it as a feature extractor. This also makes the network fully convolutional, thus it can take any input size image.
+Faster R-CNN consists of two stages.
 
-The RPN uses a sliding window method to get relevant anchor boxes *(the fixed sized boundary boxes that are placed throughout the image and have different shapes and sizes so as to save the time to search)* from the feature maps. It then does a binary classification that the anchor has object or not (into classes fg or bg), and bounding box regression to refine bounding boxes. The anchor is classified as positive label (fg class) if the anchor(s) has highest Intersection-over-Union (IoU) with the ground truth box, or, it has IoU overlap greater than 0.7 with the ground truth. 
+### Stage I
+
+The *first stage* is a deep convolutional network with **Region Proposal Network (RPN)**, which proposes regions of interest (ROI) from the feature maps output by the convolutional neural network i.e.
+
+The input image is fed into a CNN, often called **backbone**, which is usually a pretrained network such as ResNet101. The classification (fully connected) layers from the backbone network are removed so as to use it as a feature extractor. This also makes the network fully convolutional, thus it can take any input size image.
+
+<img src="/img/remove_fc_layers.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+The RPN uses a sliding window method to get <abbr title="boxes having high probability of containing object">relevant anchor boxes</abbr> *(the precalculated fixed sized bounding boxes having different sizes that are placed throughout the image that represent the approximate bbox predictions so as to save the time to search)* from the feature maps. 
+
+It then does a binary classification that the anchor has object or not (into classes <abbr title="foreground">fg</abbr> or <abbr title="background">bg</abbr>), and bounding box regression to refine bounding boxes. The anchor is classified as positive label (fg class) if the anchor(s) has highest Intersection-over-Union (IoU) with the ground truth box, or, it has IoU overlap greater than 0.7 with the ground truth.
+
+> At each sliding window location, a number of proposals (max `k`) are predicted corresponding to anchor boxes. So the `reg` layer has `4k` outputs encoding the coordinates of `k` boxes, and the `cls` layer outputs `2k` scores that estimate probability of *object* or *not object* for each proposal.
+
+<img src="/img/rpn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+> In Faster R-CNN, k=9 anchors representing 3 scales and 3 aspect ratios of anchor boxes are present at *each* sliding window position. Thus, for a convolutional feature map of a size `W×H` *(typically∼2,400)*, there are `WHk` anchors in total.
 
 Hence, at this stage, there are two losses i.e. bbox binary classification loss, $$L_{cls_1}$$  and bbox regression loss, $$L_{bbox_1}$$.
 
+The top *(positive)* anchors output by the RPN, called proposals or Region of Interest (RoI) are fed to the next stage.
+
 <img src="/img/faster_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
-The *second stage* is essentially **Fast R-CNN**, which using RoI pooling layer, extracts feature maps from each RoI, and performs classification and bounding box regression. The RoI pooling layer converts feature maps into same size to be fed into a fully connected layer, which performs softmax classification of objects into classes (e.g. car, person, bg),  and the same bounding box regression to refine bounding boxes.
+### Stage II
+
+The *second stage* is essentially **Fast R-CNN**, which using RoI pooling layer, extracts feature maps from each RoI, and performs classification and bounding box regression. The RoI pooling layer converts the section of feature map corresponding to each *(variable sized)* RoI into fixed size to be fed into a fully connected layer.
+
+For example, say, for a 8x8 feature map, the RoI is 7x5 in the bottom left corner, and the RoI pooling layer outputs a fixed size 2x2 feature map. Then, the following operations would be performed:
+
+* Divide the RoI into 2x2.
+* Perform max-pooling i.e. take maximum value from each section.
+
+<img src="/img/roi_pooling.gif" style="display: block; margin: auto; width: 80%; max-width: 100%;">
+
+The fc layer further performs softmax classification of objects into classes (e.g. car, person, bg),  and the same bounding box regression to refine bounding boxes.
+
 
 Thus, at the second stage as well, there are two losses i.e. object classification loss (into multiple classes), $$L_{cls_2}$$, and bbox regression loss, $$L_{bbox_2}$$.
 
@@ -66,7 +96,7 @@ Mask R-CNN also utilizes a more effective backbone network architecture called *
 
 > Faster R-CNN with an FPN backbone extracts RoI features from different levels of the feature  pyramid  according  to  their  scale,  but  otherwise  the rest of the approach is similar to vanilla ResNet.
 
-As discussed above, RoIPool layer extracts small feature maps from each RoI. **RoIAlign** is an improvement over the RoIPool operation. It uses bilinear interpolation to smooth the RoIs (which has different aspect sizes) into fixed size feature vectors without using *quantization*, which is used in RoIPool. 
+As discussed above, RoIPool layer extracts small feature maps from each RoI. **RoIAlign** is an improvement over the RoIPool operation. It uses bilinear interpolation to smooth the RoIs (which has different aspect sizes) into fixed size feature vectors without using *quantization* used in RoIPool. 
 
 *To be added: more description on FPN, RoIAlign* ...
 
@@ -161,3 +191,5 @@ Notice that, here, both the instances of cats are segmented separately, unlike [
 <a></a>3. [CS231n: Convolutional Neural Networks for Visual Recognition (image source)](http://cs231n.stanford.edu/)  
 <a></a>4. [Faster R-CNN paper](https://arxiv.org/pdf/1506.01497.pdf)  
 <a></a>5. [Mask R-CNN image source](http://lernapparat.de/static/artikel/pytorch-jit-android/thomas_viehmann.pytorch_jit_android_2018-12-11.pdf)  
+<a></a>6. [RoIPool image source](https://deepsense.ai/region-of-interest-pooling-explained/)  
+<a></a>7. [Mask R-CNN presented by Jiageng Zhang, Jingyao Zhan, Yunhan Ma](https://cseweb.ucsd.edu/classes/sp18/cse252C-a/CSE252C_20180509.pdf)
