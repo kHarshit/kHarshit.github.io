@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Quick intro to Instance segmentation: Mask RCNN"
+title: "Quick intro to Instance segmentation: Mask R-CNN"
 date: 2019-08-23
 categories: [Deep Learning, Computer Vision]
 ---
