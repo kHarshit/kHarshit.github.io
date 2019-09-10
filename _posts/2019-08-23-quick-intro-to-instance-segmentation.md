@@ -7,6 +7,9 @@ categories: [Deep Learning, Computer Vision]
 
 *This is the third post in the Quick intro series: [object detection (I)]({% post_url 2019-03-15-quick-intro-to-object-detection %}), [semantic segmentation (II)]({% post_url 2019-08-09-quick-intro-to-semantic-segmentation %})*.
 
+> “Boxes are stupid anyway though, I’m probably a true believer in masks except I can’t get YOLO to learn them.”
+> &mdash; <cite>Joseph Redmon, YOLOv3</cite>
+
 The instance segmentation combines *object detection*, where the goal is to classify individual objects and localize them using a bounding box, and *semantic segmentation*, where the goal is to classify each pixel into the given classes. In instance segmentation, we care about detection and segmentation of the instances of objects separately.
 
 <img src="/img/segmentation.png" style="display: block; margin: auto; width: 90%; max-width: 100%;">
@@ -102,7 +105,15 @@ As discussed above, RoIPool layer extracts small feature maps from each RoI. **R
 
 ## Implementation
 
-The following Mask R-CNN implementation is from `facebookresearch/maskrcnn-benchmark`<sup id="a1">[1](#myfootnote1)</sup>. First, install it as follows.
+The following Mask R-CNN implementation is from [`facebookresearch/maskrcnn-benchmark`](https://github.com/facebookresearch/maskrcnn-benchmark) in PyTorch.
+
+Other famous implementations are:
+
+* matterport's [Mask_RCNN](https://github.com/matterport/Mask_RCNN) in Keras and Tensorflow
+* open-mmlab's [mmdetection](https://github.com/open-mmlab/mmdetection) in PyTorch
+* facebookresearch's [Detectron](https://github.com/facebookresearch/Detectron) in Caffe2
+
+First, install it as follows.
 
 {% highlight python %}
 # install dependencies
@@ -185,11 +196,31 @@ plt.savefig("segmented_output.png", bbox_inches='tight')
 
 Notice that, here, both the instances of cats are segmented separately, unlike [semantic segmentation]({% post_url 2019-08-09-quick-intro-to-semantic-segmentation %}).
 
-**References:**  
-<a></a>1. [Mask R-CNN paper](https://arxiv.org/abs/1703.06870)  
-<a name="myfootnote1"></a>2. [facebookresearch/maskrcnn-benchmark - Faster R-CNN and Mask R-CNN in PyTorch 1.0](https://github.com/facebookresearch/maskrcnn-benchmark) [↩](#a1)  
-<a></a>3. [CS231n: Convolutional Neural Networks for Visual Recognition (image source)](http://cs231n.stanford.edu/)  
-<a></a>4. [Faster R-CNN paper](https://arxiv.org/pdf/1506.01497.pdf)  
-<a></a>5. [Mask R-CNN image source](http://lernapparat.de/static/artikel/pytorch-jit-android/thomas_viehmann.pytorch_jit_android_2018-12-11.pdf)  
-<a></a>6. [RoIPool image source](https://deepsense.ai/region-of-interest-pooling-explained/)  
-<a></a>7. [Mask R-CNN presented by Jiageng Zhang, Jingyao Zhan, Yunhan Ma](https://cseweb.ucsd.edu/classes/sp18/cse252C-a/CSE252C_20180509.pdf)
+
+## Other Instance segmentation models
+
+### MS R-CNN (Mask Scoring R-CNN)
+
+In Mask R-CNN, the instance classification score is used as the mask quality score. However, it's possible that due to certain factors such as background clutter, occlusion, etc. the classification score is high, but the mask quality (IoU b/w instance mask and ground truth) is low. MS R-CNN uses a network that learns the quality of mask. The mask score is reevaluated by multiplying the predicted MaskIoU and classification score.
+
+> Within  the  Mask  R-CNN framework, we implement a MaskIoU prediction network named MaskIoU head.  It takes both the output of themask  head  and  RoI  feature  as  input,  and  is  trained  using a  simple regression  loss.
+
+i.e. MS R-CNN = Mask R-CNN + MaskIoU head module
+
+### YOLACT (You Only Look At CoefficienTs)
+
+YOLACT is the current fastest instance segmentation method. It can achieve real-time instance segmentation results i.e. 30fps.
+
+<img src="/img/yolact.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+It breaks the instance segmentation process into two parts i.e. it generates a set of prototype masks in parallel with predicting per-instance mask coefficients. Then the prototypes are linearly combined with the mask coefficients to produce the instance masks.
+
+**References & Further Readings:**  
+1. [Mask R-CNN paper](https://arxiv.org/abs/1703.06870)  
+2. [CS231n: Convolutional Neural Networks for Visual Recognition (image source)](http://cs231n.stanford.edu/)  
+3. [Faster R-CNN paper](https://arxiv.org/pdf/1506.01497.pdf)  
+4. [Mask R-CNN image source](http://lernapparat.de/static/artikel/pytorch-jit-android/thomas_viehmann.pytorch_jit_android_2018-12-11.pdf)  
+5. [RoIPool image source](https://deepsense.ai/region-of-interest-pooling-explained/)  
+6. [Mask R-CNN presented by Jiageng Zhang, Jingyao Zhan, Yunhan Ma](https://cseweb.ucsd.edu/classes/sp18/cse252C-a/CSE252C_20180509.pdf)  
+7. [MS R-CNN paper](https://arxiv.org/pdf/1903.00241.pdf)  
+8. [YOLACT paper](https://arxiv.org/pdf/1904.02689.pdf)
