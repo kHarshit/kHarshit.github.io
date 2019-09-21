@@ -117,9 +117,15 @@ The forward pass of the CNN gives the feature maps at different conv layers i.e.
 
 ### RoiAlign
 
-As discussed above, RoIPool layer extracts small feature maps from each RoI. **RoIAlign** is an improvement over the RoIPool operation. It uses bilinear interpolation to smooth the RoIs (which has different aspect sizes) into fixed size feature vectors without using *quantization* used in RoIPool. 
+As discussed above, RoIPool layer extracts small feature maps from each RoI.  The problem with RoIPool is quantization. If the RoI doesn't perfectly align with the grid in feature map as shown, the quantization breaks pixel-to-pixel alignment. It isn't much of a problem in object detection, but in case of predicting masks, which require finer spatial localization, it matters.
 
-*To be added: more description on RoIAlign* ...
+<img src="/img/roi_quantization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+**RoIAlign** is an improvement over the RoIPool operation. What RoIAlign does is to smoothly transform features from the RoIs (which has different aspect sizes) into fixed size feature vectors without using *quantization*. It uses bilinear interpolation to do. A grid of sampling points are used within each bin of RoI, which are used to interpolate the features at its nearest neighbors as shown. 
+
+<img src="/img/roialign.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+For example, in the above figure, you can't apply the max-pooling directly due to the misalignment of RoI with the feature map grids, thus in case of RoIAlign, four points are sampled in each bin using bilinear interpolation from its nearest neighbors. Finally, the max value from these points is chosen to get the required 2x2 feature map.
 
 ## Implementation
 
