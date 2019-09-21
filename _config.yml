@@ -25,3 +25,4 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap  # sitemap at /sitemap.xml
   - jekyll-paginate
+  - jekyll-seo-tag
