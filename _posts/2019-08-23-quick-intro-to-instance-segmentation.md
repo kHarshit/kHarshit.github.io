@@ -95,13 +95,31 @@ In total, there are five losses as follows:
 
 ## Other improvements
 
+### Feature Pyramid Network
+
 Mask R-CNN also utilizes a more effective backbone network architecture called **Feature Pyramid Network (FPN)** along with ResNet, which results in better performance in terms of both accuracy and speed. 
 
 > Faster R-CNN with an FPN backbone extracts RoI features from different levels of the feature  pyramid  according  to  their  scale,  but  otherwise  the rest of the approach is similar to vanilla ResNet.
 
+<img src="/img/fpn_0.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+In order to detect object at different scales, various techniques have been proposed. One of them (c) utilizes the fact that deep CNN build a multi-scale representation of the feature maps. The features computed by various layers of the CNN acts as a feature pyramid. Here, you can use your model to detect objects at different levels of the pyramid thus allowing your model to detect object across a large range of scales e.g. the model can detect small objects at `conv3` as it has higher spatial resolution thus allowing the model to extract better features for detection compared to detecting small objects at `conv5`, which has lower spatial resolution. But, an important thing to note here is that the quality of features at `conv3` won't be as good for classification as features at `conv5`.
+
+<img src="/img/fpn_1.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+The above idea is fast as it utilizes the inherent working of CNN by using the features extracted at different conv layers for multi-scale detection, but compromises with the feature quality.
+
+FPN uses the inherent multi-scale representation in the network as above, and solves the problem of weak features at later layers for multi-scale detection.
+
+<img src="/img/fpn_2.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+The forward pass of the CNN gives the feature maps at different conv layers i.e. builds the multi-level representation at different scales. In FPN, lateral connections are added at each level of the pyramid. The idea is to take top-down strong features (from `conv5`) and propagate them to the high resolution feature maps (to `conv3`) thus having strong features across all levels.
+
+### RoiAlign
+
 As discussed above, RoIPool layer extracts small feature maps from each RoI. **RoIAlign** is an improvement over the RoIPool operation. It uses bilinear interpolation to smooth the RoIs (which has different aspect sizes) into fixed size feature vectors without using *quantization* used in RoIPool. 
 
-*To be added: more description on FPN, RoIAlign* ...
+*To be added: more description on RoIAlign* ...
 
 ## Implementation
 
@@ -217,10 +235,12 @@ It breaks the instance segmentation process into two parts i.e. it generates a s
 
 **References & Further Readings:**  
 1. [Mask R-CNN paper](https://arxiv.org/abs/1703.06870)  
-2. [CS231n: Convolutional Neural Networks for Visual Recognition (image source)](http://cs231n.stanford.edu/)  
-3. [Faster R-CNN paper](https://arxiv.org/pdf/1506.01497.pdf)  
-4. [Mask R-CNN image source](http://lernapparat.de/static/artikel/pytorch-jit-android/thomas_viehmann.pytorch_jit_android_2018-12-11.pdf)  
-5. [RoIPool image source](https://deepsense.ai/region-of-interest-pooling-explained/)  
+2. [Faster R-CNN paper](https://arxiv.org/pdf/1506.01497.pdf)  
+3. [FPN paper](https://arxiv.org/pdf/1612.03144.pdf)  
+4. [MS R-CNN paper](https://arxiv.org/pdf/1903.00241.pdf)  
+5. [YOLACT paper](https://arxiv.org/pdf/1904.02689.pdf)  
 6. [Mask R-CNN presented by Jiageng Zhang, Jingyao Zhan, Yunhan Ma](https://cseweb.ucsd.edu/classes/sp18/cse252C-a/CSE252C_20180509.pdf)  
-7. [MS R-CNN paper](https://arxiv.org/pdf/1903.00241.pdf)  
-8. [YOLACT paper](https://arxiv.org/pdf/1904.02689.pdf)
+7. [Tutorial: Deep Learning for Objects and Scenes - Part 1 - CVPR'17](https://youtu.be/jHv37mKAhV4)  
+8. [CS231n: Convolutional Neural Networks for Visual Recognition (image source)](http://cs231n.stanford.edu/)  
+9. [Mask R-CNN image source](http://lernapparat.de/static/artikel/pytorch-jit-android/thomas_viehmann.pytorch_jit_android_2018-12-11.pdf)  
+10. [RoIPool image source](https://deepsense.ai/region-of-interest-pooling-explained/)  
