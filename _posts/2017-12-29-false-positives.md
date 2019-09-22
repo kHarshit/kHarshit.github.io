@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "False positives"
+title: "Evaluation metrics for classification and False positives"
 date: 2017-12-29
 categories: [Data Science]
 ---
 
 A false positive error or **false positive** (false alarm) is a result that indicates a given condition exists when it doesn't.
 
-The confusion matrix is described as follows:
+You can get the number of false positives from the confusion matrix. For a binary classification problem, it is described as follows:
 
 |            | Predicted = 0       | Predicted = 1      | Total |
 |------------|:-------------------:|:------------------:|:-----:|
@@ -16,9 +16,9 @@ The confusion matrix is described as follows:
 | **Total**      | *N* *               | *P* *              |         |
 {:.mbtablestyle}
 
-In statistical hypothesis testing, the false positive rate is equal to the significance level, $$\alpha$$ and $$1 - \alpha$$ is defined as the specificity of the test. Complementarily, the false negative rate is given by $$\beta$$.  
+In statistical hypothesis testing, the false positive rate is equal to the significance level, $$\alpha$$, and $$1 - \alpha$$ is defined as the specificity of the test. Complementarily, the false negative rate is given by $$\beta$$.  
 
-The different measures for classification:
+The different measures for classification are:
 
 | Name                          | Definition | Synonyms                                   |
 |-------------------------------|:------------:|:--------------------------------------------:|
@@ -32,7 +32,7 @@ The different measures for classification:
 
 Also, note that F-score is the harmonic mean of precision and recall. 
 
-$$\text{F1 score} = \frac{2.precision.recall}{precision + recall}$$
+$$\text{F1 score} = \frac{2 * \text{precision} * \text{recall}}{\text{precision} + \text{recall}}$$
 
 ---
 
