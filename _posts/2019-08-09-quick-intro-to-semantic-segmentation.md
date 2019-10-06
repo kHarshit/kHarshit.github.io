@@ -11,7 +11,7 @@ One of the ways to do so is to use a **Fully Convolutional Network (FCN)** i.e. 
 
 <img src="/img/segmentation_fcn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
-The fully connected (fc) layers of a convolutional neural network requires a fixed size input. Thus, if your model is trained on an image size of `224x224`, the input image of size `227x227` will throw an error. The solution, as adapted in FCN, is to replace fc layers with `1x1` conv layers. Thus, FCN can perform semantic segmentation for any input size image.
+The fully connected (fc) layers of a convolutional neural network requires a fixed size input. Thus, if your model is trained on an image size of `224x224`, the input image of size `227x227` will throw an error. The solution, as adapted in FCN, is to [replace fc layers with `1x1` conv layers]({% post_url 2019-08-02-converting-fc-layers-to-conv-layers %}). Thus, FCN can perform semantic segmentation for any input size image.
 
 In FCN, the *skip connections* from the earlier layers are also utilized to reconstruct accurate segmentation boundaries by learning back relevant features, which are lost during downsampling. 
 
