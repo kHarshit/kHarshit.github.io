@@ -11,7 +11,27 @@ Object detection deals with the detection of object instances in an image. There
 
 ## Classification and Localization
 
-This method treats object detection as a regression problem. Given a number of objects in an image, localization deals with classification of all the objects in the image by drawing a bounding box by finding its location in the image.
+This method treats object detection as a regression problem. Given an object in an image, localization deals with by drawing a bounding box around the object by finding its location in the image. The classification refers to categorizing the object into the class labels such as cat, dog, etc. The object detection problem refers to the same scenario in multi-object context i.e. Given a number of objects in an image, object detection is defined as the classification as well as localization of all the objects in the image.
+
+With the help of a fully connected layer, `fc`, a model can be used to classify an object into categories such as cat, dog, ..., and background *(if none of the object detected)*. In order to do localization, the model can be modified to give the bounding box coordinates, $$b_x, b_y, b_h, b_w$$ representing the x and y coordinate of the center of object, and height and width respectively. This model can be trained in order to perform object detection such that the target label `y` can be defined as
+
+$$\begin{align}
+    y &= \begin{bmatrix}
+           p_{c} \\
+           b_{x} \\
+           b_y \\
+           b_h \\
+           b_w \\
+           c_1 \\
+           c_2 \\
+           \vdots \\
+           c_{m}
+         \end{bmatrix}
+  \end{align}$$
+
+where $$p_c$$ is the probability of the object *(0 if background, no object)*, and $$c_1, c_2, ..., c_m$$ are the class probabilities.
+
+<img src="/img/obj_detect.png" style="display: block; margin: auto; width: 90%; max-width: 100%;">
 
 The loss may consists of softmax loss for classification and L2 regression loss for bounding box. The problem with this approach is that an image may contain different number of objects thus each image need different number of outputs, which creates a problem.
 
@@ -19,7 +39,7 @@ The loss may consists of softmax loss for classification and L2 regression loss 
 
 This method treats object detection as a classification problem. The sliding window deals with sliding the window through the image and passing the cropped image to a convolutional neural network and classifying it as object or background.
 
-The problem with this approach is that it's needed to apply CNN to a huge number of windows.
+The problem with this approach is that it's needed to apply CNN to a huge number of windows of diverse scale and aspect ratio.
 
 ## Region proposals
 
