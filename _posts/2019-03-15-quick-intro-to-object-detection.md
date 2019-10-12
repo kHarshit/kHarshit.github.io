@@ -52,11 +52,11 @@ The various region based methods i.e. region-proposals are:
 * **Faster R-CNN:** Unlike Fast R-CNN which uses selective search for ROI, Faster R-CNN uses Region Proposal Network (RPN) to predict proposals from features.
 * **Mask R-CNN:** It extends Faster R-CNN. Mask R-CNN is used for instance segmentation which not only does object detection but also predicts object masks.
 
-*Read more about how Faster R-CNN and Mask R-CNN works in the [instance segmentation post]({% post_url 2019-08-23-quick-intro-to-instance-segmentation %}).*
+*Read more about how Faster R-CNN and Mask R-CNN work in the [instance segmentation post]({% post_url 2019-08-23-quick-intro-to-instance-segmentation %}).*
 
 ## Detection without proposals
 
-There are other object detection methods that use detection without proposals. The above discussed object detection methods are slow due to their two-stage design. The following methods follows a one stage detection system, and, hence are faster though not as good in terms of accuracy compared to R-CNN family.
+There are other object detection methods that use detection without proposals. The following methods are faster though not as good in terms of accuracy compared to R-CNN family.
 
 ### YOLO (You Only Look Once) 
 
@@ -67,6 +67,8 @@ But in YOLO, each grid cell predicts a number of bboxes *(not one)*, `B`, for th
 #### IoU (Intersection over Union)
 
 To decide whether a prediction is correct w.r.t to an object or not, IoU or Jaccard Index is used. It is defines as the intersection b/w the predicted bbox and actual bbox divided by their union. A prediction is considered to be True Positive if `IoU > threshold`.
+
+<img src="/img/iou.png" style="display: block; margin: auto; width: 35%; max-width: 100%;">
 
 #### Non-max suppression
 
@@ -111,16 +113,39 @@ $$\begin{align}
 
 Not only anchor boxes allows multiple detections per grid cell, but they also allow the model to learn quickly by providing it the starting coordinates to finetune.
 
+### SSD (Single Shot Multibox Detector)
 
+The SSD also performs the localization and classification in a single forward pass similar to YOLO. The multibox is the technique that treats the bbox prediction as a regression problem by taking anchors (priors) as the starting point for bbox prediction and regressing them to the ground truth bbox's coordinates.
 
-### SSD (Single Shot Detection)
+SSD takes the VGG network, called base network, and converts its fc layers to conv layers, and further add more convolutional layers, called auxiliary convolutions, to create a powerful feature extractor. It allows predictions at different scales from the feature maps of different scales produced by these layers as they decrease in size progressively. It also applies the NMS to produce the final detections.
 
+<img src="/img/ssd.png" style="display: block; margin: auto; max-width: 100%;">
 
+The multibox loss is weighted sum of localization loss, $$L_{\text{loc}}$$, for bbox, and classification confidence loss, $$L_{\text{conf}}$$ for object classes.
 
-**Further Readings:**  
+$$L = L_{\text{loc}} + \alpha * L_{\text{conf}}$$
+
+where the localization loss is the averaged smooth L1 loss b/w the predicted bbox coordinates and its ground truths.
+
+$$L_{\text{loc}} = \frac{1}{n_{\text{postives}}}\sum_{positives}{\text{smooth $L_1$ loss}}$$
+
+#### Hard Negative Mining
+
+Most of the bbox predictions would be negative as only a handful of predictions would contain an object. It'd result in the imbalance of positive to negative examples, which is not good for training the model.
+
+The solution, called Hard Negative Mining, is to limit the number of negatives and only use those predictions where the model find it hardest to predict the object.
+
+> Instead of using all the negative examples, we sort them using the highest confidence loss for each default box and pick the top ones so that the ratio between the negatives and positives is at most 3:1. We found that this leads to faster optimization and a more stable training.
+
+Thus, the confidence loss is the sum of cross entropy losses in positive and negative matches.
+
+$$L_{\text{conf}} = \frac{1}{n_{\text{postives}}}(\sum_{positives}{\text{cross-entropy loss}} + \sum_{\text{hard negatives}}{\text{cross-entropy loss}})$$
+
+**References & Further Readings:**  
 1. [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/) 
 2. [A Step-by-Step Introduction to the Basic Object Detection Algorithms](https://www.analyticsvidhya.com/blog/2018/10/a-step-by-step-introduction-to-the-basic-object-detection-algorithms-part-1/)  
 3. [Introduction to Object Detection](https://www.hackerearth.com/blog/machine-learning/introduction-to-object-detection/)  
-4. [YOLO](https://pjreddie.com/darknet/yolo/)  
+4. [YOLO paper](https://pjreddie.com/darknet/yolo/)  
 5. [YOLO - CVPR'16](https://youtu.be/NM6lrxy0bxs)  
-5. [Real-time Object Detection with YOLO, YOLOv2 and now YOLOv3](https://medium.com/@jonathan_hui/real-time-object-detection-with-yolo-yolov2-28b1b93e2088)  
+6. [SSD paper](https://arxiv.org/pdf/1512.02325.pdf)  
+7. [a PyTorch Tutorial to Object Detection](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection)
