@@ -48,6 +48,9 @@ The region proposal methods deals with using selective search to propose regions
 The various region based methods i.e. region-proposals are:  
 
 * **R-CNN:** First, the Region of Interest (ROI) is suggested by a region proposal method. These regions are then fed into CNN and support vector machines is used to classify them.
+
+<img src="/img/rcnn.png" style="display: block; margin: auto; max-width: 100%;">
+
 * **Fast R-CNN:** Instead of passing each region through CNN, in Fast R-CNN the entire image is passed once generating convolutional feature maps, using which the regions are proposed. The ROI pooling layer is then used to convert these regions into a fixed size, finally feeding it into a fully connected network.
 * **Faster R-CNN:** Unlike Fast R-CNN which uses selective search for ROI, Faster R-CNN uses Region Proposal Network (RPN) to predict proposals from features.
 * **Mask R-CNN:** It extends Faster R-CNN. Mask R-CNN is used for instance segmentation which not only does object detection but also predicts object masks.
@@ -139,7 +142,7 @@ The solution, called Hard Negative Mining, is to limit the number of negatives a
 
 Thus, the confidence loss is the sum of cross entropy losses in positive and negative matches.
 
-$$L_{\text{conf}} = \frac{1}{n_{\text{postives}}}(\sum_{positives}{\text{cross-entropy loss}} + \sum_{\text{hard negatives}}{\text{cross-entropy loss}})$$
+$$L_{\text{conf}} = \frac{1}{n_{\text{postives}}}\left(\sum_{positives}{\text{cross-entropy loss}} + \sum_{\text{hard negatives}}{\text{cross-entropy loss}}\right)$$
 
 **References & Further Readings:**  
 1. [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/) 
