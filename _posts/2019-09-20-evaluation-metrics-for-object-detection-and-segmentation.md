@@ -49,9 +49,11 @@ $$p_{interp(r)} = \max_{\tilde{r}:\tilde{r}\geq r}{p(r)}$$
 
 However, from VOC 2010, the computation of AP changed.
 
-Compute a version of the measured precision-recall curve with precision monotonically decreasing, by setting the precision for recall r to the maximum precision obtained for any recall r′≥r.2. Then compute the AP as the area under this curve by numerical integration.
+Compute a version of the measured precision-recall curve with precision monotonically decreasing, by setting the precision for recall r to the maximum precision obtained for any recall $$\tilde{r}\geq r$$. Then compute the AP as the area under this curve by numerical integration.
 
 <img src="/img/interpolateAP.jpeg" style="display: block; margin: auto; width: 75%; max-width: 100%;">
+
+i.e. given the PR curve in orange, re-plot the curve by taking the max precision to the right for a given recall. Now, take the AUC using integration under the green curve. It would be the AP.
 
 Now, we have AP per class (object category), **mean Average Precision (mAP)** is the averaged AP over all the object categories. 
 
