@@ -10,7 +10,7 @@ categories: [Data Science, Machine Learning]
 
 ## Scaling
 
-In scaling *(also called min-max scaling)*, you transform the data such that the features are within a specific range e.g. [0, 1].
+In scaling *(also called **min-max scaling**)*, you transform the data such that the features are within a specific range e.g. [0, 1].
 
 $$x' = \frac{x - x_{min}}{x_{max} - x_{min}}$$
 
@@ -45,11 +45,27 @@ plt.show()
 <img src="/img/scaling.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 
-## Normalization
+## Normalization and Standardization
 
 The point of normalization is to change your observations so that they can be described as a normal distribution.
 
 Normal distribution (Gaussian distribution), also known as the **bell curve**, is a specific statistical distribution where a roughly equal observations fall above and below the mean, the mean and the median are the same, and there are more observations closer to the mean.
+
+***Note:** The above definition is as per statistics. There are various types of normalization. In fact, min-max scalilng can also be said to a type of normalization. In machine learning, the following are most commonly used.*
+
+## #1
+
+**Standardization** *(also called **z-score normalization**)* transforms your data such that the resulting distribution has a mean of 0 and a standard deviation of 1. It's the definition that we read in the last paragraph.
+
+$$x' = \frac{x - x_{mean}}{\sigma}$$
+
+where x is the original feature vector, $$x_{mean}$$ is the mean of that feature vector, and σ is its standard deviation.
+
+It's widely used in SVM, logistics regression and neural networks.
+
+## #2
+
+Simply called **normalization**, it's just another way of normalizing data. Note that, it's a different from min-max scaling in numerator, and from z-score normalization in the denominator.
 
 $$x' = \frac{x - x_{mean}}{x_{max} - x_{min}}$$
 
@@ -73,19 +89,9 @@ plt.show()
 
 <img src="/img/normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
-In scaling, you're changing the range of your data while in normalization you're changing the shape of the distribution of your data.
+In scaling, you're changing the range of your data while in normalization you're mostly changing the shape of the distribution of your data.
 
 You need to normalize our data if you're going use a machine learning or statistics technique that assumes that data is normally distributed e.g. t-tests, ANOVAs, linear regression, linear discriminant analysis (LDA) and Gaussian Naive Bayes. 
-
-## Standardization
-
-Standardization *(also called z-score normalization)* transforms your data such that the resulting distribution has a mean of 0 and a standard deviation of 1.
-
-$$x' = \frac{x - x_{mean}}{\sigma}$$
-
-where x is the original feature vector, $$x_{mean}$$ is the mean of that feature vector, and σ is its standard deviation.
-
-It's widely used in SVM, logistics regression and neural networks.
 
 ## Applications
 
@@ -93,5 +99,6 @@ In stochastic gradient descent, feature scaling can sometimes improve the conver
 
 **Further Readings:**  
 1. [Feature scaling - Wikipedia](https://en.wikipedia.org/wiki/Feature_scaling)
-2. [What algorithms need feature scaling, beside from SVM?](https://stats.stackexchange.com/q/244507/194589)  
-3. [Scaling and Normalize Data](https://www.kaggle.com/jfeng1023/data-cleaning-challenge-scale-and-normalize-data)
+2. [Normalization](https://en.wikipedia.org/wiki/Normalization_(statistics)#Examples)
+3. [What algorithms need feature scaling, beside from SVM?](https://stats.stackexchange.com/q/244507/194589)  
+4. [Scaling and Normalize Data](https://www.kaggle.com/jfeng1023/data-cleaning-challenge-scale-and-normalize-data)  
