@@ -34,6 +34,6 @@ Given two models: one with high accuracy and high loss and other with low accura
 
 
 **References:**  
-1. [Why loss and accuracy metrics conflict (image source)](http://www.jussihuotari.com/2018/01/17/why-loss-and-accuracy-metrics-conflict/)
+1. [Why loss and accuracy metrics conflict](http://www.jussihuotari.com/2018/01/17/why-loss-and-accuracy-metrics-conflict/)
 2. [Cross Validated - stackexchange](https://stats.stackexchange.com/a/256554/194589)  
 3. [Cross Entropy in PyTorch - StackOverFlow](https://stackoverflow.com/questions/49390842/cross-entropy-in-pytorch)
