@@ -35,7 +35,7 @@ scaled_data = minmax_scale(original_data)
 
 # plot both together to compare
 fig, ax=plt.subplots(1,2)
-sns.distplot(original_data, ax=ax[0])
+sns.distplot(original_data, ax=ax[0], color='y')
 ax[0].set_title("Original Data")
 sns.distplot(scaled_data, ax=ax[1])
 ax[1].set_title("Scaled data")
@@ -64,7 +64,7 @@ normalized_data = stats.boxcox(original_data)
 
 # plot both together to compare
 fig, ax=plt.subplots(1,2)
-sns.distplot(original_data, ax=ax[0])
+sns.distplot(original_data, ax=ax[0], color='y')
 ax[0].set_title("Original Data")
 sns.distplot(normalized_data[0], ax=ax[1])
 ax[1].set_title("Normalized data")
@@ -93,4 +93,5 @@ In stochastic gradient descent, feature scaling can sometimes improve the conver
 
 **Further Readings:**  
 1. [Feature scaling - Wikipedia](https://en.wikipedia.org/wiki/Feature_scaling)
-2. [What algorithms need feature scaling, beside from SVM?](https://stats.stackexchange.com/q/244507/194589)
+2. [What algorithms need feature scaling, beside from SVM?](https://stats.stackexchange.com/q/244507/194589)  
+3. [Scaling and Normalize Data](https://www.kaggle.com/jfeng1023/data-cleaning-challenge-scale-and-normalize-data)
