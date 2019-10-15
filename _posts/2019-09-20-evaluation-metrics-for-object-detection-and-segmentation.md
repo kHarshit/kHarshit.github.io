@@ -31,15 +31,23 @@ $$\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{\text{TP}}{
 
 In VOC metric, Recall is defined as  the  proportion of  all positive examples ranked  above a given rank. Precision is the proportion of all examples above that rank which are from the positive class. 
 
-Consider the below images containing ground truths and bbox predictions *(copied shamelessly from [here](https://github.com/rafaelpadilla/Object-Detection-Metrics))*.
+Consider the below images containing ground truths (in green) and bbox predictions (in red).
 
-<img src="https://raw.githubusercontent.com/rafaelpadilla/Object-Detection-Metrics/master/aux_images/samples_1_v2.png" style="display: block; margin: auto; width:80% max-width: 100%;">
+<img src="/img/map_bboxes.png" style="display: block; margin: auto; max-width: 100%;">
 
-In this example, TP is considered if IoU > 0.3 else FP. Now, sort the images based on the confidence score. Note that if there are more than one detection for a single object, the detection having highest IoU is considered as TP, rest as FP e.g. in image 2. In the column Acc (accumulated) TP, write the total number of TP encountered from the top, and calculate the precision and recall. 
+The details of the bboxes are as follows:
 
-<img src="/img/voc.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/map_gt.png" style="display: block; margin: auto; max-width: 100%;">
 
-These precision and recall values are then plotted to get a PR (precision-recall) curve. The area under the PR curve is called **Average Precision (AP)**. The AP summarizes the shape of the precision-recall curve, and, in VOC 2007, is defined as the mean of precision values at a set of 11 equally spaced recall levels [0,0.1,...,1] (0 to 1 at step size of 0.1).
+In this example, TP is considered if IoU > 0.5 else FP. Now, sort the images based on the confidence score. Note that if there are more than one detection for a single object, the detection having highest IoU is considered as TP, rest as FP e.g. in image 2. 
+
+<img src="/img/map_table.png" style="display: block; margin: auto; max-width: 100%;">
+
+In the column Acc (accumulated) TP, write the total number of TP encountered from the top, and do the same for Acc FP. Now, calculate the precision and recall e.g. for P4, `Precision = 1/(1+0) = 1`, and `Recall = 1/3 = 0.33`.
+
+These precision and recall values are then plotted to get a PR (precision-recall) curve. The area under the PR curve is called **Average Precision (AP)**. The PR curve follows a kind of zig-zag pattern as recall increases absolutely, while precision decreases overall with certain rises.
+
+The AP summarizes the shape of the precision-recall curve, and, in VOC 2007, is defined as the mean of precision values at a set of 11 equally spaced recall levels [0,0.1,...,1] (0 to 1 at step size of 0.1).
 
 $$AP = \frac{1}{11} \sum_{r \in (0,0.1,...,1)}{p_{interp(r)}}$$
 
@@ -49,7 +57,7 @@ $$p_{interp(r)} = \max_{\tilde{r}:\tilde{r}\geq r}{p(r)}$$
 
 However, from VOC 2010, the computation of AP changed.
 
-Compute a version of the measured precision-recall curve with precision monotonically decreasing, by setting the precision for recall r to the maximum precision obtained for any recall $$\tilde{r}\geq r$$. Then compute the AP as the area under this curve by numerical integration.
+> Compute a version of the measured precision-recall curve with precision monotonically decreasing, by setting the precision for recall r to the maximum precision obtained for any recall $$\tilde{r}\geq r$$. Then compute the AP as the area under this curve by numerical integration.
 
 <img src="/img/interpolateAP.jpeg" style="display: block; margin: auto; width: 75%; max-width: 100%;">
 
