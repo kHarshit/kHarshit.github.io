@@ -7,7 +7,7 @@ categories: [Deep Learning, Computer Vision]
 
 Object detection deals with the detection of object instances in an image. There are a number of methods to accomplish it. The following post summarizes few important object detection methods.
 
-<a href="https://commons.wikimedia.org/wiki/File:Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg#/media/File:Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg" alt="Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg" width="640" height="412" style="display: block; margin: auto; width: auto; max-width: 100%;"></a>
+<img src="/img/ibrahim-rifath-D0x1GOoiPzw-unsplash_obj_det.jpg" style="display: block; margin: auto; width: 80%; max-width: 100%;">
 
 ## Classification and Localization
 
@@ -152,3 +152,4 @@ $$L_{\text{conf}} = \frac{1}{n_{\text{postives}}}\left(\sum_{positives}{\text{cr
 5. [YOLO - CVPR'16](https://youtu.be/NM6lrxy0bxs)  
 6. [SSD paper](https://arxiv.org/pdf/1512.02325.pdf)  
 7. [a PyTorch Tutorial to Object Detection](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection)
+8. [Photo from Unsplash](https://unsplash.com/photos/D0x1GOoiPzw)  

@@ -7,6 +7,8 @@ categories: [Deep Learning, Computer Vision]
 
 *This is the third post in the Quick intro series: [object detection (I)]({% post_url 2019-03-15-quick-intro-to-object-detection %}), [semantic segmentation (II)]({% post_url 2019-08-09-quick-intro-to-semantic-segmentation %})*.
 
+<img src="/img/ibrahim-rifath-D0x1GOoiPzw-unsplash_inst_seg.jpg" style="display: block; margin: auto; width: 80%; max-width: 100%;">
+
 > “Boxes are stupid anyway though, I’m probably a true believer in masks except I can’t get YOLO to learn them.”
 > &mdash; <cite>Joseph Redmon, YOLOv3</cite>
 

@@ -45,7 +45,7 @@ In this example, TP is considered if IoU > 0.5 else FP. Now, sort the images bas
 
 In the column Acc (accumulated) TP, write the total number of TP encountered from the top, and do the same for Acc FP. Now, calculate the precision and recall e.g. for P4, `Precision = 1/(1+0) = 1`, and `Recall = 1/3 = 0.33`.
 
-These precision and recall values are then plotted to get a PR (precision-recall) curve. The area under the PR curve is called **Average Precision (AP)**. The PR curve follows a kind of zig-zag pattern as recall increases absolutely, while precision decreases overall with certain rises.
+These precision and recall values are then plotted to get a PR (precision-recall) curve. The area under the PR curve is called **Average Precision (AP)**. The PR curve follows a kind of zig-zag pattern as recall increases absolutely, while precision decreases overall with sporadic rises.
 
 The AP summarizes the shape of the precision-recall curve, and, in VOC 2007, is defined as the mean of precision values at a set of 11 equally spaced recall levels [0,0.1,...,1] (0 to 1 at step size of 0.1).
 
