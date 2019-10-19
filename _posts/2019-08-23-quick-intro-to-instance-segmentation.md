@@ -137,7 +137,7 @@ Other famous implementations are:
 
 * matterport's [Mask_RCNN](https://github.com/matterport/Mask_RCNN) in Keras and Tensorflow
 * open-mmlab's [mmdetection](https://github.com/open-mmlab/mmdetection) in PyTorch
-* facebookresearch's [Detectron](https://github.com/facebookresearch/Detectron) in Caffe2
+* facebookresearch's [Detectron](https://github.com/facebookresearch/Detectron) in Caffe2, and [Detectron2](https://github.com/facebookresearch/detectron2) in PyTorch
 
 First, install it as follows.
 

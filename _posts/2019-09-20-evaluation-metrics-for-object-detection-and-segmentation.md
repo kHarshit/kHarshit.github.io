@@ -29,9 +29,10 @@ $$\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{\text{TP}}{
 
 ### Pascal VOC
 
-In VOC metric, Recall is defined as  the  proportion of  all positive examples ranked  above a given rank. Precision is the proportion of all examples above that rank which are from the positive class. 
+In order to calculate mAP, first, you need to calculate AP per class.
 
-Consider the below images containing ground truths (in green) and bbox predictions (in red).
+
+Consider the below images containing ground truths (in green) and bbox predictions (in red) for a particular class.
 
 <img src="/img/map_bboxes.png" style="display: block; margin: auto; max-width: 100%;">
 
@@ -43,11 +44,13 @@ In this example, TP is considered if IoU > 0.5 else FP. Now, sort the images bas
 
 <img src="/img/map_table.png" style="display: block; margin: auto; max-width: 100%;">
 
-In the column Acc (accumulated) TP, write the total number of TP encountered from the top, and do the same for Acc FP. Now, calculate the precision and recall e.g. for P4, `Precision = 1/(1+0) = 1`, and `Recall = 1/3 = 0.33`.
+> In VOC metric, Recall is defined as  the  proportion of  all positive examples ranked  above a given rank. Precision is the proportion of all examples above that rank which are from the positive class. 
+
+Thus, in the column Acc (accumulated) TP, write the total number of TP encountered from the top, and do the same for Acc FP. Now, calculate the precision and recall e.g. for P4, `Precision = 1/(1+0) = 1`, and `Recall = 1/3 = 0.33`.
 
 These precision and recall values are then plotted to get a PR (precision-recall) curve. The area under the PR curve is called **Average Precision (AP)**. The PR curve follows a kind of zig-zag pattern as recall increases absolutely, while precision decreases overall with sporadic rises.
 
-The AP summarizes the shape of the precision-recall curve, and, in VOC 2007, is defined as the mean of precision values at a set of 11 equally spaced recall levels [0,0.1,...,1] (0 to 1 at step size of 0.1).
+The AP summarizes the shape of the precision-recall curve, and, in **VOC 2007**, it is defined as the mean of precision values at a set of 11 equally spaced recall levels [0,0.1,...,1] (0 to 1 at step size of 0.1), *not the AUC*.
 
 $$AP = \frac{1}{11} \sum_{r \in (0,0.1,...,1)}{p_{interp(r)}}$$
 
@@ -55,13 +58,15 @@ The precision at each recall level r is interpolated by taking the maximum preci
 
 $$p_{interp(r)} = \max_{\tilde{r}:\tilde{r}\geq r}{p(r)}$$
 
-However, from VOC 2010, the computation of AP changed.
-
-> Compute a version of the measured precision-recall curve with precision monotonically decreasing, by setting the precision for recall r to the maximum precision obtained for any recall $$\tilde{r}\geq r$$. Then compute the AP as the area under this curve by numerical integration.
-
 <img src="/img/interpolateAP.jpeg" style="display: block; margin: auto; width: 75%; max-width: 100%;">
 
-i.e. given the PR curve in orange, re-plot the curve by taking the max precision to the right for a given recall. Now, take the AUC using integration under the green curve. It would be the AP.
+i.e. take the max precision value to the right at 11 equally spaced recall points [0: 0.1: 1], and take their mean to get AP.
+
+However, from **VOC 2010**, the computation of AP changed.
+
+> Compute a version of the measured precision-recall curve with precision monotonically decreasing, by setting the precision for recall r to the maximum precision obtained for *any* recall $$\tilde{r}\geq r$$. Then compute the AP as the area under this curve by numerical integration.
+
+i.e. given the PR curve in orange, calculate the max precision to the right for all the recall points thus getting a new curve in green. Now, take the AUC using integration under the green curve. It would be the AP. The only difference from VOC 2007 here is that we're taking not just 11 but all the points into account.
 
 Now, we have AP per class (object category), **mean Average Precision (mAP)** is the averaged AP over all the object categories. 
 
