@@ -8,6 +8,12 @@ kaggle_username: k2harshit
 linkedin_username: kHarshit
 stackoverflow_username: 6210807/kHarshit
 
+# use master  branch for jekyll-github-metadata
+github:
+  source:
+    branch: master
+
+
 # Build settings
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
@@ -26,3 +32,4 @@ plugins:
   - jekyll-sitemap  # sitemap at /sitemap.xml
   - jekyll-paginate
   - jekyll-seo-tag
+  - jekyll-github-metadata

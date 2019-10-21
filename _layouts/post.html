@@ -42,6 +42,13 @@ layout: default
         </div>
     </div>     
 
+    <div class="dark">
+    <form>
+        This page is open source. Improve its content!
+        <button formaction="{% github_edit_link %}" style="float: right;">Edit</button>
+    </form>
+    </div>
+
     <div class="PageNavigation">
         {% if page.previous.url %}
             <a class="prev" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
