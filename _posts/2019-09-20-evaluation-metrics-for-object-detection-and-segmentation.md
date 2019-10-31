@@ -92,6 +92,20 @@ $$mAP_{\text{COCO}} = \frac{mAP_{0.50} + mAP_{0.55} + ... + mAP_{0.95}}{10}$$
 
 > AP is averaged over all categories. Traditionally, this is called "mean average precision" (mAP). We make no distinction between AP and mAP (and likewise AR and mAR) and assume the difference is clear from context.
 
+***Two minute additions:*** Usually, the averages are taken in a different order (the final result is same), and in COCO, mAP is also referred to as AP i.e.  
+
+* *Step 1:* For each class, calculate AP at different IoU thresholds and take their average to get the AP of that class.
+
+$$\text{AP[class]} = \frac{1}{\text{#thresolds}} \sum_{\text{iou $\in$ thresholds}}{AP[class, iou]}$$
+
+<img src="/img/ap.png" style="display: block; margin: auto; max-width: 100%;">
+
+* *Step 2:* Calculate the final AP by averaging the AP over different classes.
+
+$$\text{AP} = \frac{1}{\text{#classes}} \sum_{\text{class $\in$ classes}}{AP[class]}$$
+
+> AP is in fact an <abbr title="classes">average</abbr>, <abbr title="IoU thresholds">average, </abbr><abbr title="precision at different recall levels">average</abbr> precision.
+
 <img src="/img/coco_eval.png" style="display: block; margin: auto; max-width: 100%;">
 
 ## Conclusion
