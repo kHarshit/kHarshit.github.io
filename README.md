@@ -1,8 +1,10 @@
 # kHarshit.github.io
 
-This is my personal website and blog - Technical Fridays.
+![logo](/img/favicon_files/favicon-96x96.png)
 
 <https://kharshit.github.io>
+
+This is my personal website and blog - Technical Fridays.
 
 It's hosted on [GitHub pages](https://pages.github.com/).   
 The blog is powered by [Jekyll](http://jekyllrb.com).
