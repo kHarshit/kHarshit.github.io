@@ -36,7 +36,7 @@ We can implement word2vec model in `python`:
 from genism.model import Word2Vec
 {% endhighlight %}
 
-## Conclusion
+## Word embeddings
 
 The word vectors, discussed above, are called embeddings (encoding words to numbers) and are learnt in the same way as other hyperparameters in a neural network.
 
@@ -53,7 +53,12 @@ The embeddings are stored as a $$\|V\| \times D$$ matrix, where `V` is our vocab
 > The embedding vector dimension should be the 4th root of the number of categories i.e. 4th root of the vocab size. *You can choose it as a rule of thumb.*
 > &mdash; <cite>Google Developer's blog<sup id="a2">[2](#myfootnote2)</sup></cite>
 
+## Bag of Words
+
+The Bag of Words model treats each document (text units) as a bag (collection) of words. A set of documents is called a corpus. First, collect all unique words from your corpus to form vocabulary and arrange them into a matrix of vectors by number of occurrences of each word. This matrix is called Document-Term-Matrix where each document is a row and unique words are columns. Each element is called a term frequency, which denotes how many times that term occur in the corresponding document. To calculate the similarity of words, the term-frequency can be compared using cosine-similarity, given by dot product of two vectors and divided by their magnitudes.
+
 
 **References:**  
 <a name="myfootnote1"></a>1: [word2vec:  Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781) [↩](#a1)  
 <a name="myfootnote2"></a>2: [Google Developer's blog](https://developers.googleblog.com/2017/11/introducing-tensorflow-feature-columns.html) [↩](#a2)  
+<a name="myfootnote3"></a>3: [An Intuitive Understanding of Word Embeddings: From Count Vectors to Word2Vec](https://www.analyticsvidhya.com/blog/2017/06/word-embeddings-count-word2veec/)
