@@ -103,6 +103,14 @@ nav .current a{
 	font-weight: bold;
 }
 
+#btmnav {
+    list-style: none;
+}
+
+#btmnav li {
+    display: inline;
+}
+
 #showcase{
 	text-align: center;
 }
