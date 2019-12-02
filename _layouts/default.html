@@ -56,12 +56,13 @@
 
     <body>
         
-        <label id="light" for="lightswitch">Switch theme</label>
-        <input type="checkbox" id="lightswitch" />
+        <label id="theme" for="themeswitch">Switch theme</label>
+        <input type="checkbox" id="themeswitch" />
 
-        <div class="light_switch">
+        <div class="theme_switch">
             {{ content }}
         
+        {% include dark_theme.html %}
 
             <footer id="last_footer">
 

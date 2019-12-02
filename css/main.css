@@ -1,8 +1,20 @@
+:root {
+  --bg-color: #ffffff;
+  --font-color: #282828; /* 424242, 3B3B3B*/
+}
+
+[data-theme="dark"] {
+    --bg-color: #222;
+    --font-color: #fff;
+}
+
 body {
     /* font: font-style font-variant font-weight font-size/line-height font-family */
     font: 400 17px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding: 0px;
     margin: 0px;
+    background-color: var(--bg-color);
+    color: var(--font-color);
 }
 
 header, section, article, footer, aside, nav, hgroup, h1, h2, h3, h4, h5, h6 {
@@ -248,30 +260,27 @@ iframe, object, embed, video{
     max-width: 100%;
 }
   
-/* Light Switch */
-input#lightswitch:checked + .light_switch{
-    background: #222;
-    color: white;
-}
+/* Switch theme */
 
-label#light {
+label#theme {
     display: block;
     height: 25px;
     width: 100px;
     background: #eee;
+    color: #282828;
     text-align: center;
     font: 14px/25px Helvetica, Arial, sans-serif;
     margin: 130px 0;
     position: absolute;
 }
 
-label#light:hover {
-    background: black;
+label#theme:hover {
+    background: #282828;
     color: #fff;
     cursor: pointer;
 }
 
-input#lightswitch {
+input#themeswitch {
    position: absolute;
    top: -9999px;
    left: -9999px;
@@ -418,5 +427,16 @@ input#lightswitch {
 
 /* The box model: to see every box that makes up the page */
 /* * {
-   border: 1px solid red !important;
+   outline: 1px solid red !important;
+   background-color:rgba(0,2,54,.1) !important
 } */
+
+/* * { background-color: rgba(255,0,0,.2); }
+* * { background-color: rgba(0,255,0,.2); }
+* * * { background-color: rgba(0,0,255,.2); }
+* * * * { background-color: rgba(255,0,255,.2); }
+* * * * * { background-color: rgba(0,255,255,.2); }
+* * * * * * { background-color: rgba(255,255,0,.2); }
+* * * * * * * { background-color: rgba(255,0,0,.2); }
+* * * * * * * * { background-color: rgba(0,255,0,.2); }
+* * * * * * * * * { background-color: rgba(0,0,255,.2); } */

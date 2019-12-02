@@ -141,7 +141,7 @@ Other famous implementations are:
 
 First, install it as follows.
 
-{% highlight python %}
+{% highlight bash %}
 # install dependencies
 pip install ninja yacs cython matplotlib tqdm opencv-python
 
