@@ -63,6 +63,14 @@ $$x' = \frac{x - x_{mean}}{\sigma}$$
 
 where x is the original feature vector, $$x_{mean}$$ is the mean of that feature vector, and σ is its standard deviation.
 
+The z-score comes from statistics, defined as 
+
+$$z = \frac{x - \mu}{\sigma}$$
+
+<img src="/img/standardization.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+where $$\mu$$ is the mean. By subtracting the mean from the distribution, we're essentially shifting it towards left or right by amount equal to mean i.e. if we have a distribution of mean 100, and we subtract mean 100 from every value, then we shift the distribution left by 100 without changing its shape. Thus, the new mean will be 0. When we divide by standard deviation $$\sigma$$, we're changing the shape of distribution. The new standard deviation of this standardized distribution is 1 which you can get putting the new mean, $$\mu = 0$$ in the z-score equation.
+
 It's widely used in SVM, logistics regression and neural networks.
 
 ## #2
