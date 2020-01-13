@@ -17,7 +17,7 @@ $$RSS = \sum_{i=1}^n(y_{i} - \hat{y_i})^2$$
 import numpy as np
 
 def l2_loss(yhat, y):
-    return np.sum((yhat - y)**2)) / y.size
+    return np.sum((yhat - y)**2))
 {% endhighlight %}
 
 
