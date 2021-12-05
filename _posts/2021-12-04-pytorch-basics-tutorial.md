@@ -103,8 +103,8 @@ torch.backends.cudnn.benchmark = False
 {% endhighlight %}
 
 {% highlight python %}
- 1.4.0
- {% endhighlight %}
+1.4.0
+{% endhighlight %}
 
 
 
@@ -197,9 +197,9 @@ print(b.device)
 True
 False
 tensor([[2, 2],
-		[2, 2]], device='cuda:0')
+        [2, 2]], device='cuda:0')
 tensor([[2, 2],
-		[2, 2]])
+        [2, 2]])
 cpu
 {% endhighlight %}
 
@@ -503,17 +503,17 @@ summary(model_scratch, input_size=(3, 224, 224))
 ----------------------------------------------------------------
 		Layer (type)               Output Shape         Param #
 ================================================================
-			Conv2d-1         [-1, 16, 224, 224]             448
-			MaxPool2d-2         [-1, 16, 112, 112]               0
-			Conv2d-3         [-1, 32, 112, 112]           4,640
-			MaxPool2d-4           [-1, 32, 56, 56]               0
-			Conv2d-5           [-1, 64, 56, 56]          18,496
-			MaxPool2d-6           [-1, 64, 28, 28]               0
-			Dropout-7                [-1, 50176]               0
-			Linear-8                  [-1, 512]      25,690,624
-			Dropout-9                  [-1, 512]               0
-			Linear-10                  [-1, 256]         131,328
-			Linear-11                  [-1, 133]          34,181
+            Conv2d-1         [-1, 16, 224, 224]             448
+         MaxPool2d-2         [-1, 16, 112, 112]               0
+            Conv2d-3         [-1, 32, 112, 112]           4,640
+         MaxPool2d-4           [-1, 32, 56, 56]               0
+            Conv2d-5           [-1, 64, 56, 56]          18,496
+         MaxPool2d-6           [-1, 64, 28, 28]               0
+           Dropout-7                [-1, 50176]               0
+            Linear-8                  [-1, 512]      25,690,624
+           Dropout-9                  [-1, 512]               0
+           Linear-10                  [-1, 256]         131,328
+           Linear-11                  [-1, 133]          34,181
 ================================================================
 Total params: 25,879,717
 Trainable params: 25,879,717
@@ -753,7 +753,7 @@ def predict_breed_transfer(img_path):
 predict_breed_transfer('dogImages/train/001.Affenpinscher/Affenpinscher_00001.jpg')
 {% endhighlight %}
     
-![dog_output_Affenpinscher.png](/img/dog_output_Affenpinscher.png)
+<img src="/img/dog_output_Affenpinscher.png" style="display: block; margin: auto;  max-width: 100%;">
     
 
 {% highlight python %}
@@ -895,3 +895,4 @@ If you're looking for more PyTorch basic projects. Check [kHarshit/udacity-nanod
 * [PyTorch Tutorials](https://pytorch.org/tutorials)
 * [PyTorch Discuss](https://discuss.pytorch.org/)
 * [Stack Overflow](https://stackoverflow.com/questions/tagged/pytorch?tab=Votes)
+* [Deep Learning with PyTorch book](https://pytorch.org/assets/deep-learning/Deep-Learning-with-PyTorch.pdf)
