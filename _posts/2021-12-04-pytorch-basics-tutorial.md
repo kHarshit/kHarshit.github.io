@@ -39,21 +39,22 @@ library
 # Immediate Vs Deferred execution modes
 
 PyTorch and Tensorflow 2 (by default) uses immediate (eager) mode.
-```
->>> a = 3
->>> b = 4
->>> c = (a**2 + b**2) ** 0.5
->>> c
-5.0
-```
+{% highlight python %}
+a = 3
+b = 4
+c = (a**2 + b**2) ** 0.5
+c
+# 5.0
+{% endhighlight %}
+
 Tensorflow 1.0 uses deferred execution i.e. you define a series of operation first, then execute -- most exceptions are be raised when the function is called, not when it’s defined.
-```
->>> p = lambda a, b: (a**2 + b**2) ** 0.5
->>> p(1, 2)
-2.23606797749979
->>> p(3, 4)
-5.0
-```
+{% highlight python %}
+p = lambda a, b: (a**2 + b**2) ** 0.5
+p(1, 2)
+# 2.23606797749979
+p(3, 4)
+# 5.0
+{% endhighlight %}
 
 In static graph (left side), the neuron gets compiled into a symbolic graph in which each node represents individual operations, using placeholders for inputs and outputs. Then the graph is evaluated numerically when numbers are plugged into the placeholders.
 
@@ -66,14 +67,15 @@ Dynamic graphs (righ side) can change during successive forward passes. Differen
 
 Follow the steps on [PyTorch website](https://pytorch.org/get-started/locally/).
 
-```bash
+{% highlight bash %}
 # create conda env
 conda create -n torchenv python=3.8
 # activate env
 conda activate torchenv
 # install pytorch and torchvision
 conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
-```
+{% endhighlight %}
+
 *Note:* This tutorial works fine on PyTorch 1.4, torchvision 0.5.
 
 # Tensors
@@ -85,7 +87,7 @@ conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 A tensor is a generalization of matrices having a single datatype: a vector (1D tensor), a matrix (2D tensor), an array with three indices (3D tensor e.g. RGB color images)
 
 
-```python
+{% highlight python %}
 import numpy as np
 import torch
 
@@ -98,15 +100,15 @@ torch.manual_seed(7)
 torch.cuda.manual_seed_all(0)
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
  1.4.0
-```
+ {% endhighlight %}
 
 
 
-```python
+{% highlight python %}
 # uninitialized tensor
 print(torch.empty(2, 2, dtype=torch.bool))
 
@@ -116,82 +118,82 @@ print(torch.empty(2, 2, dtype=torch.bool))
 
 print(torch.rand(2, 2))  # from a uniform distribution
 print(torch.randn(2, 2))  # from standard normal distribution
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 tensor([[True, True],
 		[True, True]])
 tensor([[0.5349, 0.1988],
 		[0.6592, 0.6569]])
 tensor([[ 0.9468, -1.1143],
 		[ 1.6908, -0.8948]])
-```
+{% endhighlight %}
 
 
 `torch.Tensor` is an alias for the default tensor type `torch.FloatTensor`.
 
 
-```python
+{% highlight python %}
 # C, H, W
 a = torch.Tensor(size=(3, 28, 28))
 print(a.dtype, a.type(), a.shape)
 # a.reshpae()
 print(a.view(-1, 56).shape)
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 torch.float32 torch.FloatTensor torch.Size([3, 28, 28])
 torch.Size([42, 56])
-```
+{% endhighlight %}
 
 
 in-place operations
 
 
-```python
+{% highlight python %}
 a = torch.tensor([[1, 1], [1, 1]])
 b = torch.tensor([[1, 1], [1, 1]])
 # c = a + b
 b.add_(a)
 print(b)
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 tensor([[2, 2],
 		[2, 2]])
-```
+{% endhighlight %}
 
 
 np array <--> tensor
 
 
-```python
+{% highlight python %}
 # tensor -> np array
 b = b.numpy()
 print(type(b))
 # np array -> tensor
 b = torch.tensor(b)  # torch.from_numpy(b)
 print(type(b))
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 <class 'numpy.ndarray'>
 <class 'torch.Tensor'>
-```
+{% endhighlight %}
 
 
 CUDA and GPU
 
 
-```python
+{% highlight python %}
 print(torch.cuda.is_available())
 print(b.is_cuda)
 print(b.cuda()) # defaults to gpu:0 # to.device('cuda')
 print(b.cpu()) # to.device('cpu')
 print(b.device)
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 True
 False
 tensor([[2, 2],
@@ -199,7 +201,7 @@ tensor([[2, 2],
 tensor([[2, 2],
 		[2, 2]])
 cpu
-```
+{% endhighlight %}
 
 
 # Autograd
@@ -214,7 +216,7 @@ It does so by keeping track of operations performed on tensors, then going backw
 $$\frac{\partial z}{\partial x} = \frac{\partial}{\partial x}\left[\frac{1}{n}\sum_i^n x_i^2\right] = \frac{x}{2}$$
 
 
-```python
+{% highlight python %}
 x = torch.randn(2,2, requires_grad=True)
 y = x**2
 # y.retain_grad()  # retain gradient
@@ -227,9 +229,9 @@ z.backward()
 print(f'x.grad: {x.grad}\n\
 x/2: {x/2}\n\
 y.grad: {y.grad}')  # dz/dy
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 y.grad_fn: <PowBackward0 object at 0x7f47f618c048>
 x.grad: None
 x.grad: tensor([[-0.0734,  0.3931],
@@ -237,7 +239,7 @@ x.grad: tensor([[-0.0734,  0.3931],
 x/2: tensor([[-0.0734,  0.3931],
 		[ 0.4734, -0.5572]], grad_fn=<DivBackward0>)
 y.grad: None
-```
+{% endhighlight %}
 
 
 Gradients are calculated [only for leaf variables](https://stackoverflow.com/questions/48051434/computing-gradients-of-intermediate-nodes-in-pytorch/48054482#48054482) by default. 
@@ -247,12 +249,12 @@ Gradients are calculated [only for leaf variables](https://stackoverflow.com/que
 You could use `retain_grad()` to calculate the gradient of non-left variables. You can use `retain_graph=True` so that the buffers are not freed. To reduce memory usage, during the `.backward()` call, all the intermediary results are deleted when they are not needed anymore. Hence if you try to call `.backward()` again, the intermediary results don’t exist and the backward pass cannot be performed.
 
 
-```python
+{% highlight python %}
 z.backward()
-```
+{% endhighlight %}
 
 
-```python
+{% highlight python %}
 ---------------------------------------------------------------------------
 
 RuntimeError                              Traceback (most recent call last)
@@ -278,13 +280,13 @@ RuntimeError                              Traceback (most recent call last)
 
 
 RuntimeError: Trying to backward through the graph a second time, but the buffers have already been freed. Specify retain_graph=True when calling backward the first time.
-```
+{% endhighlight %}
 
 
 To stop a tensor from tracking history, you can call `.detach()` to detach it from the computation history, and to prevent future computation from being tracked OR use `with torch.no_grad():` context manager.
 
 
-```python
+{% highlight python %}
 print(x.requires_grad)
 print((x ** 2).requires_grad)
 
@@ -296,15 +298,15 @@ y = x.detach()
 # best way to copy a tensor
 # y = x.detach().clone()
 print(y.requires_grad)
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 True
 True
 False
 True
 False
-```
+{% endhighlight %}
 
 
 # Data loading and augmentation
@@ -330,7 +332,7 @@ The `DataLoader` takes a dataset (such as you would get from `ImageFolder`) and 
 For Normalize: `input[channel] = (input[channel] - mean[channel]) / std[channel]`
 
 
-```python
+{% highlight python %}
 import os
 import PIL.Image
 import numpy as np
@@ -346,18 +348,18 @@ from torchvision import datasets, transforms
 from torchvision.models import resnet101
 
 %matplotlib inline
-```
+{% endhighlight %}
 
 Get the dog breed classification dataset from [Kaggle](https://www.kaggle.com/c/dog-breed-identification), [Stanford Dog Dataset](http://vision.stanford.edu/aditya86/ImageNetDogs/).
 
 
-```python
+{% highlight python %}
 !wget https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip
 !unzip dogImages.zip
-```
+{% endhighlight %}
 
 
-```python
+{% highlight python %}
 data_dir = 'dogImages'
 data_transforms = {
     'train': transforms.Compose([
@@ -400,30 +402,28 @@ print(dataset_sizes)
 class_names = image_datasets['train'].classes
 n_classes = len(class_names)
 n_classes
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 Initializing Datasets and Dataloaders...
 {'train': 6680, 'valid': 835, 'test': 836}
 
 133
-```
+{% endhighlight %}
 
 
 
 
-```python
+{% highlight python %}
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 device
-```
+{% endhighlight %}
 
 
-
-
-```python
+{% highlight python %}
 device(type='cpu')
-```
+{% endhighlight %}
 
 
 
@@ -436,7 +436,7 @@ device(type='cpu')
 The spatial dimensions of a convolutional layer can be calculates as: `(W_in−F+2P)/S+1`.
 
 
-```python
+{% highlight python %}
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -475,10 +475,10 @@ model_scratch = Net()
 model_scratch = model_scratch.to(device)
 
 print(model_scratch)
-```
+{% endhighlight %}
 
 
-```python
+{% highlight python %}
 Net(
 	(conv1): Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
 	(conv2): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -489,22 +489,17 @@ Net(
 	(fc3): Linear(in_features=256, out_features=133, bias=True)
 	(dropout): Dropout(p=0.25, inplace=False)
 )
-```
+{% endhighlight %}
 
 
 
-```python
-!pip install torchsummary
-```
-
-
-
-```python
+{% highlight python %}
+# !pip install torchsummary
 from torchsummary import summary
 summary(model_scratch, input_size=(3, 224, 224))
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 ----------------------------------------------------------------
 		Layer (type)               Output Shape         Param #
 ================================================================
@@ -529,7 +524,7 @@ Forward/backward pass size (MB): 13.79
 Params size (MB): 98.72
 Estimated Total Size (MB): 113.09
 ----------------------------------------------------------------
-```
+{% endhighlight %}
 
 
 # Transfer Learning
@@ -537,15 +532,15 @@ Estimated Total Size (MB): 113.09
 [PyTorch transfer learning offical tutorial](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html)
 
 
-```python
+{% highlight python %}
 model_transfer = resnet101(pretrained=True)
 print(model_transfer)
-```
+{% endhighlight %}
 
 The classifier part of the model is a single fully-connected layer `(fc): Linear(in_features=2048, out_features=1000, bias=True)`. This layer was trained on the ImageNet dataset, so it won't work for our specific problem, so we need to replace the classifier.
 
 
-```python
+{% highlight python %}
 # Freeze parameters so we don't backprop through them
 for param in model_transfer.parameters():
     param.requires_grad = False
@@ -560,17 +555,10 @@ classifier = nn.Sequential(nn.Linear(num_ftrs, 512),
 model_transfer.fc = classifier
 
 model_transfer = model_transfer.to(device)
-```
-
-
-```python
 print(model_transfer)
-```
-
-
-```python
 summary(model_transfer, input_size=(3, 224, 224))
-```
+{% endhighlight %}
+
 
 # Training, Validation, and Inference
 
@@ -591,11 +579,11 @@ taking the exponential `torch.exp(output)`, then negative log likelihood loss,
 Calling backward leads derivatives to accumulate at leaf nodes. You need to zero the gradient explicitly after using it for parameter updates i.e. `optimizer.zero_grad()`.
 
 
-```python
+{% highlight python %}
 criterion = nn.CrossEntropyLoss() # LogSoftmax + NLLLoss
 # only train the classifier (fully-connected layers') parameters
 optimizer = optim.Adam(model_transfer.fc.parameters(), lr=0.001)
-```
+{% endhighlight %}
 
 * one epoch = one forward pass and one backward pass of all the training examples.
 * batch size = the number of training examples in one forward/backward pass. The higher the batch size, the more memory space you'll need.
@@ -608,7 +596,7 @@ Example: if you have 1000 training examples, and your batch size is 4, then it w
 [Increase effective batch size using gradient accmulation](https://stackoverflow.com/a/68479643/6210807)
 
 
-```python
+{% highlight python %}
 def train(n_epochs, loaders, model, optimizer, criterion, use_cuda, save_path):
     """returns trained model"""
     # initialize tracker for minimum validation loss
@@ -674,21 +662,21 @@ def train(n_epochs, loaders, model, optimizer, criterion, use_cuda, save_path):
             valid_loss_min = valid_loss
             
     return model
-```
+{% endhighlight %}
 
 
-```python
+{% highlight python %}
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-```
+{% endhighlight %}
 
 
-```python
+{% highlight python %}
 # train the model
 model_transfer = train(5, loaders, model_transfer, optimizer, criterion, use_cuda, 'model_transfer.pt')
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 Epoch: 1 	Training Loss: 2.871226 	Validation Loss: 1.018821
 Validation loss decreased (inf --> 1.019).  Saving model ...
 Epoch: 2 	Training Loss: 1.468614 	Validation Loss: 0.654094
@@ -699,27 +687,27 @@ Epoch: 4 	Training Loss: 1.162452 	Validation Loss: 0.498752
 Validation loss decreased (0.552 --> 0.499).  Saving model ...
 Epoch: 5 	Training Loss: 1.122475 	Validation Loss: 0.470465
 Validation loss decreased (0.499 --> 0.470).  Saving model ...
-```
+{% endhighlight %}
 
 
 
-```python
+{% highlight python %}
 # load the model that got the best validation accuracy (uncomment the line below)
 # model_transfer.load_state_dict(torch.load('model_transfer.pt'))
-```
+{% endhighlight %}
 
 [`parameters()` Vs `state_dict`](https://stackoverflow.com/a/54747245/6210807)
 
 The `.parameters()` only gives the module parameters i.e. weights and biases, while `state_dict` returns a dictionary containing a whole state of the module.
 
 
-```python
+{% highlight python %}
 for name, param in model_scratch.named_parameters():
     if param.requires_grad:
         print(name)
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 conv1.weight
 conv1.bias
 conv2.weight
@@ -732,22 +720,21 @@ fc2.weight
 fc2.bias
 fc3.weight
 fc3.bias
-```
+{% endhighlight %}
 
 
-
-```python
+{% highlight python %}
 model_transfer.state_dict().keys()
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 odict_keys(['conv1.weight', 'bn1.weight', 'bn1.bias', 'bn1.running_mean', 'bn1.running_var', 'bn1.num_batches_tracked', 'layer1.0.conv1.weight', 'layer1.0.bn1.weight', 'layer1.0.bn1.bias', 'layer1.0.bn1.running_mean', 'layer1.0.bn1.running_var', 'layer1.0.bn1.num_batches_tracked', 'layer1.0.conv2.weight', 'layer1.0.bn2.weight', 'layer1.0.bn2.bias', 'layer1.0.bn2.running_mean', 'layer1.0.bn2.running_var', 'layer1.0.bn2.num_batches_tracked', 'layer1.0.conv3.weight', 'layer1.0.bn3.weight', 'layer1.0.bn3.bias', 'layer1.0.bn3.running_mean', 'layer1.0.bn3.running_var', 'layer1.0.bn3.num_batches_tracked', 'layer1.0.downsample.0.weight', 'layer1.0.downsample.1.weight', 'layer1.0.downsample.1.bias', 'layer1.0.downsample.1.running_mean', 'layer1.0.downsample.1.running_var', 'layer1.0.downsample.1.num_batches_tracked', 'layer1.1.conv1.weight', 'layer1.1.bn1.weight', 'layer1.1.bn1.bias', 'layer1.1.bn1.running_mean', 'layer1.1.bn1.running_var', 'layer1.1.bn1.num_batches_tracked', 'layer1.1.conv2.weight', 'layer1.1.bn2.weight', 'layer1.1.bn2.bias', 'layer1.1.bn2.running_mean', 'layer1.1.bn2.running_var', 'layer1.1.bn2.num_batches_tracked', 'layer1.1.conv3.weight', 'layer1.1.bn3.weight', 'layer1.1.bn3.bias', 'layer1.1.bn3.running_mean', 'layer1.1.bn3.running_var', 'layer1.1.bn3.num_batches_tracked', ...])
-```
+{% endhighlight %}
 
 `torch.nn` only supports mini-batches. For example, nn.Conv2d will take in a 4D Tensor of **NCHW** (nSamples x nChannels x Height x Width) .If you have a single sample, just use `input.unsqueeze(0)` to add a fake batch dimension.
 
 
-```python
+{% highlight python %}
 class_names = [item[4:].replace("_", " ") for item in image_datasets['train'].classes]
 loader_transform = data_transforms['test']
 
@@ -762,25 +749,16 @@ def predict_breed_transfer(img_path):
     model_transfer.cpu()
     _, preds = torch.max(model_transfer(img), 1)
     return class_names[preds]
-```
 
-
-```python
 predict_breed_transfer('dogImages/train/001.Affenpinscher/Affenpinscher_00001.jpg')
-```
-
-
+{% endhighlight %}
     
 ![dog_output_Affenpinscher.png](/img/dog_output_Affenpinscher.png)
     
 
-
-
-
-
-```python
+{% highlight python %}
 'Affenpinscher'
-```
+{% endhighlight %}
 
 
 
@@ -791,7 +769,7 @@ predict_breed_transfer('dogImages/train/001.Affenpinscher/Affenpinscher_00001.jp
 - It defines a common set of operators (opsets) that a model uses and creates `.onnx` model file that can be converted to various frameworks.
 
 
-```python
+{% highlight python %}
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print('Using', device)
 
@@ -819,21 +797,17 @@ torch.onnx.export(model_transfer,             # model being run
                                'output_1' : {0 : 'batch_size'}})
 
 print('Model exported successfully!')
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 Using cuda:0
 shape: torch.Size([1, 1000])
 Model exported successfully!
-```
+{% endhighlight %}
 
 
-```python
-!pip install onnx onnxruntime-gpu 
-```
-
-
-```python
+{% highlight python %}
+# !pip install onnx onnxruntime-gpu 
 import onnx, onnxruntime
 
 model_name = 'resnet101.onnx'
@@ -854,12 +828,12 @@ print('ort_outs[0]: ', ort_outs[0].shape)
 np.testing.assert_allclose(to_numpy(torch_out), ort_outs[0], rtol=1e-03, atol=1e-05)
 
 print("Exported model has been tested with ONNXRuntime, and the result looks good!")
-```
+{% endhighlight %}
 
-```python
+{% highlight python %}
 ort_outs[0]:  (1, 1000)
 Exported model has been tested with ONNXRuntime, and the result looks good!
-```
+{% endhighlight %}
 
 
 # Assignment
