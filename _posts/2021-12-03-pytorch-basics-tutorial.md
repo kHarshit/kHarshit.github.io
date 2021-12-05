@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "PyTorch Basic Tutorial"
-date: 2021-12-04
+date: 2021-12-03
 categories: [Computer Vision, Deep Learning, PyTorch]
 ---
 
