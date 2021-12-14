@@ -27,6 +27,7 @@ library
 **Topics**
 
 * [Immediate Vs Deferred execution modes](#Immediate-Vs-Deferred-execution-modes)
+* [Installation](#Installation)
 * [Tensors](#Tensors)
 * [Autograd](#Autograd)
 * [Data loading and augmentation](#Data-loading-and-augmentation)
@@ -38,7 +39,7 @@ library
 
 # Immediate Vs Deferred execution modes
 
-PyTorch and Tensorflow 2 (by default) uses immediate (eager) mode.
+PyTorch and Tensorflow 2 (by default) uses immediate (eager) mode. It follows the "define by run" principle i.e. you can execute the code as you define it. Consider the below simple example in Python.
 {% highlight python %}
 a = 3
 b = 4
@@ -47,7 +48,7 @@ c
 # 5.0
 {% endhighlight %}
 
-Tensorflow 1.0 uses deferred execution i.e. you define a series of operation first, then execute -- most exceptions are be raised when the function is called, not when it’s defined.
+Tensorflow 1.0, on the other hand, uses deferred execution i.e. you define a series of operation first, then execute -- most exceptions are be raised when the function is called, not when it’s defined. In the example below, `a` and `b` are placeholders, and the equation isn't executed instantly to get the value of `p` unlike in immediate execution example above.
 {% highlight python %}
 p = lambda a, b: (a**2 + b**2) ** 0.5
 p(1, 2)
@@ -61,11 +62,16 @@ In static graph (left side), the neuron gets compiled into a symbolic graph in w
 Dynamic graphs (righ side) can change during successive forward passes. Different nodes can be invoked according to conditions on the outputs of the preceding nodes, for example, without a need for such conditions to be represented in the graph.
 
 
+<div style="text-align: center">
+<figure>
 <img src="/img/graph_static_dynamic.png" style="display: block; margin: auto;  max-width: 100%;">
+<figcaption>Source: Deep Learning with PyTorch book</figcaption>
+</figure>
+</div>
 
 # Installation
 
-Follow the steps on [PyTorch website](https://pytorch.org/get-started/locally/).
+I recommend creating a conda environment first. Then, follow the steps on [PyTorch Getting Started](https://pytorch.org/get-started/locally/). By default, the PyTorch library contains CUDA code, however, if you're using CPU, you can download a smaller version of it.
 
 {% highlight bash %}
 # create conda env
@@ -76,16 +82,17 @@ conda activate torchenv
 conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 {% endhighlight %}
 
+You can use [`collect_env.py`](https://raw.githubusercontent.com/pytorch/pytorch/master/torch/utils/collect_env.py) script to test the installation.
+
 *Note:* This tutorial works fine on PyTorch 1.4, torchvision 0.5.
 
 # Tensors
 
-[PyTorch Tensor docs](https://pytorch.org/docs/stable/tensors.html)
+You can create and train neural networks in numpy as well. However, you won't be able to use GPU, and will have to write the backward pass of gradient descent yourself, write your layers etc. The deep learning libraries, like PyTorch, solves all these types of problems. In short,
 
 > PyTorch = numpy with GPU + DL stuff
 
-A tensor is a generalization of matrices having a single datatype: a vector (1D tensor), a matrix (2D tensor), an array with three indices (3D tensor e.g. RGB color images)
-
+Note that in order to maintain reproducibility, you need to set both numpy and pytorch seeds.
 
 {% highlight python %}
 import numpy as np
@@ -106,7 +113,9 @@ torch.backends.cudnn.benchmark = False
 1.4.0
 {% endhighlight %}
 
+A tensor is a generalization of matrices having a single datatype: a vector (1D tensor), a matrix (2D tensor), an array with three indices (3D tensor e.g. RGB color images). In PyTorch, similar to numpy, every tensor has a data type and can reside either on CPU or on GPU. For example, a tensor having 32-bit floating point numbers has data type of `torch.float32` (`torch.float`). If the tensor is on CPU, it'll be a `torch.FloatTensor`, and if on gpu, it'll be a `torch.cuda.FloatTensor`. You can perform operations on these tensors similar to numpy arrays. In fact, PyTorch even has same naming conventions for basic functions as in numpy.
 
+Read the complete list of types of tensors at [PyTorch Tensor docs](https://pytorch.org/docs/stable/tensors.html).
 
 {% highlight python %}
 # uninitialized tensor
@@ -122,11 +131,11 @@ print(torch.randn(2, 2))  # from standard normal distribution
 
 {% highlight python %}
 tensor([[True, True],
-		[True, True]])
+        [True, True]])
 tensor([[0.5349, 0.1988],
-		[0.6592, 0.6569]])
+        [0.6592, 0.6569]])
 tensor([[ 0.9468, -1.1143],
-		[ 1.6908, -0.8948]])
+        [ 1.6908, -0.8948]])
 {% endhighlight %}
 
 
@@ -146,25 +155,26 @@ torch.float32 torch.FloatTensor torch.Size([3, 28, 28])
 torch.Size([42, 56])
 {% endhighlight %}
 
+**in-place operations**
 
-in-place operations
+The in-place operations in PyTorch are those that directly modify the tensor content in-place i.e. without creating a new copy. The functions that have `_` after their names are in-place e.g. `add_()` is in-place, while `add()` isn't. Note that certain python operations such as `a += b` are also in-place.
 
 
 {% highlight python %}
 a = torch.tensor([[1, 1], [1, 1]])
 b = torch.tensor([[1, 1], [1, 1]])
-# c = a + b
-b.add_(a)
+# c = a + b  # normal operation
+b.add_(a)  # in-place operation
 print(b)
 {% endhighlight %}
 
 {% highlight python %}
 tensor([[2, 2],
-		[2, 2]])
+        [2, 2]])
 {% endhighlight %}
 
 
-np array <--> tensor
+**np array <--> tensor**
 
 
 {% highlight python %}
@@ -182,14 +192,19 @@ print(type(b))
 {% endhighlight %}
 
 
-CUDA and GPU
+**CUDA and GPU**
 
 
 {% highlight python %}
+# check if CUDA available
 print(torch.cuda.is_available())
+# check if tensor on GPU
 print(b.is_cuda)
-print(b.cuda()) # defaults to gpu:0 # to.device('cuda')
-print(b.cpu()) # to.device('cpu')
+# move tensor to GPU
+print(b.cuda()) # defaults to gpu:0 # or to.device('cuda')
+# move tensor to CPU
+print(b.cpu()) # or to.device('cpu')
+# check tensor device
 print(b.device)
 {% endhighlight %}
 
@@ -203,6 +218,7 @@ tensor([[2, 2],
 cpu
 {% endhighlight %}
 
+If you've multiple GPUs, you can specify it using `to.device('cuda:<n>`). Here, `n` (0, 1, 2, ...) denotes GPU number.
 
 # Autograd
 
@@ -211,7 +227,14 @@ automatic differentiation: calculate the gradients of the parameters (W, b) with
 
 It does so by keeping track of operations performed on tensors, then going backwards through those operations, calculating gradients along the way. For this, you need to set `requires_grad = True` on a tensor.
 
+<div style="text-align: center">
+<figure>
 <img src="/img/autograd.png" style="display: block; margin: auto;  max-width: 100%;">
+<figcaption>Source: Deep Learning with PyTorch book</figcaption>
+</figure>
+</div>
+
+Consider the function `z` whose derivative w.r.t. x is `x/2`.
 
 $$\frac{\partial z}{\partial x} = \frac{\partial}{\partial x}\left[\frac{1}{n}\sum_i^n x_i^2\right] = \frac{x}{2}$$
 
@@ -242,9 +265,7 @@ y.grad: None
 {% endhighlight %}
 
 
-Gradients are calculated [only for leaf variables](https://stackoverflow.com/questions/48051434/computing-gradients-of-intermediate-nodes-in-pytorch/48054482#48054482) by default. 
-
-*Note:* Calling `.backward()` only works on scalar variables. When called on vector variables, an additional ‘gradient’ argument is required. In fact, `y.backward()` is equivalent to `y.backward(torch.tensor(1.))`. `torch.autograd` is an engine for computing vector-Jacobian product. Read [more](https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html#sphx-glr-beginner-blitz-autograd-tutorial-py).
+Note that the derivative of `z` w.r.t. `y` is `None` since gradients are calculated [only for leaf variables](https://stackoverflow.com/questions/48051434/computing-gradients-of-intermediate-nodes-in-pytorch/48054482#48054482) by default. 
 
 You could use `retain_grad()` to calculate the gradient of non-left variables. You can use `retain_graph=True` so that the buffers are not freed. To reduce memory usage, during the `.backward()` call, all the intermediary results are deleted when they are not needed anymore. Hence if you try to call `.backward()` again, the intermediary results don’t exist and the backward pass cannot be performed.
 
@@ -282,6 +303,7 @@ RuntimeError                              Traceback (most recent call last)
 RuntimeError: Trying to backward through the graph a second time, but the buffers have already been freed. Specify retain_graph=True when calling backward the first time.
 {% endhighlight %}
 
+*Note:* Calling `.backward()` only works on scalar variables. When called on vector variables, an additional ‘gradient’ argument is required. In fact, `y.backward()` is equivalent to `y.backward(torch.tensor(1.))`. `torch.autograd` is an engine for computing vector-Jacobian product. Read [more](https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html#sphx-glr-beginner-blitz-autograd-tutorial-py).
 
 To stop a tensor from tracking history, you can call `.detach()` to detach it from the computation history, and to prevent future computation from being tracked OR use `with torch.no_grad():` context manager.
 
@@ -308,10 +330,13 @@ True
 False
 {% endhighlight %}
 
+---
+
+Now, we're going to train a simple dog classifier.
 
 # Data loading and augmentation
 
-`Dataset` class is an abstract class representing a dataset.
+[`Dataset`](https://pytorch.org/docs/stable/data.html) class is an abstract class representing a dataset.
 
 1. `ImageFolder` requires dataset to be in the format:
 ```
@@ -326,10 +351,15 @@ root/classname/image.png
 
 2. Custom Dataset: It must inherit from Dataset class and override the `__len__` so that len(dataset) returns the size of the dataset and `__getitem__` to support the indexing such that `dataset[i]` can be used to get `i`th sample.
 
+In this tutorial, we're going to use `ImageFolder`.
+
 The `DataLoader` takes a dataset (such as you would get from `ImageFolder`) and returns batches of images and the corresponding labels.
 
+We're also going to normalize our input data and apply data augmentation techniques. Note that we don't apply data augmentation to validation and testing split.
 
-For Normalize: `input[channel] = (input[channel] - mean[channel]) / std[channel]`
+For nomalization, the mean and standard deviation should be taken from the training dataset, however, in this case, we're going to use `ImageNet`'s statistics ([why?](https://stackoverflow.com/a/57533806/6210807)).
+
+$$\text{Normalized input[channel]} = \frac{\text{input[channel]} - \text{mean[channel]}}{\text{std[channel]}}$$
 
 
 {% highlight python %}
@@ -429,11 +459,11 @@ device(type='cpu')
 
 # Designing a neural network
 
-`torch.nn module` is a real layer which can be added or connected to other layers or network models. However, `torch.nn.functional` contains functions  that do some operations, not the layers which have learnable parameters such as weights and bias terms.Still, the choice of using `torch.nn` or `torch.nn.functional` is yours. `torch.nn` is more convenient for methods which have learnable parameters. It keep the network clean.
+There are two ways we can implement different layers and functions in PyTorch. `torch.nn module` (python class) is a real layer which can be added or connected to other layers or network models. However, `torch.nn.functional` (python function) contains functions  that do some operations, not the layers which have learnable parameters such as weights and bias terms. Still, the choice of using `torch.nn` or `torch.nn.functional` is yours. `torch.nn` is more convenient for methods which have learnable parameters. It keep the network clean.
 
 *Note:* Always use `nn.Dropout()`, [not `F.dropout()`](https://stackoverflow.com/questions/53419474/using-dropout-in-pytorch-nn-dropout-vs-f-dropout). Dropout is supposed to be used only in training mode, not in evaluation mode, `nn.Dropout()` takes care of that.
 
-The spatial dimensions of a convolutional layer can be calculates as: `(W_in−F+2P)/S+1`.
+The spatial dimensions of a convolutional layer can be calculated as: `(W_in−F+2P)/S+1`, where `W_in` is input, `F` is filter size, `P` is padding, `S` is stride.
 
 
 {% highlight python %}
@@ -480,14 +510,14 @@ print(model_scratch)
 
 {% highlight python %}
 Net(
-	(conv1): Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-	(conv2): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-	(conv3): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-	(pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
-	(fc1): Linear(in_features=50176, out_features=512, bias=True)
-	(fc2): Linear(in_features=512, out_features=256, bias=True)
-	(fc3): Linear(in_features=256, out_features=133, bias=True)
-	(dropout): Dropout(p=0.25, inplace=False)
+    (conv1): Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (conv2): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (conv3): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (fc1): Linear(in_features=50176, out_features=512, bias=True)
+    (fc2): Linear(in_features=512, out_features=256, bias=True)
+    (fc3): Linear(in_features=256, out_features=133, bias=True)
+    (dropout): Dropout(p=0.25, inplace=False)
 )
 {% endhighlight %}
 
@@ -501,7 +531,7 @@ summary(model_scratch, input_size=(3, 224, 224))
 
 {% highlight python %}
 ----------------------------------------------------------------
-		Layer (type)               Output Shape         Param #
+        Layer (type)               Output Shape         Param #
 ================================================================
             Conv2d-1         [-1, 16, 224, 224]             448
          MaxPool2d-2         [-1, 16, 112, 112]               0
@@ -531,6 +561,7 @@ Estimated Total Size (MB): 113.09
 
 [PyTorch transfer learning offical tutorial](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html)
 
+Instead of training the model we created from scratch, we're going to fine-tune pretrained model.
 
 {% highlight python %}
 model_transfer = resnet101(pretrained=True)
@@ -562,21 +593,15 @@ summary(model_transfer, input_size=(3, 224, 224))
 
 # Training, Validation, and Inference
 
+Since, it's a classification problem, we'll use cross-entropy loss function.
+
 $$\text{Cross-entropy} = -\sum_{i=1}^n \sum_{j=1}^m y_{i,j}\log(p_{i,j})$$
 
 where, $$y_{i,j}$$ denotes the true value i.e. 1 if sample `i` belongs to class `j` and 0 otherwise, and $$p_{i,j}$$ denotes the probability predicted by your model of sample `i` belonging to class `j`.
 
-`nn.CrossEntropyLoss()` combines `nn.LogSoftmax()` (log(softmax(x))) and `nn.NLLLoss()` (negative log likelihood loss) in one single class. Therefore,
-the output from the network that is passed into `nn.CrossEntropyLoss` needs to be the raw output of
-the network (called logits), not the output of the softmax function.
+`nn.CrossEntropyLoss()` combines `nn.LogSoftmax()` (log(softmax(x))) and `nn.NLLLoss()` (negative log likelihood loss) in one single class. Therefore, the output from the network that is passed into `nn.CrossEntropyLoss` needs to be the raw output of the network (called logits), not the output of the softmax function.
 
-It is convenient to build the model with a log-softmax
-output using `nn.LogSoftmax` (or `F.log_softmax`)
-since the actual probabilities can be accessed by
-taking the exponential `torch.exp(output)`, then negative log likelihood loss,
-`nn.NLLLoss` can be used.
-
-Calling backward leads derivatives to accumulate at leaf nodes. You need to zero the gradient explicitly after using it for parameter updates i.e. `optimizer.zero_grad()`.
+It is convenient to build the model with a log-softmax output using `nn.LogSoftmax` (or `F.log_softmax`) since the actual probabilities can be accessed by taking the exponential `torch.exp(output)`, then negative log likelihood loss, `nn.NLLLoss` can be used. [Read more](https://stackoverflow.com/a/65193236/6210807).
 
 
 {% highlight python %}
@@ -593,7 +618,7 @@ Example: if you have 1000 training examples, and your batch size is 4, then it w
 
 *Note:* the weights are updated after each batch, not epoch or iteration.
 
-[Increase effective batch size using gradient accmulation](https://stackoverflow.com/a/68479643/6210807)
+Calling backward leads derivatives to accumulate at leaf nodes. You need to zero the gradient explicitly after using it for parameter updates i.e. `optimizer.zero_grad()`. We can utilize this functionality to [Increase effective batch size using gradient accmulation](https://stackoverflow.com/a/68479643/6210807)
 
 
 {% highlight python %}
