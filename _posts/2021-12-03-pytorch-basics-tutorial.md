@@ -556,6 +556,12 @@ Estimated Total Size (MB): 113.09
 ----------------------------------------------------------------
 {% endhighlight %}
 
+<div style="text-align: center">
+<figure>
+<img src="/img/tensorboard_dogmodel.png" style="display: block; margin: auto;  max-width: 100%;">
+<figcaption>Model graph in Tensorboard</figcaption>
+</figure>
+</div>
 
 # Transfer Learning
 
