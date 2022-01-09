@@ -22,22 +22,23 @@ Scaling is important in the algorithms such as support vector machines (SVM) and
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import minmax_scale
+from sklearn.preprocessing import minmax_scale, scale
 
 # set seed for reproducibility
 np.random.seed(0)
 
-# generate 1000 data points randomly drawn from an exponential distribution
-original_data = np.random.exponential(size = 1000)
+# generate random data points from an exponential distribution
+x = np.random.exponential(size=1000)
 
-# mix-max scale the data between 0 and 1
-scaled_data = minmax_scale(original_data)
+# mix-max scaling
+scaled_data = minmax_scale(x)
+# scaled_data = (x-x.min())/(x.max()-x.min())
 
 # plot both together to compare
-fig, ax=plt.subplots(1,2)
-sns.distplot(original_data, ax=ax[0], color='y')
-ax[0].set_title("Original Data")
-sns.distplot(scaled_data, ax=ax[1])
+f, ax = plt.subplots(1,2)
+sns.distplot(x, ax=ax[0], color='y')
+ax[0].set_title("Original data")
+sns.distplot(scaled_data, ax=ax[1], color='g')
 ax[1].set_title("Scaled data")
 plt.show()
 {% endhighlight %}
@@ -73,6 +74,21 @@ where $$\mu$$ is the mean. By subtracting the mean from the distribution, we're 
 
 It's widely used in SVM, logistics regression and neural networks.
 
+{% highlight python %}
+# standardization
+standardized_data = scale(x)
+
+# plot
+fig, ax=plt.subplots(1,2)
+sns.distplot(x, ax=ax[0], color='y')
+ax[0].set_title("Original data")
+sns.distplot(standardized_data, ax=ax[1], color='teal')
+ax[1].set_title("Standardized data")
+plt.show()
+{% endhighlight %}
+
+<img src="/img/standardization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
 ## #2
 
 Simply called **normalization**, it's just another way of normalizing data. Note that, it's a different from min-max scaling in numerator, and from z-score normalization in the denominator.
@@ -82,17 +98,14 @@ $$x' = \frac{x - x_{mean}}{x_{max} - x_{min}}$$
 For normalization, the maximum value you can get after applying the formula is 1, and the minimum value is 0. So all the values will be between 0 and 1.
 
 {% highlight python %}
-# for Box-Cox Transformation
-from scipy import stats
+# normalization
+normalized_data = (x-x.mean())/(x.max()-x.min())
 
-# normalize the exponential data with boxcox
-normalized_data = stats.boxcox(original_data)
-
-# plot both together to compare
+# plot
 fig, ax=plt.subplots(1,2)
-sns.distplot(original_data, ax=ax[0], color='y')
-ax[0].set_title("Original Data")
-sns.distplot(normalized_data[0], ax=ax[1])
+sns.distplot(x, ax=ax[0], color='y')
+ax[0].set_title("Original data")
+sns.distplot(normalized_data, ax=ax[1])
 ax[1].set_title("Normalized data")
 plt.show()
 {% endhighlight %}
