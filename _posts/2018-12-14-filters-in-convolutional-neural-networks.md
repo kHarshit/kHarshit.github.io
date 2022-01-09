@@ -55,12 +55,12 @@ sobel_x = np.array([[-1, 0, 1],
                    [-2, 0, 2],
                    [-1, 0, 1]])
 # filter the image using filter2D(grayscale image, bit-depth, kernel)  
-filtered_image1 = cv2.filter2D(gray, -1, sobel_x)
-filtered_image2 = cv2.filter2D(gray, -1, sobel_y)
-f, ax = plt.subplots(1, 2, figsize=(15, 4))
-ax[0].set_title('horizontal edge detection')
+filtered_image1 = cv2.filter2D(gray, -1, sobel_y)
+filtered_image2 = cv2.filter2D(gray, -1, sobel_x)
+f, ax = plt.subplots(1, 2, figsize=(16, 4))
+ax[0].set_title('horizontal edge detection', fontsize=14)
 ax[0].imshow(filtered_image1, cmap='gray')
-ax[1].set_title('vertical edge detection')
+ax[1].set_title('vertical edge detection', fontsize=14)
 ax[1].imshow(filtered_image2, cmap='gray')
 {% endhighlight %}
 
