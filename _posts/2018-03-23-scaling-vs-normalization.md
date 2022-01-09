@@ -112,9 +112,9 @@ plt.show()
 
 <img src="/img/normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
-In scaling, you're changing the range of your data while in normalization you're mostly changing the shape of the distribution of your data.
-
 You need to normalize our data if you're going use a machine learning or statistics technique that assumes that data is normally distributed e.g. t-tests, ANOVAs, linear regression, linear discriminant analysis (LDA) and Gaussian Naive Bayes. 
+
+<img src="/img/scaling_vs_normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ## Applications
 
