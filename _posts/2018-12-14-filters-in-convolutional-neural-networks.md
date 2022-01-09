@@ -33,7 +33,7 @@ import matplotlib.image as mpimg
 import cv2
 import numpy as np
 # Read in the image
-image = mpimg.imread('curved_lane.jpg')
+image = mpimg.imread('edge_detection_ex.jpg')
 plt.imshow(image)
 # Convert to grayscale for filtering
 gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
@@ -65,6 +65,7 @@ ax[1].imshow(filtered_image2, cmap='gray')
 {% endhighlight %}
 
 <img src="/img/edge_detection_example.png" style="display: block; margin: auto; width: auto; max-width: 100%;"> 
+<img src="/img/edge_detection_example2.png" style="display: block; margin: auto; width: auto; max-width: 100%;"> 
 
 ***Note:*** In convolutional neural networks, the filters are learned the same way as hyperparameters through backpropagation during the training process.
 
