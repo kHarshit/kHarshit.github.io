@@ -115,3 +115,10 @@
   outline: none;
   
 }
+
+/* for mobile devices */
+@media(max-width: 768px) {
+  #quiz {
+    margin: 0px 10px 0px;
+  }
+}
