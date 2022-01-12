@@ -36,7 +36,7 @@ title: Technical Fridays | Archives
                       {% if image contains 'src' %}
                           {% if foundImage == 0 %}
                               {% assign html = image | split:"/>" | first %}
-                              <img style="width:400px; height: 200px; max-width: 100%;" {{ html }} />
+                              <img style="display:block; margin:auto; height: 200px; max-width: 100%;" {{ html }} />
                               {% endif %}
                               {% assign foundImage = 1 %}
                           {% endif %}
