@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="/css/quiz.css">
+<div id="quiz">
+  <h1 id="quiz-name"></h1>
+  <div style="display: flex; align-items: center; justify-content: center">
+    <button id="prev-question-button">Previous</button>
+    <button id="next-question-button">Next Question</button>
+    <button id="submit-button">Submit Answers</button>
+  
+  <div id="quiz-results" style="display: flex; align-items: center; justify-content: center">
+    <p id="quiz-results-message"></p>
+    <p id="quiz-results-score"></p>
+    <!-- <button id="quiz-retry-button">Retry</button> -->
+  </div>
+  </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script>
+	// Array of all the questions and choices to populate the questions. This might be saved in some JSON file or a database and we would have to read the data in.
+	var all_questions = [{
+	  question_string: "What measures the purity or intensity of the color?",
+	  choices: {
+	    correct: "Saturation",
+	    wrong: ["Hue", "Brightness", "None of these"]
+	  }
+	}, {
+	  question_string: "Which characteristic corresponds to the difference between black and white color?",
+	  choices: {
+	    correct: "Value",
+	    wrong: ["Hue", "Saturation", "All of these"]
+	  }
+	}, {
+	  question_string: "Which of the following are additive models of color?",
+	  choices: {
+	    correct: "RGB",
+	    wrong: ["CYMK", "Both of these", "None of these"]
+	  }
+	}, {
+	  question_string: 'Which color model is closer to how human eye perceives color?',
+	  choices: {
+	    correct: "Delta E",
+	    wrong: ["RGB", "CYMK", "HSV"]
+	  }
+	}];
+  </script>
+  <script src="/css/quiz.js"></script>
+
+</div>

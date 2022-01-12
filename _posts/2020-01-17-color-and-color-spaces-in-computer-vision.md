@@ -67,6 +67,11 @@ Hue, the color itself, ranges from 0 to 360 starting and ending with red. Satura
 
 *To be updated soon...*
 
+<section>
+	{% include quiz_color.html %}	 
+</section>
+
+---
 
 **References & Further Readings:**  
 

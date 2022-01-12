@@ -913,7 +913,6 @@ print(model)
 Dataset: [Flower images](https://s3.amazonaws.com/content.udacity-data.com/courses/nd188/flower_data.zip) [[Read more here]](http://www.robots.ox.ac.uk/~vgg/data/flowers/102/index.html)    
 Note: Don't forget to normalize the data before training. You can also apply data augmentation, regularization, learning rate decay etc.
 
-
 ---
 
 *Special thanks to Udacity, where I started my PyTorch journey through PyTorch Scholarship and Deep Learning Nanodegree.*
