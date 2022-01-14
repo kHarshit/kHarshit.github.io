@@ -95,8 +95,6 @@ Simply called **normalization**, it's just another way of normalizing data. Note
 
 $$x' = \frac{x - x_{mean}}{x_{max} - x_{min}}$$
 
-For normalization, the maximum value you can get after applying the formula is 1, and the minimum value is 0. So all the values will be between 0 and 1.
-
 {% highlight python %}
 # normalization
 normalized_data = (x-x.mean())/(x.max()-x.min())
