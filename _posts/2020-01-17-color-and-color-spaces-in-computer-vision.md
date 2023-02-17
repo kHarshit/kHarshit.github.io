@@ -65,7 +65,23 @@ Hue, the color itself, ranges from 0 to 360 starting and ending with red. Satura
 
 ## Delta E
 
-*To be updated soon...*
+Delta E is a standard measurement — created by the Commission Internationale de l’Eclairage (International Commission on Illumination) — that quantifies the difference between two colors that appear on a screen. When you’re shopping for a projector or digital display, you’ll want to find a device with a Delta E level that is as close to zero as possible.
+Delta E levels are the difference between the displayed color and the original color standard of the input content. Lower Delta E figures indicate greater accuracy, while high Delta E levels indicate a significant mismatch.
+Delta E is measured on a scale from 0 to 100, where 0 is less color difference, and 100 indicates complete distortion.
+* ** <= 1.0: Not perceptible by the human eye
+* ** 1-2: Perceptible through close observation
+* ** 2-10: Perceptible at a glance
+* ** 11-49: Colors are more similar than the opposite
+* ** 50-100: Colors are exactly the opposite
+
+## How to Calculate Delta E in Color
+
+Delta E (the total color difference) is based on delta L*, delta a*, and delta b* color values, all of which provide a complete numerical descriptor of the color in a rectangular coordinate system. The meanings are as follows:
+
+* ** dL* represents a lightness difference between the sample and standard colors.
+* ** da* represents the difference in redness or greyness between the sample and standard colors.
+* ** db* denotes blueness-yellowness differences between the sample and standard colors.
+
 
 <section>
 	{% include quiz_color.html %}	 
