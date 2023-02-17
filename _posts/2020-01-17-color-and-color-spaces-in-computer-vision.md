@@ -79,3 +79,4 @@ Hue, the color itself, ranges from 0 to 360 starting and ending with red. Satura
 2. [Color model - Wikipedia](https://en.wikipedia.org/wiki/Color_model)  
 2. [Fundamental concepts of processing and image analysis](https://www.dcc.fc.up.pt/~mcoimbra/lectures/MAPI_1415/CV_1415_T1.pdf)  
 3. [Introduction to computer vision](http://sun.aei.polsl.pl/~mkawulok/stud/graph/instr.pdf)
+4. [Delta-E].(https://www.viewsonic.com/library/creative-work/what-is-delta-e-and-why-is-it-important-for-color-accuracy/)
