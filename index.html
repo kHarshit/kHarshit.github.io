@@ -3,37 +3,191 @@ layout: default
 title: Harshit Kumar | Home
 ---
 
-		<header id="top_header">
-            <div class="container">
-				<div id="branding">
-					<h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
-				</div>
-				<nav>
-					<ul>
-						<li class="current"><a href="{{ site.url }}">Home</a></li>
-						<li><a href="/about">About</a></li>
-						<li><a href="/blog">Blog</a></li>
-					</ul>
-				</nav>
-        	</div>
-        </header>
+<header id="top_header">
+    <div class="container">
+       	<div id="branding">
+            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
+		</div>
 
+       	<nav>
+            <ul>
+                <li class="current"><a href="{{ site.url }}">Home</a></li>
+        		<li><a href="/resume">Resume</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+            </nav>
+    </div>
+</header>
+
+<section id="main">
+    <div class="container">
+        <article id="main-art">
         <section id="showcase">
-			<div class="container">
 				<h1>Hi, I'm Harshit.</h1>
 				<div id="mypic">
-					<img src="img/harshit_nu.png" style="width:400px" alt="Harshit's Profile Picture">
+					<img src="../img/harshit_nu.png" style="width:400px" alt="Harshit's Profile Picture">
 				</div>
-				<p><i>Finding patterns...</i></p>
-				<p>This is my personal website and blog.</p>
-				<p>I use this blog to write about some of<br>
-					the cool technical stuff I’ve been learning.</p>
-				<p id="univ">
-					I'm a graduate student pursuing MS in Artificial Intelligence at <a href="https://www.khoury.northeastern.edu/">Northeastern University</a>.<br />
-					Before this, I worked as Machine Learning Engineer at <a href="https://www.vehant.com/">Vehant Technologies</a>.
-					<br /><br />
-				 	Read the latest post:
-					<a href="{{site.posts.first.url}}">{{site.posts.first.title}}</a>
-			  	</p>
-			</div>
-        </section>
+				</section>
+			<p>I'm a graduate student pursuing MS in Artificial Intelligence at <a href="https://www.khoury.northeastern.edu/">Khoury College of Computer Sciences, Northeastern University</a>.  I did a Deep Learning Research Co-op at <a href="https://www.jax.org/">The Jackson Laboratory</a> in Fall 2023. Previously, I worked as a Machine Learning Engineer at Vehant Technologies for two years.
+			I'm a BTech graduate in Computer Science and Engineering from AIACTR</a>, <a href="http://www.ipu.ac.in/">Guru Gobind Singh Indraprastha University</a>, Delhi.</p>
+	    	<p>Check my <a href="https://kharshit.github.io/resume">RESUME</a>.</p>
+			<p>
+				My hobbies are stargazing, traveling, playing guitar, and solving sudoku.
+			</p>
+
+            <p>If you like poetry, check out my <a href="https://kharshit.github.io/poems">favourite collection</a>.</p>
+	    
+
+			<section id="skills">
+				<h2>Skills</h2>
+				<ul>
+					<li>Programming/Markup languages:
+						<ul>
+							Python,
+							C++, C, 
+							JavaScript,
+							SQL,
+							Java,
+							R,
+							HTML5,
+							CSS3,
+							LaTeX
+						</ul>
+					</li>	
+					<li>Machine Learning:
+						<ul>
+							PyTorch, Tensorflow, OpenCV, scikit-learn, xgboost, pandas, numpy, nltk, Dask, plotly, LangChain
+						</ul>
+					</li>
+					<li>Tools and Frameworks:
+						<ul>
+							Django, Flask, GStreamer, Git, DVC, Docker, Kubernetes, Kafka, Slurm, ONNX, Linux, HuggingFace
+						</ul>	
+					</li>	
+					<li>
+						MLOps:
+						<ul>
+							AWS SageMaker, Azure, GCP, Nvidia DeepStream, TensorRT, MLFlow, Intel OpenVINO, GitHub Actions, CI/CD
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+
+			<section id="experience">
+				<h2>Experience</h2>
+				<ul>	
+					<li><a href="#">Deep Learning Research Co-op </a><i style="float: right"> Jul 2023 – Dec 2023</i>
+						<br /><i><a style="color: seagreen" href="https://www.vehant.com/">Vehant Technologies Pvt. Ltd.</a></i><br />
+						Researched and applied Explainable AI methods for Graph Neural Networks.<br />
+						<i>Technologies used: PyTorch Geometric, PyTorch Captum</i>
+					</li>
+					<br />
+					<li><a href="#">Machine Learning Engineer </a><i style="float: right"> Aug 2020 – Aug 2022</i>
+						<br /><i><a style="color: seagreen" href="https://www.vehant.com/">Vehant Technologies Pvt. Ltd.</a></i><br />
+						Researched and solved vision-related problems w.r.t. Intelligent Video Analytics for Smart Cities; and working on Edge AI solutions.<br />
+						<i>Technologies used: PyTorch, NVIDIA DeepStream, TensorFlow/Keras, OpenCV</i>
+					</li>
+					<br />
+					<li><a href="#">Computer Vision R&D Intern </a><i style="float: right">Jun 2019 - Jul 2020</i>
+						<br /><i><a style="color: seagreen" href="https://www.kritikalsecurescan.com/">Vehant Technologies Pvt. Ltd.</a></i><br />
+						Researched on deep-learning-based monocular depth estimation methods for under-vehicle object detection.<br />
+						<i>Technologies used: PyTorch, TensorFlow/Keras, OpenCV</i>
+					</li>
+					<br />
+					<li><a href="#">NLP Intern </a><i style="float: right">Jun 2018 - Aug 2018</i>
+						<br /><i><a style="color: seagreen" href="http://www.arbunize.com/">Arbunize Digital Pvt. Ltd.</a></i><br />
+						Applied Natural Language Processing algorithms on resumes for automatic information extraction and processing.<br />
+						<i>Technologies used: Keras, scikit-learn</i>
+					</li>
+					<br />
+					<li><a href="#">Machine Learning Intern</a><i style="float: right">May 2018 - Jun 2018</i>
+						<br /><i><a style="color: seagreen" href="https://www.redcatindia.com/">REDCAT Labs</a></i><br />
+						Developed a traffic sign detection and recognition system using CNNs for electric vehicles.<br />
+						<i>Technologies used: Python, Keras</i>
+					</li>
+				</ul>
+			</section>
+				
+					
+			<section id="projects">
+				<h2>Projects</h2>	
+<!-- 				<ul>
+					<li><a href="https://github.com/kHarshit/image-captioner">
+						ImageCaptioner: Image captioning using Encoder-Decoder</a>
+						Developed image captioning application based on Neural Image Caption model utilizing encoder-decoder architecture, using pretrained CNN as encoder and LSTM as decoder.
+					</li>
+					<li><a href="https://tweetsenseapp.herokuapp.com">
+						TweetSense: Real-time social media sentiment analysis
+						</a>: Developed an Android app that analyzes citizen's tweets (using Twitter streaming API) and intelligently provide real-time feedback using sentiment analysis (natural language processing).</li>
+					<li><a href="https://dengueapp.herokuapp.com">
+						DengueApp: Location based dengue prediction
+						</a>: Developed an Android app that gives real-time location-based dengue risk index to the user using machine learning techniques.</li>
+
+				</ul> -->
+				Most of my projects are in computer vision.
+				<p>Check the complete list on the <a style="color: seagreen;" href="/projects">PROJECTS</a> page.</p>
+			</section>
+					
+			<section id="projects">
+				<h3>Events & Conferences</h3>	
+				I love attending events and conferences.
+				<p>Check the ones I attended on the <a style="color: seagreen;" href="/events">EVENTS</a> page.</p>
+			</section>
+
+        </article>
+
+
+        <aside id="sidebar">
+            <div class="dark">
+                <h2>Contact</h2>
+				<ul id="social-icons">
+					{% if site.github_username %}
+						<li>
+							<a style="color: white;font-size: 22px" href="https://github.com/{{ site.github_username }}">
+							<span class="fa fa-github"></span>
+							</a>
+						</li>
+					{% endif %}
+					{% if site.linkedin_username %}
+						<li>
+							<a href="https://linkedin.com/in/{{ site.linkedin_username }}">
+							<span style="font-size: 22px" class="fa fa-linkedin"></span>
+							</a>
+						</li>
+					{% endif %}
+					<!-- {% if site.stackoverflow_username %}
+						<li>
+							<a style="color:orangered;" href="https://stackoverflow.com/users/{{ site.stackoverflow_username }}">
+							<i class="fa fa-stack-overflow"></i>
+							</a>
+						</li>
+					{% endif %} -->
+					{% if site.kaggle_username %}
+						<li>
+							<a href="https://www.kaggle.com/{{ site.kaggle_username }}">
+							<i style="font-size: 22px" class="fa fa-kagg"></i>
+							</a>
+						</li>
+					{% endif %}			
+				</ul>	
+
+				<a href="https://stackoverflow.com/users/6210807/kHarshit">
+					<img src="https://stackexchange.com/users/flair/6642002.png" width="208" height="58" 
+					alt="kHarshit profile at Stack Overflow"></a>
+				
+				<br />
+
+				<p>Questions or suggestions?
+
+				<section id="contact-form">
+					<form method="POST" action="https://formspree.io/{{ site.email }}">
+						<input type="email" name="email" placeholder="Your email">
+						<textarea name="message" placeholder="Your message"></textarea>
+						<button type="submit">Send</button>
+					</form>	
+				</section>
+            </div>
+        </aside>
+    </div>
+</section>
