@@ -183,9 +183,19 @@ article#main-art{
 }
 
 /* My projects */
-ul#myprojects li{
-    margin-top: 10px;
-  }
+#myprojects {
+    display: flex;
+    flex-wrap: wrap;
+}
+#myprojects li {
+    flex: 1 0 40%; /* This means that each item will take up 50% of the container's width */
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 5px;
+    list-style-type: none;
+    background: #f5f5f5; /* Change this to your desired background color */
+    cursor: pointer; /* Changes the cursor to a hand icon when hovering over the item */
+}
 
 #mypic img{
 	display: block;
