@@ -189,37 +189,11 @@ title: Harshit Kumar | Home
 
 				<p>Check the complete list on the <a style="color: seagreen;" href="/projects">PROJECTS</a> page.</p>
 			</section>
-					
-			<section id="projects">
-				<h3>Events & Conferences</h3>	
-				I love attending events and conferences.
-				<p>Check the ones I attended on the <a style="color: seagreen;" href="/events">EVENTS</a> page.</p>
-			</section>
 
         </article>
 
 
         <aside id="sidebar">
-			<div class="dark">
-			<div id="skills">
-				<h2>Skills</h2>
-				<ul>
-					<li><strong>Programming/Markup languages:</strong>
-						Python, C++, C, JavaScript, SQL, Java, R, HTML5, CSS3, LaTeX
-					</li>	
-					<li><strong>Machine Learning:</strong>
-						PyTorch, Tensorflow, OpenCV, scikit-learn, xgboost, pandas, numpy, nltk, Dask, plotly, LangChain
-					</li>
-					<li><strong>Tools & Frameworks:</strong>
-						Django, Flask, GStreamer, Git, DVC, Docker, Kubernetes, Kafka, Slurm, ONNX, Linux, HuggingFace
-					</li>	
-					<li>
-						<strong>MLOps:</strong>
-						AWS SageMaker, Azure, GCP, Nvidia DeepStream, TensorRT, MLFlow, Intel OpenVINO, GitHub Actions, CI/CD
-					</li>
-				</ul>
-			</div>
-			</div>
             <div class="dark">
                 <h2>Contact</h2>
 				<ul id="social-icons">
@@ -269,6 +243,63 @@ title: Harshit Kumar | Home
 					</form>	
 				</section>
             </div>
+
+			<div class="dark">
+				<div id="skills">
+					<h2>Skills</h2>
+					<ul>
+						<li><strong>Programming/Markup languages:</strong>
+							Python, C++, C, JavaScript, SQL, Java, R, HTML5, CSS3, LaTeX
+						</li>	
+						<li><strong>Machine Learning:</strong>
+							PyTorch, Tensorflow, OpenCV, scikit-learn, xgboost, pandas, numpy, nltk, Dask, plotly, LangChain
+						</li>
+						<li><strong>Tools & Frameworks:</strong>
+							Django, Flask, GStreamer, Git, DVC, Docker, Kubernetes, Kafka, Slurm, ONNX, Linux, HuggingFace
+						</li>	
+						<li>
+							<strong>MLOps:</strong>
+							AWS SageMaker, Azure, GCP, Nvidia DeepStream, TensorRT, MLFlow, Intel OpenVINO, GitHub Actions, CI/CD
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="dark">
+				<section id="projects">
+						<h2>Latest Blog Posts</h2>
+						<div class="blog-posts">
+							{% for post in site.posts limit:3 %}
+							<div class="post-preview">
+								<div class="post-image">
+									{% assign foundImage = 0 %}
+									{% assign images = post.content | split:"<img " %}
+									{% for image in images %}
+									{% if image contains 'src' %}
+										{% if foundImage == 0 %}
+											{% assign html = image | split:"/>" | first %}
+											<img style="max-width: 100%; height: auto; display:block; margin-bottom: 10px;" {{ html }}/>
+											{% assign foundImage = 1 %}
+										{% endif %}
+									{% endif %}
+									{% endfor %}
+								</div>
+								<h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+								<p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+								<a href="{{ post.url }}" class="btn read-more">Read More</a>
+							</div>
+							{% endfor %}
+					</div>
+				</section>
+			</div>
+
+			<div class="dark">
+				<section id="projects">
+					<h3>Events & Conferences</h3>	
+					I love attending events and conferences.
+					<p>Check the ones I attended on the <a style="color: seagreen;" href="/events">EVENTS</a> page.</p>
+				</section>
+			</div>
         </aside>
     </div>
 
