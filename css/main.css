@@ -602,7 +602,39 @@ input#themeswitch {
         width: 100%;
         margin: 0;
         margin-bottom: 30px;
+    }    
+    
+    .floating-sidebar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        transform: none;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0;
     }
+
+    .sidebar-link {
+        display: inline-block;
+    }
+
+    .floating-sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .floating-sidebar ul li {
+        padding: 0 10px; /* Add this line */
+    }
+
+
 }
 
 
