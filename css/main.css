@@ -177,24 +177,52 @@ article#main-art{
     width: 65%;
 }
 
-/* Place every second experience on the opposite side */
-@media (min-width: 768px) {
-    .experience {
-        width: 50%;
-    }
+.timeline {
+    position: relative;
+    padding-left: 20px; /* Adjust as necessary for the width of your line */
+    border-left: 2px solid #ddd;
+    margin-left: 10px; /* Creates space for the circles */
+}
 
-    .experience:nth-child(2n) {
-        left: 60%;
-    }
+.timeline-item {
+    position: relative;
+    padding-top: 10px; /* Space for the circle */
+    margin-bottom: 10px;
+}
 
-    .experience:nth-child(2n)::after {
-        left: calc(100% + 1px);
-    }
+.timeline-icon {
+    position: absolute;
+    top: 0; /* Adjust if necessary */
+    left: 0;
+    transform: translateX(-50%) translateY(-50%);
+    width: 20px; /* Diameter of the circle */
+    height: 20px; /* Diameter of the circle */
+    border: 3px solid #e8491d;
+    border-radius: 50%;
+    background-color: #fff;
+    z-index: 1;
+}
 
-    .experience:nth-child(2n) .details {
-        text-align: right;
+.timeline-content {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 2;
+}
+
+/* Adjust this for mobile view */
+@media screen and (max-width: 768px) {
+    .timeline {
+        padding-left: 20px; /* Smaller padding for mobile */
+    }
+    .timeline-icon {
+        width: 15px; /* Smaller icon for mobile */
+        height: 15px; /* Smaller icon for mobile */
     }
 }
+
 
 #projects, #skills{
 	margin-top: 30px;
