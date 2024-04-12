@@ -20,12 +20,24 @@ title: Harshit Kumar | Home
 </header>
 
 <section id="main">
+
+	<!-- Floating Sidebar -->
+	<div class="floating-sidebar">
+		<a href="#showcase" class="sidebar-link" title="Go to About Section">About</a>
+		<a href="#experience" class="sidebar-link" title="Go to Experience Section">Experience</a>
+		<a href="#skills" class="sidebar-link" title="Go to Skills Section">Skills</a>
+		<a href="#projects" class="sidebar-link" title="Go to Projects Section">Projects</a>
+		<!-- Add more links as needed -->
+	</div>
+
+
+
     <div class="container">
         <article id="main-art">
         <section id="showcase">
 				<h1>Hi, I'm Harshit.</h1>
 				<div id="mypic">
-					<img src="../img/harshit_nu.png" style="width:400px" alt="Harshit's Profile Picture">
+					<img src="../img/harshit_nu.png" alt="Harshit's Profile Picture">
 				</div>
 				</section>
 			<p>I'm a graduate student pursuing MS in Artificial Intelligence at <a href="https://www.khoury.northeastern.edu/">Khoury College of Computer Sciences, Northeastern University</a>.  I did a Deep Learning Research Co-op at <a href="https://www.jax.org/">The Jackson Laboratory</a> in Fall 2023. Previously, I worked as a Machine Learning Engineer at Vehant Technologies for two years.
@@ -304,4 +316,30 @@ title: Harshit Kumar | Home
     </div>
 
 	<script src="/css/project_filter.js"></script>
+
+	<script>
+		document.querySelectorAll('.floating-sidebar a').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault(); // Stop the default jump to section behavior
+		
+				document.querySelector(this.getAttribute('href')).scrollIntoView({
+					behavior: 'smooth' // Smoothly scroll to the section
+				});
+			});
+		});
+		</script>
+
+<script>
+	window.onscroll = function() {
+		var sidebar = document.querySelector('.floating-sidebar');
+		if (window.pageYOffset > 400) { // Only show the sidebar after scrolling down 300px
+			sidebar.style.display = 'block';
+		} else {
+			sidebar.style.display = 'none';
+		}
+	};
+	</script>
+
+	
+
 </section>

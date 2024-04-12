@@ -223,6 +223,32 @@ article#main-art{
     }
 }
 
+.floating-sidebar {
+    position: fixed; /* Fixed position to stay visible on scroll */
+    left: 20px; /* Distance from the left edge of the viewport */
+    top: 50%; /* Position in the middle vertically */
+    transform: translateY(-50%); /* Center it vertically */
+    background-color: #fff; /* Background color */
+    padding: 10px; /* Padding around the links */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    border-radius: 8px; /* Rounded corners for modern look */
+    z-index: 1000; /* High z-index to stay above other content */
+}
+
+.sidebar-link {
+    display: block; /* Each link on a new line */
+    padding: 10px; /* Padding for easier clicking */
+    color: lightslategrey; /* Bootstrap's default link color for familiarity */
+    text-decoration: none; /* No underline */
+    font-size: 16px; /* Readable font size */
+    transition: color 0.3s ease; /* Smooth color transition for hover effect */
+}
+
+.sidebar-link:hover, .sidebar-link:focus {
+    color: #0056b3; /* Darker shade of blue on hover/focus for better interaction feedback */
+    text-decoration: none; /* Continue to not show underline */
+}
+
 
 #projects, #skills{
 	margin-top: 30px;
@@ -326,7 +352,7 @@ article#main-art{
 #mypic img{
 	display: block;
 	margin: auto;
-	width: auto;
+	width: 350px;
 	max-width: 100%;
 }
 
@@ -510,12 +536,31 @@ input#themeswitch {
     border-radius: 5px;
     padding: 5px;
     margin: 30px;
+    overflow: hidden; /* To ensure the contents are contained within the card */
 }
 
 .card:hover {
     box-shadow: 0 0 8px 8px rgba(0,0,0,0.2);
 }
 
+.card-content {
+    padding: 15px;
+}
+
+.card .btn.read-more {
+    display: inline-block; /* To keep the button inline */
+    margin-top: 10px;
+}
+
+/* Ensure the image fits nicely in the card */
+.post-image img {
+    display: block;
+    width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintains the aspect ratio */
+    margin-bottom: 10px;
+    border-top-left-radius: 5px; /* Match the card's border radius */
+    border-top-right-radius: 5px; /* Match the card's border radius */
+}
 
 @media(max-width: 768px) {
 	.container{
