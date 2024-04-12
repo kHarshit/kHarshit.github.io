@@ -317,6 +317,11 @@ article#main-art{
     background-color: #ddd;
 }
 
+.filter-btn.active {
+    background-color: #e8491d; /* Selected button color */
+    color: #ffffff; /* Text color for selected button */
+}
+
 
 #mypic img{
 	display: block;
