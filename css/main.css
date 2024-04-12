@@ -299,6 +299,25 @@ article#main-art{
     background-color: #2980b9;
 }
 
+.project-filters {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background-color: #e7e7e7;
+}
+
+.filter-btn:hover {
+    background-color: #ddd;
+}
+
+
 #mypic img{
 	display: block;
 	margin: auto;

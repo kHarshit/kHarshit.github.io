@@ -116,52 +116,57 @@ title: Harshit Kumar | Home
 					
 			<section id="projects">
 				<h2>Projects</h2>	
-<!-- 				<ul>
-					<li><a href="https://github.com/kHarshit/image-captioner">
-						ImageCaptioner: Image captioning using Encoder-Decoder</a>
-						Developed image captioning application based on Neural Image Caption model utilizing encoder-decoder architecture, using pretrained CNN as encoder and LSTM as decoder.
-					</li>
-					<li><a href="https://tweetsenseapp.herokuapp.com">
-						TweetSense: Real-time social media sentiment analysis
-						</a>: Developed an Android app that analyzes citizen's tweets (using Twitter streaming API) and intelligently provide real-time feedback using sentiment analysis (natural language processing).</li>
-					<li><a href="https://dengueapp.herokuapp.com">
-						DengueApp: Location based dengue prediction
-						</a>: Developed an Android app that gives real-time location-based dengue risk index to the user using machine learning techniques.</li>
-
-				</ul> -->
-
+					<div class="project-filters">
+						<button class="filter-btn" onclick="filterProjects('all')">All</button>
+						<button class="filter-btn" onclick="filterProjects('llm')">LLM</button>
+						<button class="filter-btn" onclick="filterProjects('computer-vision')">Computer Vision</button>
+						<button class="filter-btn" onclick="filterProjects('nlp')">NLP</button>
+						<!-- <button class="filter-btn" onclick="filterProjects('mlops')">MLOps</button> -->
+						<!-- Add more buttons for different categories as needed -->
+					</div>
 				<div class="project-container">
-                    <a href="https://github.com/kHarshit/visual-question-answering/" class="project-card">
-						<img src="/img/vqa_page.png" alt="VQA">
-						<h4>Visual Question Answering with Generative AI</h4>
-						<!-- <p>This is a short description of Project 1.</p> -->
-					</a>
-					<!-- Repeat for each project -->
-					<a href="https://github.com/kHarshit/DS5983LLM" class="project-card">
-						<!-- <img src="/img/.png" alt="DS5983LLM"> -->
-						<h4>RAG (Retrieval Augmented Generation) for Financial Document Summarization</h4>
-						<h4>Prompt Engineering and Few-Shot Learning with Flan-T5 for Dialogue Summarization</h4>
-						<h4>Fine-Tuning Flan-T5 with PEFT (LoRA)):</h4>
-					</a>
-					<a href="https://github.com/kHarshit/CS5330ComputerVision" class="project-card">
-						<img src="/img/ar_cs5330.png" alt="Project 3">
-						<h4>Camera Calibration and Augmented Reality Integration with Checkerboard</h4>
-					</a>
-					<a href="https://github.com/kHarshit/Colorization-of-paintings-GANs" class="project-card">
-						<img src="/img/colorization_GANs.png" alt="GAN">
-						<h4>Image colorization of historical paintings with GAN</h4>
-					</a>
-					<a href="https://github.com/kHarshit/pothole-segmentation" class="project-card">
-						<img src="/img/pothole.png" alt="Segmentation">
-						<h4> Pothole Detection and Segmentation</h4>
-					</a>
-					<a href="https://github.com/kHarshit/udacity-nanodegree-projects" class="project-card">
-						<!-- <img src="/img/pothole.png" alt="Segmentation"> -->
-						<h4>Sentiment Analysis on Amazon SageMaker</h4>
-						<h4>Comparative Analysis of Local and Global Temperature Trends with SQL</h4>
-						<h4>A/B testing for e-commerice website</h4>
-						
-					</a>
+						<div class="project-card" data-category="llm computer-vision nlp">
+						<a href="https://github.com/kHarshit/visual-question-answering/">
+							<img src="/img/vqa_page.png" alt="VQA">
+							<h4>Visual Question Answering with Generative AI</h4>
+							<!-- <p>This is a short description of Project 1.</p> -->
+						</a>
+						</div>
+						<div class="project-card" data-category="llm nlp">
+						<a href="https://github.com/kHarshit/DS5983LLM">
+							<!-- <img src="/img/.png" alt="DS5983LLM"> -->
+							<h4>RAG (Retrieval Augmented Generation) for Financial Document Summarization</h4>
+							<h4>Prompt Engineering and Few-Shot Learning with Flan-T5 for Dialogue Summarization</h4>
+							<h4>Fine-Tuning Flan-T5 with PEFT (LoRA)):</h4>
+						</a>
+						</div>
+						<div class="project-card" data-category="computer-vision">
+						<a href="https://github.com/kHarshit/CS5330ComputerVision">
+							<img src="/img/ar_cs5330.png" alt="Project 3">
+							<h4>Camera Calibration and Augmented Reality Integration with Checkerboard</h4>
+						</a>
+						</div>
+						<div class="project-card" data-category="computer-vision">
+						<a href="https://github.com/kHarshit/Colorization-of-paintings-GANs">
+							<img src="/img/colorization_GANs.png" alt="GAN">
+							<h4>Image colorization of historical paintings with GAN</h4>
+						</a>
+						</div>
+						<div class="project-card" data-category="computer-vision">
+							<a href="https://github.com/kHarshit/pothole-segmentation">
+								<img src="/img/pothole.png" alt="Segmentation">
+								<h4> Pothole Detection and Segmentation</h4>
+							</a>
+						</div>
+						<div class="project-card" data-category="nlp">
+							<a href="https://github.com/kHarshit/udacity-nanodegree-projects">
+								<h4>Sentiment Analysis on Amazon SageMaker</h4>
+								<h4>Comparative Analysis of Local and Global Temperature Trends with SQL</h4>
+								<h4>A/B testing for e-commerice website</h4>
+								
+							</a>
+						</div>
+
 				</div>
 
 				<p>Check the complete list on the <a style="color: seagreen;" href="/projects">PROJECTS</a> page.</p>
@@ -248,4 +253,6 @@ title: Harshit Kumar | Home
             </div>
         </aside>
     </div>
+
+	<script src="/css/project_filter.js"></script>
 </section>
