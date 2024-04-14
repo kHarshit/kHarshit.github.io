@@ -209,17 +209,19 @@ title: Harshit Kumar | Home
             <div class="dark">
                 <h2>Contact</h2>
 				<ul id="social-icons">
-					{% if site.github_username %}
-						<li>
-							<a style="color: white;font-size: 32px" href="https://github.com/{{ site.github_username }}">
-							<span class="fa fa-github"></span>
-							</a>
-						</li>
-					{% endif %}
 					{% if site.linkedin_username %}
 						<li>
 							<a href="https://linkedin.com/in/{{ site.linkedin_username }}">
 							<span style="font-size: 32px" class="fa fa-linkedin"></span>
+							<span class="icon-text">LinkedIn</span>
+							</a>
+						</li>
+					{% endif %}
+					{% if site.github_username %}
+						<li>
+							<a style="color: white;font-size: 32px" href="https://github.com/{{ site.github_username }}">
+							<span class="fa fa-github"></span>
+							<span class="icon-text">GitHub</span>
 							</a>
 						</li>
 					{% endif %}
@@ -242,6 +244,7 @@ title: Harshit Kumar | Home
 				<a href="https://stackoverflow.com/users/6210807/kHarshit">
 					<img src="https://stackexchange.com/users/flair/6642002.png" width="208" height="58" 
 					alt="kHarshit profile at Stack Overflow"></a>
+					<span class="icon-text" style="color: #F48024">StackOverflow</span>
 				
 				<br />
 

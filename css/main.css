@@ -379,14 +379,48 @@ article#main-art{
     content: "k";
 }
 
-#social-icons li{
-    padding-left: 10px;
-    padding-right: 10px;
+#social-icons {
+    list-style: none;
+    padding: 0;
 }
 
-#social-icons li{
-    display: inline-block;
+#social-icons li {
+    display: block;
+    margin-bottom: 10px;
 }
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white; /* Or any color you prefer */
+}
+
+.social-icon .fa .fa-linkedin{
+    font-size: 32px; /* Size of the icon */
+    margin-right: 8px; /* Space between icon and text */
+}
+
+.icon-text {
+    font-size: 24px;
+    font-weight: bold; /* If you want the text to be bold */
+}
+
+.stack-overflow img {
+    height: 32px; /* Match the height with FontAwesome icons */
+    width: auto; /* Maintain the aspect ratio */
+    margin-right: 8px; /* Space between icon and text */
+}
+
+.stack-overflow .icon-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#social-icons li a:hover {
+    color: #cccccc; /* Change the color on hover */
+}
+
 
 #last_footer {
     clear: both; /* clears floating property */
