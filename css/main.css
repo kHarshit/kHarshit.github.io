@@ -458,28 +458,75 @@ iframe, object, embed, video{
   
 /* Switch theme */
 
-label#theme {
-    display: block;
-    height: 25px;
-    width: 100px;
-    background: #eee;
-    color: #282828;
-    text-align: center;
-    font: 14px/25px Helvetica, Arial, sans-serif;
-    margin: 130px 0;
-    position: absolute;
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* position: absolute; Adjust position as necessary */
+    position: absolute; /* Fixed position */
+    top: 20px; /* Adjust the top position as necessary */
+    right: 20px; /* Positions the switch to the right side */
+    z-index: 1000; /* Ensures the switch is above other content */
 }
 
-label#theme:hover {
-    background: #282828;
-    color: #fff;
-    cursor: pointer;
+.toggle-track {
+    background: #e0e0e0; /* Light gray track background */
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    position: relative; /* Container for sun/moon icons and thumb */
+    height: 20px; /* Height of the track */
+    width: 45px; /* Width of the track */
+}
+
+.toggle-icon {
+    color: #f9c22b; /* Sun color */
+    z-index: 1;
+}
+
+.fa-moon-o {
+    color: #f9d71c; /* Moon color */
+}
+
+.toggle-thumb {
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px; /* Spacing from top of track */
+    bottom: 2px; /* Spacing from bottom of track */
+    left: 4px; /* Spacing from left of track */
+    width: 26px; /* Diameter of the thumb */
+    height: 26px; /* Diameter of the thumb */
+    transition: 0.3s; /* Smooth transition for sliding */
+}
+
+/* When the dark theme is active, change thumb background */
+[data-theme="dark"] .toggle-thumb {
+    background: #333; /* Dark mode circle color */
 }
 
 input#themeswitch {
-   position: absolute;
-   top: -9999px;
-   left: -9999px;
+    display: none; /* Hide the checkbox */
+}
+
+input#themeswitch:checked + #theme-switch .toggle-thumb {
+    transform: translateX(24px); /* Slide thumb to the right */
+}
+
+/* When the dark theme is active, change track background */
+[data-theme="dark"] .toggle-track {
+    background: #4a4a4a; /* Dark gray track background for dark theme */
+}
+
+/* Adjusting sun and moon icon colors for the dark theme */
+[data-theme="dark"] .fa-sun-o {
+    color: #ffdd57; /* Adjust if you have a different color in mind */
+}
+
+[data-theme="dark"] .fa-moon-o {
+    color: #fff; /* White moon icon */
 }
 
 #contact-form form input, #contact-form form textarea {

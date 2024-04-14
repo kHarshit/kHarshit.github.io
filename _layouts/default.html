@@ -56,8 +56,18 @@
 
     <body>
         
-        <label id="theme" for="themeswitch">Switch theme</label>
-        <input type="checkbox" id="themeswitch" />
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
 
         <div class="theme_switch">
             {{ content }}
