@@ -186,8 +186,8 @@ article#main-art{
 
 .timeline-item {
     position: relative;
-    padding-top: 10px; /* Space for the circle */
-    margin-bottom: 10px;
+    padding-top: 5px; /* Space for the circle */
+    margin-bottom: 5px;
 }
 
 .timeline-icon {
@@ -204,12 +204,18 @@ article#main-art{
 }
 
 .timeline-content {
-    padding: 15px;
+    /* top, right, bottom, and left padding */
+    padding: 2px 15px 2px 15px;
     /* background-color: #fff; */
     border-radius: 5px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     position: relative;
-    z-index: 2;
+    z-index: 1;
+}
+
+.timeline-content h3, .timeline-content p {
+    margin-top: 10px;
+    margin-bottom: 14px;
 }
 
 /* Adjust this for mobile view */
