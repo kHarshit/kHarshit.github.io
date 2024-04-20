@@ -125,6 +125,7 @@ nav .current a{
 
 #showcase{
 	text-align: center;
+    margin-top: 70px;
 }
 
 #showcase h1 {
@@ -358,7 +359,7 @@ article#main-art{
 #mypic img{
 	display: block;
 	margin: auto;
-	width: 350px;
+	width: 220px;
 	max-width: 100%;
 }
 

@@ -35,10 +35,10 @@ title: Harshit Kumar | Home
     <div class="container">
         <article id="main-art">
         <section id="showcase">
-				<h1>Hi, I'm Harshit.</h1>
 				<div id="mypic">
 					<img src="../img/harshit_nu.png" alt="Harshit's Profile Picture">
 				</div>
+				<strong>Machine Learning Engineer</strong>
 				</section>
 			<p>I'm a graduate student pursuing MS in Artificial Intelligence at <a href="https://www.khoury.northeastern.edu/">Khoury College of Computer Sciences, Northeastern University</a>.  I did a Deep Learning Research Co-op at <a href="https://www.jax.org/">The Jackson Laboratory</a> in Fall 2023. Previously, I worked as a Machine Learning Engineer at Vehant Technologies for two years.
 			I'm a BTech graduate in Computer Science and Engineering from AIACTR</a>, <a href="http://www.ipu.ac.in/">Guru Gobind Singh Indraprastha University</a>, Delhi.</p>
@@ -337,30 +337,6 @@ title: Harshit Kumar | Home
     </div>
 
 	<script src="/css/project_filter.js"></script>
-
-	<script>
-		document.querySelectorAll('.floating-sidebar a').forEach(anchor => {
-			anchor.addEventListener('click', function (e) {
-				e.preventDefault(); // Stop the default jump to section behavior
-		
-				document.querySelector(this.getAttribute('href')).scrollIntoView({
-					behavior: 'smooth' // Smoothly scroll to the section
-				});
-			});
-		});
-		</script>
-
-<script>
-	window.onscroll = function() {
-		var sidebar = document.querySelector('.floating-sidebar');
-		if (window.pageYOffset > 400) { // Only show the sidebar after scrolling down 300px
-			sidebar.style.display = 'block';
-		} else {
-			sidebar.style.display = 'none';
-		}
-	};
-	</script>
-
-	
+	<script src="/css/sidebar.js"></script>
 
 </section>
