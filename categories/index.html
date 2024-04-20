@@ -11,8 +11,8 @@ title: Technical Fridays | Blog | Categories
         <nav>
             <ul>
                 <li><a href="{{ site.url }}">Home</a></li>
-                <li><a href="/about.html">About</a></li>
                 <li><a href="/blog">Blog</a></li>
+        		<li><a href="/poems">Poems</a></li>
             </ul>
         </nav>
     </div>
@@ -42,7 +42,7 @@ title: Technical Fridays | Blog | Categories
                     <a name="{{ category_name | slugify }}"></a>
                     {% for post in site.categories[category_name] %}
                     <article class="taggs-item">
-                        <h4><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></h4>
+                        <strong><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></strong>
                     </article>
                     {% endfor %}
                 </div>

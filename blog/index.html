@@ -28,6 +28,17 @@ title: Technical Fridays | Blog
       onMouseOver="this.style.color='#3bd382'"
       onMouseOut="this.style.color='#2e8b57'">Technical Fridays</a></p>
       
+    <div id="post">
+        <ul class="tag-cloud">
+            {% for category  in site.categories %}
+                <li style="font-size: {{ category | last | size | times: 100 | divided_by: site.categories.size | plus: 70 }}%">
+                    <a href="{{ site.url }}/categories/#{{ category | first | slugify }}">
+                      {{ category | first }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        </div>
     <gcse:search></gcse:search>
 
     <div id="post">
