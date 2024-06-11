@@ -321,6 +321,10 @@ There are other ways to optimize the CUDA matrix multplication kernel further, s
 By combining these advanced optimization techniques with shared memory, you can achieve even greater performance gains for matrix multiplication on CUDA-enabled GPUs.
 
 
+<section>
+	{% include quiz_cuda_matmul.html %}	 
+</section>
+
 **References**
 * [Nvidia CUDA Docs (also image source)](https://docs.nvidia.com/cuda/cuda-c-programming-guide/#compute-capability)
 * [Really good blog post on CUDA matrix multiplication](https://siboehm.com/articles/22/CUDA-MMM)
