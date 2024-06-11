@@ -5,8 +5,6 @@ date: 2021-12-03
 categories: [Computer Vision, Deep Learning, PyTorch]
 ---
 
-*author: Harshit Kumar ([github.com/kHarshit](https://github.com/kHarshit/))*
-
 **PyTorch libraries**
 * torchvision: for computer vision
 * torchtext: for NLP

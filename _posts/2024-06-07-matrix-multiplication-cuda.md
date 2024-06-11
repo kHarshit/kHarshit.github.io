@@ -2,12 +2,14 @@
 layout: post
 title: "Matrix Multiplication in CUDA"
 date: 2024-06-07
-categories: [CUDA, Machine Learning, Optimization, PyTorch]
+categories: [CUDA, Deep Learning, Optimization, LLM]
 ---
 
-Matrix multiplication is at the heart of deep learning. In this evolving world of LLMs, fast and efficient matrix multiplications are required. Nvidia CUDA allows you to perform matrix operations on GPU in a faster way.
+Matrix multiplication is at the heart of deep learning. In this evolving world of LLMs, the need for fast and efficient matrix multiplications is paramount. Nvidia CUDA allows you to perform matrix operations on GPU in a faster way.
 
 CUDA (Compute Unified Device Architecture) is a parallel computing platform and application programming interface (API) model. CUDA programming model provides an abstraction of GPU architecture (API for GPUs).
+
+In this blog post, we will explore how to implement matrix multiplication using CUDA. We will start with a naive implementation on the CPU and then demonstrate how to significantly speed up the process using CUDA.
 
 ## Naive C++ Implementation on CPU
 
@@ -138,10 +140,11 @@ __global__ void matMulNaiveKernel(Matrix A, Matrix B, Matrix C)
 }
 {% endhighlight %}
 
-We create a 16x16 thread block (256 threads with 16 each in x and y-direction). We define `(B.width/16, A.height/16)` blocks per grid. Extra operations below is to take care of the last tile if size isn't perfectly divisible.
+We create a 16x16 thread block (256 threads with 16 each in x and y-direction). We define `(B.width/BLOCK_SIZE, A.height/BLOCK_SIZE)` blocks per grid. Extra operations below is to take care of the last tile if size isn't perfectly divisible.
 
 {% highlight cpp %}
-dim3 threadsPerBlock(16, 16);
+#define BLOCK_SIZE 16
+dim3 threadsPerBlock(BLOCK_SIZE, BLOCK_SIZE);
 dim3 blocksPerGrid((B.width + threadsPerBlock.x - 1) / threadsPerBlock.x,
                 (A.height + threadsPerBlock.y - 1) / threadsPerBlock.y);
 runKernel(matMulNaiveKernel, A, B, C, blocksPerGrid, threadsPerBlock);
@@ -299,13 +302,15 @@ runKernel(matMulSharedMemoryKernel, A, B, C, gridDim, blockDim);
 The kernel execution time of above kernels on Tesla T4 on google colab is as follows.
 
 | Method                     | Execution Time (ms) |
-|----------------------------|:--------------------:|
-| CPU matrix multiplication  | 8554.51             |
-| Naive kernel               | 7.08397             |
-| Shared memory kernel       | 4.42471             |
+|----------------------------|:-------------------:|
+| C++ CPU matrix multiplication  | 8554.51         |
+| Naive CUDA kernel          | 7.08397             |
+| Shared memory CUDA kernel  | 4.42471             |
 {:.mbtablestyle}
 
 The CUDA parallelism significantly improves the CPU computation time. The shared memory kernel achieves the fastest execution time.
+
+The full code is availble at [https://github.com/kHarshit/cuda-programming](https://github.com/kHarshit/cuda-programming)
 
 ## Further Optimization
 
