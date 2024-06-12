@@ -2,7 +2,7 @@
 layout: post
 title: "Generative Adversarial Networks variants: DCGAN, Pix2pix, CycleGAN"
 date: 2019-04-05
-categories: [Deep Learning, Computer Vision]
+categories: [Deep Learning, Computer Vision, Generative AI]
 ---
 
 First, make sure you read the first part of this post, [Generative models and Generative Adversarial Networks]({% post_url 2018-09-28-generative-models-and-generative-adversarial-networks %}). This post is its continuation.
