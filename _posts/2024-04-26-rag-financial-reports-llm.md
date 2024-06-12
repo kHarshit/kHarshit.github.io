@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Retriveal Augmented Generation (RAG) Chatbot for 10Q Financial Reports"
+title: "Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports"
 date: 2024-04-26
 categories: [LLM, Generative AI, Natural Language Processing]
 ---
