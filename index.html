@@ -13,7 +13,7 @@ title: Harshit Kumar | Home
             <ul>
                 <li class="current"><a href="{{ site.url }}">Home</a></li>
                 <li><a href="/blog">Blog</a></li>
-        		<li><a href="/poems">Poems</a></li>
+                <li><a href="/poems">Poems</a></li>
             </ul>
             </nav>
     </div>
@@ -23,11 +23,21 @@ title: Harshit Kumar | Home
 
 	<!-- Floating Sidebar -->
 	<div class="floating-sidebar">
-		<a href="#showcase" class="sidebar-link" title="Go to About Section">About</a>
-		<a href="#experience" class="sidebar-link" title="Go to Experience Section">Experience</a>
-		<a href="#skills" class="sidebar-link" title="Go to Skills Section">Skills</a>
-		<a href="#projects" class="sidebar-link" title="Go to Projects Section">Projects</a>
-		<!-- Add more links as needed -->
+		<a href="#showcase" class="sidebar-link" title="About">
+			<i class="fa fa-user"></i><span>About</span>
+		</a>
+		<a href="#experience" class="sidebar-link" title="Experience">
+			<i class="fa fa-briefcase"></i><span>Experience</span>
+		</a>
+		<a href="#education" class="sidebar-link" title="Education">
+			<i class="fa fa-graduation-cap"></i><span>Education</span>
+		</a>
+		<a href="#skills" class="sidebar-link" title="Skills">
+			<i class="fa fa-code"></i><span>Skills</span>
+		</a>
+		<a href="#projects" class="sidebar-link" title="Projects">
+			<i class="fa fa-folder-open-o"></i><span>Projects</span>
+		</a>
 	</div>
 
 
@@ -35,81 +45,150 @@ title: Harshit Kumar | Home
     <div class="container">
         <article id="main-art">
         <section id="showcase">
-				<div id="mypic">
-					<img src="../img/harshit_nu.jpeg" alt="Harshit's Profile Picture">
-				</div>
-				<strong>Machine Learning Engineer</strong><br />
-				</section>
-				<p> Machine Learning Engineer with over 3 years of experience specializing in optimizing model performance and tuning low-precision neural networks. 
-					Successfully improved model accuracy training speed, and accelearted data science efficiency by implementing advanced ML techniques and leveraging distributed training systems. 
-					Experienced in end-to-end ML pipeline optimization and real-time deployment for surveillance applications.
-					Have worked with Explainable AI techniques and Exploratory Data Science in genomic research. Worked in Computer Vision field for 2 years in Intelligent Video Analytics for Smart Cities.
-					Have done several projects in NLP, and utilizing Large Language Models (LLM) based solutions for Generative AI tasks.
-				</p>
-			<p>
-				<strong>Interests 👨🏻‍💻:</strong> Machine Learning, Deep Learning, Computer Vision, Natural Language Processing, Data Science, MLOps, Generative AI, LLM <br /> 
-				<strong>Hobbies 🔭:</strong> playing guitar, piano, stargazing, traveling, sudoku, poetry. 
-			</p>
+            <div class="hero-grid">
+                <div class="hero-photo">
+                    <img src="../img/harshit_nu.jpeg" alt="Harshit's Profile Picture">
+                </div>
+                <div class="hero-text">
+                    <p class="hero-title">Machine Learning Engineer</p>
+                    <p class="hero-bio">ML Engineer with 3+ years of experience building deep learning systems across computer vision, NLP, and Generative AI. Specialized in training and optimizing large-scale neural networks, low-precision inference, and end-to-end MLOps pipelines. Currently at Autodesk Research working on LLM-powered and 3D computer vision applications. Previously led CV and deep learning work at Vehant Technologies for smart city surveillance, and applied explainable AI to Graph Neural Networks at The Jackson Laboratory.</p>
+                </div>
+            </div>
+        </section>
 
-			<div style="text-align: center">
-			<figure>
-			<img src="http://ghchart.rshah.org/kHarshit" alt="Harshit's Github chart"
-				style="float: center; display: block; margin: auto; width: auto; max-width: 100%;" />
-			<figcaption><a href="https://github.com/{{ site.github_username }}">GitHub contributions</a></figcaption>
-			</figure>
-			</div>
 
 			<section id="experience">
 				<h2>Experience</h2>
 				<div class="timeline">
-					<!-- Timeline item -->
+
+					<div class="timeline-item timeline-item--current">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="exp-header">
+								<div class="exp-meta">
+									<h3 class="exp-role">Machine Learning Engineer</h3>
+									<p class="exp-company"><a class="company-link" href="https://www.autodesk.com/">Autodesk</a> · Boston, MA</p>
+								</div>
+								<span class="exp-date current">Oct 2024 – Present</span>
+							</div>
+							<p class="exp-desc">Autodesk Research: Generative AI and 3D Computer Vision.</p>
+							<div class="exp-tags">
+								<span class="chip">Generative AI</span>
+								<span class="chip">3D Computer Vision</span>
+								<span class="chip">LLM</span>
+							</div>
+						</div>
+					</div>
+
 					<div class="timeline-item">
 						<div class="timeline-icon"></div>
 						<div class="timeline-content">
-							<h3>Machine Learning Engineer - <a style="color: seagreen" href="https://www.autodesk.com/">Autodesk</a></h3>
-							<p>Boston, MA, US, Oct 2024 - Present</p>
-							<p>Autodesk Research: Generative AI and 3D Computer Vision</p>
+							<div class="exp-header">
+								<div class="exp-meta">
+									<h3 class="exp-role">Deep Learning Research Co-op</h3>
+									<p class="exp-company"><a class="company-link" href="https://www.jax.org/">The Jackson Laboratory</a> · Boston, MA</p>
+								</div>
+								<span class="exp-date">Jul 2023 – Dec 2023</span>
+							</div>
+							<p class="exp-desc">Researched and applied Explainable AI methods for Graph Neural Networks.</p>
+							<div class="exp-tags">
+								<span class="chip">PyTorch Geometric</span>
+								<span class="chip">PyTorch Captum</span>
+								<span class="chip">Explainable AI</span>
+								<span class="chip">GNN</span>
+							</div>
 						</div>
 					</div>
+
 					<div class="timeline-item">
 						<div class="timeline-icon"></div>
 						<div class="timeline-content">
-							<h3>Deep Learning Research Co-op - <a style="color: seagreen" href="https://www.jax.org/">The Jackson Laboratory</a></h3>
-							<p>Boston, MA, US, Jul 2023 – Dec 2023</p>
-							<p>Researched and applied Explainable AI methods for Graph Neural Networks.</p>
-							<p><strong>Technologies used:</strong> PyTorch Geometric, PyTorch Captum</p>
+							<div class="exp-header">
+								<div class="exp-meta">
+									<h3 class="exp-role">Machine Learning Engineer</h3>
+									<p class="exp-company"><a class="company-link" href="https://www.vehant.com/">Vehant Technologies</a> · Delhi, India</p>
+								</div>
+								<span class="exp-date">Aug 2020 – Aug 2022</span>
+							</div>
+							<p class="exp-desc">Intelligent Video Analytics for Smart City: object detection, tracking, reidentification, ANPR OCR, action recognition, pose &amp; depth estimation. MLOps: distributed training and optimization of multi-GPU pipelines.</p>
+							<div class="exp-tags">
+								<span class="chip">PyTorch</span>
+								<span class="chip">TensorFlow</span>
+								<span class="chip">TensorRT</span>
+								<span class="chip">CUDA</span>
+								<span class="chip">DeepStream</span>
+								<span class="chip">OpenCV</span>
+								<span class="chip">SageMaker</span>
+							</div>
+							<div class="exp-sub">
+								<p class="exp-sub-role">Computer Vision R&amp;D Intern · Jun 2019 – Jul 2020</p>
+								<p class="exp-desc">Researched deep-learning-based monocular depth estimation for under-vehicle object detection.</p>
+							</div>
 						</div>
 					</div>
-					<!-- at for other entries -->
+
 					<div class="timeline-item">
 						<div class="timeline-icon"></div>
 						<div class="timeline-content">
-							<h3>Machine Learning Engineer - <a style="color: seagreen" href="https://www.vehant.com/">Vehant Technologies</a></h3>
-							<p>Delhi, India, Jun 2019 – Aug 2022</p>
-							<p>
-							Intelligent Video Analytics for Smart City: 2D/3D computer vision, object detection, tracking, reidentification, license plate recognition (ANPR OCR), action recognition, pose estimation, depth estimation.
-							</p><p>
-							MLOps: Distributed Training, Deployment, ETL, and Optimization of multi-GPU end-to-end ML pipelines (PyTorch, TensorFlow, Nvidia TensorRT, CUDA, DeepStream, MLFlow, ONNX, AWS SageMaker).
-							</p><p>
-							Accelerated Data Science: Low precision, Quantization, Pruning, Nvidia RAPIDS.
-							</p><p>
-							Mentoring: 2 fellow teammates Edge AI topics.
-							</p>
-							<p><strong>Computer Vision R&D Intern</strong><i> (continued)</i></p>
-							</p>Jun 2019 - Jul 2020</p>
-							<p>Researched on deep-learning-based monocular depth estimation methods for under-vehicle object detection.</p>
-							<p><strong>Technologies used:</strong> PyTorch, TensorFlow, NVIDIA DeepStream, OpenCV, MLOps</p>
+							<div class="exp-header">
+								<div class="exp-meta">
+									<h3 class="exp-role">NLP Intern</h3>
+									<p class="exp-company"><a class="company-link" href="http://www.arbunize.com/">Arbunize Digital</a> · Delhi, India</p>
+								</div>
+								<span class="exp-date">Jun 2018 – Aug 2018</span>
+							</div>
+							<p class="exp-desc">Applied NLP algorithms on resumes for automatic information extraction and processing.</p>
+							<div class="exp-tags">
+								<span class="chip">Python</span>
+								<span class="chip">NLTK</span>
+								<span class="chip">Keras</span>
+								<span class="chip">scikit-learn</span>
+							</div>
 						</div>
 					</div>
+
+				</div>
+			</section>
+
+			<section id="education">
+				<h2>Education</h2>
+				<div class="timeline">
+
 					<div class="timeline-item">
 						<div class="timeline-icon"></div>
 						<div class="timeline-content">
-							<h3>NLP Intern - <a style="color: seagreen" href="http://www.arbunize.com/">Arbunize Digital Pvt. Ltd.</a></h3>
-							<p>Delhi, India, Jun 2018 - Aug 2018</p>
-							<p>Applied Natural Language Processing algorithms on resumes for automatic information extraction and processing.</p>
-							<p><strong>Technologies used:</strong> Python, NLTK, Keras, scikit-learn</p>
+							<div class="exp-header">
+								<div class="exp-meta">
+									<h3 class="exp-role">Master of Science — Artificial Intelligence</h3>
+									<p class="exp-company"><a class="company-link" href="https://www.northeastern.edu/">Northeastern University</a> · Khoury College of Computer Sciences</p>
+								</div>
+								<span class="exp-date">Sep 2022 – Aug 2024</span>
+							</div>
+							<p class="exp-desc">Graduate Teaching Assistant for Data Mining, Data Science, and Programming with Python.</p>
+							<div class="exp-tags">
+								<span class="chip">Machine Learning</span>
+								<span class="chip">Computer Vision</span>
+								<span class="chip">LLMs</span>
+								<span class="chip">NLP</span>
+								<span class="chip">Pattern Recognition</span>
+								<span class="chip">Algorithms</span>
+								<span class="chip">AI for HCI</span>
+							</div>
 						</div>
 					</div>
+
+					<div class="timeline-item">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="exp-header">
+								<div class="exp-meta">
+									<h3 class="exp-role">B.Tech. — Computer Science &amp; Engineering</h3>
+									<p class="exp-company"><a class="company-link" href="https://www.ipu.ac.in/">Guru Gobind Singh Indraprastha University</a> · AIACTR (NSUT East Campus)</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</section>
 
@@ -275,125 +354,112 @@ title: Harshit Kumar | Home
 
 
         <aside id="sidebar">
-            <div class="dark">
+
+            <div class="sidebar-section">
                 <h2>Contact</h2>
-				<ul id="social-icons">
-					{% if site.linkedin_username %}
-						<li>
-							<a href="https://linkedin.com/in/{{ site.linkedin_username }}">
-							<span style="font-size: 32px" class="fa fa-linkedin"></span>
-							<span class="icon-text">LinkedIn</span>
-							</a>
-						</li>
-					{% endif %}
-					{% if site.github_username %}
-						<li>
-							<a style="color: white;font-size: 32px" href="https://github.com/{{ site.github_username }}">
-							<span class="fa fa-github"></span>
-							<span class="icon-text">GitHub</span>
-							</a>
-						</li>
-					{% endif %}
-					<!-- {% if site.stackoverflow_username %}
-						<li>
-							<a style="color:orangered;" href="https://stackoverflow.com/users/{{ site.stackoverflow_username }}">
-							<i class="fa fa-stack-overflow"></i>
-							</a>
-						</li>
-					{% endif %} 
-					{% if site.kaggle_username %}
-						<li>
-							<a href="https://www.kaggle.com/{{ site.kaggle_username }}">
-							<i style="font-size: 22px" class="fa fa-kagg"></i>
-							</a>
-						</li>
-					{% endif %}	-->	
-
-				<a href="https://stackoverflow.com/users/6210807/kHarshit">
-					<div style="color:#F48024">Top-15 PyTorch contributor on</div>
-					<span class="icon-text" style="color: #F48024">StackOverflow</span>
-					<img src="https://stackexchange.com/users/flair/6642002.png" width="208" height="58" 
-					alt="kHarshit profile at Stack Overflow"></a>
-				<br />
-				</ul>	
-
-				<!-- <p>Questions or suggestions?
-
-				<section id="contact-form">
-					<form method="POST" action="https://formspree.io/{{ site.email }}">
-						<input type="email" name="email" placeholder="Your email">
-						<textarea name="message" placeholder="Your message"></textarea>
-						<button type="submit">Send</button>
-					</form>	
-				</section> -->
+                {% if site.linkedin_username %}
+                <a class="social-row" href="https://linkedin.com/in/{{ site.linkedin_username }}">
+                    <i class="fa fa-linkedin"></i>
+                    <span>LinkedIn</span>
+                </a>
+                {% endif %}
+                {% if site.github_username %}
+                <a class="social-row" href="https://github.com/{{ site.github_username }}">
+                    <i class="fa fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                {% endif %}
+                <a class="social-row" href="https://stackoverflow.com/users/6210807/kHarshit">
+                    <i class="fa fa-stack-overflow"></i>
+                    <span>Stack Overflow</span>
+                    <span class="so-badge">Top-15 PyTorch</span>
+                </a>
+                {% if site.kaggle_username %}
+                <a class="social-row" href="https://www.kaggle.com/{{ site.kaggle_username }}">
+                    <i class="fa fa-database"></i>
+                    <span>Kaggle</span>
+                </a>
+                {% endif %}
             </div>
 
-            <div class="dark">
+            <div class="sidebar-section">
                 <h2>Certifications</h2>
-				<ul id="social-icons">
-					<a style="color: #ae97f4; font-size: 20px;" href="https://aws.amazon.com/certification/certified-machine-learning-specialty/">AWS Certified Machine Learning - Specialty</a><br />
-					<a style="font-size: 20px;" href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/">Microsoft Certified Azure AI 900</a><br />
-					<a style="color: #bd5341;font-size: 20px;" href="https://education.oracle.com/oracle-cloud-infrastructure-2024-generative-ai-professional/pexam_1Z0-1127-24">Oracle Cloud Infrastructure 2024 Generative AI Professional</a>
-				</ul>
+                <a class="cert-item" href="https://aws.amazon.com/certification/certified-machine-learning-specialty/">AWS Certified Machine Learning – Specialty</a>
+                <a class="cert-item" href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/">Microsoft Azure AI Fundamentals (AI-900)</a>
+                <a class="cert-item" href="https://education.oracle.com/oracle-cloud-infrastructure-2024-generative-ai-professional/pexam_1Z0-1127-24">Oracle Cloud Generative AI Professional</a>
+            </div>
 
-			</div>
+            <div class="sidebar-section">
+                <div id="skills">
+                    <h2>Skills</h2>
+                    <div class="skill-group">
+                        <span class="skill-label">Languages</span>
+                        <div class="skill-chips">
+                            <span class="chip">Python</span>
+                            <span class="chip">C++</span>
+                            <span class="chip">JavaScript</span>
+                            <span class="chip">SQL</span>
+                            <span class="chip">Java</span>
+                            <span class="chip">R</span>
+                            <span class="chip">LaTeX</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <span class="skill-label">Machine Learning</span>
+                        <div class="skill-chips">
+                            <span class="chip">PyTorch</span>
+                            <span class="chip">TensorFlow</span>
+                            <span class="chip">OpenCV</span>
+                            <span class="chip">scikit-learn</span>
+                            <span class="chip">pandas</span>
+                            <span class="chip">numpy</span>
+                            <span class="chip">LangChain</span>
+                            <span class="chip">HuggingFace</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <span class="skill-label">Tools &amp; Frameworks</span>
+                        <div class="skill-chips">
+                            <span class="chip">Docker</span>
+                            <span class="chip">Kubernetes</span>
+                            <span class="chip">Git</span>
+                            <span class="chip">DVC</span>
+                            <span class="chip">ONNX</span>
+                            <span class="chip">Flask</span>
+                            <span class="chip">Django</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <span class="skill-label">MLOps</span>
+                        <div class="skill-chips">
+                            <span class="chip">AWS SageMaker</span>
+                            <span class="chip">Azure</span>
+                            <span class="chip">GCP</span>
+                            <span class="chip">TensorRT</span>
+                            <span class="chip">CUDA</span>
+                            <span class="chip">MLFlow</span>
+                            <span class="chip">DeepStream</span>
+                            <span class="chip">CI/CD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			<div class="dark">
-				<div id="skills">
-					<h2>Skills</h2>
-					<ul>
-						<li><strong>Programming/Markup languages:</strong>
-							Python, C++, C, JavaScript, SQL, Java, R, HTML5, CSS3, LaTeX
-						</li>	
-						<li><strong>Machine Learning:</strong>
-							PyTorch, Tensorflow, OpenCV, scikit-learn, xgboost, pandas, numpy, nltk, Dask, plotly, LangChain
-						</li>
-						<li><strong>Tools & Frameworks:</strong>
-							Django, Flask, GStreamer, Git, DVC, Docker, Kubernetes, Kafka, Slurm, ONNX, Linux, HuggingFace
-						</li>	
-						<li>
-							<strong>MLOps:</strong>
-							AWS SageMaker, Azure, GCP, Nvidia DeepStream, TensorRT, CUDA, MLFlow, Intel OpenVINO, GitHub Actions, CI/CD
-						</li>
-					</ul>
-				</div>
-			</div>
+            <div class="sidebar-section">
+                <h2>Latest Posts</h2>
+                {% for post in site.posts limit:4 %}
+                <div class="sidebar-post-item">
+                    <a href="{{ post.url }}">{{ post.title }}</a>
+                    <span class="sidebar-post-date">{{ post.date | date: "%b %Y" }}</span>
+                </div>
+                {% endfor %}
+            </div>
 
-			<div class="dark">
-				<section id="projects">
-						<h2>Latest Blog Posts</h2>
-						<div class="blog-posts">
-							{% for post in site.posts limit:3 %}
-							<div class="post-preview">
-								<div class="post-image">
-									{% assign foundImage = 0 %}
-									{% assign images = post.content | split:"<img " %}
-									{% for image in images %}
-									{% if image contains 'src' %}
-										{% if foundImage == 0 %}
-											{% assign html = image | split:"/>" | first %}
-											<img style="max-width: 100%; height: auto; display:block; margin-bottom: 10px;" {{ html }}/>
-											{% assign foundImage = 1 %}
-										{% endif %}
-									{% endif %}
-									{% endfor %}
-								</div>
-								<h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-								<p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
-								<a href="{{ post.url }}" class="btn read-more">Read More</a>
-							</div>
-							{% endfor %}
-					</div>
-				</section>
-			</div>
+            <div class="sidebar-section">
+                <h2>Events</h2>
+                <p style="margin: 0; font-size: 14px; line-height: 1.6;">I love attending tech conferences and events. <a href="/events">See the full list →</a></p>
+            </div>
 
-			<div class="dark">
-				<section id="projects">
-					<h3>Events & Conferences</h3>	
-					I love attending events and conferences.
-					<p>Check the ones I attended on the <a style="color: seagreen;" href="/events">EVENTS</a> page.</p>
-				</section>
-			</div>
         </aside>
     </div>
 

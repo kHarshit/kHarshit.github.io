@@ -6,13 +6,13 @@ title: Technical Fridays | Blog
 <header id="top_header">
   <div class="container">
     <div id="branding">
-        <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
-		</div>
+      <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
+    </div>
     <nav>
       <ul>
         <li><a href="{{ site.url }}">Home</a></li>
-         <li class="current"><a href="/blog">Blog</a></li>
-         <li><a href="/poems">Poems</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li><a href="/poems">Poems</a></li>
       </ul>
     </nav>
   </div>
@@ -20,77 +20,115 @@ title: Technical Fridays | Blog
 
 <section id="main">
   <div class="container">
-    <h1>Blog | Technical Fridays<a style="color:seagreen; float: right; font-size: 20px; text-decoration: none; padding-top: 12px;" href="/archive.html">Archives</a></h1>
 
-    <p>
-    My personal notes in the form of blog posted on Fridays:
-    <a style="text-decoration: none; color: seagreen;" href="{{ site.url }}{% post_url 2017-07-21-technical-fridays %}" 
-      onMouseOver="this.style.color='#3bd382'"
-      onMouseOut="this.style.color='#2e8b57'">Technical Fridays</a></p>
-      
-    <div id="post">
-        <ul class="tag-cloud">
-            {% for category  in site.categories %}
-                <li style="font-size: {{ category | last | size | times: 100 | divided_by: site.categories.size | plus: 70 }}%">
-                    <a href="{{ site.url }}/categories/#{{ category | first | slugify }}">
-                      {{ category | first }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-        </div>
-    <gcse:search></gcse:search>
+    <div class="blog-page-header">
+      <h1 class="blog-page-title">Technical Fridays</h1>
+      <a class="blog-archive-link" href="/archive.html">Archives →</a>
+    </div>
+
+    <p class="blog-page-desc">
+      Personal notes on machine learning, deep learning, and software engineering —
+      <a href="{{ site.url }}{% post_url 2017-07-21-technical-fridays %}">what's Technical Fridays?</a>
+    </p>
 
     <div id="post">
-      <ul class="posts">
+      <ul class="tag-cloud">
+        {% for category in site.categories %}
+          <li style="font-size: {{ category | last | size | times: 100 | divided_by: site.categories.size | plus: 70 }}%">
+            <a href="{{ site.url }}/categories/#{{ category | first | slugify }}">{{ category | first }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
 
-        <!-- This loops through the paginated posts date: '%b %d, %Y'-->
+    <div id="post">
+      <ul class="blog-list">
+
         {% for post in paginator.posts %}
-          <li><span>{{ post.date | date_to_string }}</span> » <a href="{{ post.url }}" title="{{
-            post.title }}">{{ post.title }}</a></li>
+          {% assign first_img_src = "" %}
+          {% if post.content contains '<img' %}
+            {% assign img_split = post.content | split: '<img' %}
+            {% assign first_img  = img_split[1] %}
+            {% assign src_split  = first_img | split: 'src="' %}
+            {% if src_split.size > 1 %}
+              {% assign first_img_src = src_split[1] | split: '"' | first %}
+            {% endif %}
+          {% endif %}
+          {% assign words     = post.content | number_of_words %}
+          {% assign read_time = words | divided_by: 200 %}
+          {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
+
+          <li class="blog-list-item">
+            <a href="{{ post.url }}" title="{{ post.title }}">
+              <div class="blog-list-thumb">
+                {% if first_img_src != "" %}
+                  <img src="{{ first_img_src }}" alt="{{ post.title }}" loading="lazy">
+                {% else %}
+                  <div class="blog-list-thumb-placeholder">
+                    <i class="fa fa-file-text-o"></i>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="blog-list-body">
+                {% if post.categories.size > 0 %}
+                  <span class="blog-list-category">{{ post.categories | first }}</span>
+                {% endif %}
+                <h3 class="blog-list-title">{{ post.title }}</h3>
+                <p class="blog-list-excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date">{{ post.date | date: "%b %d, %Y" }}</span>
+                  <span class="blog-list-sep">·</span>
+                  <span class="blog-list-readtime">{{ read_time }} min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
         {% endfor %}
 
-        <!-- Pagination links -->
-        {% if paginator.total_pages > 1 %}
-        <div class="pagination">
-          {% if paginator.previous_page %}
-            <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
-          {% else %}
-            <span>&laquo; Prev</span>
-          {% endif %}
-
-          {% for page in (1..paginator.total_pages) %}
-            {% if page == paginator.page %}
-              <em>{{ page }}</em>
-            {% elsif page == 1 %}
-              <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
-            {% else %}
-              <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
-            {% endif %}
-          {% endfor %}
-
-          {% if paginator.next_page %}
-            <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
-          {% else %}
-            <span>Next &raquo;</span>
-          {% endif %}
-        </div>
-        {% endif %}
       </ul>
-    </div>           
-	</div>
+
+      {% if paginator.total_pages > 1 %}
+      <div class="pagination">
+        {% if paginator.previous_page %}
+          <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
+        {% else %}
+          <span>&laquo; Prev</span>
+        {% endif %}
+
+        {% for page in (1..paginator.total_pages) %}
+          {% if page == paginator.page %}
+            <em>{{ page }}</em>
+          {% elsif page == 1 %}
+            <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
+          {% else %}
+            <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+          {% endif %}
+        {% endfor %}
+
+        {% if paginator.next_page %}
+          <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
+        {% else %}
+          <span>Next &raquo;</span>
+        {% endif %}
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
 
   <footer>
     <div class="container">
       <div id="main-art">
-      
-        <form id="timyletter-form" style="padding:3px;text-align:center;" 
-          action="https://tinyletter.com/kHarshit" method="post" target="popupwindow" 
+        <form id="timyletter-form" style="padding:3px;text-align:center;"
+          action="https://tinyletter.com/kHarshit" method="post" target="popupwindow"
           onsubmit="window.open('https://tinyletter.com/kHarshit', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
-          <p><input type="text" style="width:200px; height:25px;" name="email" id="tlemail" placeholder="Your email"/>
-          <input type="hidden" value="1" name="embed"/>
-          <input type="submit" style="font-size: 100%; margin: 0.2em" value="Subscribe" /></p></form>
-
+          <p>
+            <input type="text" style="width:200px; height:25px;" name="email" id="tlemail" placeholder="Your email"/>
+            <input type="hidden" value="1" name="embed"/>
+            <input type="submit" style="font-size: 100%; margin: 0.2em" value="Subscribe" />
+          </p>
+        </form>
         <div style="text-align: center">
           Subscribe via <a class="fa fa-rss" href="/feed.xml"></a>
         </div>
