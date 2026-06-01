@@ -1,3 +1,9 @@
 _site/
 .idea/
 
+# local development files
+_config_local.yml
+.bundle/
+vendor/
+Gemfile.local
+Gemfile.local.lock
