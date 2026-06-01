@@ -3,7 +3,8 @@
     max-width: 640px;
     margin: 2rem auto;
     padding: 0 1rem;
-    line-height: 1.8;
+    font-size: var(--text-lg);
+    line-height: 1.65;
 }
 
 .text-title {

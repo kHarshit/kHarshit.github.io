@@ -1361,6 +1361,10 @@ input#themeswitch {
     padding-top: 0;
 }
 
+#post {
+    font-size: var(--text-lg);
+}
+
 #post .blog-list-item a {
     display: flex;
     gap: 20px;
