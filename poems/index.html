@@ -34,22 +34,26 @@ title: "Harshit's fav poems"
       <div id="category-filters" class="poem-filters">
         <button class="filter-btn active" onclick="filterSelection('all')">All</button>
         {% assign all_categories = "" %}
-        {% assign poems = site.poems | default: empty %}
-        {% for item in poems %}
+        {% if site.poems %}
+        {% for item in site.poems %}
           {% for category in item.categories %}
             {% unless all_categories contains category %}
               {% assign all_categories = all_categories | append:category | append:"," %}
             {% endunless %}
           {% endfor %}
         {% endfor %}
+        {% endif %}
         {% assign unique_categories = all_categories | split:"," | uniq %}
         {% for category in unique_categories %}
+          {% if category != "" %}
           <button class="filter-btn" onclick="filterSelection('{{ category | slugify }}')">{{ category | capitalize }}</button>
+          {% endif %}
         {% endfor %}
       </div>
 
       <ul class="blog-list">
-        {% assign sorted_poems = poems | sort: 'date' | reverse %}
+        {% if site.poems %}
+        {% assign sorted_poems = site.poems | sort: 'date' | reverse %}
         {% for item in sorted_poems %}
           {% assign category_classes = item.categories | join: ' ' | slugify %}
           {% assign excerpt = item.content | strip_html | strip_newlines | truncatewords: 18 %}
@@ -86,6 +90,7 @@ title: "Harshit's fav poems"
             </a>
           </li>
         {% endfor %}
+        {% endif %}
       </ul>
     </div>
 
