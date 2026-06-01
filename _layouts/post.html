@@ -18,98 +18,109 @@ layout: default
 </header>
 
 <div class="container">
-    <h1>{{ page.title }}</h1>
-    
-    {{ page.date | date: "%A, %B %-d, %Y" }}<br />
-    {% include readtime.html %}
-        
-    <div id="post">
+    <div class="post-header">
+        <h1 class="post-title">{{ page.title }}</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> {{ page.date | date: "%B %-d, %Y" }}</span>
+            <span class="post-meta-sep">·</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> {% include readtime.html %}</span>
+        </div>
+    </div>
+
+    <div id="post" class="post-content">
         {{ content }}
     </div>
 
-    <!-- For Tags (Categories) -->
-    <div id="tags">
-        <div class="post-categories">
-            {% if post %}
-                {% assign categories = post.categories %}
-            {% else %}
-                {% assign categories = page.categories %}
-            {% endif %}
-            {% for category in categories %}
-                <a href="{{site.baseurl}}/categories/#{{category|slugify}}">{{category}}</a>
-                {% unless forloop.last %}&nbsp;{% endunless %}
-            {% endfor %}
-        </div>
-    </div>     
+    <!-- Tags -->
+    {% assign categories = page.categories %}
+    {% if categories.size > 0 %}
+    <div class="post-tag-list">
+        {% for category in categories %}
+            <a href="{{ site.baseurl }}/categories/#{{ category | slugify }}" class="post-tag-chip">{{ category }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
 
-    <div class="dark">
-    <form>
-        This page is open source. Improve its content!
-        <button formaction="{% github_edit_link %}" style="float: right;">Edit</button>
-    </form>
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="{% github_edit_link %}" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
     </div>
 
-    <div class="PageNavigation">
+    <!-- Prev / Next -->
+    <nav class="post-nav">
         {% if page.previous.url %}
-            <a class="prev" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
+        <a class="post-nav-item post-nav-prev" href="{{ page.previous.url }}">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">{{ page.previous.title }}</span>
+        </a>
+        {% else %}
+        <div class="post-nav-item post-nav-prev post-nav-empty"></div>
         {% endif %}
         {% if page.next.url %}
-            <a class="next" href="{{ commonTags }}{{page.next.url}}">{{page.next.title}} &raquo;</a>
+        <a class="post-nav-item post-nav-next" href="{{ page.next.url }}">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">{{ page.next.title }}</span>
+        </a>
+        {% else %}
+        <div class="post-nav-item post-nav-next post-nav-empty"></div>
         {% endif %}
-    </div>
+    </nav>
 
-    <!-- Subscription form -->
-    <form id="timyletter-form" style="padding:3px;text-align:center;" 
-          action="https://tinyletter.com/kHarshit" method="post" target="popupwindow" 
-          onsubmit="window.open('https://tinyletter.com/kHarshit', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
-          <p><input type="text" style="width:200px; height:25px;" name="email" id="tlemail" placeholder="Your email"/>
-          <input type="hidden" value="1" name="embed"/>
-          <input type="submit" style="font-size: 100%; margin: 0.2em" value="Subscribe" /></p></form>
 
     <!-- Related posts -->
-    <h4>You May Also Like</h4> 
-    <div id="post">
-        <div class="relatedposts">      
-            {% assign maxRelated = 4 %}
-            {% assign minCommonTags =  2 %}
-            {% assign maxRelatedCounter = 0 %}
-            
-            {% for post in site.posts %}
-                {% assign sameTagCount = 0 %}
-                {% assign commonTags = '' %}
-            
-                {% for category in post.categories %}
-                  {% if post.url != page.url %}
+    {% assign maxRelated = 4 %}
+    {% assign minCommonTags = 2 %}
+    {% assign maxRelatedCounter = 0 %}
+    {% assign hasRelated = false %}
+    {% for post in site.posts %}
+        {% assign sameTagCount = 0 %}
+        {% for category in post.categories %}
+            {% if post.url != page.url %}
+                {% if page.categories contains category %}
+                    {% assign sameTagCount = sameTagCount | plus: 1 %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if sameTagCount >= minCommonTags and maxRelatedCounter < maxRelated %}
+            {% assign hasRelated = true %}
+        {% endif %}
+    {% endfor %}
+
+    {% if hasRelated %}
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        {% assign maxRelatedCounter = 0 %}
+        {% for post in site.posts %}
+            {% assign sameTagCount = 0 %}
+            {% for category in post.categories %}
+                {% if post.url != page.url %}
                     {% if page.categories contains category %}
-                      {% assign sameTagCount = sameTagCount | plus: 1 %}
-                      {% capture tagmarkup %} <span class="label label-default">{{ category }}</span> {% endcapture %}
-                      {% assign commonTags = commonTags | append: tagmarkup %}
+                        {% assign sameTagCount = sameTagCount | plus: 1 %}
                     {% endif %}
-                  {% endif %}
-                {% endfor %}
-            
-                {% if sameTagCount >= minCommonTags %}
-                <div class="relative-relatedposts">
-                    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-                </div>
-                {% assign maxRelatedCounter = maxRelatedCounter | plus: 1 %}
-                    {% if maxRelatedCounter >= maxRelated %}
-                        {% break %}
-                    {% endif %}
-                {% endif %}        
+                {% endif %}
             {% endfor %}
+            {% if sameTagCount >= minCommonTags and maxRelatedCounter < maxRelated %}
+            <a class="post-related-card" href="{{ site.baseurl }}{{ post.url }}">
+                <span class="post-related-title">{{ post.title }}</span>
+                <span class="post-related-date">{{ post.date | date: "%b %Y" }}</span>
+            </a>
+            {% assign maxRelatedCounter = maxRelatedCounter | plus: 1 %}
+            {% endif %}
+        {% endfor %}
         </div>
     </div>
+    {% endif %}
 
     <div class="notecomments">
-		{% include disqus.html %}	 
+        {% include disqus.html %}
     </div>
-        
+
     <button onclick="topFunction()" id="scroll_top" title="Go to top"><span class="fa fa-chevron-up"></span></button>
     <script src="/css/script.js"></script>
 
-    <!-- For LaTeX (including MathJax) -->
+    <!-- MathJax -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
-
 </div>
-    

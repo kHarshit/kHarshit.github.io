@@ -66,6 +66,11 @@
 .lineno::-moz-selection {background-color: transparent;} /* Mozilla specific */
 .lineno::selection {background-color: transparent;} /* Other major browsers */
 
+figure.highlight {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .highlight pre {
     white-space: pre-wrap;  /* code-wrap */
 }
@@ -127,26 +132,3 @@
     background: rgba(0, 0, 0, 0.9);
 }
 
-.PageNavigation {
-    font-size: 16px;
-    display: block;
-    width: auto;
-    overflow: hidden;
-    color: yellowgreen;
-  }
-  
-  .PageNavigation a {
-    display: block;
-    width: 50%;
-    float: left;
-    color: darkslategray;
-    margin: 1em 0;
-  }
-
-  .PageNavigation a:hover{
-      color: darkgreen;
-  }
-  
-  .PageNavigation .next {
-    text-align: right;
-  }
