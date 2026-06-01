@@ -1,0 +1,27 @@
+---
+layout: default
+---
+<link rel="stylesheet" href="/css/poems.css">
+
+<header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ site.url }}">Home</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li class="current"><a href="/poems">Poems</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <article class="poem poetry">
+        <h1 class="text-title">{{ page.title }}</h1>
+        <p class="byline">{{ page.author }}</p>
+        {{ content }}
+    </article>
+</div>

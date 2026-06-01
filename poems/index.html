@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Harshit's fav poems"
+---
+<link rel="stylesheet" href="/css/poems.css">
+
+<header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ site.url }}">Home</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li class="current"><a href="/poems">Poems</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section id="main">
+  <div class="container">
+
+    <div class="blog-page-header">
+      <h1 class="blog-page-title">Poems</h1>
+    </div>
+
+    <p class="blog-page-desc">
+      Welcome to my poetic realm where each verse cradles a cherished memory and every line tells a story close to my soul.
+    </p>
+
+    <div id="post">
+      <div id="category-filters" class="poem-filters">
+        <button class="filter-btn active" onclick="filterSelection('all')">All</button>
+        {% assign all_categories = "" %}
+        {% for item in site.poems %}
+          {% for category in item.categories %}
+            {% unless all_categories contains category %}
+              {% assign all_categories = all_categories | append:category | append:"," %}
+            {% endunless %}
+          {% endfor %}
+        {% endfor %}
+        {% assign unique_categories = all_categories | split:"," | uniq %}
+        {% for category in unique_categories %}
+          <button class="filter-btn" onclick="filterSelection('{{ category | slugify }}')">{{ category | capitalize }}</button>
+        {% endfor %}
+      </div>
+
+      <ul class="blog-list">
+        {% assign sorted_poems = site.poems | sort: 'date' | reverse %}
+        {% for item in sorted_poems %}
+          {% assign category_classes = item.categories | join: ' ' | slugify %}
+          {% assign excerpt = item.content | strip_html | strip_newlines | truncatewords: 18 %}
+          {% assign first_img_src = "" %}
+          {% if item.content contains '<img' %}
+            {% assign img_split = item.content | split: '<img' %}
+            {% assign first_img  = img_split[1] %}
+            {% assign src_split  = first_img | split: 'src="' %}
+            {% if src_split.size > 1 %}
+              {% assign first_img_src = src_split[1] | split: '"' | first %}
+            {% endif %}
+          {% endif %}
+          <li class="blog-list-item text-category-title {{ category_classes }}">
+            <a href="{{ item.url }}">
+              <div class="blog-list-thumb">
+                {% if first_img_src != "" %}
+                  <img src="{{ first_img_src }}" alt="{{ item.title }}" loading="lazy">
+                {% else %}
+                  <div class="blog-list-thumb-placeholder">
+                    <i class="fa fa-quote-left"></i>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="blog-list-body">
+                {% if item.categories.size > 0 %}
+                  <span class="blog-list-category">{{ item.categories | first }}</span>
+                {% endif %}
+                <h3 class="blog-list-title">{{ item.title }}</h3>
+                <p class="blog-list-excerpt">{{ excerpt }}</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date">{{ item.author }}</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<script src="/css/filter_btn.js"></script>

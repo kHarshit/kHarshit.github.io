@@ -1,0 +1,108 @@
+/* ── Individual poem page ─────────────────────────────────── */
+.poetry {
+    max-width: 640px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    line-height: 1.8;
+}
+
+.text-title {
+    font-size: 1.6em;
+    margin-bottom: 0.25em;
+}
+
+.byline {
+    font-style: italic;
+    color: #888;
+    margin-top: 0;
+    margin-bottom: 1.5em;
+}
+
+/* Poem lines rendered as a list */
+.poetry ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5em 0;
+}
+
+.poetry ul li {
+    padding: 0;
+    margin: 0;
+}
+
+/* Kramdown wraps the last <li> before a blank line in a <p> tag (loose-list
+   behaviour). Strip all margin from that <p> so it doesn't add space inside
+   the stanza, then use :has() to add the stanza gap via margin-bottom on the
+   <li> itself — which is always the last line before a stanza break. */
+.poetry ul li p {
+    margin: 0;
+}
+
+.poetry ul li:has(> p) {
+    margin-bottom: 1.5em;
+}
+
+/* Indentation utility classes (from Ed. theme) */
+.indent-1  { padding-left: 1em; }
+.indent-2  { padding-left: 2em; }
+.indent-3  { padding-left: 3em; }
+.indent-4  { padding-left: 4em; }
+.indent-5  { padding-left: 5em; }
+.indent-6  { padding-left: 6em; }
+.indent-7  { padding-left: 7em; }
+.indent-8  { padding-left: 8em; }
+.indent-9  { padding-left: 9em; }
+.indent-10 { padding-left: 10em; }
+
+/* ── Poems index: category filter pills ──────────────────── */
+.poem-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.poem-filters .filter-btn {
+    border: 1.5px solid #e0e0e0;
+    background: transparent;
+    color: var(--font-color, #282828);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    outline: none;
+}
+
+[data-theme="dark"] .poem-filters .filter-btn {
+    border-color: #444;
+    color: #ddd;
+}
+
+.poem-filters .filter-btn:hover {
+    border-color: var(--accent-color, #20B2AA);
+    color: var(--accent-color, #20B2AA);
+    background: transparent;
+}
+
+.poem-filters .filter-btn.active {
+    background: var(--accent-color, #20B2AA);
+    border-color: var(--accent-color, #20B2AA);
+    color: #fff;
+}
+
+/* ── Poems index: list items ─────────────────────────────── */
+.text-category-title {
+    display: none;
+}
+
+.text-category-title.show {
+    display: block;
+}
+
+/* Neutralise the first-child padding reset from main.css so all items
+   have identical padding regardless of which ones are hidden by filtering. */
+.blog-list .blog-list-item:first-child {
+    padding-top: 22px;
+}

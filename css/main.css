@@ -1,4 +1,5 @@
 :root {
+  /* ── Colour palette ───────────────────────────────────────── */
   --bg-color: #ffffff;
   --font-color: #282828; /* 424242, 3B3B3B*/
   --accent-color: #20B2AA;
@@ -6,6 +7,14 @@
   --card-bg: #f4f4f4;
   --card-bg-alt: #f5f5f5;
   --header-bg: #0f1117;
+
+  /* ── Type scale — change these to resize the whole site ──── */
+  --text-xs:   12px;    /* tiny labels: skill tags, badge labels  */
+  --text-sm:   14.5px;  /* secondary UI: nav, meta, chips         */
+  --text-md:   16px;    /* card content, descriptions, footer     */
+  --text-base: 20px;    /* body copy                              */
+  --text-lg:   18px;    /* card titles, bio, list headings        */
+  --text-hero: 50px;    /* showcase heading                       */
 }
 
 [data-theme="dark"] {
@@ -16,8 +25,10 @@
 }
 
 body {
-    /* font: font-style font-variant font-weight font-size/line-height font-family */
-    font: 400 18px/1.65 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: var(--text-base);
+    font-weight: 400;
+    line-height: 1.65;
     padding: 0px;
     margin: 0px;
     background-color: var(--bg-color);
@@ -106,7 +117,7 @@ nav a {
     list-style: none;
     position: relative;
     padding-bottom: 3px;
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 500;
     transition: color 0.2s ease;
 }
@@ -171,7 +182,7 @@ nav .current a::after {
 }
 
 #showcase h1 {
-    font-size: 45px;
+    font-size: var(--text-hero);
     margin-bottom: 10px;
 }
 
@@ -303,7 +314,7 @@ article#main-art{
 }
 
 .exp-role {
-    font-size: 16px;
+    font-size: var(--text-lg);
     font-weight: 700;
     margin: 0 0 3px 0;
     color: var(--font-color);
@@ -311,7 +322,7 @@ article#main-art{
 }
 
 .exp-company {
-    font-size: 14.5px;
+    font-size: var(--text-md);
     color: #666;
     margin: 0;
 }
@@ -321,7 +332,7 @@ article#main-art{
 }
 
 .exp-date {
-    font-size: 12px;
+    font-size: var(--text-sm);
     font-weight: 500;
     color: #888;
     background: #f1f5f9;
@@ -344,7 +355,7 @@ article#main-art{
 }
 
 .exp-desc {
-    font-size: 14.5px;
+    font-size: var(--text-md);
     line-height: 1.65;
     color: #555;
     margin: 0 0 10px 0;
@@ -361,7 +372,7 @@ article#main-art{
 }
 
 .exp-tags .chip {
-    font-size: 11.5px;
+    font-size: var(--text-sm);
     padding: 2px 9px;
 }
 
@@ -376,7 +387,7 @@ article#main-art{
 }
 
 .exp-sub-role {
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: #666;
     margin: 0 0 5px 0;
@@ -422,7 +433,7 @@ article#main-art{
     padding: 9px 13px;
     color: #94a3b8;
     text-decoration: none;
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 500;
     border-radius: 9px;
     transition: all 0.18s ease;
@@ -433,7 +444,7 @@ article#main-art{
 .sidebar-link .fa {
     width: 14px;
     text-align: center;
-    font-size: 12px;
+    font-size: var(--text-sm);
     flex-shrink: 0;
 }
 
@@ -506,7 +517,7 @@ article#main-art{
 }
 
 .project-card h4 {
-    font-size: 14px;
+    font-size: var(--text-md);
     font-weight: 600;
     line-height: 1.5;
     margin: 14px;
@@ -515,7 +526,7 @@ article#main-art{
 }
 
 .project-card p {
-    font-size: 14px;
+    font-size: var(--text-md);
     margin: 0 14px 14px;
 }
 
@@ -561,7 +572,7 @@ article#main-art{
     outline: none;
     background-color: #e7e7e7;
     border-radius: 20px;
-    font-size: 14px;
+    font-size: var(--text-md);
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -655,7 +666,7 @@ article#main-art{
     margin-top: 20px;
 	color: slategray;
 	border-top: 1px solid #d5d5d5;
-	font-size: 15px;
+	font-size: var(--text-md);
 
 }
 
@@ -684,74 +695,69 @@ iframe, object, embed, video{
   
 /* Switch theme */
 
+/* ── Theme toggle button ──────────────────────────────────── */
+
+input#themeswitch {
+    display: none;
+}
+
 .theme-switch-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: fixed;
-    top: 19px;
+    top: 16px;
     right: 20px;
     z-index: 1000;
 }
 
-.toggle-track {
-    background: #e0e0e0; /* Light gray track background */
-    border-radius: 20px;
+#theme-switch {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 5px;
-    position: relative; /* Container for sun/moon icons and thumb */
-    height: 20px; /* Height of the track */
-    width: 45px; /* Width of the track */
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.toggle-icon {
-    color: #f9c22b; /* Sun color */
-    z-index: 1;
+#theme-switch:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: scale(1.1);
 }
 
-.fa-moon-o {
-    color: #f9d71c; /* Moon color */
+.toggle-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .toggle-thumb {
-    background: #fff;
-    border-radius: 50%;
-    position: absolute;
-    top: 2px; /* Spacing from top of track */
-    bottom: 2px; /* Spacing from bottom of track */
-    left: 4px; /* Spacing from left of track */
-    width: 26px; /* Diameter of the thumb */
-    height: 26px; /* Diameter of the thumb */
-    transition: 0.3s; /* Smooth transition for sliding */
+    display: none;
 }
 
-/* When the dark theme is active, change thumb background */
-[data-theme="dark"] .toggle-thumb {
-    background: #333; /* Dark mode circle color */
+/* Light mode: show sun, hide moon */
+.toggle-icon.fa-sun-o {
+    display: inline-block;
+    color: #f9c22b;
+    font-size: 16px;
+    line-height: 1;
 }
 
-input#themeswitch {
-    display: none; /* Hide the checkbox */
+.toggle-icon.fa-moon-o {
+    display: none;
+    font-size: 15px;
+    line-height: 1;
 }
 
-input#themeswitch:checked + #theme-switch .toggle-thumb {
-    transform: translateX(24px); /* Slide thumb to the right */
+/* Dark mode: show moon, hide sun */
+[data-theme="dark"] .toggle-icon.fa-sun-o {
+    display: none;
 }
 
-/* When the dark theme is active, change track background */
-[data-theme="dark"] .toggle-track {
-    background: #4a4a4a; /* Dark gray track background for dark theme */
-}
-
-/* Adjusting sun and moon icon colors for the dark theme */
-[data-theme="dark"] .fa-sun-o {
-    color: #ffdd57; /* Adjust if you have a different color in mind */
-}
-
-[data-theme="dark"] .fa-moon-o {
-    color: #fff; /* White moon icon */
+[data-theme="dark"] .toggle-icon.fa-moon-o {
+    display: inline-block;
+    color: #e8e8e8;
 }
 
 #contact-form form input, #contact-form form textarea {
@@ -775,8 +781,8 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 .tag-cloud {
     list-style: none;
     padding: 0;
-    text-align: justify; 
-    font-size: 16px;
+    text-align: justify;
+    font-size: var(--text-md);
 }
 
 .tag-cloud li {
@@ -836,7 +842,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
     height: 36px;
     padding: 0 10px;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: var(--text-md);
     font-weight: 500;
     font-style: normal;
     text-decoration: none;
@@ -873,7 +879,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 .pagination a:first-child,
 .pagination a:last-child {
     padding: 0 14px;
-    font-size: 13px;
+    font-size: var(--text-sm);
     letter-spacing: 0.02em;
 }
 
@@ -1034,7 +1040,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 .hero-title {
-    color: var(--accent-color);
+    color: var(--font-color);
     font-size: 1.05em;
     font-weight: 600;
     letter-spacing: 0.03em;
@@ -1042,7 +1048,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 .hero-bio {
-    font-size: 16px;
+    font-size: var(--text-lg);
     line-height: 1.75;
     color: #555;
     margin-bottom: 16px;
@@ -1067,7 +1073,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
     border: 1px solid rgba(32, 178, 170, 0.3);
     border-radius: 16px;
     padding: 3px 11px;
-    font-size: 13px;
+    font-size: var(--text-sm);
     line-height: 1.6;
     white-space: nowrap;
 }
@@ -1089,7 +1095,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 
 .skill-label {
     display: block;
-    font-size: 11px;
+    font-size: var(--text-xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.09em;
@@ -1113,7 +1119,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 /* ── Timeline date ────────────────────────────────────────── */
 
 .timeline-date {
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: #888;
     margin: 2px 0 6px 0;
 }
@@ -1138,7 +1144,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 .sidebar-section h2 {
-    font-size: 11px;
+    font-size: var(--text-xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -1159,7 +1165,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
     border-bottom: 1px solid #ebebeb;
     text-decoration: none !important;
     color: var(--font-color) !important;
-    font-size: 15px;
+    font-size: var(--text-md);
     font-weight: 500;
     opacity: 1 !important;
     transition: color 0.15s ease;
@@ -1182,13 +1188,13 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 .social-row .fa {
     width: 22px;
     text-align: center;
-    font-size: 18px;
+    font-size: var(--text-base);
     color: var(--accent-color);
     padding: 0;
 }
 
 .so-badge {
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: #999;
     margin-left: auto;
     font-weight: 400;
@@ -1200,7 +1206,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
     border-bottom: 1px solid #ebebeb;
     text-decoration: none !important;
     color: var(--font-color) !important;
-    font-size: 14.5px;
+    font-size: var(--text-md);
     line-height: 1.4;
     opacity: 1 !important;
     transition: color 0.15s ease;
@@ -1237,7 +1243,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 .sidebar-post-item a {
     display: block;
     font-weight: 500;
-    font-size: 14.5px;
+    font-size: var(--text-md);
     color: var(--font-color) !important;
     text-decoration: none !important;
     margin-bottom: 3px;
@@ -1252,7 +1258,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 .sidebar-post-date {
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: #999;
 }
 
@@ -1278,7 +1284,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 .blog-archive-link {
-    font-size: 14px;
+    font-size: var(--text-md);
     font-weight: 500;
     color: var(--accent-color) !important;
     text-decoration: none;
@@ -1290,13 +1296,22 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 .blog-page-desc {
-    font-size: 15px;
+    font-size: var(--text-md);
     color: #777;
     margin-bottom: 20px;
 }
 
 [data-theme="dark"] .blog-page-desc {
     color: #999;
+}
+
+.blog-page-desc a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.blog-page-desc a:hover {
+    opacity: 0.75;
 }
 
 /* ── Blog list (editorial) ────────────────────────────────── */
@@ -1379,7 +1394,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 .blog-list-category {
-    font-size: 11px;
+    font-size: var(--text-xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -1387,7 +1402,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 .blog-list-title {
-    font-size: 16px;
+    font-size: var(--text-lg);
     font-weight: 650;
     line-height: 1.4;
     color: var(--font-color);
@@ -1400,7 +1415,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 .blog-list-excerpt {
-    font-size: 13.5px;
+    font-size: var(--text-md);
     color: #666;
     line-height: 1.55;
     margin: 0;
@@ -1423,13 +1438,13 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 
 .blog-list-date,
 .blog-list-readtime {
-    font-size: 12.5px;
+    font-size: var(--text-sm);
     color: #999;
 }
 
 .blog-list-sep {
     color: #ccc;
-    font-size: 12px;
+    font-size: var(--text-sm);
 }
 
 @media (max-width: 768px) {
@@ -1463,7 +1478,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 .post-date {
-    font-size: 14px;
+    font-size: var(--text-md);
     color: #999;
     white-space: nowrap;
     flex-shrink: 0;
@@ -1472,7 +1487,7 @@ input#themeswitch:checked + #theme-switch .toggle-thumb {
 }
 
 #post .post-link {
-    font-size: 16.5px;
+    font-size: var(--text-lg);
     font-weight: 500;
     color: var(--font-color) !important;
     text-decoration: none;
