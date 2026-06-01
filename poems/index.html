@@ -34,8 +34,8 @@ title: "Harshit's fav poems"
       <div id="category-filters" class="poem-filters">
         <button class="filter-btn active" onclick="filterSelection('all')">All</button>
         {% assign all_categories = "" %}
-        {% if site.poems %}
-        {% for item in site.poems %}
+        {% if site.poetry %}
+        {% for item in site.poetry %}
           {% for category in item.categories %}
             {% unless all_categories contains category %}
               {% assign all_categories = all_categories | append:category | append:"," %}
@@ -52,8 +52,8 @@ title: "Harshit's fav poems"
       </div>
 
       <ul class="blog-list">
-        {% if site.poems %}
-        {% assign sorted_poems = site.poems | sort: 'date' | reverse %}
+        {% if site.poetry %}
+        {% assign sorted_poems = site.poetry | sort: 'date' | reverse %}
         {% for item in sorted_poems %}
           {% assign category_classes = item.categories | join: ' ' | slugify %}
           {% assign excerpt = item.content | strip_html | strip_newlines | truncatewords: 18 %}
