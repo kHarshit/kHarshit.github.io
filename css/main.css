@@ -176,6 +176,10 @@ nav .current a::after {
     display: inline;
 }
 
+#showcase, #experience, #education, #projects, #skills {
+    scroll-margin-top: 80px;
+}
+
 #showcase{
 	text-align: center;
     margin-top: 70px;
@@ -254,7 +258,7 @@ article#main-art{
 
 .timeline-icon {
     position: absolute;
-    top: 8px;
+    top: 0;
     left: 0;
     transform: translateX(calc(-50% - 24px));
     width: 12px;
@@ -401,6 +405,9 @@ article#main-art{
 @media screen and (max-width: 768px) {
     .timeline {
         padding-left: 18px;
+    }
+    .timeline-icon {
+        transform: translateX(calc(-50% - 18px));
     }
     .exp-header {
         flex-direction: column;
@@ -929,6 +936,9 @@ input#themeswitch {
 	.container{
 		width: 86%;
 	}
+    #showcase, #experience, #education, #projects, #skills {
+        scroll-margin-top: 110px;
+    }
 	#top_header .container {
         flex-direction: column;
         height: auto;
@@ -987,11 +997,27 @@ input#themeswitch {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        padding: 0;
+        padding: 4px 0;
+        border-radius: 0;
+        border-top: 1px solid rgba(0,0,0,0.07);
     }
 
     .sidebar-link {
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        padding: 6px 8px;
+        font-size: 10px;
+    }
+
+    .sidebar-link span {
+        display: none;
+    }
+
+    .sidebar-link .fa {
+        font-size: 18px;
+        width: auto;
     }
 
     .floating-sidebar ul {
@@ -1003,7 +1029,7 @@ input#themeswitch {
     }
 
     .floating-sidebar ul li {
-        padding: 0 10px; /* Add this line */
+        padding: 0 10px;
     }
 
 
