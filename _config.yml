@@ -28,6 +28,11 @@ paginate: 10
 paginate_path: "/blog/page:num/"
 
 
+collections:
+  poems:
+    output: true
+    permalink: /poems/:title/
+
 plugins:
   - jekyll-feed
   - jekyll-sitemap  # sitemap at /sitemap.xml
