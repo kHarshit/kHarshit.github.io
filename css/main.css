@@ -1399,9 +1399,7 @@ input#themeswitch {
 
 #post a {
     color: var(--accent-color);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
+    text-decoration: none;
 }
 
 #post a:hover {
