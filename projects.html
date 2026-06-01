@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Harshit Kumar | My projects
+title: Harshit Kumar | Projects
 permalink: /projects/
 ---
 
@@ -13,7 +13,7 @@ permalink: /projects/
             <ul>
                 <li><a href="{{ site.url }}">Home</a></li>
                 <li><a href="/blog">Blog</a></li>
-        		<li><a href="/poems">Poems</a></li>
+                <li><a href="/poems">Poems</a></li>
             </ul>
         </nav>
     </div>
@@ -21,180 +21,382 @@ permalink: /projects/
 
 <section id="main">
     <div class="container">
-        <h1>About | My projects</h1>
-        <!-- <span class="fa fa-code"></span> <span style="color: red">Under construction.</span> -->
 
-        <article id="projects-page">
+        <div class="projects-page-header">
+            <h2 class="projects-page-title">Projects</h2>
+            <p class="projects-page-subtitle">A collection of ML, computer vision, and NLP projects.</p>
+            <a href="https://github.com/{{ site.github_username }}" class="projects-github-link" target="_blank" rel="noopener">
+                <i class="fa fa-github"></i> GitHub
+            </a>
+        </div>
 
-            <section>
-                <h3>Current Projects</h3>
-                <ul id="myprojects">
-                    ...
-                </ul>
-            </section>
+        <div class="github-chart-wrap">
+            <img src="http://ghchart.rshah.org/kHarshit" alt="Harshit's GitHub contributions" />
+        </div>
 
-            <section>
-                <h3>Previous Projects</h3>   
-                <p>My  <a href="https://github.com/{{ site.github_username }}">GitHub</a> contributions:</p>
+        <div class="project-filters">
+            <button class="filter-btn active" onclick="filterProjects('all', this)">All</button>
+            <button class="filter-btn" onclick="filterProjects('llm', this)">LLM</button>
+            <button class="filter-btn" onclick="filterProjects('computer-vision', this)">Computer Vision</button>
+            <button class="filter-btn" onclick="filterProjects('nlp', this)">NLP</button>
+            <button class="filter-btn" onclick="filterProjects('data-science', this)">Data Science</button>
+        </div>
 
-                <img src="http://ghchart.rshah.org/kHarshit" alt="Harshit's Github chart"
-                    style="float: center; display: block; margin: auto; width: auto; max-width: 100%;" />
+        <ul class="project-list" id="projects-list">
 
-                <ul id="myprojects">
-                    
-                    <li><a href="https://github.com/kHarshit/visual-question-answering/">
-                        Visual Question Answering with Generative AI</a>
-                        <br />
-                            Integrated Hugging Face pre-trained tokenizers, Visual Transformer for images, and LLMs for generating answers.
-                            Achieved 0.3 WUPS with RoBERTa and BEiT outperforming all 4 model combinations viz. ViT, DEiT with BERT, GPT.
-                            Deployed multimodal VQA in Docker for containerization, Kubernetes for orchestration, ensuring scalable, efficient service.
-                        <img src="/img/vqa_page.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
-                    </li>
+            <li class="project-list-item" data-category="llm computer-vision nlp">
+                <a class="project-list-row" href="https://github.com/kHarshit/visual-question-answering/" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/vqa_page.png" alt="VQA" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">LLM</span><span class="project-tag">Computer Vision</span><span class="project-tag">NLP</span></div>
+                        <h3 class="project-list-title">Multimodal Visual Question Answering with Generative AI utilizing LLM and Vision Language Models</h3>
+                        <p class="project-list-desc">Integrated Hugging Face pre-trained tokenizers, Visual Transformer for images, and LLMs for generating answers. Achieved 0.3 WUPS with RoBERTa and BEiT outperforming all 4 model combinations (ViT, DEiT with BERT, GPT). Deployed in Docker + Kubernetes.</p>
+                    </div>
+                </a>
+            </li>
 
-                    <li><a href="https://github.com/kHarshit/ds5983LLM/">
-                        DS5983: Large Language Models</a>
-                        <br />
-                        <ul>
-                        <li>
-                        Project 1 (N-gram models):
-                            Test various n-gram models on Reuters.
-                        </li> 
-                        <li>
-                        Project 2 (Transformer Architecture Implementation and Machine Translation):
-                            Implemented Transformer model architecture form scratch. Train the model on a machine translation task from German to English using the Multi30k dataset.
-                            Implemented greedy decoding and beam search for translation.
-                        </li> 
-                        <li>
-                        Project 3 (Text Summarization with HuggingFace BART):
-                            Evaluated summarization of 3 pre-trained Hugging Face Transformer models BART, T5, Pegasus on SAMSum dataset.
-                            Improved BART model’s ROUGE score on testing set from 28.7 to 37.5 by fine-tuning with Mixed Precision (AMP).
-                        </li> 
-                        <li>
-                        Project 4 (Prompt Engineering and Few-Shot Learning with Flan-T5 for Dialogue Summarization):
-                            Performed prompt engineering on Flan-T5 using dialogsum dataset with instructional prompts and pre-built T5 prompts.
-                            Experimented with zero-shot and few-shot learning to assess their impact on summaries' relevance and coherence.
-                        </li> 
-                        <li>
-                        Project 5 (Fine-Tuning Flan-T5 with PEFT (LoRA)):
-                            Fine-tuned Flan-T5 LLM for dialogue summarization, employing full and parameter-efficient techniques (PEFT), achieving enhanced performance metrics evaluated via ROUGE scores.
-                            Applied Low-Rank Adaptation (LoRA) to optimize training efficiency, reducing computational resources while maintaining high accuracy in AI-driven summarization tasks.
-                        </li> 
-                        </ul>
-                    </li>
+            <li class="project-list-item" data-category="nlp llm">
+                <a class="project-list-row" href="https://github.com/kHarshit/ds5983LLM/" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/prompt_eng_llm.webp" alt="Prompt Engineering" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">NLP</span><span class="project-tag">LLM</span></div>
+                        <h3 class="project-list-title">Prompt Engineering and Few-Shot Learning with Flan-T5 for Dialogue Summarization</h3>
+                        <p class="project-list-desc">Performed prompt engineering on Flan-T5 using the DialogSum dataset with instructional prompts. Experimented with zero-shot and few-shot learning to assess impact on summary relevance and coherence.</p>
+                    </div>
+                </a>
+            </li>
 
-                    <li><a href="https://github.com/kHarshit/CS5330ComputerVision">
-                        Camera Calibration and Augmented Reality Integration with Checkerboard</a><br />
-                        Applied calibration techniques with checkerboard, camera pose estimation to align virtual objects within AR environment.
-                        Explored feature detection (Harris corners, SURF) for target recognition, and overlayed 3D virtual objects onto 2D video.
-                        <img src="/img/ar_cs5330.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
-                    </li>
+            <li class="project-list-item" data-category="nlp llm">
+                <a class="project-list-row" href="https://github.com/kHarshit/ds5983LLM/" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/llm_peft_lora.webp" alt="LoRA" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">NLP</span><span class="project-tag">LLM</span></div>
+                        <h3 class="project-list-title">Fine-Tuning Flan-T5 with PEFT (LoRA)</h3>
+                        <p class="project-list-desc">Fine-tuned Flan-T5 for dialogue summarization using Low-Rank Adaptation (LoRA), reducing computational cost while maintaining high ROUGE scores.</p>
+                    </div>
+                </a>
+            </li>
 
-                    <li><a href="https://github.com/kHarshit/Colorization-of-paintings-GANs">
-                        Image colorization of historical paintings with GAN</a><br />
-                        Leveraged U-Net and pix2pix Convolutional Generative Adversarial Network, to colorize grayscale historical paintings.
-                        Utilized CIELAB color space conversion and Patch discriminator for enhanced image-to-image translation.
-                        <img src="/img/colorization_GANs.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
-                    </li>
+            <li class="project-list-item" data-category="llm nlp data-science">
+                <a class="project-list-row" href="https://github.com/kHarshit/Financial_Document_Summarization_through_RAG" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/rag_chatbot_10q.png" alt="RAG Chatbot" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">LLM</span><span class="project-tag">NLP</span><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports</h3>
+                        <p class="project-list-desc">Retrieval Augmented Generation pipeline for querying SEC 10Q financial documents using LLMs. Built document ingestion, vector store retrieval, and conversational interface.</p>
+                    </div>
+                </a>
+            </li>
 
-                    <li><a href="https://github.com/kHarshit/pothole-segmentation">
-                        Pothole Detection and Segmentation</a>
-                        <i style="float: right">Jan 2020 - Jun 2020</i><br />
-                        Fine-tuned custom Mask R-CNN and YOLACT instance segmentation models for real-time pothole detection and segmentation on Indian roads with PyTorch and achieved 86% accuracy, 0.30 mAP on custom testing dataset
-                        <img src="/img/pothole.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
-                    </li>
-                    
-                    <li><a href="https://github.com/kHarshit/udacity-nanodegree-projects">
-                        Udacity's Deep Analyst Nanodegree projects</a>
-                        <i style="float: right">Apr 2020 - Jun 2020</i><br />
-                        <ul>
-                        <li>Project 1: Explore Weather trends analyzes local and global temperature data and compare the temperature trends where you live to overall global temperature trends.
-                        </li>
-                        <li>Project 2: Investigate a dataset analyzes a dataset and then communicates the findings.
-                        </li>
-                        <li>Project 3: Analyze A/B test results understands the results of an A/B test run by an e-commerce website.
-                        </li>
-                        <li>Project 4: Wrangle and Analyze Data wrangles and analyzes the tweet data of WeRateDogs that rates people's dogs with a humorous comment about the dog.
-                        </li>
-                        <li>Project 5: Communicate Data Findings deals with data exploration of the flights cancellation and delay dataset mainly using data visualization and present the findings using explanatory visualizations.
-                        </li>
-                        </ul>
-                    </li>
-                    <li><a href="https://github.com/kHarshit/udacity-nanodegree-projects">
-                        Udacity's Deep Reinforcement Learning Nanodegree projects in PyTorch</a>
-                        <i style="float: right">Jul 2019 - Nov 2019</i><br />
-                        <ul>
-                        <li>Project 1: Navigation is about training a RL agent to navigate (and collect bananas!) in a large, square world.
-                        </li>
-                        <li>Project 2: Continuous Control is about training a RL double-jointed arm agent so that it can move to target locations.
-                        </li>
-                        <li>Project 3: Collaboration and Competition is about training two RL agents to control tennis rackets to bounce a ball over a net.
-                        </li>
-                        </ul>
-                    </li>
-                    <li><a href="https://github.com/kHarshit/udacity-nanodegree-projects">
-                        Udacity's Deep Learning Nanodegree projects in PyTorch</a>
-                        <i style="float: right">Dec 2018 - Mar 2019</i><br />
-                        <ul>
-                        <li>Classification: Flower image classification and Dog breed classification</li>
-                        <li>Generation: TV Script generation and Face Generation using DCGAN</li>
-                        <li>Deployemnt: Deploying sentiment analysis model on Sagemaker</li>
-                        <li>Art: Neural Style Transfer</li>
-                        </ul>
-                    </li>
-                    <li><a href="https://github.com/kHarshit/image-captioner">
-                        ImageCaptioner: Image captioning using Encoder-Decoder</a>
-                        <i style="float: right">Jan 2019 - Feb 2019</i><br />
-                        Developed image captioning application based on Neural Image Caption model utilizing encoder-decoder architecture, using pretrained CNN as encoder and LSTM as decoder.
-                        <img src="/img/image_captioner_demo.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
-                    </li>
-                    <li>
-                        <a href="https://github.com/kHarshit/transfer-learning">Plant Disease Detection and Recognition</a>
-                        <i style="float: right">Aug 2018 - Sep 2018</i><br />
-                        Used Transfer Learning to develop a plant disease detection and recognition system.
-                        Applied ResNet101 architecture of Convolutional Neural Networks in the model. Developed an Android app to display the system
-                    </li>
-                    <li><a href="https://tweetsenseapp.herokuapp.com">
-                        TweetSense: Real-time social media sentiment analysis</a>
-                        <i style="float: right">July 2018 - Aug 2018</i><br />
-                        Developed an application that analyzes tweets and intelligently provides real-time feedback, using sentiment analysis,
-                        in a visual manner with the help of a time series graph. The app also provides the sentiment analysis of tweets in the last week.
-                        TweetSense also analyzes user's text and provides tone analysis (using Watson API) in addition to sentiment score.
-                        <img src="/img/Screenshot_2018-07-11 Rajasthan Sentiment App.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
-                    </li>
-                    <li><a href="https://github.com/kHarshit/railway-ticketing-system">Railway ticketing system</a>
-                        <i style="float: right">Apr 2018</i><br />
-                        Developed a desktop app in Qt (C++ cross-platform framework) for railway ticketing system.
-                        <img src="/img/mainwindow.png" style="display: block; margin: auto; width: auto; max-width: 100%;"></li>
-                    <li><a href="https://dengueapp.herokuapp.com/">DengueApp: Location based dengue prediction</a>
-                        <i style="float: right">Jan 2018 - Mar 2018</i><br />
-                        Developed an Android app that gives real-time location-based dengue risk index to the user using machine learning techniques.
-                        The model used the weather conditions of the user’s location as features. The gradient boosted trees performed better than other algorithms.
-                        Hosted the model on Django server as an API. Showed the application at Smart India Hackathon 2018 grand finale.
-                        <img src="/img/Screenshot-2018-3-23 Dengue App.png" style="display: block; margin: auto; width: auto; max-width: 100%;"></li>
-                    <li><a href="https://www.kaggle.com/k2harshit/housing-price-prediction">Housing price prediction</a>
-                        <i style="float: right">Jan 2018</i><br />
-                        Predicted housing price using regression techniques. Applied different models (linear regression, Lasso, Ridge,
-                        boosting, random forest). xgboost outperformed other models.</li>
-                    <li><a href="https://www.kaggle.com/k2harshit/titanic-survivors">Titanic survivors</a>
-                        <i style="float: right">Oct 2017</i><br />
-                        Predicted survival on the Titanic using machine learning techniques. Tried different models (SVM, kNN, logistic regression, random forest);
-                         random forest gave the highest accuracy.
-                        </li>
-                    <li><a href="https://kHarshit.github.io">Technical Fridays - personal website and blog</a>
-                        <i style="float: right">July 2017</i><br />
-                        This is my personal website and blog developed with HTML5, CSS and JavaScript using Jekyll and Github pages.
-                        <img src="/img/harshit_about_site.png" style="display: block; margin: auto; width: auto; max-width: 100%;"></li>
-                    <li><a href="https://harshitblog.herokuapp.com">Blog in django</a>
-                        <i style="float: right">March 2017</i><br />
-                        A blog developed in Django, a high-level python web framework using PostgreSQL database.
-                        <img src="/img/harshit's_blog.png" style="display: block; margin: auto; width: auto; max-width: 100%;"></li>
-                    <li><a href="https://github.com/kHarshit/python-projects">python-projects</a>
-                        <i style="float: right">Feb 2017</i><br />
-                        It is a series of small programs written in python.</li>
-                </ul>
-            </section>
+            <li class="project-list-item" data-category="nlp llm">
+                <a class="project-list-row" href="https://github.com/kHarshit/ds5983LLM/" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb"><div class="blog-list-thumb-placeholder">
+                        <i class="fa fa-github"></i>
+                    </div></div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">NLP</span><span class="project-tag">LLM</span></div>
+                        <h3 class="project-list-title">Transformer Architecture and Machine Translation from Scratch</h3>
+                        <p class="project-list-desc">Implemented Transformer model architecture from scratch. Trained on German→English translation (Multi30k dataset) with both greedy decoding and beam search.</p>
+                    </div>
+                </a>
+            </li>
 
+            <li class="project-list-item" data-category="computer-vision">
+                <a class="project-list-row" href="https://github.com/kHarshit/CS5330ComputerVision" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/ar_cs5330.png" alt="AR" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Computer Vision</span></div>
+                        <h3 class="project-list-title">Camera Calibration and Augmented Reality with Checkerboard</h3>
+                        <p class="project-list-desc">Applied calibration with checkerboard, camera pose estimation to align virtual objects within AR environment. Explored Harris corners and SURF feature detection, overlayed 3D virtual objects onto 2D video.</p>
+                    </div>
+                </a>
+            </li>
 
-        </article>
+            <li class="project-list-item" data-category="computer-vision">
+                <a class="project-list-row" href="https://github.com/kHarshit/vehicle-reidentification" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/veh_reid_demo.png" alt="Vehicle Re-ID" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Computer Vision</span></div>
+                        <h3 class="project-list-title">Vehicle Re-Identification using YOLOv8 and feature-based similarity</h3>
+                        <p class="project-list-desc">Feature-based similarity matching for vehicle re-identification across camera feeds using YOLOv8 detections and descriptor matching.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="computer-vision">
+                <a class="project-list-row" href="https://github.com/kHarshit/Colorization-of-paintings-GANs" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/colorization_GANs.png" alt="GAN Colorization" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Computer Vision</span></div>
+                        <h3 class="project-list-title">Image Colorization of Historical Paintings with GAN</h3>
+                        <p class="project-list-desc">Leveraged U-Net and pix2pix GAN to colorize grayscale historical paintings. Utilized CIELAB color space conversion and Patch discriminator for enhanced image-to-image translation.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="computer-vision">
+                <a class="project-list-row" href="https://github.com/kHarshit/pothole-segmentation" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/pothole.png" alt="Pothole" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Computer Vision</span></div>
+                        <h3 class="project-list-title">Pothole Detection and Segmentation <span class="project-list-date">Jan 2020 – Jun 2020</span></h3>
+                        <p class="project-list-desc">Fine-tuned custom Mask R-CNN and YOLACT instance segmentation models for real-time pothole detection on Indian roads with PyTorch. Achieved 86% accuracy, 0.30 mAP on custom testing dataset.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="computer-vision nlp">
+                <a class="project-list-row" href="https://github.com/kHarshit/image-captioner" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/image_captioner_demo.png" alt="Image Captioning" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Computer Vision</span><span class="project-tag">NLP</span></div>
+                        <h3 class="project-list-title">Image Captioning using Encoder-Decoder Architecture <span class="project-list-date">Jan 2019 – Feb 2019</span></h3>
+                        <p class="project-list-desc">Image captioning application based on Neural Image Caption model using encoder-decoder architecture — pretrained CNN as encoder and LSTM as decoder.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="nlp data-science">
+                <a class="project-list-row" href="https://tweetsenseapp.herokuapp.com" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/Screenshot_2018-07-11 Rajasthan Sentiment App.png" alt="TweetSense" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">NLP</span><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Real-Time Twietter Social Media Sentiment Analysis <span class="project-list-date">Jul 2018 – Aug 2018</span></h3>
+                        <p class="project-list-desc">Real-time tweet sentiment feedback via time series graph, with past-week history and Watson API tone analysis on user-provided text.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://github.com/kHarshit/railway-ticketing-system" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/mainwindow.png" alt="Railway" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Railway Ticketing System Built in Qt (C++ cross-platform framework) <span class="project-list-date">Apr 2018</span></h3>
+                        <p class="project-list-desc">Desktop app built in Qt (C++ cross-platform framework) for a railway ticketing system.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://dengueapp.herokuapp.com/" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/Screenshot-2018-3-23 Dengue App.png" alt="DengueApp" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Location-Based Dengue Prediction using Gradient Boosted Trees Model on Weather Features <span class="project-list-date">Jan 2018 – Mar 2018</span></h3>
+                        <p class="project-list-desc">Android app with gradient boosted trees model on weather features, hosted on Django API. Real-time location-based dengue risk index. Showcased at Smart India Hackathon 2018 grand finale.</p>
+                    </div>
+                </a>
+            </li>
+
+            <!-- Deep Learning Nanodegree — split -->
+            <li class="project-list-item" data-category="computer-vision">
+                <a class="project-list-row" href="https://github.com/kHarshit/udacity-nanodegree-projects" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/face_gen.png" alt="DCGAN" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Computer Vision</span></div>
+                        <h3 class="project-list-title">TV Script Generation and Face Generation using DCGAN <span class="project-list-date">Dec 2018 – Mar 2019</span></h3>
+                        <p class="project-list-desc">Generative models for realistic TV script generation and face synthesis using Deep Convolutional GAN (DCGAN).</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="computer-vision">
+                <a class="project-list-row" href="https://github.com/kHarshit/udacity-nanodegree-projects" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/style_transfer.png" alt="Style Transfer" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Computer Vision</span></div>
+                        <h3 class="project-list-title">Neural Style Transfer <span class="project-list-date">Dec 2018 – Mar 2019</span></h3>
+                        <p class="project-list-desc">Artistic style transfer using VGG-19 feature maps to blend content and style of images.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="nlp data-science">
+                <a class="project-list-row" href="https://github.com/kHarshit/udacity-nanodegree-projects" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/aws_sagemaker.webp" alt="SageMaker" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">NLP</span><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Sentiment Analysis using AWS SageMaker <span class="project-list-date">Dec 2018 – Mar 2019</span></h3>
+                        <p class="project-list-desc">Deployed a sentiment analysis model using AWS SageMaker with a full MLOps pipeline including training, evaluation, and endpoint deployment.</p>
+                    </div>
+                </a>
+            </li>
+
+            <!-- Deep RL Nanodegree — split -->
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://github.com/kHarshit/udacity-nanodegree-projects" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb"><div class="blog-list-thumb-placeholder">
+                        <i class="fa fa-github"></i>
+                    </div></div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">RL Navigation Agent (Banana Collection) <span class="project-list-date">Jul 2019 – Nov 2019</span></h3>
+                        <p class="project-list-desc">Trained a Deep Q-Network agent to navigate and collect bananas in a large square world using Unity ML-Agents.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://github.com/kHarshit/udacity-nanodegree-projects" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb"><div class="blog-list-thumb-placeholder">
+                        <i class="fa fa-github"></i>
+                    </div></div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Continuous Control — Double-Jointed Arm Agent <span class="project-list-date">Jul 2019 – Nov 2019</span></h3>
+                        <p class="project-list-desc">Trained a DDPG agent to control a double-jointed arm to reach target locations using continuous action spaces.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://github.com/kHarshit/udacity-nanodegree-projects" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/rl_collaboration.png" alt="Tennis RL" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Collaborative Reinforcement Learning for Racket Sports Simulation <span class="project-list-date">Jul 2019 – Nov 2019</span></h3>
+                        <p class="project-list-desc">Trained two MADDPG agents to cooperatively play tennis, maximizing rally length across the net.</p>
+                    </div>
+                </a>
+            </li>
+
+            <!-- Deep Analyst Nanodegree — split -->
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://github.com/kHarshit/udacity-nanodegree-projects" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/sql_weather.png" alt="Weather Trends" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Local vs Global Temperature Trends <span class="project-list-date">Apr 2020 – Jun 2020</span></h3>
+                        <p class="project-list-desc">Analyzed local and global temperature data using SQL and compared trends with moving average visualizations.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://github.com/kHarshit/udacity-nanodegree-projects" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/ab_test.png" alt="A/B Testing" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">A/B Test Analysis for E-Commerce Website <span class="project-list-date">Apr 2020 – Jun 2020</span></h3>
+                        <p class="project-list-desc">Statistical analysis of A/B test results to determine whether a new landing page improves conversion rates for an e-commerce site.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="nlp data-science">
+                <a class="project-list-row" href="https://github.com/kHarshit/udacity-nanodegree-projects" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb"><div class="blog-list-thumb-placeholder">
+                        <i class="fa fa-github"></i>
+                    </div></div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">NLP</span><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">WeRateDogs Tweet Data Wrangling <span class="project-list-date">Apr 2020 – Jun 2020</span></h3>
+                        <p class="project-list-desc">Gathered, assessed, and cleaned WeRateDogs tweet data from multiple sources using programmatic and manual wrangling techniques.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://github.com/kHarshit/udacity-nanodegree-projects" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb"><div class="blog-list-thumb-placeholder">
+                        <i class="fa fa-github"></i>
+                    </div></div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Flight Delay and Cancellation Analysis <span class="project-list-date">Apr 2020 – Jun 2020</span></h3>
+                        <p class="project-list-desc">Explored flight cancellation and delay dataset with explanatory visualizations to communicate key findings.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://harshitblog.herokuapp.com" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb">
+                        <img src="/img/harshit's_blog.png" alt="Django Blog" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Blog created in Django with PostgreSQL database <span class="project-list-date">Mar 2017</span></h3>
+                        <p class="project-list-desc">A blog developed in Django using PostgreSQL database.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://www.kaggle.com/k2harshit/housing-price-prediction" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb"><div class="blog-list-thumb-placeholder">
+                        <i class="fa fa-github"></i>
+                    </div></div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Housing Price Prediction using Linear Regression, Lasso, Ridge, Boosting, and Random Forest <span class="project-list-date">Jan 2018</span></h3>
+                        <p class="project-list-desc">Predicted housing prices using linear regression, Lasso, Ridge, boosting, and random forest. XGBoost outperformed all other models.</p>
+                    </div>
+                </a>
+            </li>
+
+            <li class="project-list-item" data-category="data-science">
+                <a class="project-list-row" href="https://www.kaggle.com/k2harshit/titanic-survivors" target="_blank" rel="noopener">
+                    <div class="blog-list-thumb"><div class="blog-list-thumb-placeholder">
+                        <i class="fa fa-github"></i>
+                    </div></div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Data Science</span></div>
+                        <h3 class="project-list-title">Titanic Survivors Prediction using SVM, kNN, Logistic Regression, and Random Forest <span class="project-list-date">Oct 2017</span></h3>
+                        <p class="project-list-desc">Predicted Titanic survival using SVM, kNN, logistic regression, and random forest. Random forest gave the highest accuracy.</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
     </div>
 </section>
+
+<script>
+function filterProjects(category, btn) {
+    document.querySelectorAll('#projects-list .project-list-item').forEach(function(item) {
+        var cats = item.dataset.category || '';
+        item.style.display = (category === 'all' || cats.indexOf(category) > -1) ? '' : 'none';
+    });
+    document.querySelectorAll('.project-filters .filter-btn').forEach(function(b) {
+        b.classList.remove('active');
+    });
+    if (btn) btn.classList.add('active');
+}
+</script>
