@@ -20,6 +20,13 @@ layout: default
     <article class="poem poetry">
         <h1 class="text-title">{{ page.title }}</h1>
         <p class="byline">{{ page.author }}</p>
+        {% if page.categories.size > 0 %}
+        <div class="post-tag-list">
+            {% for category in page.categories %}
+            <a href="{{ site.baseurl }}/poems#{{ category | slugify }}" class="post-tag-chip">{{ category | capitalize }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
         {{ content }}
     </article>
 </div>

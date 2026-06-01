@@ -45,5 +45,20 @@ for (var i = 0; i < btns.length; i++) {
     });
 }
 
-// Initial call to show all poems
-filterSelection('all');
+// On load, apply filter from URL hash if present
+(function() {
+    var hash = window.location.hash.replace('#', '');
+    if (hash) {
+        filterSelection(hash);
+        for (var i = 0; i < btns.length; i++) {
+            if (btns[i].getAttribute('onclick') === "filterSelection('" + hash + "')") {
+                var current = document.getElementsByClassName('active');
+                if (current.length) current[0].className = current[0].className.replace(' active', '');
+                btns[i].className += ' active';
+                btns[i].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return;
+            }
+        }
+    }
+    filterSelection('all');
+})();

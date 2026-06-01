@@ -120,6 +120,25 @@ layout: default
 
     <button onclick="topFunction()" id="scroll_top" title="Go to top"><span class="fa fa-chevron-up"></span></button>
     <script src="/css/script.js"></script>
+    <script>
+    document.querySelectorAll('figure.highlight').forEach(function(block) {
+        var btn = document.createElement('button');
+        btn.className = 'code-copy-btn';
+        btn.textContent = 'Copy';
+        block.appendChild(btn);
+        btn.addEventListener('click', function() {
+            var code = block.querySelector('code') || block.querySelector('pre');
+            navigator.clipboard.writeText(code.innerText).then(function() {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(function() {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        });
+    });
+    </script>
 
     <!-- MathJax -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
