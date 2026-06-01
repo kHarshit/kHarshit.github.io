@@ -2,6 +2,7 @@
 layout: default
 ---
 
+<div id="reading-progress-bar"></div>
 <header id="top_header">
     <div class="container">
         <div id="branding">
@@ -120,6 +121,16 @@ layout: default
 
     <button onclick="topFunction()" id="scroll_top" title="Go to top"><span class="fa fa-chevron-up"></span></button>
     <script src="/css/script.js"></script>
+    <script>
+    // Reading progress bar
+    var bar = document.getElementById('reading-progress-bar');
+    window.addEventListener('scroll', function() {
+        var doc = document.documentElement;
+        var scrolled = doc.scrollTop || document.body.scrollTop;
+        var total = doc.scrollHeight - doc.clientHeight;
+        bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+    }, { passive: true });
+    </script>
     <script>
     document.querySelectorAll('figure.highlight').forEach(function(block) {
         var btn = document.createElement('button');

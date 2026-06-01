@@ -347,8 +347,56 @@ title: Harshit Kumar | Home
 
 				</div>
 
-				<p>Check the complete list on the <a style="color: seagreen;" href="/projects">PROJECTS</a> page.</p>
+				<a href="/projects" class="view-all-link">View all projects <i class="fa fa-arrow-right"></i></a>
 			</section>
+
+			<script>
+			// Enhance project cards with body wrapper and tags; whole card is clickable
+			document.querySelectorAll('.project-card').forEach(function(card) {
+				var link = card.querySelector('a');
+				if (!link) return;
+				var img  = link.querySelector('img');
+				var h4   = link.querySelector('h4');
+				var p    = link.querySelector('p');
+				if (!h4) return;
+
+				var href = link.href;
+
+				// Make entire card a link via click handler
+				card.style.cursor = 'pointer';
+				card.addEventListener('click', function() {
+					window.open(href, '_blank', 'noopener');
+				});
+
+				// Move img out of link to card top
+				if (img) card.insertBefore(img, link);
+
+				// Build body
+				var body = document.createElement('div');
+				body.className = 'project-card-body';
+				body.appendChild(h4);
+				if (p) body.appendChild(p);
+
+				// Tags from data-category
+				var cats = (card.dataset.category || '').split(' ').filter(Boolean);
+				if (cats.length) {
+					var footer = document.createElement('div');
+					footer.className = 'project-card-footer';
+					var tags = document.createElement('div');
+					tags.className = 'project-card-tags';
+					cats.forEach(function(c) {
+						var tag = document.createElement('span');
+						tag.className = 'project-card-tag';
+						tag.textContent = c.replace(/-/g, ' ');
+						tags.appendChild(tag);
+					});
+					footer.appendChild(tags);
+					body.appendChild(footer);
+				}
+
+				link.replaceWith(body);
+			});
+			</script>
 
         </article>
 
