@@ -26,13 +26,12 @@
 
 /* ── Reading progress bar ──────────────────────────────────── */
 #reading-progress-bar {
-    position: fixed;
-    top: 0;
+    position: absolute;
+    bottom: -1px;
     left: 0;
     width: 0%;
     height: 3px;
     background: var(--accent-color);
-    z-index: 9999;
     transition: width 0.1s linear;
 }
 
