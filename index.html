@@ -432,9 +432,9 @@ title: Harshit Kumar | Home
 
             <div class="sidebar-section">
                 <h2>Certifications</h2>
-                <a class="cert-item" href="https://aws.amazon.com/certification/certified-machine-learning-specialty/">AWS Certified Machine Learning – Specialty</a>
-                <a class="cert-item" href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/">Microsoft Azure AI Fundamentals (AI-900)</a>
-                <a class="cert-item" href="https://education.oracle.com/oracle-cloud-infrastructure-2024-generative-ai-professional/pexam_1Z0-1127-24">Oracle Cloud Generative AI Professional</a>
+                <a class="cert-item" href="https://aws.amazon.com/certification/certified-machine-learning-specialty/">AWS Certified Machine Learning – Specialty 2024</a>
+                <a class="cert-item" href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/">Microsoft Azure AI Fundamentals (AI-900) 2024</a>
+                <a class="cert-item" href="https://education.oracle.com/oracle-cloud-infrastructure-2024-generative-ai-professional/pexam_1Z0-1127-24">Oracle Cloud Generative AI Professional 2024</a>
             </div>
 
             <div class="sidebar-section">
@@ -449,6 +449,7 @@ title: Harshit Kumar | Home
                             <span class="chip">SQL</span>
                             <span class="chip">Java</span>
                             <span class="chip">R</span>
+                            <span class="chip">Bash</span>
                             <span class="chip">LaTeX</span>
                         </div>
                     </div>
@@ -457,12 +458,45 @@ title: Harshit Kumar | Home
                         <div class="skill-chips">
                             <span class="chip">PyTorch</span>
                             <span class="chip">TensorFlow</span>
-                            <span class="chip">OpenCV</span>
                             <span class="chip">scikit-learn</span>
                             <span class="chip">pandas</span>
                             <span class="chip">numpy</span>
+                            <span class="chip">Ray</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <span class="skill-label">Generative AI</span>
+                        <div class="skill-chips">
+                            <span class="chip">HuggingFace Transformers</span>
                             <span class="chip">LangChain</span>
-                            <span class="chip">HuggingFace</span>
+                            <span class="chip">RAG</span>
+                            <span class="chip">LoRA / PEFT</span>
+                            <span class="chip">Diffusion Models</span>
+                            <span class="chip">Prompt Engineering</span>
+                            <span class="chip">Distributed Training</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <span class="skill-label">Computer Vision</span>
+                        <div class="skill-chips">
+                            <span class="chip">OpenCV</span>
+                            <span class="chip">Detectron2</span>
+                            <span class="chip">DeepStream</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <span class="skill-label">MLOps</span>
+                        <div class="skill-chips">
+                            <span class="chip">AWS SageMaker</span>
+                            <span class="chip">Azure</span>
+                            <span class="chip">GCP</span>
+                            <span class="chip">CUDA</span>
+                            <span class="chip">TensorRT</span>
+                            <span class="chip">ONNX</span>
+                            <span class="chip">Nvidia Dynamo</span>
+                            <span class="chip">MLFlow</span>
+                            <span class="chip">Weights &amp; Biases</span>
+                            <span class="chip">CI/CD</span>
                         </div>
                     </div>
                     <div class="skill-group">
@@ -472,22 +506,11 @@ title: Harshit Kumar | Home
                             <span class="chip">Kubernetes</span>
                             <span class="chip">Git</span>
                             <span class="chip">DVC</span>
-                            <span class="chip">ONNX</span>
+                            <span class="chip">FastAPI</span>
                             <span class="chip">Flask</span>
                             <span class="chip">Django</span>
-                        </div>
-                    </div>
-                    <div class="skill-group">
-                        <span class="skill-label">MLOps</span>
-                        <div class="skill-chips">
-                            <span class="chip">AWS SageMaker</span>
-                            <span class="chip">Azure</span>
-                            <span class="chip">GCP</span>
-                            <span class="chip">TensorRT</span>
-                            <span class="chip">CUDA</span>
-                            <span class="chip">MLFlow</span>
-                            <span class="chip">DeepStream</span>
-                            <span class="chip">CI/CD</span>
+                            <span class="chip">Jupyter</span>
+                            <span class="chip">Linux</span>
                         </div>
                     </div>
                 </div>
@@ -495,7 +518,7 @@ title: Harshit Kumar | Home
 
             <div class="sidebar-section">
                 <h2>Latest Posts</h2>
-                {% for post in site.posts limit:4 %}
+                {% for post in site.posts limit:3 %}
                 <div class="sidebar-post-item">
                     <a href="{{ post.url }}">{{ post.title }}</a>
                     <span class="sidebar-post-date">{{ post.date | date: "%b %Y" }}</span>
@@ -505,7 +528,7 @@ title: Harshit Kumar | Home
 
             <div class="sidebar-section">
                 <h2>Events</h2>
-                <p style="margin: 0; font-size: 14px; line-height: 1.6;">I love attending tech conferences and events. <a href="/events">See the full list →</a></p>
+                <p style="margin: 0; font-size: 16px; line-height: 1.6;">I love attending tech conferences and events. <a href="/events">See the full list →</a></p>
             </div>
 
         </aside>

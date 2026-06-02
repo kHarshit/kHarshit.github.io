@@ -505,9 +505,13 @@ article#main-art{
     color: var(--accent-hover);
 }
 
-#projects, #skills{
+#projects {
 	margin-top: 30px;
 	font-family: sans-serif;
+}
+
+#skills {
+    font-family: sans-serif;
 }
 
 /* My projects */
@@ -664,6 +668,43 @@ article#main-art{
 
 .btn:hover {
     background-color: var(--accent-hover);
+}
+
+/* ── Events list ──────────────────────────────────────────── */
+.events-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.events-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+[data-theme="dark"] .events-item {
+    border-bottom-color: #383838;
+}
+
+.events-item:first-child {
+    padding-top: 0;
+}
+
+.events-name {
+    font-size: var(--text-md);
+    color: var(--font-color);
+    font-weight: 500;
+}
+
+.events-date {
+    font-size: var(--text-sm);
+    color: #999;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 /* ── Project list (projects page) ────────────────────────── */
