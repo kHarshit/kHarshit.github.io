@@ -575,7 +575,7 @@ article#main-art{
 
 .project-card h4 {
     font-size: var(--text-md);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.45;
     margin: 0;
     color: var(--font-color);
@@ -885,24 +885,34 @@ article#main-art{
 }
 
 .filter-btn {
-    padding: 8px 18px;
-    margin: 0 5px;
-    border: none;
+    padding: 5px 14px;
+    margin: 0;
+    border: 1.5px solid #e0e0e0;
     cursor: pointer;
     outline: none;
-    background-color: #e7e7e7;
+    background: transparent;
+    color: var(--font-color);
     border-radius: 20px;
     font-size: var(--text-md);
-    transition: background-color 0.2s ease, color 0.2s ease;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+[data-theme="dark"] .filter-btn {
+    border-color: #444;
+    color: #ddd;
 }
 
 .filter-btn:hover {
-    background-color: #ddd;
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background: transparent;
 }
 
 .filter-btn.active {
-    background-color: var(--accent-color);
-    color: #ffffff;
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #fff;
 }
 
 
