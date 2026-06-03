@@ -212,7 +212,7 @@ nav .current a::after {
 aside {
     float: right;
     width: 30%;
-    margin-top: 20px;
+    margin-top: 36px;
 }
 
 #main{
@@ -1099,13 +1099,46 @@ input#themeswitch {
 .tag-cloud {
     list-style: none;
     padding: 0;
-    text-align: justify;
-    font-size: var(--text-md);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
 }
 
 .tag-cloud li {
     display: inline-block;
-    margin: 0 12px 12px 0; 
+    margin: 0;
+}
+
+.tag-cloud li a {
+    display: inline-block;
+    padding: 4px 13px;
+    border-radius: 20px;
+    background-color: var(--card-bg);
+    color: var(--font-color);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    line-height: 1.6;
+}
+
+.tag-cloud li a:hover {
+    background-color: var(--accent-color);
+    color: #fff;
+    border-color: var(--accent-color);
+    text-decoration: none;
+}
+
+.tag-cloud-divider {
+    border: none;
+    border-bottom: 2px solid #f0f0f0;
+    margin: 16px 0 0 0;
+}
+
+[data-theme="dark"] .tag-cloud-divider {
+    border-bottom-color: #3a3a3a;
 }
 
 #taggs {
@@ -1611,6 +1644,7 @@ input#themeswitch {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+    margin-top: 24px;
     margin-bottom: 6px;
     border-bottom: 2px solid #f0f0f0;
     padding-bottom: 12px;
@@ -1627,7 +1661,7 @@ input#themeswitch {
 }
 
 .blog-archive-link {
-    font-size: var(--text-md);
+    font-size: var(--text-lg);
     font-weight: 500;
     color: var(--accent-color) !important;
     text-decoration: none;
@@ -1657,12 +1691,34 @@ input#themeswitch {
     opacity: 0.75;
 }
 
+.category-page-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.category-back-link {
+    font-size: var(--text-md);
+    color: var(--accent-color) !important;
+    text-decoration: none;
+    font-weight: 500;
+    opacity: 1 !important;
+}
+
+.category-back-link:hover {
+    opacity: 0.75 !important;
+}
+
+.category-post-count {
+    margin-bottom: 8px;
+}
+
 /* ── Blog list (editorial) ────────────────────────────────── */
 
 .blog-list {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin-top: 24px;
 }
 
 .blog-list-item {

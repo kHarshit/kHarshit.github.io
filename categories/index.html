@@ -22,11 +22,9 @@ title: Technical Fridays | Blog | Categories
     <div id="post">
         <h1>Blog | Categories</h1>
         <ul class="tag-cloud">
-            {% for category  in site.categories %}
-                <li style="font-size: {{ category | last | size | times: 100 | divided_by: site.categories.size | plus: 70 }}%">
-                    <a href="#{{ category | first | slugify }}">
-                      {{ category | first }}
-                    </a>
+            {% for category in site.categories %}
+                <li>
+                    <a href="/categories/{{ category | first | slugify }}/">{{ category | first }}</a>
                 </li>
             {% endfor %}
         </ul>
