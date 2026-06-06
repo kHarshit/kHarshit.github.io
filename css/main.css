@@ -962,7 +962,6 @@ article#main-art{
 }
 
 .fa-kagg:before {
-    font-family: roboto;
     color: #429bf4;
     font-size: 1.2em;
     content: "k";
@@ -1889,6 +1888,45 @@ input#themeswitch {
     border-radius: 8px;
     display: block;
     margin: 1.5rem auto;
+}
+
+.post-content figure:not(.highlight) {
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.post-content figcaption {
+    font-size: var(--text-sm);
+    color: #888;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+[data-theme="dark"] .post-content figcaption { color: #999; }
+
+
+/* ── Heading anchor links ─────────────────────────────────── */
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+    position: relative;
+}
+
+.heading-anchor {
+    opacity: 0;
+    margin-left: 0.4em;
+    font-size: 0.78em;
+    font-weight: 400;
+    color: var(--accent-color) !important;
+    text-decoration: none !important;
+    transition: opacity 0.15s;
+    vertical-align: middle;
+}
+
+.post-content h2:hover .heading-anchor,
+.post-content h3:hover .heading-anchor,
+.post-content h4:hover .heading-anchor {
+    opacity: 1;
 }
 
 /* Tags */

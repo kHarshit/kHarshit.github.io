@@ -10,7 +10,7 @@ layout: default
         <nav>
             <ul>
                 <li><a href="{{ site.url }}">Home</a></li>
-                <li><a href="/blog">Blog</a></li>
+                <li class="current"><a href="/blog">Blog</a></li>
                 <li><a href="/poems">Poems</a></li>
             </ul>
         </nav>
@@ -156,6 +156,19 @@ layout: default
     <script>
     document.querySelectorAll('.post-content img').forEach(function(img) {
         if (!img.getAttribute('loading')) img.setAttribute('loading', 'lazy');
+    });
+    </script>
+
+    <!-- Heading anchor links -->
+    <script>
+    document.querySelectorAll('.post-content h2, .post-content h3, .post-content h4').forEach(function(h) {
+        if (!h.id) return;
+        var a = document.createElement('a');
+        a.className = 'heading-anchor';
+        a.href = '#' + h.id;
+        a.setAttribute('aria-label', 'Link to this section');
+        a.textContent = '#';
+        h.appendChild(a);
     });
     </script>
 
