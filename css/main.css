@@ -2231,6 +2231,12 @@ input#themeswitch {
 }
 
 /* ── Reduced motion ────────────────────────────────────────── */
+/* ── Disqus dark mode ────────────────────────────────────── */
+[data-theme="dark"] #disqus_thread iframe {
+    filter: invert(0.88) hue-rotate(180deg);
+    border-radius: 4px;
+}
+
 /* ── About site page ─────────────────────────────────────── */
 .about-site-favicon {
     float: right;

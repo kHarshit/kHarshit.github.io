@@ -3,6 +3,7 @@ layout: post
 title: "Don't use sigmoid: Neural Nets"
 date: 2018-04-20
 categories: [Data Science, Deep Learning]
+mathjax: true
 ---
 
 In neural networks, activation functions are used to introduce non-linearity in the model. There are several activation functions to choose from. Traditionally, people have been using sigmoid as the activation function. But, you shouldn't use it. Why? Let's see.

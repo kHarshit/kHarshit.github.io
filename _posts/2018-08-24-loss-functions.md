@@ -3,6 +3,7 @@ layout: post
 title: "Loss functions"
 date: 2018-08-24
 categories: [Data Science, Machine Learning, Deep Learning]
+mathjax: true
 ---
 
 In machine learning, the difference between the predicted output and the actual output is used to tune the parameters of the algorithm. This error in prediction, so called loss, is a crucial part of designing a good model as it evaluates the performance of our model. For accurate predictions, one needs to minimize this loss. In neural networks, it is done using the [gradient descent]({% post_url 2018-03-02-gradient-descent-the-core-of-neural-networks %}). There are many types loss functions. Some of them are:

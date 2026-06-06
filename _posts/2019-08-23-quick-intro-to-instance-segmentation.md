@@ -3,6 +3,7 @@ layout: post
 title: "Quick intro to Instance segmentation: Mask R-CNN"
 date: 2019-08-23
 categories: [Deep Learning, Computer Vision]
+mathjax: true
 ---
 
 *This is the third post in the Quick intro series: [object detection (I)]({% post_url 2019-03-15-quick-intro-to-object-detection %}), [semantic segmentation (II)]({% post_url 2019-08-09-quick-intro-to-semantic-segmentation %})*.

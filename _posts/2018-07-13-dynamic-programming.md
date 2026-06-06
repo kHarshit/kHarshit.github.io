@@ -3,6 +3,7 @@ layout: post
 title: "Dynamic Programming"
 date: 2018-07-13
 categories: [Algorithms, Python]
+mathjax: true
 ---
 
 > Those who cannot remember the past are condemned to repeat it.

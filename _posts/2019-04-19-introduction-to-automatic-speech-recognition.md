@@ -3,6 +3,7 @@ layout: post
 title: "Introduction to Automatic Speech Recognition"
 date: 2019-04-19
 categories: [Speech Recognition]
+mathjax: true
 ---
 
 The Automatic Speech Recognition (ASR) systems are widely used nowadays. Some of the most notable uses include Siri, Alexa Google Assistant, Cortana, etc. Let's understand the fundamentals of ASR.

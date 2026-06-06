@@ -3,6 +3,7 @@ layout: post
 title: "Dealing with categorical data"
 date: 2018-01-19
 categories: [Data Science, Python]
+mathjax: true
 ---
 
 Often in our machine learning model, we encounter qualitative predictors.

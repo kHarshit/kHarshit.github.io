@@ -3,6 +3,7 @@ layout: post
 title: "Backpropagation Through Time"
 date: 2019-02-22
 categories: [Deep Learning, Natural Language Processing]
+mathjax: true
 ---
 
 In the earlier post [The gradient problem in RNN]({% post_url 2019-01-04-the-gradient-problem-in-rnn %}), you came to know that RNNs have exploding and vanishing gradient problems. This post discusses how exactly the gradients are calculated in RNNs. Let's take a deep dive into the mathematics of RNNs.

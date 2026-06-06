@@ -3,6 +3,7 @@ layout: post
 title: "Computational graphs: Backpropagation"
 date: 2018-03-09
 categories: [Data Science, Deep Learning]
+mathjax: true
 ---
 
 

@@ -3,6 +3,7 @@ layout: post
 title: "The Bayesian Thinking - I"
 date: 2018-06-08
 categories: [Data Science, Mathematics]
+mathjax: true
 ---
 
 A disease has affected 0.1% of the world's population.

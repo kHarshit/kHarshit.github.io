@@ -3,6 +3,7 @@ layout: post
 title: "A visual introduction to eigenvectors and eigenvalues"
 date: 2018-05-11
 categories: [Mathematics, Machine Learning]
+mathjax: true
 ---
 
 

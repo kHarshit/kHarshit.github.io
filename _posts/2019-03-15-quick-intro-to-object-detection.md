@@ -3,6 +3,7 @@ layout: post
 title: "Quick intro to Object detection: R-CNN, YOLO, and SSD"
 date: 2019-03-15
 categories: [Deep Learning, Computer Vision]
+mathjax: true
 ---
 
 Object detection deals with the detection of object instances in an image. There are a number of methods to accomplish it. The following post summarizes few important object detection methods.

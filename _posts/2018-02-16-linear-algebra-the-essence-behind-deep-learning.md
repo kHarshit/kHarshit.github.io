@@ -3,6 +3,7 @@ layout: post
 title: "Linear algebra: The essence behind deep learning"
 date: 2018-02-16
 categories: [Data Science, Mathematics, Deep Learning]
+mathjax: true
 ---
 
 Mathematics lies behind every algorithm; if not mathematics then mathematical thinking. In case of deep learning algorithms, linear algebra is the driving force.

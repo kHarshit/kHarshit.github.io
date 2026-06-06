@@ -3,6 +3,7 @@ layout: post
 title: "Attention"
 date: 2019-03-08
 categories: [Deep Learning, Computer Vision, Natural Language Processing]
+mathjax: true
 ---
 
 Attention is the technique through which the model focuses itself on a certain region of the image or on certain words in a sentence just like the same way the humans do. For example, when looking at an image, humans shifts their attention to different parts of the image one at a time rather than focusing on all parts in equal amount at the same time.

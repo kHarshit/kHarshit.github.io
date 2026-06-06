@@ -3,6 +3,7 @@ layout: post
 title: "Why Batch Normalization?"
 date: 2018-12-28
 categories: [Deep Learning, Computer Vision]
+mathjax: true
 ---
 
 As mentioned in [Scaling Vs Normalization]({% post_url 2018-03-23-scaling-vs-normalization %}), applying normalization to the input features increases the convergence rate of our algorithm i.e. it speeds up the learning process.

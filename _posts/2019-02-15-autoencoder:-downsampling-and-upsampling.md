@@ -3,6 +3,7 @@ layout: post
 title: "Autoencoder: Downsampling and Upsampling"
 date: 2019-02-15
 categories: [Deep Learning]
+mathjax: true
 ---
 
 ***Note:*** *Read the post on [Autoencoder](https://iq.opengenus.org/autoencoder/) written by me at OpenGenus as a part of [GSSoC](https://gssoc.tech/).*

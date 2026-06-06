@@ -3,6 +3,7 @@ layout: post
 title: "Regularization"
 date: 2018-01-12
 categories: [Data Science, Machine Learning, Python]
+mathjax: true
 ---
 
 Our machine learning model often encouters the problem of [overfitting]({{ site.url }}{% post_url 2017-10-13-overfitting-and-underfitting %}). Regularization is one of the techniques to solve this problem.

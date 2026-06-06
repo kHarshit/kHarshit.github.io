@@ -3,6 +3,7 @@ layout: post
 title: "The gradient problem in RNN"
 date: 2019-01-04
 categories: [Deep Learning, Natural Language Processing]
+mathjax: true
 ---
 
 Much as Convolutional Neural Networks are used to deal with images, the Recurrent Neural Networks are used to process sequential data. The key idea in recurrent neural networks is *parameter sharing* across different parts of the model i.e. a RNN shares same weights across several time steps. As feedforward neural network can model any function, a recurrent neural network can model any function involving recurrence.

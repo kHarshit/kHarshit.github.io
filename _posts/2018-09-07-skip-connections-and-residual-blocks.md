@@ -3,6 +3,7 @@ layout: post
 title: "Skip connections and Residual blocks"
 date: 2018-09-07
 categories: [Deep Learning, Computer Vision]
+mathjax: true
 ---
 
 Deep neural networks are difficult to train. They also have vanishing or exploding gradient problems. Batch normalization helps, but with the increase in depth, the network has trouble reaching convergence.

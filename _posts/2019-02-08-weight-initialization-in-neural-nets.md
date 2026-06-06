@@ -3,6 +3,7 @@ layout: post
 title: "Weight initialization in neural nets"
 date: 2019-02-08
 categories: [Deep Learning]
+mathjax: true
 ---
 
 In deep learning, the goal is to find the optimum weights of the model to get the desired output. In transfer learning, the network is initialized using the best pre-trained weights. The question is how do you initialize the weights for a non-pretrained model?

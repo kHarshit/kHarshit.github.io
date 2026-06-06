@@ -3,6 +3,7 @@ layout: post
 title: "Evaluation metrics for classification and False positives"
 date: 2017-12-29
 categories: [Data Science]
+mathjax: true
 ---
 
 A false positive error or **false positive** (false alarm) is a result that indicates a given condition exists when it doesn't.

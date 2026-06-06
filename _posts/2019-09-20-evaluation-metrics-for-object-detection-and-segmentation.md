@@ -3,6 +3,7 @@ layout: post
 title: "Evaluation metrics for object detection and segmentation: mAP"
 date: 2019-09-20
 categories: [Deep Learning, Computer Vision]
+mathjax: true
 ---
 
 
