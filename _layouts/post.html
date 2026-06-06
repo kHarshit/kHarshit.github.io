@@ -7,7 +7,7 @@ layout: default
         <div id="branding">
             <h1><a href="/blog">Harshit Kumar</a></h1>
 		</div>
-        <nav>
+        <nav aria-label="Main navigation">
             <ul>
                 <li><a href="{{ site.url }}">Home</a></li>
                 <li class="current"><a href="/blog">Blog</a></li>
@@ -18,7 +18,9 @@ layout: default
     <div id="reading-progress-bar"></div>
 </header>
 
+<main>
 <div class="container">
+
     <a href="/blog" class="post-back-link">← Blog</a>
     <div class="post-header">
         <h1 class="post-title">{{ page.title }}</h1>
@@ -174,4 +176,7 @@ layout: default
     <!-- MathJax -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
     {% endif %}
+
+
 </div>
+</main>

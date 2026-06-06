@@ -1904,6 +1904,7 @@ input#themeswitch {
     line-height: 1.75;
 }
 
+
 .post-content h2, .post-content h3, .post-content h4 {
     margin-top: 2rem;
     margin-bottom: 0.75rem;
@@ -2072,6 +2073,7 @@ input#themeswitch {
     flex-direction: column;
     gap: 6px;
     padding: 16px 18px;
+    background: #fafafa;
     border: 1px solid #e8ecf0;
     border-radius: 10px;
     text-decoration: none !important;
@@ -2081,7 +2083,8 @@ input#themeswitch {
 }
 
 [data-theme="dark"] .post-nav-item {
-    border-color: #2e3a4a;
+    background: #303030;
+    border-color: #3a3a3a;
 }
 
 .post-nav-item:hover {
@@ -2092,6 +2095,7 @@ input#themeswitch {
 
 .post-nav-empty {
     border-color: transparent;
+    background: transparent;
     pointer-events: none;
 }
 
@@ -2134,6 +2138,7 @@ input#themeswitch {
     flex-direction: column;
     gap: 6px;
     padding: 14px 16px;
+    background: #fafafa;
     border: 1px solid #e8ecf0;
     border-radius: 10px;
     text-decoration: none !important;
@@ -2143,7 +2148,8 @@ input#themeswitch {
 }
 
 [data-theme="dark"] .post-related-card {
-    border-color: #2e3a4a;
+    background: #303030;
+    border-color: #3a3a3a;
 }
 
 .post-related-card:hover {
@@ -2364,6 +2370,8 @@ input#themeswitch {
     font-size: var(--text-md);
     line-height: 1.6;
 }
+
+
 
 /* ── About site page ─────────────────────────────────────── */
 .about-site-favicon {

@@ -6,7 +6,7 @@ layout: default
         <div id="branding">
             <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
         </div>
-        <nav>
+        <nav aria-label="Main navigation">
             <ul>
                 <li><a href="{{ site.url }}">Home</a></li>
                 <li><a href="/blog">Blog</a></li>
@@ -16,6 +16,7 @@ layout: default
     </div>
 </header>
 
+<main>
 <div class="container">
     <article class="poem poetry">
 
@@ -44,4 +45,65 @@ layout: default
         {% endif %}
 
     </article>
+
+    {% assign related_poems = "" | split: "" %}
+    {% for poem in site.poetry %}
+        {% if poem.url != page.url %}
+            {% for cat in poem.categories %}
+                {% if page.categories contains cat %}
+                    {% unless related_poems contains poem %}
+                        {% assign related_poems = related_poems | push: poem %}
+                    {% endunless %}
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+    {% if related_poems.size > 0 %}
+    <div class="poem-related">
+        <h3 class="poem-related-heading">Similar Poems</h3>
+        <div class="poem-related-grid" id="poem-related-grid">
+            {% for poem in related_poems %}
+                {% assign img_src = "" %}
+                {% if poem.content contains '<img' %}
+                    {% assign _split = poem.content | split: 'src="' %}
+                    {% if _split.size > 1 %}
+                        {% assign img_src = _split[1] | split: '"' | first %}
+                    {% endif %}
+                {% endif %}
+                <a href="{{ poem.url }}" class="poem-related-card">
+                    <div class="poem-related-thumb">
+                        {% if img_src != "" %}
+                            <img src="{{ img_src }}" alt="{{ poem.title }}" loading="lazy">
+                        {% else %}
+                            <div class="poem-related-thumb-placeholder"><i class="fa fa-quote-left"></i></div>
+                        {% endif %}
+                    </div>
+                    <div class="poem-related-body">
+                        <span class="poem-related-title">{{ poem.title }}</span>
+                        <span class="poem-related-author">{{ poem.author }}</span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <script>
+        (function() {
+            var grid = document.getElementById('poem-related-grid');
+            if (!grid) return;
+            var cards = Array.from(grid.children);
+            for (var i = cards.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                grid.appendChild(cards[j]);
+                cards.splice(j, 1);
+            }
+            cards = Array.from(grid.children);
+            cards.slice(3).forEach(function(c) { c.style.display = 'none'; });
+        })();
+        </script>
+    </div>
+    {% endif %}
+
 </div>
+</main>
+

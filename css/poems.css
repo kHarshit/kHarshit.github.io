@@ -131,6 +131,98 @@
 .indent-9  { padding-left: 9em; }
 .indent-10 { padding-left: 10em; }
 
+/* ── Similar poems ───────────────────────────────────────── */
+.poem-related {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+    padding: 0 0.5rem;
+}
+
+.poem-related-heading {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--font-color);
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+[data-theme="dark"] .poem-related-heading {
+    border-bottom-color: #3a3a3a;
+}
+
+.poem-related-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.poem-related-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #ebebeb;
+    background: var(--card-bg);
+    text-decoration: none !important;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+[data-theme="dark"] .poem-related-card {
+    border-color: #3a3a3a;
+}
+
+.poem-related-card:hover {
+    border-color: var(--accent-color);
+    background: rgba(32, 178, 170, 0.04);
+}
+
+.poem-related-thumb {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--card-bg-alt);
+}
+
+.poem-related-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.poem-related-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+    font-size: 1.2rem;
+}
+
+.poem-related-body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.poem-related-title {
+    font-size: var(--text-md);
+    font-weight: 500;
+    color: var(--font-color);
+}
+
+.poem-related-author {
+    font-size: var(--text-sm);
+    color: #888;
+    font-style: italic;
+}
+
+[data-theme="dark"] .poem-related-author { color: #999; }
+
 /* ── Poems index: category filter pills ──────────────────── */
 .poem-filters {
     display: flex;

@@ -10,7 +10,14 @@
         <title>{{ page.title }}</title>
         <!-- Open Graph -->
         <meta property="og:title" content="{{ page.title | default: site.title }}">
-        <meta property="og:description" content="{{ page.excerpt | strip_html | truncate: 160 | default: site.description }}">
+        {% if page.description %}
+          {% assign _og_desc = page.description %}
+        {% elsif page.excerpt and page.excerpt != "" %}
+          {% assign _og_desc = page.excerpt | strip_html | strip_newlines | truncate: 160 %}
+        {% else %}
+          {% assign _og_desc = site.description %}
+        {% endif %}
+        <meta property="og:description" content="{{ _og_desc }}">
         <meta property="og:type" content="{% if page.layout == 'post' or page.layout == 'poem' %}article{% else %}website{% endif %}">
         <meta property="og:url" content="{{ page.url | absolute_url }}">
         {% assign og_image = site.url | append: "/img/harshit_nu.jpeg" %}
@@ -81,6 +88,42 @@
         {% endif %}
         {% feed_meta %}
         <link rel="canonical" href="{{ page.url | absolute_url }}">
+
+        {% comment %}Preload hero image for poem pages{% endcomment %}
+        {% if page.layout == 'poem' %}
+          {% assign _preload_split = page.content | split: 'src="' %}
+          {% if _preload_split.size > 1 %}
+            {% assign _preload_src = _preload_split[1] | split: '"' | first %}
+            <link rel="preload" as="image" href="{{ _preload_src }}">
+          {% endif %}
+        {% endif %}
+
+        {% comment %}JSON-LD Structured Data{% endcomment %}
+        {% if page.layout == 'post' %}
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": {{ page.title | jsonify }},
+          "datePublished": "{{ page.date | date_to_xmlschema }}",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "{{ site.url }}"},
+          "description": {{ _og_desc | jsonify }},
+          "url": "{{ page.url | absolute_url }}",
+          "image": "{{ og_image }}"
+        }
+        </script>
+        {% elsif page.layout == 'poem' %}
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          "name": {{ page.title | jsonify }},
+          "author": {"@type": "Person", "name": {{ page.author | jsonify }}},
+          "url": "{{ page.url | absolute_url }}"{% if og_image != "" %},
+          "image": "{{ og_image }}"{% endif %}
+        }
+        </script>
+        {% endif %}
 
     </head>
 
