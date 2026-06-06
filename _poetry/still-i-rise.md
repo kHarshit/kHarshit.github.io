@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: Poem Hunter
 categories: motivational
 ---
-<img src="/img/poems/StillIRise.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/StillIRise.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - You may write me down in history
 - With your bitter, twisted lies,

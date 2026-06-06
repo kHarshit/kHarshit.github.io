@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: Poetry Foundation
 categories: romantic
 ---
-<img src="/img/poems/LoveandTensorAlgebrafromTheCyriad.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/LoveandTensorAlgebrafromTheCyriad.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Come, let us hasten to a higher plane
 - Where dyads tread the fairy fields of Venn,

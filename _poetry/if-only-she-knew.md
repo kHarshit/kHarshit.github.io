@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: Family Friend Poems
 categories: romantic
 ---
-<img src="/img/poems/IfOnlySheKnew.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/IfOnlySheKnew.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - She has her own special way
 - Of turning around my terrible day.

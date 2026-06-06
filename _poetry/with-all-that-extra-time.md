@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: reddit.com/user/Poem_for_your_sprog/
 categories: motivational
 ---
-<img src="/img/poems/WithAllThatExtraTime.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/WithAllThatExtraTime.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - With all that extra time I had,
 - With all that extra time...

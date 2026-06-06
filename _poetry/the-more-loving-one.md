@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: Poets.org
 categories: romantic
 ---
-<img src="/img/poems/TheMoreLovingOne.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/TheMoreLovingOne.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Looking up at the stars, I know quite well  
 - That, for all they care, I can go to hell,  

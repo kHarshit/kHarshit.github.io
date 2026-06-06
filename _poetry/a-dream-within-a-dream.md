@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: Poetry Foundation
 categories: life 
 ---
-<img src="/img/poems/ADreamWithinaDream.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/ADreamWithinaDream.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Take this kiss upon the brow!
 - And, in parting from you now,

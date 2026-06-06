@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: Culturedarm
 categories: life
 ---
-<img src="/img/poems/Silentium.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/Silentium.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Speak not, lie hidden, and conceal
 - the way you dream, the things you feel.

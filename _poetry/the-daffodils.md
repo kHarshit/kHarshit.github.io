@@ -8,7 +8,7 @@ source: The Wordsworth Trust
 categories: life
 ---
 
-<img src="/img/poems/daffodils.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/daffodils.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - I wandered lonely as a cloud
 - That floats on high o’er vales and hills,

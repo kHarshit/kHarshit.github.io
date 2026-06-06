@@ -8,7 +8,7 @@ source: Genuis.com
 categories: romantic
 ---
 
-<img src="/img/poems/queen.jpg" style="display: block; margin: auto; max-width: 70%;">
+<img loading="lazy" src="/img/poems/queen.jpg" style="display: block; margin: auto; max-width: 70%;">
 
 - I have named you queen.
 - There are taller than you, taller.

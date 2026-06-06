@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: Public Domain
 categories: motivational
 ---
-<img src="/img/poems/DontQuit.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/DontQuit.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - When things go wrong as they sometimes will,
 - When the road you're trudging seems all up hill,

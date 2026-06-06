@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: Poets.org
 categories: motivational
 ---
-<img src="/img/poems/If.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/If.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - If you can keep your head when all about you
 - {:.indent-2}Are losing theirs and blaming it on you;

@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: reddit.com/user/Poem_for_your_sprog/
 categories: romantic
 ---
-<img src="/img/poems/YouAre.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/YouAre.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - You're my comfort and my pleasure,
 - You're the apple of my eye!

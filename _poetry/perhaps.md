@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: reddit.com/user/Poem_for_your_sprog/
 categories: life
 ---
-<img src="/img/poems/Perhaps.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/Perhaps.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - "Perhaps I'll be a sailor
 - and I'll sail the seas between -

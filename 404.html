@@ -4,18 +4,32 @@ title: Technical Fridays | 404
 permalink: /404.html
 ---
 
+<header id="top_header">
     <div class="container">
-        <div id="e404">
-            <h1 style="text-align: center;">Harshit Kumar | Technical Fridays</a></h1>
-                    
-            <h1><i>404</i></h1>    
+        <div id="branding">
+            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ site.url }}">Home</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/poems">Poems</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
-            <p>Oops! Page not found :/</p>
-            <img src="https://imgs.xkcd.com/comics/blogging.png" 
-                style="float: center; display: block; margin: auto; width: auto; max-width: 100%;">
-                
-            <p>You can head back to <a href="{{ site.url }}">homepage</a>. Enjoy.</p>
-
+<section id="main">
+    <div class="container">
+        <div class="error-404">
+            <p class="error-404-code">404</p>
+            <h1 class="error-404-title">Page not found</h1>
+            <p class="error-404-desc">The page you're looking for doesn't exist or has been moved.</p>
+            <div class="error-404-links">
+                <a href="{{ site.url }}" class="error-404-btn">Home</a>
+                <a href="/blog" class="error-404-btn">Blog</a>
+                <a href="/poems" class="error-404-btn">Poems</a>
+            </div>
         </div>
     </div>
-    
+</section>

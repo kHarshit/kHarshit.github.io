@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: Poets.org
 categories: romantic
 ---
-<img src="/img/poems/Faults.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/Faults.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - They came to tell your faults to me,
 - They named them over one by one;

@@ -8,7 +8,7 @@ source: Poetry Foundation
 categories: life
 ---
 
-<img src="/img/poems/roads.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/roads.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Two roads diverged in a yellow wood,
 - And sorry I could not travel both

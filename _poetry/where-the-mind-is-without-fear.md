@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: Gitanjali
 categories: life
 ---
-<img src="/img/poems/WhereTheMindIsWithoutFear.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/WhereTheMindIsWithoutFear.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Where the mind is without fear and the head is held high;
 - Where knowledge is free;

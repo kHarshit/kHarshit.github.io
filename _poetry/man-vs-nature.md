@@ -8,7 +8,7 @@ source:
 categories: life
 ---
 
-<img src="/img/poems/nature.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/nature.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - The heavens roared with thunder
 - as lightning filled the skies

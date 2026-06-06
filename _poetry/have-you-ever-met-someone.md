@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: familyfriendpoems.com
 categories: romantic
 ---
-<img src="/img/poems/HaveYouEverMetSomeone.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/HaveYouEverMetSomeone.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Have you ever met someone you think about
 - every night and every day,

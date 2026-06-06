@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: AllPoetry
 categories: romantic
 ---
-<img src="/img/poems/BecauseSheWouldAskMeWhyILovedHer.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/BecauseSheWouldAskMeWhyILovedHer.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - If questioning would make us wise
 - No eyes would ever gaze in eyes;

@@ -8,7 +8,7 @@ source: PoemHunter
 categories: life
 ---
 
-<img src="/img/poems/silence.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/silence.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - I have known the silence of the stars and of the sea,
 - And the silence of the city when it pauses,

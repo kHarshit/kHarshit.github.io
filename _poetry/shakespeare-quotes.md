@@ -6,7 +6,7 @@ date: 2023-05-06 13:00 -04:00
 editor: Harshit Kumar
 categories: romantic
 ---
-<img src="/img/poems/ShakespeareQuotes.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/ShakespeareQuotes.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Shall I compare thee to a summer's day?
 

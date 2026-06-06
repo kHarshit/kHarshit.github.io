@@ -8,7 +8,7 @@ source:
 categories: life
 ---
 
-<img src="/img/poems/Anonymous.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/Anonymous.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 Voilà!
 

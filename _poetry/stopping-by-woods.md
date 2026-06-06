@@ -7,7 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: motivational
 ---
-<img src="/img/poems/StoppingbyWoodsonaSnowyEvening.jpg" style="display: block; margin: auto; max-width: 100%;">
+<img loading="lazy" src="/img/poems/StoppingbyWoodsonaSnowyEvening.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Whose woods these are I think I know.
 - His house is in the village though;

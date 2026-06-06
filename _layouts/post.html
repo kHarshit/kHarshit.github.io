@@ -19,6 +19,7 @@ layout: default
 </header>
 
 <div class="container">
+    <a href="/blog" class="post-back-link">← Blog</a>
     <div class="post-header">
         <h1 class="post-title">{{ page.title }}</h1>
         <div class="post-meta">
@@ -37,7 +38,7 @@ layout: default
     {% if categories.size > 0 %}
     <div class="post-tag-list">
         {% for category in categories %}
-            <a href="{{ site.baseurl }}/categories/#{{ category | slugify }}" class="post-tag-chip">{{ category }}</a>
+            <a href="{{ site.baseurl }}/categories/{{ category | slugify }}/" class="post-tag-chip">{{ category }}</a>
         {% endfor %}
     </div>
     {% endif %}
