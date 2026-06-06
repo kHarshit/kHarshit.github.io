@@ -25,6 +25,7 @@ layout: default
         <a class="category-back-link" href="/blog">← Blog</a>
         <h1 class="blog-page-title">{{ page.category_name }}</h1>
       </div>
+      <a class="blog-archive-link" href="/categories/">All Categories →</a>
     </div>
 
     {% assign cat_posts = site.posts | where_exp: "p", "p.categories contains page.category_name" %}

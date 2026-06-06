@@ -1693,7 +1693,7 @@ input#themeswitch {
 }
 
 .blog-archive-link {
-    font-size: var(--text-lg);
+    font-size: var(--text-md);
     font-weight: 500;
     color: var(--accent-color) !important;
     text-decoration: none;

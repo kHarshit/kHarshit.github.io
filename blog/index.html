@@ -31,13 +31,21 @@ title: Technical Fridays | Blog
     </p>
 
     <div id="post">
-      <ul class="tag-cloud">
+      <ul class="tag-cloud" id="tag-cloud">
         {% for category in site.categories %}
-          <li>
+          <li data-count="{{ category | last | size }}">
             <a href="/categories/{{ category | first | slugify }}/">{{ category | first }}</a>
           </li>
         {% endfor %}
       </ul>
+      <script>
+        (function() {
+          var ul = document.getElementById('tag-cloud');
+          Array.from(ul.querySelectorAll('li'))
+            .sort(function(a, b) { return b.dataset.count - a.dataset.count; })
+            .forEach(function(li) { ul.appendChild(li); });
+        })();
+      </script>
       <hr class="tag-cloud-divider">
     </div>
 
