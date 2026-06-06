@@ -1,27 +1,88 @@
 /* ── Individual poem page ─────────────────────────────────── */
 .poetry {
     max-width: 640px;
-    margin: 2rem auto;
+    margin: 1.5rem auto 3rem;
     padding: 0 1rem;
     font-size: var(--text-lg);
-    line-height: 1.65;
+    line-height: 1.75;
 }
 
-.poetry img {
-    max-height: 400px;
-    width: auto;
+/* Back link */
+.poem-back-link {
+    display: inline-block;
+    font-size: var(--text-md);
+    font-weight: 500;
+    color: var(--accent-color) !important;
+    text-decoration: none !important;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    transition: opacity 0.15s;
+}
+.poem-back-link:hover { opacity: 1 !important; }
+
+/* Header: title + meta */
+.poem-header {
+    margin-bottom: 1.75rem;
 }
 
-.text-title {
-    font-size: 1.6em;
-    margin-bottom: 0.25em;
+.poem-title {
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 0.45em 0;
+    color: var(--font-color);
 }
 
-.byline {
+.poem-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.poem-author {
     font-style: italic;
     color: #888;
-    margin-top: 0;
-    margin-bottom: 1.5em;
+    font-size: var(--text-md);
+}
+
+[data-theme="dark"] .poem-author { color: #999; }
+
+/* Hero image — consistent crop regardless of aspect ratio */
+.poem-body img {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 300px;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 14px;
+    margin: 0 0 2.25rem 0 !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+}
+
+[data-theme="dark"] .poem-body img {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Remove paragraph margin around the image if kramdown wraps it */
+.poem-body p:has(> img) {
+    margin: 0;
+}
+
+/* Source attribution */
+.poem-source {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e8e8e8;
+    font-size: var(--text-sm);
+    color: #999;
+}
+
+[data-theme="dark"] .poem-source {
+    border-top-color: #3a3a3a;
+    color: #777;
 }
 
 /* Poem lines rendered as a list */

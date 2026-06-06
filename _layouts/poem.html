@@ -18,15 +18,30 @@ layout: default
 
 <div class="container">
     <article class="poem poetry">
-        <h1 class="text-title">{{ page.title }}</h1>
-        <p class="byline">{{ page.author }}</p>
-        {% if page.categories.size > 0 %}
-        <div class="post-tag-list">
-            {% for category in page.categories %}
-            <a href="{{ site.baseurl }}/poems#{{ category | slugify }}" class="post-tag-chip">{{ category | capitalize }}</a>
-            {% endfor %}
+
+        <a href="/poems" class="poem-back-link">← Poems</a>
+
+        <div class="poem-header">
+            <h1 class="poem-title">{{ page.title }}</h1>
+            <div class="poem-meta">
+                <span class="poem-author">{{ page.author }}</span>
+                {% if page.categories.size > 0 %}
+                    {% for category in page.categories %}
+                    <a href="{{ site.baseurl }}/poems#{{ category | slugify }}" class="post-tag-chip">{{ category | capitalize }}</a>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
+
+        <div class="poem-body">
+            {{ content }}
+        </div>
+
+        {% if page.source %}
+        <footer class="poem-source">
+            Source: {{ page.source }}
+        </footer>
         {% endif %}
-        {{ content }}
+
     </article>
 </div>
