@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Poets.org
 categories: romantic
 ---
+<img src="/img/poems/IcarryyourHeartwithme.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - i carry your heart with me(i carry it in
 - my heart)i am never without it(anywhere

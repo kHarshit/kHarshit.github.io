@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: life
 ---
+<img src="/img/poems/LetKidsBeKids.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Let kids be kids; just let them be
 - Princesses, pirates; let the bath be the sea!

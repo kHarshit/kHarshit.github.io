@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: life
 ---
+<img src="/img/poems/NeitherOutFarOrInDeep.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - The people along the sand All turn and look one way. They turn their back on the land. They look at the sea all day.
 

@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: life
 ---
+<img src="/img/poems/ThereWillComeSoftRains.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - There will come soft rains and the smell of the ground,
 - And swallows calling with their shimmering sound;

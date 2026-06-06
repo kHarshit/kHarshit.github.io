@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: life
 ---
+<img src="/img/poems/IfTomorrowStartsWithoutMe.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - When tomorrow starts without me,
 - And I'm not there to see,

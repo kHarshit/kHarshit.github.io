@@ -6,6 +6,7 @@ date: 2023-04-17 15:58 -04:00
 editor: Harshit Kumar
 categories: romantic
 ---
+<img src="/img/poems/Letmenottothemarriageoftrueminds.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Let me not to the marriage of true minds
 - Admit impediments. Love is not love

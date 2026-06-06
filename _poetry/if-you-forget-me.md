@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: PoetryHunter
 categories: romantic
 ---
+<img src="/img/poems/IfYouForgetMe.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - I want you to know
 - one thing.

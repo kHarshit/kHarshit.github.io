@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Words for the year
 categories: life
 ---
+<img src="/img/poems/LateFragment.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - And did you get what
 - you wanted from this life, even so?

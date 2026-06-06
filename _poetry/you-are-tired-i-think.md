@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: life
 ---
+<img src="/img/poems/YouAreTiredIthink.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - You are tired,
 - (I think)

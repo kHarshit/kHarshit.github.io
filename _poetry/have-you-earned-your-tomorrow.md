@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Family Friend Poems
 categories: life
 ---
+<img src="/img/poems/HaveYouEarnedYourTomorrow.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Is anybody happier because you passed his way?
 - {:.indent-2}Does anyone remember that you spoke to him today?

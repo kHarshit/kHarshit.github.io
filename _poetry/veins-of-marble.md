@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: r/OCPoetry
 categories: romantic
 ---
+<img src="/img/poems/VeinsofMarble.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - If lovers turned to stone
 - Would you still envy them

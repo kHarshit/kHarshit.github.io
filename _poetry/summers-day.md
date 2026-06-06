@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: romantic
 ---
+<img src="/img/poems/ShallIcomparetheetoasummersday.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Shall I compare thee to a summer’s day?
 - Thou art more lovely and more temperate:

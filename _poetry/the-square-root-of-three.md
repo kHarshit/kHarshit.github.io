@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Genius.com
 categories: romantic
 ---
+<img src="/img/poems/TheSquarRootofThree.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - I fear that I will always be
 - A lonely number like root three

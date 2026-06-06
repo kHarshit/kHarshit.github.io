@@ -7,6 +7,11 @@
     line-height: 1.65;
 }
 
+.poetry img {
+    max-height: 400px;
+    width: auto;
+}
+
 .text-title {
     font-size: 1.6em;
     margin-bottom: 0.25em;
@@ -91,6 +96,17 @@
     background: var(--accent-color, #20B2AA);
     border-color: var(--accent-color, #20B2AA);
     color: #fff;
+}
+
+/* ── Links inside a poem ─────────────────────────────────── */
+.poetry a {
+    color: var(--accent-color, #20B2AA);
+    text-decoration: none;
+}
+
+.poetry a:hover {
+    color: var(--accent-hover, #178f8c);
+    text-decoration: underline;
 }
 
 /* ── Poems index: list items ─────────────────────────────── */

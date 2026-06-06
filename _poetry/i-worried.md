@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: life
 ---
+<img src="/img/poems/IWorried.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - I worried a lot. Will the garden grow, will the rivers
 - flow in the right direction, will the earth turn

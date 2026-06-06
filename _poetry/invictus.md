@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Poetry Foundation
 categories: motivational
 ---
+<img src="/img/poems/Invictus.jpg" style="display: block; margin: auto; max-width: 100%;">
 
 - Out of the night that covers me,
 - {:.indent-2}Black as the pit from pole to pole,
