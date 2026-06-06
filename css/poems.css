@@ -1,10 +1,20 @@
 /* ── Individual poem page ─────────────────────────────────── */
 .poetry {
-    max-width: 640px;
-    margin: 1.5rem auto 3rem;
-    padding: 0 1rem;
+    max-width: 680px;
+    margin: 2rem auto 3rem;
+    padding: 2rem 2.5rem 2.5rem;
     font-size: var(--text-lg);
     line-height: 1.75;
+    background: #fafafa;
+    border: 1px solid #ebebeb;
+    border-radius: 16px;
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .poetry {
+    background: #303030;
+    border-color: #3a3a3a;
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
 }
 
 /* Back link */
