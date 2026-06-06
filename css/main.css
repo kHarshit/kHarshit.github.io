@@ -2237,6 +2237,12 @@ input#themeswitch {
     border-radius: 4px;
 }
 
+.sidebar-events-desc {
+    margin: 0;
+    font-size: var(--text-md);
+    line-height: 1.6;
+}
+
 /* ── About site page ─────────────────────────────────────── */
 .about-site-favicon {
     float: right;

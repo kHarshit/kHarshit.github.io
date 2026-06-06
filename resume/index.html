@@ -1,20 +1,33 @@
 ---
 layout: default
-title: Harshit Kumar Resume
+title: Harshit Kumar | Resume
+permalink: /resume/
 ---
 
-<!DOCTYPE HTML>
-<html lang="en-US">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="refresh" content="0; url={{ site.url }}/resume.pdf">
-        <script type="text/javascript">
-            window.location.href = "{{ site.url }}/resume.pdf"
-        </script>
-        <title>Resume - Page Redirection</title>
-    </head>
-    <body>
-        <!-- Note: don't tell people to `click` the link, just tell them that it is a link. -->
-        If you are not redirected automatically, follow <a href='resume.pdf'>{{ site.url }}/resume.pdf</a>.
-    </body>
-</html>
+<header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ site.url }}">Home</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/poems">Poems</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section id="main">
+    <div class="container">
+        <div class="error-404">
+            <p class="error-404-desc">Redirecting to resume…</p>
+        </div>
+    </div>
+</section>
+
+<script>window.location.replace("{{ site.url }}/resume.pdf");</script>
+<noscript>
+    <meta http-equiv="refresh" content="0; url={{ site.url }}/resume.pdf">
+</noscript>

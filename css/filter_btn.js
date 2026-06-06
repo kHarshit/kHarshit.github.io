@@ -1,47 +1,23 @@
 function filterSelection(category) {
-    var x, i;
-    x = document.getElementsByClassName('text-category-title');
-    if (category == 'all') category = '';
-    for (i = 0; i < x.length; i++) {
-        removeClass(x[i], 'show');
-        if (category == '' || x[i].className.indexOf(category) > -1) {
-            addClass(x[i], 'show');
-        }
-    }
-}
-// ... rest of the JavaScript code remains the same ...
-
-function addClass(element, name) {
-    var i, arr1, arr2;
-    arr1 = element.className.split(" ");
-    arr2 = name.split(" ");
-    for (i = 0; i < arr2.length; i++) {
-        if (arr1.indexOf(arr2[i]) == -1) {
-            element.className += " " + arr2[i];
+    var items = document.getElementsByClassName('text-category-title');
+    var showAll = (category === 'all' || category === '');
+    for (var i = 0; i < items.length; i++) {
+        if (showAll || items[i].classList.contains(category)) {
+            items[i].classList.add('show');
+        } else {
+            items[i].classList.remove('show');
         }
     }
 }
 
-function removeClass(element, name) {
-    var i, arr1, arr2;
-    arr1 = element.className.split(" ");
-    arr2 = name.split(" ");
-    for (i = 0; i < arr2.length; i++) {
-        while (arr1.indexOf(arr2[i]) > -1) {
-            arr1.splice(arr1.indexOf(arr2[i]), 1);     
-        }
-    }
-    element.className = arr1.join(" ");
-}
-
-// Add active class to the current button (highlight it)
-var btnContainer = document.getElementById("category-filters");
-var btns = btnContainer.getElementsByClassName("filter-btn");
+// Active button highlight
+var btnContainer = document.getElementById('category-filters');
+var btns = btnContainer ? btnContainer.getElementsByClassName('filter-btn') : [];
 for (var i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", function(){
-        var current = document.getElementsByClassName("active");
-        current[0].className = current[0].className.replace(" active", "");
-        this.className += " active";
+    btns[i].addEventListener('click', function() {
+        var current = btnContainer.querySelector('.active');
+        if (current) current.classList.remove('active');
+        this.classList.add('active');
     });
 }
 
@@ -52,9 +28,9 @@ for (var i = 0; i < btns.length; i++) {
         filterSelection(hash);
         for (var i = 0; i < btns.length; i++) {
             if (btns[i].getAttribute('onclick') === "filterSelection('" + hash + "')") {
-                var current = document.getElementsByClassName('active');
-                if (current.length) current[0].className = current[0].className.replace(' active', '');
-                btns[i].className += ' active';
+                var current = btnContainer.querySelector('.active');
+                if (current) current.classList.remove('active');
+                btns[i].classList.add('active');
                 btns[i].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 return;
             }
