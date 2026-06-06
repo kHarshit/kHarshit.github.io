@@ -224,3 +224,10 @@ figure.highlight {
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(32,178,170,0.45);
 }
+
+@media (max-width: 768px) {
+    #scroll_top {
+        bottom: 60px;
+        right: 16px;
+    }
+}

@@ -1,9 +1,9 @@
-// Show/hide scroll-to-top button
+// Show/hide scroll-to-top button — appears after scrolling 400px
 window.addEventListener('scroll', function() {
     var btn = document.getElementById('scroll_top');
     if (!btn) return;
-    btn.style.display = (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)
-        ? 'block' : 'none';
+    var scrolled = document.body.scrollTop || document.documentElement.scrollTop;
+    btn.style.display = scrolled > 600 ? 'block' : 'none';
 }, { passive: true });
 
 // Scroll to top on button click
