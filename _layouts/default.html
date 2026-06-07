@@ -7,7 +7,7 @@
     	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
         <meta name="description" content="{{ page.description | default: site.description }}">
 		<meta name="author" content="Harshit Kumar">
-        {% if page.layout == "post" or page.layout == "poem" %}
+        {% if page.layout == "post" or page.layout == "poem" or page.layout == "category" %}
         <title>{{ page.title }} | Harshit Kumar</title>
         {% else %}
         <title>{{ page.title }}</title>

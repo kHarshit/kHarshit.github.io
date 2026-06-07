@@ -29,6 +29,9 @@ layout: default
     </div>
 
     {% assign cat_posts = site.posts | where_exp: "p", "p.categories contains page.category_name" %}
+    {% if page.category_description %}
+    <p class="blog-page-desc category-description">{{ page.category_description }}</p>
+    {% endif %}
     <p class="blog-page-desc category-post-count">{{ cat_posts.size }} post{% if cat_posts.size != 1 %}s{% endif %}</p>
 
     <div id="post">
