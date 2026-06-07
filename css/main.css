@@ -178,13 +178,13 @@ nav a:hover {
 }
 
 nav .current a {
-    color: #e8491d;
+    color: var(--accent-color);
     font-weight: 600;
 }
 
 nav .current a::after {
     width: 100%;
-    background: #e8491d;
+    background: var(--accent-color);
 }
 
 #btmnav {
