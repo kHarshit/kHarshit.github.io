@@ -1900,6 +1900,7 @@ input#themeswitch {
 .toc-list {
     margin: 0.5rem 0 0;
     padding: 0;
+    text-align: left;
 }
 
 .toc-list ol, .toc-list ul {
