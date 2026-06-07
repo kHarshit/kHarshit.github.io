@@ -32,6 +32,10 @@ layout: default
     </div>
 
     <div id="post" class="post-content">
+        <details id="toc-block" class="toc-block" hidden>
+            <summary class="toc-summary">Contents</summary>
+            <nav id="toc-list" class="toc-list"></nav>
+        </details>
         {{ content }}
     </div>
 
@@ -159,17 +163,42 @@ layout: default
     });
     </script>
 
-    <!-- Heading anchor links -->
+    <!-- Heading anchor links + Table of Contents -->
     <script>
-    document.querySelectorAll('.post-content h2, .post-content h3, .post-content h4').forEach(function(h) {
-        if (!h.id) return;
-        var a = document.createElement('a');
-        a.className = 'heading-anchor';
-        a.href = '#' + h.id;
-        a.setAttribute('aria-label', 'Link to this section');
-        a.textContent = '#';
-        h.appendChild(a);
-    });
+    (function() {
+        var headings = Array.from(document.querySelectorAll('.post-content h1, .post-content h2, .post-content h3'));
+
+        // Anchor links
+        headings.forEach(function(h) {
+            if (!h.id) return;
+            var a = document.createElement('a');
+            a.className = 'heading-anchor';
+            a.href = '#' + h.id;
+            a.setAttribute('aria-label', 'Link to this section');
+            a.textContent = '#';
+            h.appendChild(a);
+        });
+
+        // TOC — only when there are 2+ headings with IDs
+        var tocHeadings = headings.filter(function(h) { return !!h.id; });
+        if (tocHeadings.length < 2) return;
+
+        var block = document.getElementById('toc-block');
+        var list = document.getElementById('toc-list');
+        block.removeAttribute('hidden');
+
+        var ol = document.createElement('ol');
+        tocHeadings.forEach(function(h) {
+            var li = document.createElement('li');
+            li.className = h.tagName === 'H1' ? 'toc-h1' : h.tagName === 'H3' ? 'toc-h3' : 'toc-h2';
+            var a = document.createElement('a');
+            a.href = '#' + h.id;
+            a.textContent = h.textContent.replace(/#\s*$/, '').trim();
+            li.appendChild(a);
+            ol.appendChild(li);
+        });
+        list.appendChild(ol);
+    })();
     </script>
 
     {% if page.mathjax %}
