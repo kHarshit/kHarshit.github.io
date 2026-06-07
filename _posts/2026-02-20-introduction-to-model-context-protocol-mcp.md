@@ -114,7 +114,7 @@ Client → Server (initialize request):
   "id": 1,
   "method": "initialize",
   "params": {
-    "protocolVersion": "2025-06-18",
+    "protocolVersion": "2025-11-25",
     "capabilities": {
       "elicitation": {}
     },
@@ -132,7 +132,7 @@ Server → Client (response: capabilities):
   "jsonrpc": "2.0",
   "id": 1,
   "result": {
-    "protocolVersion": "2025-06-18",
+    "protocolVersion": "2025-11-25",
     "capabilities": {
       "tools": {"listChanged": true},
       "resources": {}

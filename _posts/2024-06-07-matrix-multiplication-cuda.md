@@ -2,7 +2,7 @@
 layout: post
 title: "Matrix Multiplication in CUDA"
 date: 2024-06-07
-categories: [CUDA, Deep Learning, Optimization, Generative AI, LLM]
+categories: [CUDA, Deep Learning, Generative AI, LLM]
 mathjax: true
 ---
 

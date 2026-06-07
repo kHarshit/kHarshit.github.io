@@ -8,3 +8,4 @@ _config_local.yml
 vendor/
 Gemfile.local
 Gemfile.local.lock
+.claude/
