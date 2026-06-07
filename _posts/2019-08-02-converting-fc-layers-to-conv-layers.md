@@ -3,6 +3,7 @@ layout: post
 title: "Converting FC layers to CONV layers"
 date: 2019-08-02
 categories: [Deep Learning, Computer Vision]
+excerpt: "How and why to replace fully connected layers with equivalent convolutional layers, enabling CNNs to accept arbitrary input sizes."
 ---
 
 > It is worth noting that the only difference between FC and CONV layers is that the neurons in the CONV layer are connected only to a local region in the input, and that many of the neurons in a CONV volume share parameters.

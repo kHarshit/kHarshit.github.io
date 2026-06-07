@@ -3,6 +3,7 @@ layout: post
 title: "Technical Fridays"
 date: 2017-07-21
 categories: [Personal]
+excerpt: "Introducing Technical Fridays, a weekly technical writing series covering topics from data science to algorithms."
 ---
 
 <img src="/img/technical_fridays.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">

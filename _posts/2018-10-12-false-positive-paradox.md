@@ -3,6 +3,7 @@ layout: post
 title: "False positive paradox"
 date: 2018-10-12
 categories: [Data Science, Mathematics]
+excerpt: "The false positive paradox: why a test with low false positive rate can still produce more false positives than true positives for rare conditions."
 ---
 
 A [false positive]({% post_url 2017-12-29-false-positives %}) is an error when test results incorrectly indicate presence of a condition when it doesn't exist. False positives often plays an important role in hypothesis testing, especially in testing of rare diseases. Sometimes, it happens that the test having low probability of giving false positive gives more false positives than true positives overall. This is called **false positive paradox**.

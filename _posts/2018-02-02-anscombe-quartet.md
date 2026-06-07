@@ -3,6 +3,7 @@ layout: post
 title: "Anscombe's Quartet"
 date: 2018-02-02
 categories: [Data Science, Visualization, Python]
+excerpt: "Anscombe's quartet illustrates why visualizing data matters,  four datasets with nearly identical statistics but completely different distributions."
 ---
 
 We often look for summary statistics during EDA (Exploratory Data Analysis). But, sometimes these statistics may give us wrong interpretation of the data. In 1973, a statistician Francis Anscombe demonstrated it with the help of four datasets known as Anscombe's quartet.

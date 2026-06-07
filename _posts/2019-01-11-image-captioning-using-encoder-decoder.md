@@ -3,6 +3,7 @@ layout: post
 title: "Image captioning using encoder-decoder"
 date: 2019-01-11
 categories: [Deep Learning, Computer Vision, Natural Language Processing]
+excerpt: "Building an image captioning system using a CNN encoder and RNN decoder based on the Show and Tell architecture."
 ---
 
 ***Note:*** *This post discusses the project I'm doing currently. Check it on [kHarshit/image-captioner](https://github.com/kHarshit/image-captioner/). The working demo is available on [https://imagecaptioner.herokuapp.com](https://imagecaptioner.herokuapp.com/).*

@@ -4,6 +4,7 @@ title: "Autoencoder: Downsampling and Upsampling"
 date: 2019-02-15
 categories: [Deep Learning]
 mathjax: true
+excerpt: "How autoencoders learn compact data representations through an encoder-decoder architecture, covering downsampling and upsampling techniques."
 ---
 
 ***Note:*** *Read the post on [Autoencoder](https://iq.opengenus.org/autoencoder/) written by me at OpenGenus as a part of [GSSoC](https://gssoc.tech/).*

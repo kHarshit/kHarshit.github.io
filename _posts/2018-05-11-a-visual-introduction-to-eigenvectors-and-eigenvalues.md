@@ -4,6 +4,7 @@ title: "A visual introduction to eigenvectors and eigenvalues"
 date: 2018-05-11
 categories: [Mathematics, Machine Learning]
 mathjax: true
+excerpt: "A geometric, visual explanation of eigenvectors and eigenvalues through linear transformations such as scaling, rotation, and shearing."
 ---
 
 

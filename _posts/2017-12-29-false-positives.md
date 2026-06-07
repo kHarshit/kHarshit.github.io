@@ -4,6 +4,7 @@ title: "Evaluation metrics for classification and False positives"
 date: 2017-12-29
 categories: [Data Science]
 mathjax: true
+excerpt: "A guide to classification evaluation metrics: confusion matrix, precision, recall, and the significance of false positives."
 ---
 
 A false positive error or **false positive** (false alarm) is a result that indicates a given condition exists when it doesn't.

@@ -3,6 +3,7 @@ layout: post
 title: "Layer-specific learning rates"
 date: 2019-03-22
 categories: [Deep Learning]
+excerpt: "Why using different learning rates per layer in deep networks can compensate for vanishing gradients and improve transfer learning fine-tuning."
 ---
 
 ***Note:*** *This post answers the question I asked on Cross-Validated: [What are the benefits of layer-specific learning rates?](https://stats.stackexchange.com/q/397848/194589)*

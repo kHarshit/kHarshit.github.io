@@ -4,6 +4,7 @@ title: "word2vec: The foundation of NLP"
 date: 2018-07-27
 categories: [Deep Learning, Natural Language Processing]
 mathjax: true
+excerpt: "How word2vec represents words as dense vectors by learning from context, solving the limitations of one-hot encoding for NLP tasks."
 ---
 
 **Natural Language Processing** deals with the task of making computer understand the human language. The computer understands only 0s and 1s. A language consists of words. So, the first task is to convert word into a combination of 0s and 1s. This is easy. But, a word is nothing without its meaning. Hence, the task we need to solve is to represent the meaning of a word.

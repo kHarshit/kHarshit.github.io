@@ -4,6 +4,7 @@ title: "Regularization"
 date: 2018-01-12
 categories: [Data Science, Machine Learning, Python]
 mathjax: true
+excerpt: "How regularization techniques, L1 (Lasso) and L2 (Ridge), add penalty terms to the loss function to combat overfitting in linear models."
 ---
 
 Our machine learning model often encouters the problem of [overfitting]({{ site.url }}{% post_url 2017-10-13-overfitting-and-underfitting %}). Regularization is one of the techniques to solve this problem.

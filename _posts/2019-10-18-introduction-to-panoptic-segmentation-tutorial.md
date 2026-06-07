@@ -4,6 +4,7 @@ title: "Introduction to Panoptic Segmentation: A Tutorial"
 date: 2019-10-18
 categories: [Deep Learning, Computer Vision]
 mathjax: true
+excerpt: "Panoptic segmentation unifies semantic and instance segmentation assigning class labels and unique IDs to every pixel in an image."
 ---
 
 In semantic segmentation, the goal is to classify each pixel into the given classes. In instance segmentation, we care about segmentation of the instances of objects separately. The panoptic segmentation combines semantic and instance segmentation such that all pixels are assigned a class label and all object instances are uniquely segmented.

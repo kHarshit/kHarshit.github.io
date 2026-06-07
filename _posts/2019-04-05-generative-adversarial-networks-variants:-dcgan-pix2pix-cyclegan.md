@@ -4,6 +4,7 @@ title: "Generative Adversarial Networks variants: DCGAN, Pix2pix, CycleGAN"
 date: 2019-04-05
 categories: [Deep Learning, Computer Vision, Generative AI]
 mathjax: true
+excerpt: "An overview of GAN variants, DCGAN for image generation, Pix2pix for paired image translation, and CycleGAN for unpaired style transfer."
 ---
 
 First, make sure you read the first part of this post, [Generative models and Generative Adversarial Networks]({% post_url 2018-09-28-generative-models-and-generative-adversarial-networks %}). This post is its continuation.

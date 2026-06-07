@@ -4,6 +4,7 @@ title: "Computational graphs: Backpropagation"
 date: 2018-03-09
 categories: [Data Science, Deep Learning]
 mathjax: true
+excerpt: "Backpropagation explained via computational graphs, a local, chain-rule-based method for computing gradients efficiently in neural networks."
 ---
 
 

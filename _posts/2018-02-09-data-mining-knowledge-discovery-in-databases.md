@@ -3,6 +3,7 @@ layout: post
 title: "Data Mining: Knowledge discovery in databases"
 date: 2018-02-09
 categories: [Data Science, Machine Learning]
+excerpt: "An overview of the KDD (Knowledge Discovery in Databases) process and how data mining, machine learning, and data science relate to each other."
 ---
 
 Knowledge discovery in databases (KDD) is a 7 step process to search for hidden knowledge in data. *Data Mining* refers to the analysis step in the *KDD* process.

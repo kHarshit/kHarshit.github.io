@@ -4,6 +4,7 @@ title: "Simplicity doesn't imply accuracy"
 date: 2017-12-22
 categories: [Data Science, Machine Learning]
 mathjax: true
+excerpt: "Examining Occam's razor in machine learning, why simpler models aren't always more accurate and how complexity relates to overfitting."
 ---
 
 Often, people say things like *beauty lies in simplicity*, *simplicity is the glory of expression, complexity is the enemy of execution*. But to what extent, these statements are true?

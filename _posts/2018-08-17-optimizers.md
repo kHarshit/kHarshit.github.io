@@ -3,6 +3,7 @@ layout: post
 title: "Optimizers"
 date: 2018-08-17
 categories: [Data Science, Deep Learning]
+excerpt: "An overview of neural network optimizers: SGD, momentum, RMSProp, and Adam, and how they improve on basic gradient descent."
 ---
 
 Building neural networks, we compute [gradients]({% post_url 2018-03-02-gradient-descent-the-core-of-neural-networks %}) with the [backpropagation]({% post_url 2018-03-09-computational-graphs-backpropagation %}) algorithm. These gradients are used to perform the parameter updates. The default way of doing this is to update gradient along the negative gradient direction i.e. using the gradient descent optimizer.

@@ -3,6 +3,7 @@ layout: post
 title: "Smart India Hackathon 2018 grand finale"
 date: 2018-04-06
 categories: [Personal]
+excerpt: "A recap of participating in Smart India Hackathon 2018, building a dengue risk prediction Android app using gradient boosting and a Django API."
 ---
 
 Recently, I attended Smart India Hackathon grand finale 2018<sup id="a1">[1](#myfootnote1)</sup> at Pune, India. We're one of the few teams selected for the finale. Our idea, which was under CSIR<sup id="a2">[2](#myfootnote2)</sup>, was to develop an android application which could give real-time location-based dengue-risk-index using machine learning techniques.

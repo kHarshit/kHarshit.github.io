@@ -3,6 +3,7 @@ layout: post
 title: "Turtle in Python: A Traffic light"
 date: 2017-08-11
 categories: [Python]
+excerpt: "A step-by-step guide to simulating a traffic light using Python's turtle graphics module with timed state transitions."
 ---
 
 We’re going to build a program that uses a turtle in python to simulate the traffic lights.

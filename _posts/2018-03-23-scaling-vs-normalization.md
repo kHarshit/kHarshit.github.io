@@ -4,6 +4,7 @@ title: "Scaling vs Normalization"
 date: 2018-03-23
 categories: [Data Science, Machine Learning]
 mathjax: true
+excerpt: "The difference between feature scaling (min-max) and normalization (standardization), and when to apply each in machine learning pipelines."
 ---
 
 **Feature scaling** (also known as **data normalization**) is the method used to standardize the range of features of data. Since, the range of values of data may vary widely, it becomes a necessary step in data preprocessing while using machine learning algorithms.

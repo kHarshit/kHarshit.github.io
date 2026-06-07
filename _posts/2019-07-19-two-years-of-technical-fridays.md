@@ -3,6 +3,7 @@ layout: post
 title: "Two Years of Technical Fridays"
 date: 2019-07-19
 categories: [Personal]
+excerpt: "Marking two years of Technical Fridays, with over 10,000 global readers and a focus on computer vision going forward."
 ---
 
 <img src="/img/favicon_files/favicon-96x96.png" style="float:left; display: block; margin: auto; width: auto; max-width: 100%;">

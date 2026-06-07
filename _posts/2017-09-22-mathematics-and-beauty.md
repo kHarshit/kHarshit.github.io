@@ -3,6 +3,7 @@ layout: post
 title: "Mathematics and Beauty"
 date: 2017-09-22
 categories: [Mathematics]
+excerpt: "A reflection on the aesthetic beauty found in mathematics from elegant proofs to surprising results like the parity of zero."
 ---
 
 > Mathematics when rightly viewed, possesses not only truth but supreme beauty.

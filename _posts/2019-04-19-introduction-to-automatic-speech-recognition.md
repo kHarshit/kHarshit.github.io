@@ -4,6 +4,7 @@ title: "Introduction to Automatic Speech Recognition"
 date: 2019-04-19
 categories: [Speech Recognition]
 mathjax: true
+excerpt: "The fundamentals of Automatic Speech Recognition (ASR), acoustic models, Hidden Markov Models, and how Bayes' rule drives decoding."
 ---
 
 The Automatic Speech Recognition (ASR) systems are widely used nowadays. Some of the most notable uses include Siri, Alexa Google Assistant, Cortana, etc. Let's understand the fundamentals of ASR.

@@ -3,6 +3,7 @@ layout: post
 title: "Gradient boosted trees: Better than random forest?"
 date: 2018-02-23
 categories: [Data Science, Machine Learning]
+excerpt: "Comparing gradient boosted trees and random forests, their differences in training strategy, tuning requirements, and when to prefer each."
 ---
 
 Does gradient boosted trees generally perform better than random forest? Let's see that. But, first what are these methods? Random forest and boosting are ensemble methods, proved to generally perform better than than basic algorithms.

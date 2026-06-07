@@ -3,6 +3,7 @@ layout: post
 title: "Shortest Path: Dijkstra's Algorithm"
 date: 2017-11-17
 categories: [Algorithms]
+excerpt: "A walkthrough of Dijkstra's greedy shortest-path algorithm, foundation behind Google Maps routing, with step-by-step explanation."
 ---
 
 Every day we use Google Maps for commuting. Do you know how it works? 

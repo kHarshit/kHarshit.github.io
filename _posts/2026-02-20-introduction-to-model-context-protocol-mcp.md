@@ -3,6 +3,7 @@ layout: post
 title: "Introduction to Model Context Protocol (MCP)"
 date: 2026-02-20
 categories: [Agentic AI, Generative AI, LLM]
+excerpt: "MCP is an open-source protocol that standardizes how LLMs connect to external tools and data sources, replacing fragile custom integrations with a common interface."
 ---
 
 Model Context Protocol (MCP) is an open-source protocol that standardizes how AI models (LLMs) connect to external tools, data sources, and services.

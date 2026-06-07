@@ -3,6 +3,7 @@ layout: post
 title: "Friendship paradox: facebook"
 date: 2017-08-18
 categories: [Data Science, Python]
+excerpt: "Exploring the friendship paradox, phenomenon where most people have fewer friends than their friends have on average, using Facebook data and Python."
 ---
 
 <img src="/img/friends.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">

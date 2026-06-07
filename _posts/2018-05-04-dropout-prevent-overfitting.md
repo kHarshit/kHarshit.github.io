@@ -3,6 +3,7 @@ layout: post
 title: "Dropout: Prevent overfitting"
 date: 2018-05-04
 categories: [Data Science, Deep Learning]
+excerpt: "How dropout regularization prevents overfitting by randomly deactivating neurons during training, effectively ensembling many sub-networks."
 ---
 
 Dropout is a [regularization]({% post_url 2018-01-12-regularization %}) technique that prevents neural networks from [overfitting]({% post_url 2017-10-13-overfitting-and-underfitting %}). Regularization methods like L2 and L1 reduce overfitting by modifying the cost function. Dropout, on the other hand, modify the network itself.

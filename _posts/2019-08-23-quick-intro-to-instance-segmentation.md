@@ -4,6 +4,7 @@ title: "Quick intro to Instance segmentation: Mask R-CNN"
 date: 2019-08-23
 categories: [Deep Learning, Computer Vision]
 mathjax: true
+excerpt: "Instance segmentation with Mask R-CNN: combining object detection and semantic segmentation to identify and segment each object instance separately."
 ---
 
 *This is the third post in the Quick intro series: [object detection (I)]({% post_url 2019-03-15-quick-intro-to-object-detection %}), [semantic segmentation (II)]({% post_url 2019-08-09-quick-intro-to-semantic-segmentation %})*.

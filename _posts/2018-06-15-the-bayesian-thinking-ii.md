@@ -4,6 +4,7 @@ title: "The Bayesian Thinking - II"
 date: 2018-06-15
 categories: [Data Science, Mathematics]
 mathjax: true
+excerpt: "Comparing classical, frequentist, and Bayesian probability frameworks, and how Bayesian thinking updates beliefs with new evidence."
 ---
 
 Statistics is the study of uncertainity. One way to deal with uncertainity is by probabilities.

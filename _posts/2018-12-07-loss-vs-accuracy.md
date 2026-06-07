@@ -4,6 +4,7 @@ title: "Loss vs Accuracy"
 date: 2018-12-07
 categories: [Deep Learning, Machine Learning]
 mathjax: true
+excerpt: "The distinction between loss (cross-entropy) and accuracy in neural network training, why they can diverge and what each metric tells you."
 ---
 
 A [loss function]({% post_url 2018-08-24-loss-functions %}) is used to [optimize]({% post_url 2018-03-02-gradient-descent-the-core-of-neural-networks %}) the model (e.g. a neural network) you've built to solve a problem.

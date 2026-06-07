@@ -3,6 +3,7 @@ layout: post
 title: "A Year of Fridays"
 date: 2018-07-20
 categories: [Personal]
+excerpt: "Reflecting on one year of Technical Fridays, a look back at topics covered and what was learned through consistent technical writing."
 ---
 
 It's been a year since I started this blog, [Technical Fridays]({% post_url 2017-07-21-technical-fridays %}). It has been an excellent journey. I learned a lot by writing here.

@@ -3,6 +3,7 @@ layout: post
 title: "Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports"
 date: 2024-04-26
 categories: [LLM, Generative AI, Natural Language Processing]
+excerpt: "Building a RAG-based chatbot for 10Q financial reports to reduce LLM hallucinations by grounding answers in retrieved document context."
 ---
 
 While Large Language Models (LLMs) are revolutionary, they sometimes get it wrong—like citing varying figures for something as critical as Tesla's total assets on a given date. In the accompanying figure, you can see ChatGPT4 giving different results when asked the same question multiple times. This problem is called LLM hallucinations. And that's where Retrival Augmented Generation (RAG) comes in. In this blog post, I'll describe how to create a Chabot for 10Q Financial Reports that leverages RAG.

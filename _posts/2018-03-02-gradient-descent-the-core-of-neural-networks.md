@@ -4,6 +4,7 @@ title: "Gradient descent: The core of neural networks"
 date: 2018-03-02
 categories: [Data Science, Deep Learning]
 mathjax: true
+excerpt: "How gradient descent works to optimize neural network weights by following the steepest direction of the loss function."
 ---
 
 As discussed in the post [linear algebra and deep learning]({% post_url 2018-02-16-linear-algebra-the-essence-behind-deep-learning %}), the **optimization** is the *third* and last step in solving image classification problem in deep learning. It helps us find the values of weights `W` and bias `b` that minimizes the loss function.

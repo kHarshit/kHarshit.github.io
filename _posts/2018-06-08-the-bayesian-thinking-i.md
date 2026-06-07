@@ -4,6 +4,7 @@ title: "The Bayesian Thinking - I"
 date: 2018-06-08
 categories: [Data Science, Mathematics]
 mathjax: true
+excerpt: "An introduction to Bayes' theorem and conditional probability through a disease-testing example that challenges intuitive reasoning."
 ---
 
 A disease has affected 0.1% of the world's population.

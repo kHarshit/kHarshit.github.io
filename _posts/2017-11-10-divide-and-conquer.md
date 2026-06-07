@@ -3,6 +3,7 @@ layout: post
 title: "Divide and Conquer"
 date: 2017-11-10
 categories: [Algorithms]
+excerpt: "The divide and conquer algorithm paradigm explained: breaking problems into subproblems, solving them recursively, and combining results."
 ---
 
 Say you want to go to Harvard for your graduate studies in a year. But, the academic fee of $40,000 is intimidating. And, with every passing week, it's getting worse. So, what do you do?  

@@ -3,6 +3,7 @@ layout: post
 title: "Color and color spaces in Computer Vision"
 date: 2020-01-17
 categories: [Computer Vision]
+excerpt: "Understanding color models (RGB, HSV, LAB) and color spaces in computer vision, how computers represent and work with color."
 ---
 
 > A picture is worth a millions words.  

@@ -4,6 +4,7 @@ title: "Dealing with categorical data"
 date: 2018-01-19
 categories: [Data Science, Python]
 mathjax: true
+excerpt: "Techniques for encoding categorical variables in machine learning models, including dummy variables and one-hot encoding."
 ---
 
 Often in our machine learning model, we encounter qualitative predictors.

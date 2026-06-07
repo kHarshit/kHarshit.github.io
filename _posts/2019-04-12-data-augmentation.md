@@ -3,6 +3,7 @@ layout: post
 title: "Data augmentation"
 date: 2019-04-12
 categories: [Deep Learning, Computer Vision]
+excerpt: "How data augmentation like flipping, rotation, color jittering artificially expands training data to build more generalizable deep learning models."
 ---
 
 <img src="/img/data_augmentation.png" style="display: block; margin: auto; width: auto; max-width: 100%;">

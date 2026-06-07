@@ -3,6 +3,7 @@ layout: post
 title: "Moneyball: How linear regression changed baseball"
 date: 2017-07-28
 categories: [Data Science, Machine Learning, R]
+excerpt: "How Oakland A's used linear regression in R to identify undervalued players and compete despite limited budget."
 ---
 
 > It's unbelievable how much you don't know about the game you've been playing all your life.  

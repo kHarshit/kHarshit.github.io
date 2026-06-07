@@ -4,6 +4,7 @@ title: "Some Prime Thoughts"
 date: 2018-01-05
 categories: [Mathematics, Python, Cryptography]
 mathjax: true
+excerpt: "Exploring prime numbers, primality testing in Python, the Fundamental Theorem of Arithmetic, and their role in cryptography."
 ---
 
 The *Fundamental Theorem of Arithmetic* states that every positive integer can be factored into primes in a unique way.

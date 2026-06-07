@@ -3,6 +3,7 @@ layout: post
 title: "Quick intro to semantic segmentation: FCN, U-Net and DeepLab"
 date: 2019-08-09
 categories: [Deep Learning, Computer Vision]
+excerpt: "An introduction to semantic segmentation, pixel-level classification using Fully Convolutional Networks, U-Net, and DeepLab architectures."
 ---
 
 Suppose you've an image, consisting of cats. You want to classify every pixel of the image as cat or background. This process is called semantic segmentation.

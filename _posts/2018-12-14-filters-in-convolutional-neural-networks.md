@@ -3,6 +3,7 @@ layout: post
 title: "Filters in Convolutional Neural Networks"
 date: 2018-12-14
 categories: [Deep Learning, Computer Vision]
+excerpt: "How convolutional filters detect spatial patterns and edges by responding to high-frequency changes in image pixel intensity."
 ---
 
 ***Note:*** *This post is inspired by the [answer](https://stackoverflow.com/a/53692847/6210807) I gave on stackoverflow.*

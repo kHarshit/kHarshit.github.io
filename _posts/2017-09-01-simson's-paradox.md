@@ -3,6 +3,7 @@ layout: post
 title: "Simpson's paradox"
 date: 2017-09-01
 categories: [Data Science, R]
+excerpt: "Simpson's paradox explained through UC Berkeley's 1973 admissions data, a trend that reverses when data is aggregated across groups."
 ---
 
 In 1973, the University of California, Berkeley was sued for gender bias against women who had applied to graduate schools. The data for fall 1973 showed that men applying were far more likely to get admits than the women.

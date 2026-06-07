@@ -4,6 +4,7 @@ title: "The Curse of Dimensionality"
 date: 2018-01-26
 categories: [Data Science, Machine Learning]
 mathjax: true
+excerpt: "Why increasing the number of features degrades kNN performance, the curse of dimensionality explained intuitively and mathematically."
 ---
 
 While applying k nearest neighbors approach in solving a problem, we can sometimes notice that there is a deterioration in the kNN performance when the number of predictors, `p` is large. The reason for this can be the high number of dimensions. This problem is known as *the curse of dimensionality*.

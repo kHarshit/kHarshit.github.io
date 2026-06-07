@@ -3,6 +3,7 @@ layout: post
 title: "Methods of Hyperparameter optimization"
 date: 2018-08-03
 categories: [Data Science, Machine Learning, Deep Learning]
+excerpt: "Comparing hyperparameter optimization strategies like grid search, random search, and Bayesian optimization with scikit-learn examples."
 ---
 
 The parameters, called hyperparameters, that define the performance of the machine learning algorithm (model), depends on the problem we are trying to solve. Thus, they need to be configured accordingly. This process of finding the best set of parameters is called hyperparameter optimization. For example, in support vector machines (SVM), regularization constant `C`, kernel coefficient `γ` need to be optimized. The tuning of optimal hyperparameters can be done in a number of ways.

@@ -3,6 +3,7 @@ layout: post
 title: "Transfer learning: How to build accurate models"
 date: 2018-08-10
 categories: [Deep Learning, Computer Vision, Python]
+excerpt: "Using pre-trained CNN models via feature extraction or fine-tuning to build accurate models when training data is limited."
 ---
 
 A good Covolutional Neural Network model requires a large dataset and good amount of training, which is often not possible in practice. Transfer learning provides a turn around it. It's a method to use pre-trained models to obtain better results. A pre-trained model has been previously trained on a dataset and contains the weights and biases that represent the features of whichever dataset it was trained on. There are two ways to achieve this:

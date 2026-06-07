@@ -3,6 +3,7 @@ layout: post
 title: "Ensembling is the key"
 date: 2018-03-16
 categories: [Data Science, Machine Learning]
+excerpt: "An overview of ensemble learning methods: bagging, random forest, boosting, and stacking, and why combining models often outperforms any single algorithm."
 ---
 
 Most of us have our favourite machine learning algorithms. For some, it may be state-of-the-art algos like *Support Vector Machines* while for others it may be something simple like *Naive Bayes*.

@@ -3,6 +3,7 @@ layout: post
 title: "Greedy Algorithms"
 date: 2017-11-03
 categories: [Algorithms]
+excerpt: "An introduction to greedy algorithms, a problem-solving paradigm that makes locally optimal choices to seek a global optimum, with examples and limitations."
 ---
 
 Let's say you want to count out a certain amount of money, using the fewest possible number of coins.  

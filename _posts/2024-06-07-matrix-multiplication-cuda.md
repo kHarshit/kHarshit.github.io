@@ -4,6 +4,7 @@ title: "Matrix Multiplication in CUDA"
 date: 2024-06-07
 categories: [CUDA, Deep Learning, Generative AI, LLM]
 mathjax: true
+excerpt: "Implementing matrix multiplication in CUDA from a naive CPU baseline to GPU-accelerated versions using tiled shared memory for deep learning workloads."
 ---
 
 Matrix multiplication is at the heart of deep learning. In this evolving world of LLMs, the need for fast and efficient matrix multiplications is paramount. Nvidia CUDA allows you to perform matrix operations on GPU in a faster way.

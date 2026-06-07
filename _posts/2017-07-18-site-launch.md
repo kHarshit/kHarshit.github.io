@@ -3,6 +3,7 @@ layout: post
 title: "Site launch"
 date: 2017-07-18
 categories: Personal
+excerpt: "Announcing the launch of this blog, powered by Jekyll and authored in Markdown."
 ---
 
 Well, Finally got around to put this website together. Neat thing about it - powered by

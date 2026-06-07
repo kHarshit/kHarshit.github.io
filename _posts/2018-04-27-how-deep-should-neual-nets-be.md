@@ -3,6 +3,7 @@ layout: post
 title: "How deep should neural nets be?"
 date: 2018-04-27
 categories: [Data Science, Deep Learning]
+excerpt: "Practical guidance on choosing neural network depth and layer sizes, input, hidden, and output layers for different problem types."
 ---
 
 How do we decide on what architecture to use while solving a problem using neural networks? Should we use no hidden layers? One hidden layer? Two hidden layers? How large should each layer be?

@@ -4,6 +4,7 @@ title: "Evaluation metrics for object detection and segmentation: mAP"
 date: 2019-09-20
 categories: [Deep Learning, Computer Vision]
 mathjax: true
+excerpt: "How IoU, precision-recall curves, and mean Average Precision (mAP) are used to evaluate object detection and segmentation models."
 ---
 
 

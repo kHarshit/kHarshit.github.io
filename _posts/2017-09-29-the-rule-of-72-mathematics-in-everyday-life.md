@@ -3,6 +3,7 @@ layout: post
 title: "The Rule of 72: Mathematics in everyday life"
 date: 2017-09-29
 categories: [Mathematics]
+excerpt: "Deriving the Rule of 72, a quick mental math trick to estimate how long it takes an investment or debt to double at a given interest rate."
 ---
 
 > Compound interest is the greatest mathematical discovery of all time.
