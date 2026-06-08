@@ -84,9 +84,8 @@ title: Technical Fridays | Blog | Harshit Kumar
                 <h3 class="blog-list-title">{{ post.title }}</h3>
                 <p class="blog-list-excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
                 <div class="blog-list-meta">
-                  <span class="blog-list-date">{{ post.date | date: "%b %d, %Y" }}</span>
-                  <span class="blog-list-sep">·</span>
-                  <span class="blog-list-readtime">{{ read_time }} min read</span>
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> {{ post.date | date: "%b %-d, %Y" }}</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> {{ read_time }} min read</span>
                 </div>
               </div>
             </a>
