@@ -1997,6 +1997,7 @@ input#themeswitch {
 
 .post-meta .fa {
     margin-right: 4px;
+    color: var(--accent-color);
 }
 
 #post {
@@ -2380,6 +2381,11 @@ input#themeswitch {
 .blog-list-readtime {
     font-size: var(--text-sm);
     color: #999;
+}
+
+.blog-list-date .fa,
+.blog-list-readtime .fa {
+    color: var(--accent-color);
 }
 
 .blog-list-sep {
