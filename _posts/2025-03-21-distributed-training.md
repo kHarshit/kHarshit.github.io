@@ -37,7 +37,7 @@ In distributed training, we're mainly working with horizontal scaling since mach
 
 Before diving into parallelism strategies, it helps to understand the underlying communication operations.
 
-### 2.1. Point-to-Point Communication
+### Point-to-Point Communication
 
 Direct transfer of data between two specific processes (send/receive).
 
@@ -48,7 +48,7 @@ Direct transfer of data between two specific processes (send/receive).
 </figure>
 </div>
 
-### 2.2. Collective Communication
+### Collective Communication
 
 Operations involving all processes in a group simultaneously.
 
@@ -182,7 +182,7 @@ torchrun \
 
 Used when the model is too big to fit in a single GPU.
 
-### 4.1. Pipeline Parallelism (Inter-layer)
+### Pipeline Parallelism (Inter-layer)
 
 Pipeline parallelism partitions the model's layers across multiple GPUs. The training mini-batch is split into micro-batches that flow through pipeline. The forward and backward computation of micro-batches are overlapped to reduce device idle time.
 
@@ -290,7 +290,7 @@ Pipeline Parallelism Steps:
 </figure>
 </div>
 
-### 4.2. Tensor Parallelism (Intra-layer)
+### Tensor Parallelism (Intra-layer)
 
 Tensor parallelism split the individual layer weights and computation across multiple GPUs unlike pipeline parallelism (which keeps individual weights intact but partitions layers). It's required when a single parameter consumes most GPU memory, or for extremely large models like GPT.
 
