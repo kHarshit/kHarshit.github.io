@@ -2053,7 +2053,7 @@ input#themeswitch {
 
 #post blockquote {
     margin: 1.5rem 0;
-    padding: 1rem 1.25rem;
+    padding: 0.1rem 0.5rem;
     border-left: 4px solid var(--accent-color);
     background: #f8fafc;
     border-radius: 0 6px 6px 0;
@@ -2064,10 +2064,6 @@ input#themeswitch {
 [data-theme="dark"] #post blockquote {
     background: #1a2533;
     color: #aab;
-}
-
-#post blockquote p:last-child {
-    margin-bottom: 0;
 }
 
 .post-content img {
