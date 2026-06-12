@@ -1,0 +1,7 @@
+{% if include.caption %}
+<figure class="mbimgstyle"{% if include.width %} style="--img-width: {{ include.width }}; --img-caption: '{{ include.caption }}';"{% else %} style="--img-caption: '{{ include.caption }}';"{% endif %}>
+<img src="{{ include.src }}" alt="{{ include.caption }}">
+</figure>
+{% else %}
+<img src="{{ include.src }}" alt="{{ include.alt }}" class="mbimgstyle"{% if include.width %} style="--img-width: {{ include.width }};"{% endif %}>
+{% endif %}

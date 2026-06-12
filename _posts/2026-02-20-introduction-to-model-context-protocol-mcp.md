@@ -12,12 +12,7 @@ Instead of every AI app inventing its own way to connect to a database, SaaS too
 
 Without MCP, every integration becomes custom glue - hard to maintain, hard to secure, hard to scale.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/mcp_fig1.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>MCP: Universal AI Integration Layer</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/mcp_fig1.jpg" width="70%" caption="MCP: Universal AI Integration Layer" %}
 
 MCP uses **JSON-RPC 2.0** as a **protocol** to communicate. It standardizes the request-response in a certain format:
 
@@ -50,12 +45,7 @@ The key participants in the MCP architecture are:
 - **MCP Client**: A component (App/IDE/Agent) that maintains a connection to an MCP server and obtains context from an MCP server for the MCP host to use.
 - **MCP Server**: A program that provides context to MCP clients. It's just any other service we build and operate that exposes an API, specifically an HTTP connection that uses JSON-RPC for the payloads going back and forth. The difference being this API is designed to be used by LLMs, not just traditional application code. MCP servers can execute locally or remotely.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/mcp_fig2.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>MCP Architecture: Host, Clients & Servers</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/mcp_fig2.jpg" width="70%" caption="MCP Architecture: Host, Clients & Servers" %}
 
 Modern LLMs support **tool calling** (evolved from function calling), where the model is told "here are the tools you can use". The LLM can then request "call tool X with param Y". The host application executes the tool call, sends the results back to the LLM, which uses this as additional context to generate a response.
 

@@ -4,6 +4,7 @@
   --font-color: #282828;
   --accent-color: #20B2AA;
   --accent-hover: #178f8c;
+  --chip-bg: #f0faf9;
   --card-bg: #f4f4f4;
   --card-bg-alt: #f5f5f5;
   --header-bg: #0f1117;
@@ -1559,7 +1560,7 @@ input#themeswitch {
 
 .chip {
     display: inline-block;
-    background: #f0faf9;
+    background: var(--chip-bg);
     color: var(--accent-color);
     border: 1px solid rgba(32, 178, 170, 0.3);
     border-radius: 16px;
@@ -1854,7 +1855,7 @@ input#themeswitch {
 
 /* ── Table of Contents ───────────────────────────────────── */
 .toc-block {
-    background: var(--card-bg);
+    background: var(--chip-bg);
     border: 1px solid rgba(128,128,128,0.12);
     border-left: 3px solid var(--accent-color);
     border-radius: 6px;
@@ -2074,7 +2075,7 @@ input#themeswitch {
 }
 
 .post-content figure:not(.highlight) {
-    margin: 1.5rem 0;
+    margin: 1.5rem auto;
     text-align: center;
 }
 

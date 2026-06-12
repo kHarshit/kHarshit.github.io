@@ -41,23 +41,13 @@ Before diving into parallelism strategies, it helps to understand the underlying
 
 Direct transfer of data between two specific processes (send/receive).
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/communication_primitives_point_to_point.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Communication Primitives: Point to Point</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/communication_primitives_point_to_point.jpg" width="70%" caption="Communication Primitives: Point to Point" %}
 
 ### Collective Communication
 
 Operations involving all processes in a group simultaneously.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/communication_primitives_collective.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Communication Primitives: Collective</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/communication_primitives_collective.jpg" width="70%" caption="Communication Primitives: Collective" %}
 
 <!-- **AllReduce** is the key operation for synchronizing gradients across GPUs at the end of each training iteration — e.g., average the gradients from different nodes, then use the averaged value to update weights. Used for data parallelism.
 
@@ -90,12 +80,7 @@ Used when the model can fit in a single GPU. Each device (worker) holds a full c
 
 ### Data Parallelism Steps
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/data_parallelism.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Data Parallelism</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/data_parallelism.jpg" width="70%" caption="Data Parallelism" %}
 
 1. **Broadcast:** Model weights are initialized on one GPU worker and broadcast to all other nodes.
 2. **Forward pass:** Each GPU worker has the same model (weights $$W$$) but processes different mini-batches $$X_i$$.
@@ -186,12 +171,7 @@ Used when the model is too big to fit in a single GPU.
 
 Pipeline parallelism partitions the model's layers across multiple GPUs. The training mini-batch is split into micro-batches that flow through pipeline. The forward and backward computation of micro-batches are overlapped to reduce device idle time.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/pipeline_parallelism.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Pipeline Parallelism</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/pipeline_parallelism.jpg" width="60%" caption="Pipeline Parallelism" %}
 
 The pipeline parallelism on 4 stages on 4 GPU devices involves following steps.
 
@@ -206,12 +186,7 @@ The pipeline parallelism on 4 stages on 4 GPU devices involves following steps.
 synchronously at the end.
 8. Repeat for the next global mini-batch.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/pipeline_parallelism_bubble.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Pipeline Parallelism (source: GPipe paper)</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/pipeline_parallelism_bubble.jpg" width="70%" caption="Pipeline Parallelism (source: GPipe paper)" %}
 
 At the beginning, later stages are idle while the first micro-batch moves through pipeline. At the end, earlier stages become idle while the last backward computations finish. This idle time is called **pipeline bubble**. Increasing the number of micro-batches reduces the relative bubble overhead, but using too many can also increase scheduling complexity.
 
@@ -219,12 +194,7 @@ At the beginning, later stages are idle while the first micro-batch moves throug
 
 In interleaved pipeline parallelism, non-contiguous layers (e.g., layer 1 and layer 4) are assigned to GPU workers instead of consecutive layers. This reduces worker idle time but increases communication overhead (worker communicates after every layer instead of every 2 layers). It's can be complicated if model has skip connections, attention patterns that cross workers.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/pipeline_parallelism_interleaved.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Pipeline Parallelism: Interleaved</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/pipeline_parallelism_interleaved.jpg" width="70%" caption="Pipeline Parallelism: Interleaved" %}
 
 #### 1F1B (One Forward, One Backward) Schedule
 
@@ -235,23 +205,13 @@ In classic data parallsielm, all micro-batches do all forward passes before any 
 
 The default non-interleaved 1F1B has a smaller pipeline bubble than GPipe. The interleaved 1F1B (each device assigned multiple chunks) reduces the bubble size further.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/pipeline_parallelism_1f1b.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Pipeline Parallelism: 1F1B (source: 1F1B)</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/pipeline_parallelism_1f1b.jpg" width="70%" caption="Pipeline Parallelism: 1F1B (source: 1F1B)" %}
 
 #### Combining Pipeline Parallelism with Data Parallelism 
 
 In this example, we split the model into 2 pipeline stages (Stage 0 and Stage 1). Each stage is replicated across 4 GPUs for data parallelism. Thus, `total GPUs = 2 (pipeline) * 4 (data) = 8`.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/pipeline_data_parallelism2.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>8 GPUs with 2-way pipeline parallelism and 4-way data parallelism</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/pipeline_data_parallelism2.jpg" width="80%" caption="8 GPUs with 2-way pipeline parallelism and 4-way data parallelism" %}
 
 Here, the data parallel replicas are as of follows.
 
@@ -277,18 +237,9 @@ Pipeline Parallelism Steps:
 6. Optimizer updates are applied (per stage or globally, depending on setup).
 7. Repeat for next global mini-batch.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/pipeline_data_parallelism3.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Combining Pipeline and Parallelism</figcaption>
-</figure>
-</div>
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/pipeline_data_parallelism.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Combining Pipeline and Parallelism</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/pipeline_data_parallelism3.jpg" width="75%" %}
+
+{% include img.html src="/img/blog/pipeline_data_parallelism.jpg" width="50%" caption="Combining Pipeline and Data Parallelism" %}
 
 ### Tensor Parallelism (Intra-layer)
 
@@ -298,12 +249,7 @@ There are two ways to split the weight matrix W.
 * **Column-wise Partitioning** (by output dimension): No communication needed until a later layer requires the full output (then AllGather).
 * **Row-wise Partitioning** (by input dimension): Partial outputs are summed with AllReduce to get the full output.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/tensor_parallelism_partitioning.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Tensor Parallelism: Column and Row Partitioning</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/tensor_parallelism_partitioning.jpg" width="70%" caption="Tensor Parallelism: Column and Row Partitioning" %}
 
 #### Transformer MLP
 
@@ -321,12 +267,7 @@ $$ Z_1 = [Y_1 B_1]; Z_2 = [Y_2 B_2] $$
 
 $$Z = \text{AllReduce}(Z_1,\ Z_2)$$
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/tensor_parallelism_mlp.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Tensor Parallelism: Column + Row Partitioning of MLP (source: Megatron-LM paper)</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/tensor_parallelism_mlp.jpg" width="70%" caption="Tensor Parallelism: Column + Row Partitioning of MLP (source: Megatron-LM paper)" %}
 
 The advantage of partitioning the first MLP GEMM column-wise and the second MLP GEMM row-wise is that no communication is needed in-between until end of MLP blocks. An AllReduce is only needed after row-parallelism.
 
@@ -336,23 +277,13 @@ The advantage of partitioning the first MLP GEMM column-wise and the second MLP 
 
 MHA blocks are natural fit for tensor parallelism due to attention heads being mostly indpendent before final output projection. We can divide Q, K, V weight matrices by columns and the output linear layer by rows. This introduces two AllReduce operations per layer in both forward and backward passes.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/tensor_parallelism_attention.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>Tensor Parallelism: Column + Row Partitioning of Multi-Headed Attention (source: Megatron-LM paper)</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/tensor_parallelism_attention.jpg" width="70%" caption="Tensor Parallelism: Column + Row Partitioning of Multi-Headed Attention (source: Megatron-LM paper)" %}
 
 ## 5. Zero Redundancy Optimizer (ZeRO)
 
 ZeRO consists of 3 stages which shards different model states: model parameters (weights), gradients, and optimizer states (e.g., momentum and variance in Adam).
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/deepspeed_zero.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>ZeRO (source: ZeRO paper)</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/deepspeed_zero.jpg" width="70%" caption="ZeRO (source: ZeRO paper)" %}
 
 In the above figure, `Ψ` denotes model size (number of parameters), `K` denotes the memory multiplier of optimizer states, and `Nd` denotes data-parallel degree (#GPUs).
 
@@ -372,45 +303,18 @@ Shards all model states (optimizer, gradients, and model parameters). During com
 
 Each GPU permanently stores only its own parameter shard, gradient shard, and optimizer shard. It gather the full parameters as needed and free them immediately after computation.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/zero_example1.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>ZeRO Stage 3 Example: GPUs</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/zero_example1.jpg" width="70%" %}
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/zero_example2.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>ZeRO Stage 3 Example: GPUs</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/zero_example2.jpg" width="70%" caption="ZeRO Stage 3 Example" %}
 
 1 **Before Forward:** Each GPU holds only its parameter shards. Before forward pass, AllGather gets all parameters of layer, so every GPU has full parameters temporarily.  
 2 **Forward Compute:** Run forward with full parameters.  
-3 **After Forward:** Reshard (release) parameters to free memory.  
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/zero_example3.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>ZeRO Stage 3 Example: Forward Pass</figcaption>
-</figure>
-</div>
+3 **After Forward:** Reshard (release) parameters to free memory. {% include img.html src="/img/blog/zero_example3.jpg" width="70%" caption="ZeRO Stage 3 Example: Forward Pass" %}
 4 **Backward Compute:** AllGather parameter shards again. Run backward pass to get local gradients.  
-5 **After Backward:** ReduceScatter gradients. Gradients are averaged across ranks, each rank keeps only its gradient shard.  
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/zero_example4.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>ZeRO Stage 3 Example: Backward Pass</figcaption>
-</figure>
-</div>
+5 **After Backward:** ReduceScatter gradients. Gradients are averaged across ranks, each rank keeps only its gradient shard. {% include img.html src="/img/blog/zero_example4.jpg" width="70%" caption="ZeRO Stage 3 Example: Backward Pass" %}
 6 **Optimizer Step:** Each rank updates its parameter shard using its optimizer state shard i.e. GPU 0 updates p0 shards, GPU 1 updates p1 shards, GPU 2 updates p2 shards using local optimizer-state shards.   
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/fsdp.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>ZeRO Stage 3 / FSDP Summary</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/fsdp.jpg" width="70%" caption="ZeRO Stage 3 / FSDP Summary" %}
 
 **ZeRO-Offload / ZeRO-Infinity:**
 - **ZeRO-Offload:** Offload optimizer states and gradients to CPU.
@@ -466,12 +370,7 @@ for batch in dataloader:
 
 FSDP is a type of data-parallel training, but unlike traditional DDP (which maintains a per-GPU copy of model parameters, gradients, and optimizer states), FSDP shards all of these states across data-parallel workers and can optionally offload sharded parameters to CPU. It is effectively a **mix of data and model parallelism**. *FSDP is PyTorch's equivalent to DeepSpeed ZeRO Stage 3.*
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/fsdp_vs_ddp.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>DDP vs PyTorch FSDP</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/fsdp_vs_ddp.jpg" width="70%" caption="DDP vs PyTorch FSDP" %}
 
 **Advantages over DDP:**
 - Smaller GPU memory footprint → enables larger models or batch sizes.
@@ -501,12 +400,7 @@ for layer_i in layers:
 2. **Optimizer step:** Each rank updates its parameter shard.
 3. **Next forward pass:** AllGather to collect updated parameter shards.
 
-<div style="text-align: center">
-<figure>
-<img src="/img/blog/fsdp_allgather.jpg" style="display: block; margin: auto; max-width: 70%;">
-<figcaption>PyTorch FSDP AllGather</figcaption>
-</figure>
-</div>
+{% include img.html src="/img/blog/fsdp_allgather.jpg" width="70%" caption="PyTorch FSDP AllGather" %}
 
 ### Wrapping a Model with FSDP
 
