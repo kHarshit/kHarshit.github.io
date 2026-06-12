@@ -211,9 +211,20 @@ In interleaved pipeline parallelism, non-contiguous layers (e.g., layer 1 and la
 #### 1F1B (One Forward, One Backward) Schedule
 
 In classic data parallsielm, all micro-batches do all forward passes before any backward passes begin. In **1F1B**:
-1. **Warm-up phase:** Workers perform differing numbers of forward passes.
-2. **Steady state:** Each worker performs **one forward pass followed by one backward pass** (unlike classic data parallelism where backward follows forward for all batches).
-3. **Drain phase:** Complete backward passes for all remaining in-flight micro-batches.
+<div class="mbsteps" markdown="1">
+<div class="mbstep" markdown="1">
+**Warm-up phase**
+Workers perform differing numbers of forward passes.
+</div>
+<div class="mbstep" markdown="1">
+**Steady state**
+Each worker performs one forward pass followed by one backward pass (unlike classic data parallelism where backward follows forward for all batches).
+</div>
+<div class="mbstep" markdown="1">
+**Drain phase**
+Complete backward passes for all remaining in-flight micro-batches.
+</div>
+</div>
 
 The default non-interleaved 1F1B has a smaller pipeline bubble than GPipe. The interleaved 1F1B (each device assigned multiple chunks) reduces the bubble size further.
 
@@ -429,9 +440,20 @@ for layer_i in layers:
 {% endhighlight %}
 
 **View as decomposed DDP:** FSDP decomposes DDP's gradient `AllReduce` into a `ReduceScatter` and an `AllGather`:
-1. **Backward pass:** Reduce-scatter gradients: each rank holds a shard of gradients.
-2. **Optimizer step:** Each rank updates its parameter shard.
-3. **Next forward pass:** AllGather to collect updated parameter shards.
+<div class="mbsteps" markdown="1">
+<div class="mbstep" markdown="1">
+**Backward pass**
+Reduce-scatter gradients: each rank holds a shard of gradients.
+</div>
+<div class="mbstep" markdown="1">
+**Optimizer step**
+Each rank updates its parameter shard.
+</div>
+<div class="mbstep" markdown="1">
+**Next forward pass**
+AllGather to collect updated parameter shards.
+</div>
+</div>
 
 {% include img.html src="/img/blog/fsdp_allgather.jpg" width="70%" caption="PyTorch FSDP AllGather" %}
 

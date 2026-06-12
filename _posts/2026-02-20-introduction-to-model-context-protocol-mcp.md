@@ -148,9 +148,20 @@ Let's walk through a full example: "Summarize open high-priority Jira tasks".
 
 Before any user query, the client connects to the MCP server through a capability negotiation handshake:
 
-- **Protocol Version Negotiation**: ensures both client and server are using compatible protocol versions
-- **Capability Discovery**: the capabilities object allows each party to declare what features they support, including which primitives they can handle (tools, resources, prompts)
-- **Identity Exchange**: `clientInfo` and `serverInfo` objects
+<div class="mbsteps" markdown="1">
+<div class="mbstep" markdown="1">
+**Protocol Version Negotiation**
+Ensures both client and server are using compatible protocol versions.
+</div>
+<div class="mbstep" markdown="1">
+**Capability Discovery**
+The capabilities object allows each party to declare what features they support, including which primitives they can handle (tools, resources, prompts).
+</div>
+<div class="mbstep" markdown="1">
+**Identity Exchange**
+`clientInfo` and `serverInfo` objects are exchanged.
+</div>
+</div>
 
 Client → Server (initialize request):
 ```json

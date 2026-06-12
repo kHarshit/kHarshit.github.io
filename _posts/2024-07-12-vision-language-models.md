@@ -58,10 +58,24 @@ Usually a transformer-based model (e.g., a modified GPT) that converts text desc
 
 #### Working
 
-1. For every image in the batch, the Image Encoder computes an image vector. The first image corresponds to the `I1` vector, the second to `I2`, and so on. Each vector is of size `de`, where `de` is the size of the latent dimension. Hence, the output of this step is `N×de` matrix.
-2. Similarly, the textual descriptions are squashed into text embeddings `[‘T1‘,‘T2‘,...,‘TN‘]`, producing a `N×de` matrix.
-3. Finally, we multiply those matrices and calculate the pairwise cosine similarities between every image and text description. This produces an`N×N` matrix.
-4. The goal is to maximize the cosine similarity along the diagonal - these are the correct `(image, text)` pairs. In a contrastive fashion, off-diagonal elements should have their similarities minimized (e.g., `I1` image is described by `T1` and not by `T2`, `T3`, `T4`, etc).
+<div class="mbsteps" markdown="1">
+<div class="mbstep" markdown="1">
+**Image Embeddings**
+For every image in the batch, the Image Encoder computes an image vector (`I1`, `I2`, ...). Each vector is of size `de` (latent dimension). Output: `N×de` matrix.
+</div>
+<div class="mbstep" markdown="1">
+**Text Embeddings**
+Textual descriptions are squashed into text embeddings `[‘T1’,’T2’,...,’TN’]`, producing a `N×de` matrix.
+</div>
+<div class="mbstep" markdown="1">
+**Pairwise Similarities**
+Multiply the two matrices to calculate pairwise cosine similarities between every image and text description. Output: `N×N` matrix.
+</div>
+<div class="mbstep" markdown="1">
+**Contrastive Objective**
+Maximize cosine similarity along the diagonal (correct pairs). Off-diagonal similarities are minimized — `I1` matches `T1`, not `T2`, `T3`, etc.
+</div>
+</div>
 
 #### Contrastive Loss
 
@@ -197,8 +211,16 @@ The tokenization approach allows the model to handle mixed sequences of textual 
 
 #### Training Process
 
-1. **Retrieval-Augmented Pretraining:** In this phase, a CLIP-based encoder acts as a dense retriever to fetch relevant multimodal documents, which are then prepended to the input sequence. The model is trained using next-token prediction, which increases data efficiency.
-2. **Supervised Fine-Tuning (SFT):** This stage involves multi-task instruction tuning, allowing the model to process and generate content across different modalities. This significantly improves performance on tasks such as text-to-image generation and language-guided image editing.
+<div class="mbsteps" markdown="1">
+<div class="mbstep" markdown="1">
+**Retrieval-Augmented Pretraining**
+A CLIP-based encoder acts as a dense retriever to fetch relevant multimodal documents, prepended to the input sequence. Trained using next-token prediction, increasing data efficiency.
+</div>
+<div class="mbstep" markdown="1">
+**Supervised Fine-Tuning (SFT)**
+Multi-task instruction tuning, allowing the model to process and generate content across different modalities. Significantly improves text-to-image generation and language-guided image editing.
+</div>
+</div>
 
 Chameleon builds on CM3leon. Its architecture largely follows LLaMa-2.
 
@@ -243,8 +265,16 @@ MiniGPT-4 accepts text input and image input, and it only produces text output. 
 
 Given that the visual encoder and Vicuna language model are already pretrained and used as from prior work, MiniGPT-4 requires only training the linear project layer which is done in two rounds.
 
-1. Trains the linear projection layer using image-text pairs.
-2. Fine-tunes using highly-curated data in an instruction-tuning format.
+<div class="mbsteps" markdown="1">
+<div class="mbstep" markdown="1">
+**Feature Alignment**
+Train the linear projection layer using image-text pairs.
+</div>
+<div class="mbstep" markdown="1">
+**Instruction Tuning**
+Fine-tune using highly-curated data in an instruction-tuning format.
+</div>
+</div>
 
 MiniGPT-5 extends MiniGPT-4 so that the output can contain text interleaved with images.
 
@@ -291,8 +321,16 @@ It involves passing the image through vision encoder and passing text embeddings
 
 Its training consists of two stages.
 
-1. **Pre-training for Feature Alignment:** Keep both the visual encoder and LLM weights Frozen and train only the Linear projection layers.
-2. **Fine-tuning End-to-End:** Keep the visual encoder frozen. Fine-tune the previous weights of Linear projector layer and Language model in end-to-end manner.
+<div class="mbsteps" markdown="1">
+<div class="mbstep" markdown="1">
+**Pre-training for Feature Alignment**
+Keep both the visual encoder and LLM weights frozen. Train only the Linear projection layers.
+</div>
+<div class="mbstep" markdown="1">
+**Fine-tuning End-to-End**
+Keep the visual encoder frozen. Fine-tune the Linear projector layer and Language model weights end-to-end.
+</div>
+</div>
 
 Catastrophic forgetting doesn’t happen here even though we’re fine-tuning Language Model because our dataset is mulit-instruction tuned. Instruction tuning is one of the solutions of catastrophic forgetting. This approach is designed to enhance the model’s flexibility and generalization capabilities by exposing it to a diverse range of tasks during the training phase. The goal is to produce a model that can adapt more effectively to a variety of tasks post-training, even those not seen during training, reducing the risk of catastrophic forgetting by reinforcing a broad base of capabilities.
 
