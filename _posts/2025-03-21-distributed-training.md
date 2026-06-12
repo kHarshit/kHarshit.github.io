@@ -258,8 +258,17 @@ Pipeline Parallelism Steps:
 Tensor parallelism split the individual layer weights and computation across multiple GPUs unlike pipeline parallelism (which keeps individual weights intact but partitions layers). It's required when a single parameter consumes most GPU memory, or for extremely large models like GPT.
 
 There are two ways to split the weight matrix W.
-* **Column-wise Partitioning** (by output dimension): No communication needed until a later layer requires the full output (then AllGather).
-* **Row-wise Partitioning** (by input dimension): Partial outputs are summed with AllReduce to get the full output.
+
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard" markdown="1">
+**Column-wise Partitioning** (by output dimension)
+No communication needed until a later layer requires the full output (then AllGather).
+</div>
+<div class="mbcard" markdown="1">
+**Row-wise Partitioning** (by input dimension)
+Partial outputs are summed with AllReduce to get the full output.
+</div>
+</div>
 
 {% include img.html src="/img/blog/tensor_parallelism_partitioning.jpg" width="70%" caption="Tensor Parallelism: Column and Row Partitioning" %}
 
@@ -329,9 +338,21 @@ Each GPU permanently stores only its own parameter shard, gradient shard, and op
 {% include img.html src="/img/blog/fsdp.jpg" width="70%" caption="ZeRO Stage 3 / FSDP Summary" %}
 
 **ZeRO-Offload / ZeRO-Infinity:**
-- **ZeRO-Offload:** Offload optimizer states and gradients to CPU.
-- **ZeRO Offload++:** Offload optimizer and gradient states with better overlap.
-- **ZeRO Infinity:** ZeRO-Offload + offload model weights to CPU/NVMe with better computation and communication overlap.
+
+<div class="mbgrid mbgrid-3" markdown="1">
+<div class="mbcard" markdown="1">
+**ZeRO-Offload**
+Offload optimizer states and gradients to CPU.
+</div>
+<div class="mbcard" markdown="1">
+**ZeRO Offload++**
+Offload optimizer and gradient states with better overlap.
+</div>
+<div class="mbcard" markdown="1">
+**ZeRO Infinity**
+ZeRO-Offload + offload model weights to CPU/NVMe with better computation and communication overlap.
+</div>
+</div>
 
 **DeepSpeed Ulysses:** Splits long sequence lengths across workers for sequence parallelism. Useful for long sequence length >10k.
 

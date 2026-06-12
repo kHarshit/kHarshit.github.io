@@ -21,16 +21,35 @@ Trained on 400m image-text pairs, CLIP (Contrastive Language–Image Pre-Trainin
 
 While standard image models jointly train an image feature extractor and a linear classifier to predict some label, CLIP jointly trains an image encoder and a text encoder to predict the correct pairings of a batch of (image, text) training examples. At test time the learned text encoder synthesizes a zero-shot linear classifier by embedding the names or descriptions of the target dataset’s classes.
 
-* **Shared Representation Space:** CLIP learns to represent both images and text in a common embedding space, allowing for direct comparison and retrieval.
-* **Contrastive Learning:** The model uses a contrastive learning objective to align text and image embeddings. This means it learns to bring together the embeddings of matching text-image pairs and push apart those of non-matching pairs.
-* **Zero-Shot Learning:** CLIP can perform tasks without task-specific training by leveraging its understanding of the relationships between text and images.
+<div class="mbgrid mbgrid-3" markdown="1">
+<div class="mbcard" markdown="1">
+**Shared Representation Space**
+CLIP learns to represent both images and text in a common embedding space, allowing for direct comparison and retrieval.
+</div>
+<div class="mbcard" markdown="1">
+**Contrastive Learning**
+The model uses a contrastive learning objective to align text and image embeddings. This means it learns to bring together the embeddings of matching text-image pairs and push apart those of non-matching pairs.
+</div>
+<div class="mbcard" markdown="1">
+**Zero-Shot Learning**
+CLIP can perform tasks without task-specific training by leveraging its understanding of the relationships between text and images.
+</div>
+</div>
 
 {% include img.html src="/img/blog/clip.jpg" width="60%" caption="CLIP architecture (source: CLIP paper)" %}
 
 #### Architecture
 
-* **Image Encoder:** Typically a Vision Transformer (ViT) or a convolutional neural network (e.g., ResNet) that converts images into fixed-size embeddings.
-* **Text Encoder:** Usually a transformer-based model (e.g., a modified GPT) that converts text descriptions into fixed-size embeddings.
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard" markdown="1">
+**Image Encoder**
+Typically a Vision Transformer (ViT) or a convolutional neural network (e.g., ResNet) that converts images into fixed-size embeddings.
+</div>
+<div class="mbcard" markdown="1">
+**Text Encoder**
+Usually a transformer-based model (e.g., a modified GPT) that converts text descriptions into fixed-size embeddings.
+</div>
+</div>
 
 #### Training vs Inference
 
@@ -130,9 +149,20 @@ FLAVA uses masking for both image and text encoders. It tries to be a universal 
 
 Its architecture consists of
 
-* **Vision Transformer (ViT)** to encode images into patches for linear embedding, along with a classification token (`CLS_I`),
-* **Transformer-based text encoder** that gives vector embeddings for tokenized text input and also output hidden state vectors along with a classification token (`CLS_T`), and
-* **Multimodal encoder** to combine visual and textual information. It fuses hidden states from both image and text encoders, utilizing cross-attention mechanisms within transformer to integrate visual and textual information, and gives additional multimodal classification token (`CLS_M`).
+<div class="mbgrid mbgrid-3" markdown="1">
+<div class="mbcard" markdown="1">
+**Vision Transformer (ViT)**
+Encodes images into patches for linear embedding, along with a classification token (`CLS_I`).
+</div>
+<div class="mbcard" markdown="1">
+**Transformer-based text encoder**
+Gives vector embeddings for tokenized text input and also output hidden state vectors along with a classification token (`CLS_T`).
+</div>
+<div class="mbcard" markdown="1">
+**Multimodal encoder**
+Combines visual and textual information. It fuses hidden states from both image and text encoders, utilizing cross-attention mechanisms within transformer to integrate visual and textual information, and gives additional multimodal classification token (`CLS_M`).
+</div>
+</div>
 
 {% include img.html src="/img/blog/flava_architecture.jpg" width="70%" caption="FLAVA architecture (source: FLAVA paper)" %}
 
@@ -182,8 +212,16 @@ These models can generate high-quality images based on textual descriptions, dem
 
 Since VLMs are expensive to train, these types of models leverage open-source LLMs like Llama to learn a mapping between an image encoder (which could also be pre-trained) and the LLM. This avoid the hefty cost to train VLM.
 
-* **Pretrained Backbones:** Utilize large language models (LLMs) and vision encoders that have already been trained on extensive datasets.
-* **Mapping Mechanism:** Learn a mapping between the visual and textual representations produced by these pretrained models, thereby enabling multimodal understanding and generation with reduced computational resources.
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard" markdown="1">
+**Pretrained Backbones**
+Utilize large language models (LLMs) and vision encoders that have already been trained on extensive datasets.
+</div>
+<div class="mbcard" markdown="1">
+**Mapping Mechanism**
+Learn a mapping between the visual and textual representations produced by these pretrained models, thereby enabling multimodal understanding and generation with reduced computational resources.
+</div>
+</div>
 
 ### 4.1. Frozen
 
@@ -229,8 +267,16 @@ LLaVA is a vision-language model designed to enhance multimodal chat capabilitie
 
 Its architecture consists of
 
-* **Language Model:** Pre-trained Vicuna (created by fine-tuning LLaMa 2 on conversations).
-* **CLIP Vision Encoder (ViT-L/14):** Used for extracting visual features from images. CLIP aligns visual and textual representations. 
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard" markdown="1">
+**Language Model**
+Pre-trained Vicuna (created by fine-tuning LLaMa 2 on conversations).
+</div>
+<div class="mbcard" markdown="1">
+**CLIP Vision Encoder (ViT-L/14)**
+Used for extracting visual features from images. CLIP aligns visual and textual representations.
+</div>
+</div>
 
 It involves passing the image through vision encoder and passing text embeddings as it is, combining them through Linear projection layer then passing them through Language Model. The outputs from language model and vision encoder are combined into the same dimensional space using a linear projector (linear layer). This integration allows the model to handle multimodal inputs effectively.
 
