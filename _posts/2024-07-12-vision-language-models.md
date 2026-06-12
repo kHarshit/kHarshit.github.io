@@ -135,8 +135,17 @@ Contextual Prompts: Instead of using simple class names, more descriptive and co
 Compared to the baseline of using contextless class names, prompt engineering and ensembling boost zero-shot classification performance by almost 5 points on average across 36 datasets. This improvement is similar to the gain from using 4 times more compute with the baseline zero-shot method but is “free” when amortized over many predictions.
 
 #### Cons
-* The authors of the paper claim that CLIP suffers from polysemy, which means that the model can not differentiate between two words due to lack of context. For example, the word ‘boxer’ can appear as a dog breed or an athlete. Perhaps a better set of data could help here.
-* Additionally, while CLIP is excellent at understanding complex images, it still struggles with a few tasks such as handwriting detection (especially handwritten digits). This can be due to lack of sufficient data and not having the model see enough handwritten numbers during training.
+
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard mbcard--danger" markdown="1">
+**Polysemy**
+CLIP cannot differentiate between two words due to lack of context. For example, the word ‘boxer’ can appear as a dog breed or an athlete. Perhaps a better set of data could help here.
+</div>
+<div class="mbcard mbcard--danger" markdown="1">
+**Handwriting detection**
+While CLIP is excellent at understanding complex images, it still struggles with tasks such as handwriting detection (especially handwritten digits). This can be due to lack of sufficient data during training.
+</div>
+</div>
 
 ## 2. Masking
 

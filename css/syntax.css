@@ -344,6 +344,15 @@ figure.mbimgstyle::after {
     background: #1a2533;
 }
 
+/* danger variant — muted red outline for Cons/warnings */
+.mbcard--danger {
+    border-color: #d4a0a0;
+}
+
+[data-theme="dark"] .mbcard--danger {
+    border-color: #a06060;
+}
+
 /* filled variant — no border, solid background */
 .mbcard--filled {
     background: var(--chip-bg, #f0faf9);
@@ -370,6 +379,14 @@ figure.mbimgstyle::after {
     color: var(--accent-color, #20B2AA);
     display: block;
     margin-bottom: 0.5rem;
+}
+
+/* danger title override — must come after the base accent rule */
+.mbcard--danger > p:first-child > strong,
+.mbcard--danger > p:first-child > b,
+.mbcard--danger > h3:first-child,
+.mbcard--danger > h4:first-child {
+    color: #e07070;
 }
 
 /* nested grids inside cards */
