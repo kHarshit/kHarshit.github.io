@@ -246,6 +246,89 @@ figure.mbimgstyle::after {
     background: rgba(32, 178, 170, 0.12);
 }
 
+/* ── Blog post grid cards ─────────────────────────────────────── */
+.mbgrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.mbgrid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mbgrid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.mbgrid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.mbcard {
+    background: var(--bg-color, #fff);
+    border: 1.5px solid var(--border-color, #a0d8d5);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    font-size: var(--text-md);
+}
+
+/* tinted background variant */
+.mbcard--tint {
+    background: var(--chip-bg, #f0faf9);
+    border: 1.5px solid var(--border-color, #a0d8d5);
+}
+
+[data-theme="dark"] .mbcard--tint {
+    background: #1a2533;
+}
+
+/* filled variant — no border, solid background */
+.mbcard--filled {
+    background: var(--chip-bg, #f0faf9);
+    border: none;
+}
+
+[data-theme="dark"] .mbcard--filled {
+    background: #1a2533;
+}
+
+/* accent-colored title (first bold/strong or first heading inside card) */
+.mbcard > p:first-child {
+    margin-top: 0;
+}
+
+.mbcard > p:last-child {
+    margin-bottom: 0;
+}
+
+.mbcard > p:first-child > strong,
+.mbcard > p:first-child > b,
+.mbcard > h3:first-child,
+.mbcard > h4:first-child {
+    color: var(--accent-color, #20B2AA);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* nested grids inside cards */
+.mbcard .mbgrid {
+    margin: 0.75rem 0 0 0;
+}
+
+/* tighten list spacing inside cards */
+.mbcard ul,
+.mbcard ol {
+    margin: 0.4rem 0 0 0;
+    padding-left: 1.2rem;
+}
+
+.mbcard li {
+    margin-bottom: 0.3rem;
+}
+
+@media (max-width: 768px) {
+    .mbgrid,
+    .mbgrid-2,
+    .mbgrid-3,
+    .mbgrid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ── Scroll to top ────────────────────────────────────────────── */
 #scroll_top {
     display: none;

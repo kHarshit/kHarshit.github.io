@@ -28,8 +28,20 @@ The A100 GPU has 80GB memory. Thus, distributed training is essential to train L
 
 There are two fundamental scaling approaches:
 
-- **Horizontal scaling (scale out):** Add more machines/instances to distribute workload across smaller resources. Easier to scale dynamically but requires more complex management.
-- **Vertical scaling (scale up):** Increase capacity of existing machine (more CPU, RAM, storage). Easier to manage but hardware upgrades can require downtime.
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard" markdown="1">
+**Horizontal Scaling (Scale Out)**
+- Add more machines/instances to distribute workload across smaller resources
+- Easier to scale dynamically
+- Requires more complex management
+</div>
+<div class="mbcard" markdown="1">
+**Vertical Scaling (Scale Up)**
+- Increase capacity of existing machine (more CPU, RAM, storage)
+- Easier to manage
+- Hardware upgrades can require downtime
+</div>
+</div>
 
 In distributed training, we're mainly working with horizontal scaling since machine specification is fixed e.g. `p5.48xlarge` AWS instance consists of 8xA100 GPUs with fixed memory and CPUs. And, also, a machine can only be scaled up to a point so we need to figure out to split our data or model on multiple GPUs machines. Distributed training is all about how to do that.
 
