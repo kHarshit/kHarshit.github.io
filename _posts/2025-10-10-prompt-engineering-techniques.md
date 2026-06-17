@@ -3,7 +3,7 @@ layout: post
 title: "Prompt Engineering Techniques: How to Write Effective Prompts"
 date: 2025-10-10
 categories: [LLM, Generative AI, Deep Learning]
-excerpt: "A deep-dive into prompt engineering techniques — from few-shot prompting and chain-of-thought to Tree of Thoughts, ReAct, and automatic prompt optimization — with examples and paper references."
+excerpt: "A deep-dive into prompt engineering techniques from few-shot prompting and chain-of-thought, ReAct, and prompt injections with examples."
 mathjax: true
 ---
 
