@@ -1,0 +1,51 @@
+<svg viewBox="0 0 820 320" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif" font-size="13">
+  <rect width="820" height="320" fill="#fafafa" rx="8"/>
+  <text x="410" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#222">ReAct: Reason + Act Loop</text>
+
+  <!-- Question -->
+  <rect x="255" y="44" width="310" height="40" fill="#e8eeff" stroke="#6677cc" rx="5"/>
+  <text x="410" y="59" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#334">Question / Task</text>
+  <text x="410" y="76" text-anchor="middle" font-size="10.5" fill="#556">"What is the RAM limit of AWS Lambda?"</text>
+
+  <!-- Arrow down -->
+  <line x1="410" y1="84" x2="410" y2="106" stroke="#888" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- Thought box -->
+  <rect x="255" y="106" width="310" height="44" fill="#fff8e0" stroke="#d4a830" rx="5"/>
+  <text x="273" y="124" font-size="11.5" font-weight="bold" fill="#7a5500">Thought:</text>
+  <text x="273" y="141" font-size="11" fill="#555">I should look up the latest AWS Lambda limits.</text>
+
+  <line x1="410" y1="150" x2="410" y2="172" stroke="#888" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- Action box -->
+  <rect x="255" y="172" width="310" height="44" fill="#e8f8ff" stroke="#3399cc" rx="5"/>
+  <text x="273" y="190" font-size="11.5" font-weight="bold" fill="#005577">Action:</text>
+  <text x="273" y="207" font-size="11" fill="#555">Search("AWS Lambda memory limit 2024")</text>
+
+  <line x1="410" y1="216" x2="410" y2="238" stroke="#888" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- Observation box -->
+  <rect x="255" y="238" width="310" height="44" fill="#e8ffe8" stroke="#44aa44" rx="5"/>
+  <text x="273" y="256" font-size="11.5" font-weight="bold" fill="#1a5e1a">Observation:</text>
+  <text x="273" y="273" font-size="11" fill="#555">Lambda supports 128 MB to 10,240 MB RAM.</text>
+
+  <!-- Loop back arrow -->
+  <path d="M 565 260 Q 670 260 670 180 Q 670 130 565 128" stroke="#bb7700" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#a2)"/>
+  <text x="678" y="198" font-size="10" fill="#bb7700">Loop until</text>
+  <text x="678" y="211" font-size="10" fill="#bb7700">done</text>
+
+  <!-- Final answer -->
+  <rect x="60" y="238" width="185" height="44" fill="#d6ffd6" stroke="#339933" rx="5"/>
+  <text x="152" y="256" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1a5e1a">Final Answer:</text>
+  <text x="152" y="273" text-anchor="middle" font-size="11" fill="#226622">128 MB – 10,240 MB</text>
+  <line x1="255" y1="260" x2="245" y2="260" stroke="#555" stroke-width="1.2" marker-end="url(#a)"/>
+
+  <defs>
+    <marker id="a" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#888"/>
+    </marker>
+    <marker id="a2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#bb7700"/>
+    </marker>
+  </defs>
+</svg>
