@@ -2,9 +2,9 @@
 layout: post
 title: "Prompt Engineering Techniques: How to Write Effective Prompts"
 date: 2025-10-10
-categories: [LLM, Generative AI, Deep Learning]
+categories: [LLM, Generative AI, Agentic AI]
 excerpt: "A deep-dive into prompt engineering techniques from few-shot prompting and chain-of-thought, ReAct, and prompt injections with examples."
-mathjax: true
+mathjax: false 
 ---
 
 A prompt is the input you give to LLM or AI agent like ChatGPT or Claude. Prompt engineering is crafting and designing these prompts to get the most optimal response. The small changes in wording or structure of prompt can change model's output. It can shift model accuracy on benchmarks, sometimes even more than fine-tuning a smaller model would.
