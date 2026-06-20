@@ -2229,15 +2229,15 @@ input#themeswitch {
 
 .post-related-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 12px;
 }
 
 .post-related-card {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 14px 16px;
+    gap: 4px;
+    padding: 8px 12px;
     background: #fafafa;
     border: 1px solid #e8ecf0;
     border-radius: 10px;
@@ -2267,6 +2267,25 @@ input#themeswitch {
 .post-related-date {
     font-size: var(--text-sm);
     color: #999;
+}
+
+.post-related-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #eee;
+}
+
+.post-related-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+[data-theme="dark"] .post-related-thumb {
+    background: #3a3a3a;
 }
 
 @media (max-width: 768px) {

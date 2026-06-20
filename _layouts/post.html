@@ -77,7 +77,7 @@ layout: default
 
 
     <!-- Related posts -->
-    {% assign maxRelated = 4 %}
+    {% assign maxRelated = 3 %}
     {% assign minCommonTags = 2 %}
     {% assign maxRelatedCounter = 0 %}
     {% assign hasRelated = false %}
@@ -110,7 +110,23 @@ layout: default
                 {% endif %}
             {% endfor %}
             {% if sameTagCount >= minCommonTags and maxRelatedCounter < maxRelated %}
+            {% assign first_img_src = "" %}
+            {% if post.content contains '<img' %}
+              {% assign img_split = post.content | split: '<img' %}
+              {% assign first_img  = img_split[1] %}
+              {% assign src_split  = first_img | split: 'src="' %}
+              {% if src_split.size > 1 %}
+                {% assign first_img_src = src_split[1] | split: '"' | first %}
+              {% endif %}
+            {% elsif post.content contains '{% include img.html src="' %}
+              {% assign include_split = post.content | split: '{% include img.html src="' %}
+              {% assign first_include = include_split[1] %}
+              {% assign first_img_src = first_include | split: '"' | first %}
+            {% endif %}
             <a class="post-related-card" href="{{ site.baseurl }}{{ post.url }}">
+                {% if first_img_src != "" %}
+                <span class="post-related-thumb"><img src="{{ first_img_src }}" alt="{{ post.title }}" loading="lazy"></span>
+                {% endif %}
                 <span class="post-related-title">{{ post.title }}</span>
                 <span class="post-related-date">{{ post.date | date: "%b %Y" }}</span>
             </a>
