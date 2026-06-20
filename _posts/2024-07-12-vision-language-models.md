@@ -374,6 +374,10 @@ y = self.classifier(z)
 return y
 {% endhighlight %}
 
+<section>
+	{% include quiz_vlm.html %}
+</section>
+
 **References and Image sources:**
 * [An Introduction to Vision-Language Modeling](https://arxiv.org/pdf/2405.17247)
 * [CLIP (Contrastive Language–Image Pre-Training)](https://arxiv.org/abs/2103.00020)
