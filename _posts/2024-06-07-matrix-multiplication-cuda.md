@@ -162,9 +162,17 @@ This setup ensures that the CUDA kernel efficiently processes the entire matrix 
 
 To execute CUDA program:
 
-1. Copy the input data from host (cpu) memory to device (gpu) memory. This is called host-to-device (H2D) transfer.
-2. Run CUDA kernel on data.
-3. Copy the results from device memory to host memory, also called device-to-host (D2H) transfer.
+<div class="mbsteps" markdown="1">
+<div class="mbstep" markdown="1">
+Copy the input data from host (cpu) memory to device (gpu) memory. This is called host-to-device (H2D) transfer.
+</div>
+<div class="mbstep" markdown="1">
+Run CUDA kernel on data.
+</div>
+<div class="mbstep" markdown="1">
+Copy the results from device memory to host memory, also called device-to-host (D2H) transfer.
+</div>
+</div>
 
 We pass our kernel to the `runKernel()` function that also takes CPU matrices A and B. It copies the data from CPU to GPU, runs kernel, copy result from GPU to CPU, and return the result matrix C.
 
