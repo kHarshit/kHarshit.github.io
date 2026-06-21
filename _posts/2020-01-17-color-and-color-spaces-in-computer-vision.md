@@ -3,13 +3,11 @@ layout: post
 title: "Color and color spaces in Computer Vision"
 date: 2020-01-17
 categories: [Computer Vision]
+mathjax: true
 excerpt: "Understanding color models (RGB, HSV, LAB) and color spaces in computer vision, how computers represent and work with color."
 ---
 
-> A picture is worth a millions words.  
-
-<img src="/img/debashis-biswas-dyPFnxxUhYk-unsplash.jpg" style="display: block; margin: auto;  max-width: 100%;">
-Photo by [Debashis Biswas](https://unsplash.com/@debashismelts?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/s/photos/holi-color?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+{% include img.html src="/img/debashis-biswas-dyPFnxxUhYk-unsplash.jpg" caption="A picture is worth a millions words. " width="60%" %}
 
 The color we see is how our brain visually perceive the world. The color of an object is determined by the different wavelengths of light it reflects (and absorbs), which is affected by the object's physical properties.
 
@@ -64,9 +62,55 @@ Hue, the color itself, ranges from 0 to 360 starting and ending with red. Satura
 
 <img src="/img/hsv_hsl.png" style="display: block; margin: auto; max-width: 100%;">
 
+## CIE Lab
+
+Before understanding CIE Lab (L\*a\*b\*) color space, let's look at the problems with RGB and HSV. RGB is device-oriented: it describes how much red, green, and blue light a screen emits, not how a human perceives the resulting color. This causes these problems:
+
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070" markdown="1">
+**Non-uniform perceptual spacing**
+equal numerical steps in RGB do not produce equal perceived color differences. For example, changing blue from (0, 0, 200) to (0, 0, 210) looks like a much smaller change than shifting red from (200, 0, 0) to (210, 0, 0), even though the Euclidean distance is identical. Human eyes are simply more sensitive to some regions of color space than others.
+</div>
+<div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070" markdown="1">
+**Conflation of luminance and chrominance**
+RGB mixes lightness and color information in all three channels. The human visual system separates these: we are far more sensitive to changes in luminance than to changes in hue or saturation at the same luminance level. RGB gives no direct handle on this separation.
+</div>
+</div>
+
+CIE Lab addresses both issues by mapping colors into a space that is calibrated to human perception, decoupling lightness (L\*) from color (a\*, b\*), and spacing colors so that equal distances feel equally different.
+
+It has three channels:
+- **L\*** lightness, ranging from 0 (black) to 100 (white).
+- **a\*** green-red axis, ranging from green (-) to red (+).
+- **b\*** blue-yellow axis, ranging from blue (-) to yellow (+).
+
 ## Delta E
 
-*To be updated soon...*
+Delta E (`ΔE`) is a single number that quantifies the **perceptual difference between two colors**. It answers the question: *how different do two colors look to a human observer?*
+
+Delta E is computed in the CIE Lab color space. The simplest version, **ΔE\*ab** (CIE76), is just the Euclidean distance between two colors in Lab space:
+
+$$\Delta E^{*}_{ab} = \sqrt{(L^{*}_2 - L^{*}_1)^2 + (a^{*}_2 - a^{*}_1)^2 + (b^{*}_2 - b^{*}_1)^2}$$
+
+Delta E values can be interpreting as follows.
+
+| ΔE value | Perception |
+|---|---|---|
+| &lt; 1 | Not perceptible by human eyes |
+| 1 – 2 | Perceptible only on close observation |
+| 2 – 10 | Perceptible at a glance |
+| 11 – 49 | Colors are more similar than opposite |
+| 100 | Colors are exact opposites |
+{:.mbtablestyle}
+
+CIE76 is simple but not perfectly uniform — it has notable inaccuracies in the blue region and for highly saturated colors. Improved formulas were introduced over time:
+
+- **ΔE\*94**: Adds weighting functions for chroma and hue to better match human perception.
+- **ΔE\*00**: The current industry standard. Introduces corrections for lightness, chroma, hue, and a rotation term for the blue region. It is significantly more accurate across all colors.
+
+$$\Delta E_{00} = \sqrt{\left(\frac{\Delta L'}{k_L S_L}\right)^2 + \left(\frac{\Delta C'}{k_C S_C}\right)^2 + \left(\frac{\Delta H'}{k_H S_H}\right)^2 + R_T \frac{\Delta C'}{k_C S_C} \frac{\Delta H'}{k_H S_H}}$$
+
+where $$S_L$$, $$S_C$$, $$S_H$$ are weighting functions and $$R_T$$ is the rotation term.
 
 <section>
 	{% include quiz_color.html %}	 
@@ -78,5 +122,7 @@ Hue, the color itself, ranges from 0 to 360 starting and ending with red. Satura
 
 1. [Color space - Wikipedia](https://en.wikipedia.org/wiki/Color_space)  
 2. [Color model - Wikipedia](https://en.wikipedia.org/wiki/Color_model)  
-2. [Fundamental concepts of processing and image analysis](https://www.dcc.fc.up.pt/~mcoimbra/lectures/MAPI_1415/CV_1415_T1.pdf)  
-3. [Introduction to computer vision](http://sun.aei.polsl.pl/~mkawulok/stud/graph/instr.pdf)
+3. [Fundamental concepts of processing and image analysis](https://www.dcc.fc.up.pt/~mcoimbra/lectures/MAPI_1415/CV_1415_T1.pdf)  
+4. [Introduction to computer vision](http://sun.aei.polsl.pl/~mkawulok/stud/graph/instr.pdf)  
+5. [Color difference - Wikipedia](https://en.wikipedia.org/wiki/Color_difference)
+6. [CIELAB color space - Wikipedia](https://en.wikipedia.org/wiki/CIELAB_color_space)
