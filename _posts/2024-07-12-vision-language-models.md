@@ -137,11 +137,11 @@ Compared to the baseline of using contextless class names, prompt engineering an
 #### Cons
 
 <div class="mbgrid mbgrid-2" markdown="1">
-<div class="mbcard mbcard--danger" markdown="1">
+<div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070" markdown="1">
 **Polysemy**
 CLIP cannot differentiate between two words due to lack of context. For example, the word ‘boxer’ can appear as a dog breed or an athlete. Perhaps a better set of data could help here.
 </div>
-<div class="mbcard mbcard--danger" markdown="1">
+<div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070" markdown="1">
 **Handwriting detection**
 While CLIP is excellent at understanding complex images, it still struggles with tasks such as handwriting detection (especially handwritten digits). This can be due to lack of sufficient data during training.
 </div>

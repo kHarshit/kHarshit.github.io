@@ -328,39 +328,10 @@ figure.mbimgstyle::after {
 
 .mbcard {
     background: var(--mbcard-bg, #fff);
-    border: 1.5px solid var(--border-color, #a0d8d5);
+    border: var(--mbcard-border, 1.5px solid var(--border-color, #a0d8d5));
     border-radius: 10px;
     padding: 1.1rem 1.25rem;
     font-size: var(--text-md);
-}
-
-/* tinted background variant */
-.mbcard--tint {
-    background: var(--chip-bg, #f0faf9);
-    border: 1.5px solid var(--border-color, #a0d8d5);
-}
-
-[data-theme="dark"] .mbcard--tint {
-    background: #1a2533;
-}
-
-/* danger variant — muted red outline for Cons/warnings */
-.mbcard--danger {
-    border-color: #d4a0a0;
-}
-
-[data-theme="dark"] .mbcard--danger {
-    border-color: #a06060;
-}
-
-/* filled variant — no border, solid background */
-.mbcard--filled {
-    background: var(--chip-bg, #f0faf9);
-    border: none;
-}
-
-[data-theme="dark"] .mbcard--filled {
-    background: #1a2533;
 }
 
 /* accent-colored title (first bold/strong or first heading inside card) */
@@ -376,17 +347,9 @@ figure.mbimgstyle::after {
 .mbcard > p:first-child > b,
 .mbcard > h3:first-child,
 .mbcard > h4:first-child {
-    color: var(--accent-color, #20B2AA);
+    color: var(--mbcard-title-color, var(--accent-color, #20B2AA));
     display: block;
     margin-bottom: 0.5rem;
-}
-
-/* danger title override — must come after the base accent rule */
-.mbcard--danger > p:first-child > strong,
-.mbcard--danger > p:first-child > b,
-.mbcard--danger > h3:first-child,
-.mbcard--danger > h4:first-child {
-    color: #e07070;
 }
 
 /* nested grids inside cards */

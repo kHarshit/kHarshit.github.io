@@ -86,11 +86,11 @@ Primitives define what clients and servers can offer each other. MCP defines thr
 Executable functions that AI applications can invoke to perform actions e.g., file operations, API calls, database queries like `search_jira`, `run_sql`. Each tool defines: name, description, JSON input schema, optional output schema.
 
 <div class="mbgrid mbgrid-2" markdown="1">
-<div class="mbcard mbcard--filled" markdown="1">
+<div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none" markdown="1">
 **`tools/list`**
 Discover available tools
 </div>
-<div class="mbcard mbcard--filled" markdown="1">
+<div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none" markdown="1">
 **`tools/call`**
 Execute a specific tool
 </div>
