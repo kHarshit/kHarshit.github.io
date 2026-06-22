@@ -3,10 +3,14 @@ layout: post
 title: "Distributed Training: How to train Large Language Models (LLM)"
 date: 2025-03-21
 categories: [LLM, Generative AI, Deep Learning]
-excerpt: "Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, and DeepSpeed with code examples."
+excerpt: "Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, 3D parallism and DeepSpeed with interactive code examples."
 mathjax: true
 interactive: true 
 ---
+
+Training large language models requires large amounts of GPU memory, far beyond what a single GPU can provide. This post explores key distributed training strategies that make it possible to train models with billions of parameters across hundreds of GPUs.
+
+## 1. Background
 
 For a 10B parameter LLM, it requires ~176 GiB of GPU memory (FP32: 4 bytes/param, FP16: 2 bytes/param) for mixed precision training. 
 
@@ -25,7 +29,7 @@ For a 10B parameter LLM, it requires ~176 GiB of GPU memory (FP32: 4 bytes/param
 
 The A100 GPU has 80GB memory. Thus, for a 10B model, you'd need 3 A100s just to hold the parameters + optimizer states. Distributed training is essential to train Large Language Models. 
 
-## 1. Background
+## 2. Scaling 
 
 There are two fundamental scaling approaches:
 
@@ -46,7 +50,7 @@ There are two fundamental scaling approaches:
 
 In distributed training, we're mainly working with horizontal scaling since machine specification is fixed e.g. `p5.48xlarge` AWS instance consists of 8xA100 GPUs with fixed memory and CPUs. And, also, a machine can only be scaled up to a point so we need to figure out to split our data or model on multiple GPUs machines. Distributed training is all about how to do that.
 
-## 2. Communication Primitives
+## 3. Communication Primitives
 
 Before diving into parallelism strategies, it helps to understand the underlying communication operations.
 
@@ -89,7 +93,7 @@ Ring AllReduce arranges nodes (or GPUs) in a logical ring, where each node commu
 
 **Naive AllReduce vs Ring AllReduce:** In a naive (one-shot) AllReduce for fully-connected topologies, each worker communicates with all `N-1` neighbors in 2 steps (each with `n-1` substeps) — total 2 syncs. Ring AllReduce reduces communication bottlenecks by limiting each node to talk to only its two neighbors.
 
-## 3. Data Parallelism
+## 4. Data Parallelism
 
 Used when the model can fit in a single GPU. Each device (worker) holds a full copy of the model, but processes a different batch of training data. This way, data parallelism can scale up the training.
 
@@ -178,7 +182,7 @@ torchrun \
 {% endhighlight %}
 
 
-## 4. Model Parallelism
+## 5. Model Parallelism
 
 Used when the model is too big to fit in a single GPU.
 
@@ -316,7 +320,7 @@ MHA blocks are natural fit for tensor parallelism due to attention heads being m
 
 {% include img.html src="/img/blog/tensor_parallelism_attention.jpg" width="70%" caption="Tensor Parallelism: Column + Row Partitioning of Multi-Headed Attention (source: Megatron-LM paper)" %}
 
-## 5. Zero Redundancy Optimizer (ZeRO)
+## 6. Zero Redundancy Optimizer (ZeRO)
 
 ZeRO consists of 3 stages which shards different model states: model parameters (weights), gradients, and optimizer states (e.g., momentum and variance in Adam).
 
@@ -417,7 +421,7 @@ for batch in dataloader:
     model_engine.step()
 {% endhighlight %}
 
-## 6. PyTorch Fully Sharded Data Parallel (FSDP)
+## 7. PyTorch Fully Sharded Data Parallel (FSDP)
 
 FSDP is a type of data-parallel training, but unlike traditional DDP (which maintains a per-GPU copy of model parameters, gradients, and optimizer states), FSDP shards all of these states across data-parallel workers and can optionally offload sharded parameters to CPU. It is effectively a **mix of data and model parallelism**. *FSDP is PyTorch's equivalent to DeepSpeed ZeRO Stage 3.*
 
@@ -497,7 +501,7 @@ fsdp_model = FullyShardedDataParallel(
 **Manual wrapping** allows selective application of FSDP to specific parts of the model for complex sharding strategies.
 
 
-## 7. AWS SageMaker Distributed Training
+## 8. AWS SageMaker Distributed Training
 
 The SageMaker API can be used for distributed training as follows.
 
@@ -553,47 +557,39 @@ distribution = {
 
 SMP provides Sharded data parallelism, Expert parallelism, Tensor parallelism, Activation checkpointing and offloading, etc funcationalities.
 
-<!-- ## 8. 3D Parallelism
 
-3D Parallelism combines **Data Parallelism** (or ZeRO/FSDP), **Pipeline Parallelism**, and **Tensor Parallelism** simultaneously. This is the strategy used to train most frontier LLMs (GPT-3, BLOOM, LLaMA, etc.) across hundreds or thousands of GPUs.
+## 9. 3D Parallelism
 
-### How the 3 Dimensions Fit Together
+3D Parallelism combines **Data Parallelism** (or ZeRO/FSDP), **Pipeline Parallelism**, and **Tensor Parallelism** simultaneously. It's used to train most frontier LLMs (GPT-3, LLaMA, etc.) across large cluster of GPUs.
 
-{% include img.html src="/img/blog/3d_parallelism.jpg" width="80%" caption="3D Parallelism: Tensor, Pipeline, and Data Parallelism across GPU nodes" %}
+{% include img.html src="/img/blog/3d_parallelism.jpg" caption="3D Parallelism: Data, Pipeline, and Tensor Parallelism" %}
 
-- **Inter-node Communication** (across nodes via slower network like InfiniBand or Ethernet) uses **Data Parallelism** (ZeRO/FSDP/DDP) — each node processes a different micro-batch and syncs gradients.
-- **Intra-node Communication** (within a node, fast NVLink/NVSwitch) uses **Tensor Parallelism** — GPUs within a node split each layer's weights and activations.
-- **Pipeline Parallelism** slices the model layers across nodes / groups so that each group of GPUs hosts a contiguous chunk of transformer layers.
+> Total GPUs = DP degree x PP degree x TP degree
 
-### Typical Configuration
+For example, with 2 nodes (16 GPUs), TP=2, PP=4, you'd have DP=N/(TPxPP) = 16/(2×4) = 2 data-parallel groups.
 
-For an 8-GPU node (e.g., A100 80GB), a common setup is:
-
-| Dimension | Degree | Rationale |
-|-----------|:------:|-----------|
-| **Tensor Parallel** (TP) | 4 or 8 | Stays inside the node to leverage NVLink bandwidth (~600 GB/s). |
-| **Pipeline Parallel** (PP) | 2–8 | One stage per node (or a few nodes). |
-| **Data Parallel** (DP) | N / (TP × PP) | Remaining GPUs form data-parallel replicas. |
+| Dimension | What it splits | Rationale | Communication | Frequency | Network Scope |
+|:----------|:--------------|:----------|:-------------|:----------|:--------------|
+| **Data Parallel** (DP) | Training data / batch | Increase throughput | AllReduce of gradients (~model params × 2 bytes) | Once per training step | Inter-node (InfiniBand / Ethernet) |
+| **Pipeline Parallel** (PP) | Model layers | Fit many layers across GPUs | Send/Receive of activations (~bs × seq_len × hidden) per pipeline stage boundary | Once per micro-batch per stage boundary | Across nodes / groups |
+| **Tensor Parallel** (TP) | Matrix operations inside each layer | Split large layer computations; leverage NVLink bandwidth (~600 GB/s) | AllReduce / AllGather / ReduceScatter of activations (~bs × seq_len × hidden) per transformer block | Every forward/backward pass per layer | Intra-node (NVLink / NVSwitch) |
 {:.mbtablestyle}
 
-For example, with 16 nodes (128 GPUs), TP=4, PP=4, you'd have DP=128/(4×4)=8 data-parallel groups.
-
-### Communication Volume per Dimension
-
-| Strategy | Communication | Frequency |
-|----------|--------------|-----------|
-| **Tensor Parallelism** | AllReduce of activations (~bs × seq_len × hidden) per transformer block | Every forward/backward pass per layer |
-| **Pipeline Parallelism** | Send/Receive of activations (~bs × seq_len × hidden) per pipeline stage boundary | Once per micro-batch per stage boundary |
-| **Data Parallelism** | AllReduce of gradients (~model params × 2 bytes) | Once per training step |
-{:.mbtablestyle}
-
-- **TP** is the **most bandwidth-sensitive** — it must run on fast intra-node links (NVLink).
-- **PP** reduces memory and the amount of AllReduce data, but introduces the pipeline bubble.
-- **DP** provides the most flexibility — you can scale to hundreds of nodes by increasing the DP degree.
+<div class="mbgrid mbgrid-3" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070" markdown="1">
+<div class="mbcard" markdown="1">
+**Tensor Parallelism** is the most bandwidth-sensitive, it must run on fast intra-node links (NVLink).
+</div>
+<div class="mbcard" markdown="1">
+**Pipeline Parallelism** reduces memory and the amount of AllReduce data, but introduces the pipeline bubble.
+</div>
+<div class="mbcard" markdown="1">
+**Data Parallelism** provides the most flexibility, you can scale to hundreds of nodes by increasing the DP degree.
+</div>
+</div>
 
 ### ZeRO + 3D Parallelism
 
-In practice, DeepSpeed ZeRO Stage 1 is often used on top of TP + PP instead of full data parallelism. This shards the optimizer states across the data-parallel replicas without adding extra communication contention. The full combination — **ZeRO (DP) + PP + TP** — is what powers models like Megatron-Turing NLG 530B and BLOOM-176B.
+In practice, DeepSpeed ZeRO Stage 1 is often used on top of TP + PP instead of full data parallelism. This shards the optimizer states across the data-parallel replicas without adding extra communication. 
 
 {% highlight python %}
 # Pseudocode for a 3D-parallel training loop
@@ -610,13 +606,7 @@ for batch in dataloader:               # Data Parallel: different data per DP gr
     optimizer.step()                   # ZeRO: each rank updates its optimizer shard
 {% endhighlight %}
 
-### When to Use 3D Parallelism
-
-- **Model > 50B parameters** — single parallelism dimensions alone cannot fit or train efficiently.
-- **Large cluster (≥64 GPUs)** — necessary to keep each dimension's communication within its optimal hardware boundary.
-- **High throughput requirement** — each dimension is tuned to saturate its respective link (NVLink for TP, inter-node bandwidth for DP). -->
-
-## 9. Summary: Parallelism Strategies
+## 10. Summary: Parallelism Strategies
 
 | Strategy | Splits | Use Case |
 |----------|--------|----------|
@@ -624,7 +614,7 @@ for batch in dataloader:               # Data Parallel: different data per DP gr
 | **Pipeline Parallelism** | Layers across GPUs | Model layers don't fit on 1 GPU |
 | **Tensor Parallelism** | Individual weight tensors across GPUs | Single weights too large for 1 GPU |
 | **ZeRO / FSDP** | Optimizer states, gradients, params sharded | Memory-efficient data parallelism |
-| **Hybrid** | Combination of above | Very large models (GPT-3 scale and beyond) |
+| **3D Parallelism** | DP + PP + TP combined | Very large models across large GPU clusters |
 {:.mbtablestyle}
 
 
