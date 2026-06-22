@@ -8,7 +8,7 @@ This is my personal website and blog - Technical Fridays.
 
 It's hosted on [GitHub pages](https://pages.github.com/).   
 The blog is powered by [Jekyll](http://jekyllrb.com).
-The comments are powered by [Disqus](https://disqus.com/).
+The comments are powered by [giscus](https://giscus.app/).
 
 Built from scratch using HTML5, CSS3, and a little of JavaScript.
 

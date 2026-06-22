@@ -36,7 +36,7 @@ collections:
 # Giscus comments (populate repo_id and category_id from https://giscus.app)
 giscus:
   repo: "kHarshit/kHarshit.github.io"
-  repo_id: "MDEwOlJlcG9zaXRvcnk5NDgwMTQ2Mg=="           # TODO: fill from giscus.app
+  repo_id: "R_kgDOBaaONg"
   category: "General"
   category_id: "DIC_kwDOBaaONs4C_oJT"       # TODO: fill from giscus.app
   mapping: "pathname"
@@ -44,7 +44,7 @@ giscus:
   reactions_enabled: "1"
   emit_metadata: "1"
   input_position: "top"
-  theme: "preferred_color_scheme"
+  theme: "https://kharshit.github.io/css/giscus.css"
   lang: "en"
 
 plugins:

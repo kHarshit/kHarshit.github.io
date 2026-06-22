@@ -2329,6 +2329,14 @@ input#themeswitch {
     background: #3a3a3a;
 }
 
+/* ── Comments section ──────────────────────────────────── */
+.comments-heading {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    margin: 2.5rem 0 1rem;
+    color: var(--font-color);
+}
+
 @media (max-width: 768px) {
     .post-layout {
         flex-direction: column;
