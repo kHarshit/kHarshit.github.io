@@ -2536,11 +2536,8 @@ input#themeswitch {
 }
 
 /* ── Reduced motion ────────────────────────────────────────── */
-/* ── Disqus dark mode ────────────────────────────────────── */
-[data-theme="dark"] #disqus_thread iframe {
-    filter: invert(0.88) hue-rotate(180deg);
-    border-radius: 4px;
-}
+/* ── Giscus dark mode ────────────────────────────────────── */
+/* Giscus handles its own theme via data-theme="preferred_color_scheme" */
 
 .sidebar-events-desc {
     margin: 0;
