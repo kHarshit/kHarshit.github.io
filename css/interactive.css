@@ -531,84 +531,153 @@
   flex-shrink: 0;
 }
 
-/* ---- AllReduce Animation ---- */
+/* ---- Ring AllReduce (slot-based vector display) ---- */
 .ar-container {
   position: relative;
   width: 100%;
-  height: 260px;
-  overflow: hidden;
+  min-height: 220px;
+  overflow: visible;
   background: #f8fafc;
   border-radius: 8px;
+  padding: 20px 28px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px 40px;
+  justify-items: center;
+  align-items: center;
 }
 [data-theme="dark"] .ar-container {
   background: #0f172a;
 }
-.ar-node {
-  position: absolute;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
+
+.ar-card {
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 10px 8px;
+  position: relative;
+  z-index: 2;
+  width: fit-content;
+  min-width: 140px;
+  text-align: center;
+}
+[data-theme="dark"] .ar-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+.ar-card-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--font-color, #333);
+  margin-bottom: 5px;
+}
+[data-theme="dark"] .ar-card-title {
+  color: #ccc;
+}
+
+.ar-slots {
   display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+.ar-slot {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 38px;
+  height: 28px;
+  border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 700;
+  font-family: 'Courier New', monospace;
   color: #fff;
-  transition: box-shadow 0.3s;
-  z-index: 2;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
 }
-.ar-node.active {
-  box-shadow: 0 0 0 4px rgba(32,178,170,0.4);
+.ar-slot-sending {
+  animation: ar-slot-pulse 0.7s ease-in-out infinite;
+  box-shadow: 0 0 0 2px rgba(32,178,170,0.7);
+  z-index: 6;
 }
-.ar-node.gpu0 { background: #6366f1; top: 30px; left: 30px; }
-.ar-node.gpu1 { background: #8b5cf6; top: 30px; right: 30px; }
-.ar-node.gpu2 { background: #ec4899; bottom: 30px; left: 30px; }
-.ar-node.gpu3 { background: #f59e0b; bottom: 30px; right: 30px; }
+.ar-slot-receiving {
+  box-shadow: 0 0 0 2px rgba(251,191,36,0.7);
+}
+@keyframes ar-slot-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); box-shadow: 0 0 10px rgba(32,178,170,0.5); }
+}
 
-.ar-particle {
+/* SVG overlay lines */
+.ar-lines {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #20B2AA;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  z-index: 1;
-  opacity: 0;
+  z-index: 4;
 }
-.ar-particle.visible {
-  opacity: 1;
-  animation: ar-float 1.2s ease-in-out;
+.ar-lines line {
+  animation: ar-dash 0.7s linear infinite;
 }
-
-@keyframes ar-float {
-  0% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(0.6); }
-  100% { opacity: 0; transform: scale(0.2); }
+@keyframes ar-dash {
+  to { stroke-dashoffset: -18; }
 }
 
+/* Step progress bar */
+.ar-step-bar {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 10px 0 8px;
+}
+.ar-step-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  transition: background 0.3s, transform 0.3s;
+}
+[data-theme="dark"] .ar-step-dot {
+  background: #2e3a4a;
+}
+.ar-step-dot.done {
+  background: #20B2AA;
+}
+.ar-step-dot.current {
+  background: #20B2AA;
+  transform: scale(1.5);
+  box-shadow: 0 0 5px rgba(32,178,170,0.5);
+}
+
+/* Controls */
 .ar-controls {
   display: flex;
   gap: 10px;
-  margin-top: 12px;
+  margin-top: 6px;
   justify-content: center;
 }
 .ar-btn {
-  padding: 8px 20px;
+  padding: 7px 18px;
   border: none;
   border-radius: 8px;
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
+  transition: background 0.15s, transform 0.1s, opacity 0.15s;
 }
-.ar-btn:active {
+.ar-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.ar-btn:active:not(:disabled) {
   transform: scale(0.97);
 }
 .ar-btn-primary {
   background: #20B2AA;
   color: #fff;
 }
-.ar-btn-primary:hover {
+.ar-btn-primary:hover:not(:disabled) {
   background: #178f8c;
 }
 .ar-btn-secondary {
@@ -620,17 +689,18 @@
   border-color: #2e3a4a;
   color: #ccc;
 }
-.ar-btn-secondary:hover {
+.ar-btn-secondary:hover:not(:disabled) {
   border-color: #20B2AA;
   color: #20B2AA;
 }
 
 .ar-step-label {
   text-align: center;
-  font-size: 0.85rem;
-  color: var(--font-color, #666);
+  font-size: 0.82rem;
+  color: var(--font-color, #555);
   margin-top: 8px;
   font-family: 'Courier New', monospace;
+  line-height: 1.35;
 }
 
 /* ---- Responsive ---- */
@@ -639,6 +709,10 @@
   .mem-calc-bar-val { width: 55px; font-size: 0.75rem; }
   .pipeline-cell { width: 24px; height: 24px; font-size: 0.55rem; }
   .zero-chart { height: 160px; }
-  .ar-container { height: 200px; }
-  .ar-node { width: 42px; height: 42px; font-size: 0.65rem; }
+  .ar-container { gap: 8px 14px; padding: 10px; min-height: auto; }
+  .ar-card { min-width: 90px; padding: 4px 6px; }
+  .ar-card-title { font-size: 0.6rem; }
+  .ar-slot { width: 28px; height: 22px; font-size: 0.6rem; }
+  .ar-step-label { font-size: 0.7rem; }
+  .ar-lines { display: none; }
 }

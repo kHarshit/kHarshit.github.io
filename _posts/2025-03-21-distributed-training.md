@@ -3,7 +3,7 @@ layout: post
 title: "Distributed Training: How to train Large Language Models (LLM)"
 date: 2025-03-21
 categories: [LLM, Generative AI, Deep Learning]
-excerpt: "Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, 3D parallism and DeepSpeed with interactive code examples."
+excerpt: "Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, 3D parallelism, DeepSpeed with interactive visualization, code examples."
 mathjax: true
 interactive: true 
 ---
@@ -58,17 +58,15 @@ Before diving into parallelism strategies, it helps to understand the underlying
 
 Direct transfer of data between two specific processes (send/receive).
 
-{% include img.html src="/img/blog/communication_primitives_point_to_point.jpg" width="70%" caption="Communication Primitives: Point to Point" %}
+{% include img.html src="/img/blog/communication_primitives_point_to_point.jpg" caption="Communication Primitives: Point to Point" %}
 
 ### Collective Communication
 
 Operations involving all processes in a group simultaneously.
 
-{% include img.html src="/img/blog/communication_primitives_collective.jpg" width="70%" caption="Communication Primitives: Collective" %}
+{% include img.html src="/img/blog/communication_primitives_collective.jpg" caption="Communication Primitives: Collective" %}
 
-{% include interactive_allreduce.html %}
-
-**AllReduce** is the key operation for synchronizing gradients across GPUs at the end of each training iteration — e.g., average the gradients from different nodes, then use the averaged value to update weights. Used for data parallelism.
+**AllReduce** is the key operation for synchronizing gradients across GPUs at the end of each training iteration e.g., average the gradients from different nodes, then use the averaged value to update weights. Used for data parallelism.
 
 Steps in AllReduce-based data parallel training:
 1. **Step 0:** Data is fetched from store to all nodes participating in distributed training.
@@ -81,17 +79,22 @@ Steps in AllReduce-based data parallel training:
 
 The **Divide-and-Conquer** approach is followed during Broadcast and Reduce operations.
 
-### Ring AllReduce
+**Ring AllReduce** arranges GPUs in a logical ring, where each node communicates only with its two immediate neighbors. It requires `2(N-1)` communication steps total.
 
-Ring AllReduce arranges nodes (or GPUs) in a logical ring, where each node communicates only with its two immediate neighbors.
+<div class="mbsteps" markdown="1">
+<div class="mbstep" markdown="1">
+**Phase 1: Reduce-Scatter (`N-1` steps)**
+Each GPU splits its vector (e.g., gradients) into `N` chunks. Chunks circulate clockwise around the ring: each GPU receives a chunk, adds its own corresponding chunk, and forwards the partial sum. After `N-1` steps, each GPU holds exactly one fully-reduced chunk.
+</div>
+<div class="mbstep" markdown="1">
+**Phase 2: All-Gather (`N-1` steps)**
+The reduced chunks circulate around the ring again. Each GPU sends the reduced chunk it owns to its neighbor, receives the incoming chunk, stores it, and forwards it. After `N-1` steps, every GPU has all reduced chunks.
+</div>
+</div>
 
-1. The data (e.g., gradients) is partitioned into `n` segments, where `n` is the number of nodes.
-2. Each node sends a segment to the next node in the ring and receives a segment from the previous node.
-3. Nodes perform a local reduction (e.g., summing gradients) on the received segment and their local segment.
-4. This repeats `n−1` times so each node holds a segment of the fully reduced data.
-5. Total: `2(n-1)` steps (syncs); each worker sends/receives `1/N` of all bytes.
+**Example:** Try the interactive visualization below to see the full 6-step AllReduce algorithm.
 
-**Naive AllReduce vs Ring AllReduce:** In a naive (one-shot) AllReduce for fully-connected topologies, each worker communicates with all `N-1` neighbors in 2 steps (each with `n-1` substeps) — total 2 syncs. Ring AllReduce reduces communication bottlenecks by limiting each node to talk to only its two neighbors.
+{% include interactive_allreduce.html %}
 
 ## 4. Data Parallelism
 
