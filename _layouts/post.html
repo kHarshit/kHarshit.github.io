@@ -243,9 +243,6 @@ layout: default
             tocLinks.forEach(function(item) {
                 item.link.classList.toggle('active', item.link === current.link);
             });
-            if (current) {
-                current.link.scrollIntoView({ block: 'nearest' });
-            }
         }
 
         window.addEventListener('scroll', updateActive, { passive: true });
