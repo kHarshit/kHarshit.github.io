@@ -250,8 +250,10 @@ layout: default
     })();
     </script>
 
+    {% if page.interactive %}
     <!-- Interactive widgets (memory calc, pipeline viz, etc.) — load before MathJax to avoid CDN blocking -->
     <script src="/css/interactive.js"></script>
+    {% endif %}
 
     {% if page.mathjax %}
     <!-- MathJax -->

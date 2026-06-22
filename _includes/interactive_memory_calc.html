@@ -1,0 +1,81 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<div id="dt-debug" style="display:none"></div>
+<div id="mem-calc" class="dt-widget">
+  <div class="dt-widget-header">
+    <p class="dt-widget-title">Interactive: GPU Memory Calculator</p>
+  </div>
+  <div class="dt-widget-body">
+    <div class="dt-control-group">
+      <div class="dt-label">
+        <span>Model Parameters</span>
+        <span class="dt-label-value mem-params-display">7B</span>
+      </div>
+      <input type="range" class="dt-slider mem-slider" min="1" max="1000" value="7" step="1">
+    </div>
+    <div class="dt-control-group">
+      <div class="dt-label">
+        <span>Precision</span>
+        <span class="dt-label-value mem-prec-label">BF16</span>
+      </div>
+      <select class="dt-select mem-precision">
+        <option value="fp32">FP32 (4 bytes/param)</option>
+        <option value="bf16" selected>BF16 / FP16 (2 bytes/param)</option>
+        <option value="int8">INT8 (1 byte/param)</option>
+      </select>
+    </div>
+
+    <div class="mem-calc-summary">
+      <div class="mem-calc-stat">
+        <div class="mem-calc-stat-value mem-stat-params">7B</div>
+        <div class="mem-calc-stat-label">Model Size</div>
+      </div>
+      <div class="mem-calc-stat">
+        <div class="mem-calc-stat-value mem-stat-prec">BF16</div>
+        <div class="mem-calc-stat-label">Precision</div>
+      </div>
+      <div class="mem-calc-stat">
+        <div class="mem-calc-stat-value mem-stat-gpus">1 × A100</div>
+        <div class="mem-calc-stat-label">GPUs Needed (80GB)</div>
+      </div>
+      <div class="mem-calc-stat">
+        <div class="mem-calc-stat-value mem-total-value">14 GB</div>
+        <div class="mem-calc-stat-label">Total GPU Memory</div>
+      </div>
+    </div>
+
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">Parameters</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill params" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val params">-</span>
+    </div>
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">Gradients</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill grads" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val grads">-</span>
+    </div>
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">Optimizer States</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill opt" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val opt">-</span>
+    </div>
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">FP32 Master Weights</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill master" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val master">-</span>
+    </div>
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">Activations (est.)</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill act" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val act">-</span>
+    </div>
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">Temp Buffers (est.)</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill temp" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val temp">-</span>
+    </div>
+
+  </div>
+  <div class="dt-widget-footer">
+    Drag the slider to adjust model size and select precision to see memory footprint.
+  </div>
+</div>

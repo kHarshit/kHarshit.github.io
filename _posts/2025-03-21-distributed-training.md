@@ -5,8 +5,8 @@ date: 2025-03-21
 categories: [LLM, Generative AI, Deep Learning]
 excerpt: "Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, and DeepSpeed with code examples."
 mathjax: true
+interactive: true 
 ---
-
 
 For a 10B parameter LLM, it requires ~176 GiB of GPU memory (FP32: 4 bytes/param, FP16: 2 bytes/param) for mixed precision training. 
 
@@ -21,8 +21,9 @@ For a 10B parameter LLM, it requires ~176 GiB of GPU memory (FP32: 4 bytes/param
 | Total                | | | 190 GB (~176 GiB) |
 {:.mbtablestyle}
 
+{% include interactive_memory_calc.html %}
 
-The A100 GPU has 80GB memory. Thus, distributed training is essential to train Large Language Models. 
+The A100 GPU has 80GB memory. Thus, for a 10B model, you'd need 3 A100s just to hold the parameters + optimizer states. Distributed training is essential to train Large Language Models. 
 
 ## 1. Background
 
@@ -61,7 +62,9 @@ Operations involving all processes in a group simultaneously.
 
 {% include img.html src="/img/blog/communication_primitives_collective.jpg" width="70%" caption="Communication Primitives: Collective" %}
 
-<!-- **AllReduce** is the key operation for synchronizing gradients across GPUs at the end of each training iteration — e.g., average the gradients from different nodes, then use the averaged value to update weights. Used for data parallelism.
+{% include interactive_allreduce.html %}
+
+**AllReduce** is the key operation for synchronizing gradients across GPUs at the end of each training iteration — e.g., average the gradients from different nodes, then use the averaged value to update weights. Used for data parallelism.
 
 Steps in AllReduce-based data parallel training:
 1. **Step 0:** Data is fetched from store to all nodes participating in distributed training.
@@ -84,7 +87,7 @@ Ring AllReduce arranges nodes (or GPUs) in a logical ring, where each node commu
 4. This repeats `n−1` times so each node holds a segment of the fully reduced data.
 5. Total: `2(n-1)` steps (syncs); each worker sends/receives `1/N` of all bytes.
 
-**Naive AllReduce vs Ring AllReduce:** In a naive (one-shot) AllReduce for fully-connected topologies, each worker communicates with all `N-1` neighbors in 2 steps (each with `n-1` substeps) — total 2 syncs. Ring AllReduce reduces communication bottlenecks by limiting each node to talk to only its two neighbors. -->
+**Naive AllReduce vs Ring AllReduce:** In a naive (one-shot) AllReduce for fully-connected topologies, each worker communicates with all `N-1` neighbors in 2 steps (each with `n-1` substeps) — total 2 syncs. Ring AllReduce reduces communication bottlenecks by limiting each node to talk to only its two neighbors.
 
 ## 3. Data Parallelism
 
@@ -201,6 +204,8 @@ synchronously at the end.
 {% include img.html src="/img/blog/pipeline_parallelism_bubble.jpg" width="70%" caption="Pipeline Parallelism (source: GPipe paper)" %}
 
 At the beginning, later stages are idle while the first micro-batch moves through pipeline. At the end, earlier stages become idle while the last backward computations finish. This idle time is called **pipeline bubble**. Increasing the number of micro-batches reduces the relative bubble overhead, but using too many can also increase scheduling complexity.
+
+{% include interactive_pipeline_viz.html %}
 
 #### Interleaved Layers
 
@@ -319,9 +324,11 @@ ZeRO consists of 3 stages which shards different model states: model parameters 
 
 In the above figure, `Ψ` denotes model size (number of parameters), `K` denotes the memory multiplier of optimizer states, and `Nd` denotes data-parallel degree (#GPUs).
 
+{% include interactive_zero_compare.html %}
+
 ### ZeRO Stage 1: Optimizer State Partitioning (P<sub>os</sub>)
 
-Shards optimizer states. Instead of creating per-param states for all parameters on every GPU, each optimizer instance only keeps states for a shard of all model parameters. The optimizer `step()` updates only its shard and then broadcasts updated parameters to all peers.
+Shards optimizer states. Instead of creating per-param states for all parameters on every GPU, each optimizer instance only keeps states for a shard of all model parameters. The optimizer `step()` updates only the parameter shard for which it owns optimizer states and then broadcasts updated parameters to all peers.
 
 ### ZeRO Stage 2: Gradient Partitioning (P<sub>os+g</sub>)
 
@@ -546,7 +553,70 @@ distribution = {
 
 SMP provides Sharded data parallelism, Expert parallelism, Tensor parallelism, Activation checkpointing and offloading, etc funcationalities.
 
-## 8. Summary: Parallelism Strategies
+<!-- ## 8. 3D Parallelism
+
+3D Parallelism combines **Data Parallelism** (or ZeRO/FSDP), **Pipeline Parallelism**, and **Tensor Parallelism** simultaneously. This is the strategy used to train most frontier LLMs (GPT-3, BLOOM, LLaMA, etc.) across hundreds or thousands of GPUs.
+
+### How the 3 Dimensions Fit Together
+
+{% include img.html src="/img/blog/3d_parallelism.jpg" width="80%" caption="3D Parallelism: Tensor, Pipeline, and Data Parallelism across GPU nodes" %}
+
+- **Inter-node Communication** (across nodes via slower network like InfiniBand or Ethernet) uses **Data Parallelism** (ZeRO/FSDP/DDP) — each node processes a different micro-batch and syncs gradients.
+- **Intra-node Communication** (within a node, fast NVLink/NVSwitch) uses **Tensor Parallelism** — GPUs within a node split each layer's weights and activations.
+- **Pipeline Parallelism** slices the model layers across nodes / groups so that each group of GPUs hosts a contiguous chunk of transformer layers.
+
+### Typical Configuration
+
+For an 8-GPU node (e.g., A100 80GB), a common setup is:
+
+| Dimension | Degree | Rationale |
+|-----------|:------:|-----------|
+| **Tensor Parallel** (TP) | 4 or 8 | Stays inside the node to leverage NVLink bandwidth (~600 GB/s). |
+| **Pipeline Parallel** (PP) | 2–8 | One stage per node (or a few nodes). |
+| **Data Parallel** (DP) | N / (TP × PP) | Remaining GPUs form data-parallel replicas. |
+{:.mbtablestyle}
+
+For example, with 16 nodes (128 GPUs), TP=4, PP=4, you'd have DP=128/(4×4)=8 data-parallel groups.
+
+### Communication Volume per Dimension
+
+| Strategy | Communication | Frequency |
+|----------|--------------|-----------|
+| **Tensor Parallelism** | AllReduce of activations (~bs × seq_len × hidden) per transformer block | Every forward/backward pass per layer |
+| **Pipeline Parallelism** | Send/Receive of activations (~bs × seq_len × hidden) per pipeline stage boundary | Once per micro-batch per stage boundary |
+| **Data Parallelism** | AllReduce of gradients (~model params × 2 bytes) | Once per training step |
+{:.mbtablestyle}
+
+- **TP** is the **most bandwidth-sensitive** — it must run on fast intra-node links (NVLink).
+- **PP** reduces memory and the amount of AllReduce data, but introduces the pipeline bubble.
+- **DP** provides the most flexibility — you can scale to hundreds of nodes by increasing the DP degree.
+
+### ZeRO + 3D Parallelism
+
+In practice, DeepSpeed ZeRO Stage 1 is often used on top of TP + PP instead of full data parallelism. This shards the optimizer states across the data-parallel replicas without adding extra communication contention. The full combination — **ZeRO (DP) + PP + TP** — is what powers models like Megatron-Turing NLG 530B and BLOOM-176B.
+
+{% highlight python %}
+# Pseudocode for a 3D-parallel training loop
+
+for batch in dataloader:               # Data Parallel: different data per DP group
+    for microbatch in split(batch):     # Pipeline Parallel: micro-batches through stages
+        # Tensor Parallel: each layer is split across TP group
+        output = tensor_parallel_forward(model, microbatch)
+        loss = compute_loss(output)
+        # TP backward (AllReduce within node)
+        tensor_parallel_backward(loss)
+    # PP gradients flow backward across pipeline stages (P2P)
+    allreduce_gradients()              # DP: sync gradients across replicas
+    optimizer.step()                   # ZeRO: each rank updates its optimizer shard
+{% endhighlight %}
+
+### When to Use 3D Parallelism
+
+- **Model > 50B parameters** — single parallelism dimensions alone cannot fit or train efficiently.
+- **Large cluster (≥64 GPUs)** — necessary to keep each dimension's communication within its optimal hardware boundary.
+- **High throughput requirement** — each dimension is tuned to saturate its respective link (NVLink for TP, inter-node bandwidth for DP). -->
+
+## 9. Summary: Parallelism Strategies
 
 | Strategy | Splits | Use Case |
 |----------|--------|----------|

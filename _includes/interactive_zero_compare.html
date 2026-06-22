@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<div id="zero-compare" class="dt-widget">
+  <div class="dt-widget-header">
+    <p class="dt-widget-title">Interactive: ZeRO Stage Comparison</p>
+  </div>
+  <div class="dt-widget-body">
+    <div class="zero-controls">
+      <div class="zero-stage-tabs">
+        <button class="zero-stage-tab active" data-stage="0">DDP</button>
+        <button class="zero-stage-tab" data-stage="1">ZeRO-1</button>
+        <button class="zero-stage-tab" data-stage="2">ZeRO-2</button>
+        <button class="zero-stage-tab" data-stage="3">ZeRO-3</button>
+      </div>
+    </div>
+
+    <div class="zero-chart">
+      <div class="zero-bar-group">
+        <div class="zero-bar-stack" style="height:60%"></div>
+        <div class="zero-bar-value zero-total-value">190 GB</div>
+        <div class="zero-bar-label">Per GPU</div>
+      </div>
+    </div>
+
+    <div class="zero-legend">
+      <span class="zero-legend-item"><span class="zero-legend-swatch" style="background:#10b981"></span> Params</span>
+      <span class="zero-legend-item"><span class="zero-legend-swatch" style="background:#8b5cf6"></span> Gradients</span>
+      <span class="zero-legend-item"><span class="zero-legend-swatch" style="background:#ec4899"></span> Optimizer States</span>
+      <span class="zero-legend-item"><span class="zero-legend-swatch" style="background:#f59e0b"></span> FP32 Master Weights</span>
+    </div>
+
+    <div class="zero-savings">
+      <div class="zero-savings-item">
+        <div class="zero-savings-label">Params</div>
+        <div class="zero-savings-value">20 GB</div>
+      </div>
+      <div class="zero-savings-item">
+        <div class="zero-savings-label">Grads</div>
+        <div class="zero-savings-value">20 GB</div>
+      </div>
+      <div class="zero-savings-item">
+        <div class="zero-savings-label">Opt States</div>
+        <div class="zero-savings-value">80 GB</div>
+      </div>
+      <div class="zero-savings-item">
+        <div class="zero-savings-label">Master W</div>
+        <div class="zero-savings-value">40 GB</div>
+      </div>
+    </div>
+
+    <div class="zero-comm-section">
+      <div class="zero-comm-header">Communication Volume (per step, per GPU)</div>
+      <div class="zero-comm-row">
+        <span class="zero-comm-label">Data Transferred</span>
+        <div class="zero-comm-track">
+          <div class="zero-comm-fill" style="width:50%"></div>
+        </div>
+        <span class="zero-comm-value">35 GB</span>
+      </div>
+      <div class="zero-comm-row">
+        <span class="zero-comm-label">Relative to DDP</span>
+        <div class="zero-comm-track">
+          <div class="zero-comm-ratio" style="width:50%"></div>
+        </div>
+        <span class="zero-comm-ratio-value">1.0x</span>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Toggle between stages to see memory distribution (10B model, 8 GPUs).
+  </div>
+</div>
