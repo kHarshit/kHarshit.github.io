@@ -17,9 +17,20 @@ Before diving into mixed precision, it's essential to understand the hardware an
 
 A floating-point number has three parts:
 
-- **Sign bit (1 bit)**: 0 for positive, 1 for negative.
-- **Exponent bits**: control the *range* (magnitude).
-- **Mantissa bits**: control the *precision*.
+<div class="mbgrid mbgrid-3" markdown="1">
+<div class="mbcard" markdown="1">
+**Sign bit (1 bit)**
+0 for positive, 1 for negative.
+</div>
+<div class="mbcard" markdown="1">
+**Exponent bits**
+Control the *range* (magnitude).
+</div>
+<div class="mbcard" markdown="1">
+**Mantissa bits**
+Control the *precision*.
+</div>
+</div>
 
 {% include img.html src="/img/blog/mixed_precision_quantization/precision_numbers.jpg" width="70%" caption="Floating point number formats: FP32, FP16, and their components" %}
 
@@ -44,8 +55,16 @@ $$
 
 ### GPU Architecture
 
-- *Compute*: **Streaming Multiprocessors (SMs)**: the GPU-equivalent of a CPU core (108 SMs on an A100). 
-- *Memory*: on-chip **L2 cache**, and high-bandwidth **DRAM** (global memory: 40 GB on A100).
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard" markdown="1">
+**Compute**
+Streaming Multiprocessors (SMs): the GPU-equivalent of a CPU core (108 SMs on an A100).
+</div>
+<div class="mbcard" markdown="1">
+**Memory**
+On-chip L2 cache, and high-bandwidth DRAM (global memory: 40 GB on A100).
+</div>
+</div>
 
 {% include img.html src="/img/blog/mixed_precision_quantization/gpu_architecture.jpg" caption="GPU architecture: SMs, memory hierarchy, and compute units" %}
 
@@ -85,8 +104,16 @@ Tensor Cores are programmable **matrix multiply-and-accumulate (MAC)** units tha
 
 {% include img.html src="/img/blog/mixed_precision_quantization/tensor_cores.jpg" width="70%" caption="Tensor Core 4x4 matrix multiply-and-accumulate operation" %}
 
-* CUDA cores perform scalar instructions: multiplication of an element of A with an element of B; perform one MAC operation per GPU clock.
-* Tensor Cores perform matrix instructions: multiplication between vectors/matrix of elements at a time; perform a matrix MAC (multiple operations)(`4x4` matrix in Volta) per GPU clock.
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard" markdown="1">
+**CUDA Cores**
+Perform scalar instructions: multiplication of an element of A with an element of B; one MAC operation per GPU clock.
+</div>
+<div class="mbcard" markdown="1">
+**Tensor Cores**
+Perform matrix instructions: multiplication between vectors/matrix of elements at a time; matrix MAC (`4×4` in Volta) per GPU clock.
+</div>
+</div>
 
 During training with FP16 inputs, Tensor Cores compute products without loss of precision and accumulate in FP32. Note that the operations like element-wise addition of two fp16 tensors, that can't be formulated in terms of matrix blocks, still use CUDA cores.
 
@@ -188,7 +215,7 @@ print(f'mean: tf32: {mean_tf32}, fp32: {mean_fp32}, diff:{abs(mean_tf32-mean_fp3
 mean: tf32: 80.71688079833984, fp32: 80.71910095214844, diff:0.00222015380859375
 ```
 
-TF32 delivers **~1.5× speedup** (13.5 µs vs 20.4 µs warm) with a mean absolute difference of only **0.0022** — negligible accuracy loss for deep learning workloads.
+TF32 delivers **~1.5× speedup** (13.5 µs vs 20.4 µs warm) with a mean absolute difference of only **0.0022**, negligible accuracy loss for deep learning workloads.
 
 
 ### GPU Sharing & MIG
@@ -199,10 +226,20 @@ When individual workloads don't saturate the GPU (e.g. inference with low batch 
 
 **Multi-Instance GPU (MIG)** solves this by partitioning a single GPU into separate GPU Instances for CUDA applications, providing multiple users with dedicated GPU resources:
 
-- True hardware isolation
-- Guaranteed QoS
-- Dedicated resource allocation
-- Max GPU utilization
+<div class="mbgrid mbgrid-4" style="--mbcard-border:1.5px solid #8fc8a0;--mbcard-title-color:#2e8b57;" markdown="1">
+<div class="mbcard" markdown="1">
+**True hardware isolation**
+</div>
+<div class="mbcard" markdown="1">
+**Guaranteed QoS**
+</div>
+<div class="mbcard" markdown="1">
+**Dedicated resource allocation**
+</div>
+<div class="mbcard" markdown="1">
+**Max GPU utilization**
+</div>
+</div>
 
 A **GPU Instance (GI)** is a combination of GPU slices and GPU engines (DMAs, NVDECs, etc.). Everything within a GI shares all GPU memory slices and other GPU engines, but its SM slices can be further subdivided into **compute instances (CI)**.
 
@@ -268,9 +305,21 @@ Mixed precision combines FP32 and FP16 to get the best of both worlds:
 - **FP16**: smaller range, lower precision, used where speed is critical.
 
 **Advantages**:
-1. Speeds up math-intensive operations via FP16 Tensor Cores.
-2. Speeds up memory-limited operations by halving the bytes accessed.
-3. Reduces memory requirements, enabling larger models or batch sizes.
+
+<div class="mbgrid mbgrid-3" style="--mbcard-border:1.5px solid #8fc8a0;--mbcard-title-color:#2e8b57;" markdown="1">
+<div class="mbcard" markdown="1">
+**Math-Intensive Ops**
+Speeds up via FP16 Tensor Cores.
+</div>
+<div class="mbcard" markdown="1">
+**Memory-Limited Ops**
+Speeds up by halving the bytes accessed.
+</div>
+<div class="mbcard" markdown="1">
+**Memory Reduction**
+Enables larger models or batch sizes.
+</div>
+</div>
 
 {% include img.html src="/img/blog/mixed_precision_quantization/amp.jpg" width="70%" caption="Mixed precision overview: FP16 for compute, FP32 for critical operations" %}
 
@@ -337,9 +386,17 @@ In FP16, many activation gradient values become zero because the FP16 range is s
 
 AMP automates three tasks:
 
-1. **Automatic casting** between FP16 and FP32.
-2. **Automatic loss scaling** to preserve small gradient values.
-3. **FP32 Master weight management** in the optimizer to accumulate per-iteration weight updates.
+<div class="mbgrid mbgrid-3" markdown="1">
+<div class="mbcard" markdown="1">
+**Automatic casting** between FP16 and FP32.
+</div>
+<div class="mbcard" markdown="1">
+**Automatic loss scaling** to preserve small gradient values.
+</div>
+<div class="mbcard" markdown="1">
+**FP32 Master weight management** in the optimizer to accumulate per-iteration weight updates.
+</div>
+</div>
 
 **Operation casting rules**:
 
@@ -491,9 +548,18 @@ def test_step(x):
 ### Conclusion on Mixed Precision
 
 **Use AMP.** It delivers:
-- 1.5–3× speedup on Tensor Core GPUs
-- Up to 2× memory savings
-- No loss in accuracy for most models
+
+<div class="mbgrid mbgrid-3" markdown="1">
+<div class="mbcard" markdown="1">
+**1.5-3× Speedup** on Tensor Core GPUs
+</div>
+<div class="mbcard" markdown="1">
+**Up to 2× Memory Savings**
+</div>
+<div class="mbcard" markdown="1">
+**No Loss in Accuracy** for most models
+</div>
+</div>
 
 {% include img.html src="/img/blog/mixed_precision_quantization/amp_benefit.jpg" caption="Memory and speed benefits of AMP across models" %}
 
@@ -609,8 +675,16 @@ where $$s$$ is the scale factor, $$z$$ is the zero-point (shift), and $$[\alpha,
 
 Calibration is the process of choosing the clipping range $$[\alpha, \beta]$$ of input fp32 values thus computing q-params.
 
-**Static Quantization**: clipping range is pre-calculated once before inference (faster).  
-**Dynamic Quantization**: range is computed at runtime (more accurate but slower).
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard" markdown="1">
+**Static Quantization**
+Clipping range is pre-calculated once before inference (faster).
+</div>
+<div class="mbcard" markdown="1">
+**Dynamic Quantization**
+Clipping Range is computed at runtime (more accurate but slower).
+</div>
+</div>
 
 {% include img.html src="/img/blog/mixed_precision_quantization/range_calibration.jpg" caption="Static vs dynamic range calibration for quantization" %}
 
@@ -622,16 +696,35 @@ Calibration is the process of choosing the clipping range $$[\alpha, \beta]$$ of
 
 ### Layer-wise vs Channel-wise Quantization
 
-- **Layer-wise (Per-Tensor)**: one scale/zero-point for the entire weight tensor, used for activations.
-- **Channel-wise (Per-Channel/Per-Axis)**: separate q-params per output channel, used for convolutional filters.
+<div class="mbgrid mbgrid-2" markdown="1">
+<div class="mbcard" markdown="1">
+**Layer-wise (Per-Tensor)**
+One scale/zero-point for the entire weight tensor, used for activations.
+</div>
+<div class="mbcard" markdown="1">
+**Channel-wise (Per-Channel/Per-Axis)**
+Separate q-params per output channel, used for convolutional filters.
+</div>
+</div>
 
 {% include img.html src="/img/blog/mixed_precision_quantization/layerwise_quantization.jpg"  caption="Layer-wise vs channel-wise quantization granularity" %}
 
 ### Post-Training Quantization (PTQ): Static
 
-1. Weights are quantized prior to inference.
-2. Activations are quantized using q-params computed from a **calibration dataset** (unlabeled).
-3. No fine-tuning required.
+<div class="mbgrid mbgrid-3" markdown="1">
+<div class="mbcard" markdown="1">
+**Weights Quantized**
+prior to inference.
+</div>
+<div class="mbcard" markdown="1">
+**Activations Quantized**
+using q-params computed from a calibration dataset (unlabeled).
+</div>
+<div class="mbcard" markdown="1">
+**No Fine-Tuning Required**
+Ready for deployment immediately.
+</div>
+</div>
 
 {% include img.html src="/img/blog/mixed_precision_quantization/ptq.jpg" caption="Post-Training Quantization (PTQ) workflow" %}
 
@@ -639,10 +732,24 @@ Calibration is the process of choosing the clipping range $$[\alpha, \beta]$$ of
 
 In QAT, the q-params are learned during fine-tuning.
 
-- **FakeQuantization** nodes (Q/DQ) are inserted during training, (fake as it quantize and immediately dequantize the data adding quantization errors).
-- Forward pass: `r_out = DeQuant(Quant(r))`.
-- Backward pass: as usual, gradients pass through unchanged.
-- Training loss accounts for quantization effects, producing FP32 weights such that INT8 conversion can maintain accuracy.
+<div class="mbsteps" markdown="1">
+<div class="mbstep" markdown="1">
+**FakeQuantization**
+Q/DQ nodes inserted during training; quantize then immediately dequantize to simulate quantization errors.
+</div>
+<div class="mbstep" markdown="1">
+**Forward Pass**
+`r_out = DeQuant(Quant(r))`.
+</div>
+<div class="mbstep" markdown="1">
+**Backward Pass**
+Gradients pass through unchanged as usual.
+</div>
+<div class="mbstep" markdown="1">
+**Training loss accounts for quantization errors**
+Training produces FP32 weights such that INT8 conversion can maintain accuracy.
+</div>
+</div>
 
 {% include img.html src="/img/blog/mixed_precision_quantization/qat.jpg" caption="Quantization-Aware Training (QAT) workflow" %}
 
