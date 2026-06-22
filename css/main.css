@@ -1854,24 +1854,38 @@ input#themeswitch {
 
 /* ── Blog post page ───────────────────────────────────────── */
 
+/* ── Post layout: two-column (TOC sidebar + content) ─────── */
+.post-container {
+    overflow: visible;
+}
+
+.post-layout {
+    display: flex;
+    gap: 2.5rem;
+    align-items: flex-start;
+}
+
+.post-toc-sidebar {
+    flex: 0 0 220px;
+    min-width: 0;
+    position: sticky;
+    top: calc(68px + 1.5rem);
+    max-height: calc(100vh - 68px - 3rem);
+    overflow-y: auto;
+    align-self: flex-start;
+}
+
 /* ── Table of Contents ───────────────────────────────────── */
 .toc-block {
     background: var(--chip-bg);
     border: 1px solid rgba(128,128,128,0.12);
-    border-left: 3px solid var(--accent-color);
     border-radius: 6px;
     padding: 0.75rem 1rem;
-    margin-bottom: 2rem;
     font-size: var(--text-sm);
 }
 
 [data-theme="dark"] .toc-block {
     border-color: rgba(255,255,255,0.07);
-    border-left-color: var(--accent-color);
-}
-
-.toc-block:hover {
-    border-color: var(--accent-color);
 }
 
 .toc-summary {
@@ -1920,28 +1934,30 @@ input#themeswitch {
 .toc-list a {
     display: block;
     text-decoration: none;
-    padding: 6px 8px;
+    padding: 5px 6px;
     line-height: 1.4;
+    font-size: var(--text-xs);
     transition: background 0.15s, color 0.15s;
 }
 
 .toc-list .toc-h1 a {
     color: var(--font-color);
     font-weight: 600;
+    padding-left: 0;
 }
 
 .toc-list .toc-h2 a {
     color: var(--font-color);
     font-weight: 400;
-    padding-left: 20px;
+    padding-left: 14px;
 }
 
 .toc-list .toc-h3 a {
     color: var(--font-color);
     font-weight: 400;
     opacity: 0.65;
-    font-size: calc(var(--text-sm) - 1px);
-    padding-left: 36px;
+    font-size: calc(var(--text-xs) - 1px);
+    padding-left: 28px;
 }
 
 .toc-list a:hover {
@@ -1951,6 +1967,17 @@ input#themeswitch {
 
 [data-theme="dark"] .toc-list a:hover {
     background: rgba(32, 178, 170, 0.12);
+}
+
+.toc-list a.active {
+    color: var(--accent-color);
+    background: rgba(32, 178, 170, 0.1);
+    font-weight: 600;
+    box-shadow: inset 2px 0 0 var(--accent-color);
+}
+
+[data-theme="dark"] .toc-list a.active {
+    background: rgba(32, 178, 170, 0.15);
 }
 
 /* ─────────────────────────────────────────────────────────── */
@@ -2005,6 +2032,18 @@ input#themeswitch {
 #post {
     font-size: var(--text-lg);
     line-height: 1.75;
+}
+
+.post-content-wrap {
+    flex: 1;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+#post [class*="MathJax"] {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
 }
 
 
@@ -2291,6 +2330,18 @@ input#themeswitch {
 }
 
 @media (max-width: 768px) {
+    .post-layout {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+    .post-toc-sidebar {
+        flex: none;
+        width: 100%;
+        position: static;
+        max-height: none;
+        overflow: visible;
+    }
     .post-title { font-size: 1.5rem; }
     .post-nav { flex-direction: column; }
     .post-related-grid { grid-template-columns: 1fr; }

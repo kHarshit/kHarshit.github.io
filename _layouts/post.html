@@ -19,7 +19,7 @@ layout: default
 </header>
 
 <main>
-<div class="container">
+<div class="container post-container">
 
     <a href="/blog" class="post-back-link">← Blog</a>
     <div class="post-header">
@@ -30,12 +30,18 @@ layout: default
         </div>
     </div>
 
-    <div id="post" class="post-content">
-        <details id="toc-block" class="toc-block" hidden>
-            <summary class="toc-summary">Contents</summary>
-            <nav id="toc-list" class="toc-list"></nav>
-        </details>
-        {{ content }}
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                {{ content }}
+            </div>
+        </div>
     </div>
 
     <!-- Tags -->
@@ -202,6 +208,7 @@ layout: default
         var list = document.getElementById('toc-list');
         block.removeAttribute('hidden');
 
+        var tocLinks = [];
         var ol = document.createElement('ol');
         tocHeadings.forEach(function(h) {
             var li = document.createElement('li');
@@ -211,10 +218,43 @@ layout: default
             a.textContent = h.textContent.replace(/#\s*$/, '').trim();
             li.appendChild(a);
             ol.appendChild(li);
+            tocLinks.push({ heading: h, link: a });
         });
         list.appendChild(ol);
+
+        // Smooth scroll on TOC click
+        tocLinks.forEach(function(item) {
+            item.link.addEventListener('click', function(e) {
+                e.preventDefault();
+                item.heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                history.pushState(null, null, '#' + item.heading.id);
+            });
+        });
+
+        // Scroll-spy: highlight active heading
+        var spyOffset = 100;
+        function updateActive() {
+            var current = tocLinks[0];
+            tocLinks.forEach(function(item) {
+                if (window.scrollY >= item.heading.offsetTop - spyOffset) {
+                    current = item;
+                }
+            });
+            tocLinks.forEach(function(item) {
+                item.link.classList.toggle('active', item.link === current.link);
+            });
+            if (current) {
+                current.link.scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        window.addEventListener('scroll', updateActive, { passive: true });
+        updateActive();
     })();
     </script>
+
+    <!-- Interactive widgets (memory calc, pipeline viz, etc.) — load before MathJax to avoid CDN blocking -->
+    <script src="/css/interactive.js"></script>
 
     {% if page.mathjax %}
     <!-- MathJax -->
