@@ -66,6 +66,8 @@ Perplexity ranges from $$1$$ (a perfect model assigns probability 1 to every tok
 | 100 | Very uncertain | 
 {:.mbtablestyle}
 
+{% include interactive_perplexity_viz.html %}
+
 The fundamental intuition behind using perplexity as a model performance metric is that the model's confidence correlates well with its accuracy. Suppose the model is confident about its predictions. In that case, statistically, it is more likely to be correct than in cases where it is confused between two or many words.
 
 **Example:** "The cat sat on the __." A good LLM should assign higher probability to words like: mat, floor, chair; while low probability to unrelated words like quantum, banana, parliament. 
@@ -117,13 +119,17 @@ The brevity penalty cannot exceed 1.
 
 #### BLEU Score
 
-BLEU computes the geometric mean of n-gram precisions (for n = 1, 2, 3, 4) multiplied by the brevity penalty:
+BLEU computes the geometric mean of n-gram precisions (for n = 1, 2, 3, 4) multiplied by the brevity penalty. This 4-gram variant (n=1..4) is the standard **BLEU-4**.
 
 $$AP = \left( \prod_{n=1}^{N} P_n \right)^{\frac{1}{N}}$$
 
 $$\text{BLEU} = \min\!\left(1,\ \exp\!\left(1 - \frac{\text{reference-length}}{\text{output-length}}\right)\right) \cdot \left( \prod_{i=1}^{4} \text{precision}_i \right)^{1/4}$$
 
 BLEU scores range between 0 and 1, where 1 indicates a perfect match.
+
+{% include interactive_bleu_calc.html %}
+
+> **Sentence-level vs. corpus-level.** The strict formula above produces a score of 0 whenever *any* n-gram order has zero clipped matches, common at the sentence level. In practice, BLEU is computed over **entire test corpus** where zero-precision collapse are extremely rare. For sentence-level use, **add-1 smoothing** (adding 1 to each n-gram's numerator and denominator) prevents the zero-collapse.
 
 ### METEOR
 

@@ -250,11 +250,6 @@ layout: default
     })();
     </script>
 
-    {% if page.interactive %}
-    <!-- Interactive widgets (memory calc, pipeline viz, etc.) — load before MathJax to avoid CDN blocking -->
-    <script src="/css/interactive.js"></script>
-    {% endif %}
-
     {% if page.mathjax %}
     <!-- MathJax -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>

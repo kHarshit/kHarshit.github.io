@@ -5,7 +5,7 @@ date: 2025-03-21
 categories: [LLM, Generative AI, Deep Learning]
 excerpt: "Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, 3D parallelism, DeepSpeed with interactive visualization, code examples."
 mathjax: true
-interactive: true 
+
 ---
 
 Training large language models requires large amounts of GPU memory, far beyond what a single GPU can provide. This post explores key distributed training strategies that make it possible to train models with billions of parameters across hundreds of GPUs.
