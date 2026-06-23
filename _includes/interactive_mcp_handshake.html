@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<script src="/js/interactive_mcp_handshake.js"></script>
+<div id="mcp-handshake" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-mcp-handshake">Interactive: MCP Handshake Simulator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="mcp-hs-phases">
+      <div class="mcp-hs-phase mcp-hs-phase-init">
+        <span class="mcp-hs-phase-dot"></span>
+        <span class="mcp-hs-phase-label">Initialize</span>
+      </div>
+      <div class="mcp-hs-connector"></div>
+      <div class="mcp-hs-phase mcp-hs-phase-proto">
+        <span class="mcp-hs-phase-dot"></span>
+        <span class="mcp-hs-phase-label">Protocol</span>
+      </div>
+      <div class="mcp-hs-connector"></div>
+      <div class="mcp-hs-phase mcp-hs-phase-cap">
+        <span class="mcp-hs-phase-dot"></span>
+        <span class="mcp-hs-phase-label">Capabilities</span>
+      </div>
+      <div class="mcp-hs-connector"></div>
+      <div class="mcp-hs-phase mcp-hs-phase-ready">
+        <span class="mcp-hs-phase-dot"></span>
+        <span class="mcp-hs-phase-label">Ready</span>
+      </div>
+    </div>
+    <div class="mcp-hs-flow">
+      <div class="mcp-hs-column">
+        <div class="mcp-hs-column-label">MCP Client</div>
+        <pre class="mcp-hs-msg mcp-hs-client-msg mcp-hs-empty"></pre>
+      </div>
+      <div class="mcp-hs-arrows">
+        <div class="mcp-hs-arrow-down">&#8595;</div>
+        <div class="mcp-hs-arrow-up">&#8593;</div>
+      </div>
+      <div class="mcp-hs-column">
+        <div class="mcp-hs-column-label">MCP Server</div>
+        <pre class="mcp-hs-msg mcp-hs-server-msg mcp-hs-empty"></pre>
+      </div>
+    </div>
+    <div class="mcp-hs-desc">Click Next to start the handshake.</div>
+    <div class="mcp-hs-bar"></div>
+    <div class="ar-controls">
+      <button class="ar-btn ar-btn-secondary mcp-hs-back">Back</button>
+      <button class="ar-btn ar-btn-primary mcp-hs-next">Next</button>
+      <button class="ar-btn ar-btn-secondary mcp-hs-reset">Reset</button>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Step through the MCP initialization lifecycle: protocol negotiation, capability discovery, and identity exchange.
+  </div>
+</div>

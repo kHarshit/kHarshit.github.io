@@ -49,7 +49,7 @@ Your LLM agent can interrogate an MCP server and ask what its capabilities are, 
 
 ## Architecture
 
-MCP follows a *client-server architecture* where an MCP host - an AI application like Claude Code or Claude Desktop - establishes connections to one or more MCP servers. The MCP host accomplishes this by creating one MCP client for each MCP server. Each MCP client maintains a dedicated connection with its corresponding MCP server.
+MCP follows a *client-server architecture* where an MCP host - an AI application like Claude Code or Claude Desktop, establishes connections to one or more MCP servers. The MCP host accomplishes this by creating one MCP client for each MCP server. Each MCP client maintains a dedicated connection with its corresponding MCP server.
 
 The key participants in the MCP architecture are:
 
@@ -64,15 +64,17 @@ A component (App/IDE/Agent) that maintains a connection to an MCP server and obt
 </div>
 <div class="mbcard" markdown="1">
 **MCP Server**
-A program that provides context to MCP clients. It's just any other service we build and operate that exposes an API using JSON-RPC — designed to be used by LLMs, not just traditional application code. MCP servers can execute locally or remotely.
+A program that provides context to MCP clients. It's just any other service we build and operate that exposes an API using JSON-RPC, designed to be used by LLMs, not just traditional application code. MCP servers can execute locally or remotely.
 </div>
 </div>
 
 {% include img.html src="/img/blog/mcp_fig2.jpg" width="70%" caption="MCP Architecture: Host, Clients & Servers" %}
 
+{% include interactive_mcp_arch.html %}
+
 Modern LLMs support **tool calling** (evolved from function calling), where the model is told "here are the tools you can use". The LLM can then request "call tool X with param Y". The host application executes the tool call, sends the results back to the LLM, which uses this as additional context to generate a response.
 
-**For example:** Visual Studio Code acts as an MCP host. When Visual Studio Code establishes a connection to an MCP server, such as the Sentry MCP server, the Visual Studio Code runtime instantiates an MCP client object that maintains the connection to the Sentry MCP server. When Visual Studio Code subsequently connects to another MCP server, such as the local filesystem server, the Visual Studio Code runtime instantiates an additional MCP client object to maintain this connection.
+**For example:** AI-powered IDE, acting as MCP host, connects to a bug-tracking MCP server, the host creates a dedicated MCP client to manage that connection. If it later connects to a filesystem server or a documentation server, each gets its own MCP client, so one host can talk to many servers through separate client instances, each maintaining its own session.
 
 MCP is a stateful protocol that requires lifecycle management.
 
@@ -200,6 +202,8 @@ Server → Client (response: capabilities):
   }
 }
 ```
+
+{% include interactive_mcp_handshake.html %}
 
 ### 2. Tool Discovery (Primitives)
 
@@ -341,6 +345,8 @@ MCP standardizes the entire lifecycle of:
 - calling tools
 - returning structured results
 - continuing reasoning
+
+{% include interactive_mcp_toolflow.html %}
 
 **References**
 * [Anthropic MCP guide (also image inspiration)](https://modelcontextprotocol.io/docs/getting-started/intro)

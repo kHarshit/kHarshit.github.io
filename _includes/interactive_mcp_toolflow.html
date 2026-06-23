@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<script src="/js/interactive_mcp_toolflow.js"></script>
+<div id="mcp-toolflow" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-mcp-toolflow">Interactive: MCP Tool Call Flow</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="mcp-tf-flow">
+      <div class="mcp-tf-node mcp-tf-node-query">
+        <div class="mcp-tf-node-icon">&#128172;</div>
+        <div class="mcp-tf-node-label">User Query</div>
+      </div>
+      <div class="mcp-tf-connector"></div>
+      <div class="mcp-tf-node mcp-tf-node-reason">
+        <div class="mcp-tf-node-icon">&#129504;</div>
+        <div class="mcp-tf-node-label">Model Reasons</div>
+      </div>
+      <div class="mcp-tf-connector"></div>
+      <div class="mcp-tf-node mcp-tf-node-call">
+        <div class="mcp-tf-node-icon">&#9889;</div>
+        <div class="mcp-tf-node-label">Tool Call</div>
+      </div>
+      <div class="mcp-tf-connector"></div>
+      <div class="mcp-tf-node mcp-tf-node-route">
+        <div class="mcp-tf-node-icon">&#8594;</div>
+        <div class="mcp-tf-node-label">Client Routes</div>
+      </div>
+      <div class="mcp-tf-connector"></div>
+      <div class="mcp-tf-node mcp-tf-node-execute">
+        <div class="mcp-tf-node-icon">&#9881;</div>
+        <div class="mcp-tf-node-label">Server Executes</div>
+      </div>
+      <div class="mcp-tf-connector"></div>
+      <div class="mcp-tf-node mcp-tf-node-response">
+        <div class="mcp-tf-node-icon">&#10003;</div>
+        <div class="mcp-tf-node-label">Response</div>
+      </div>
+    </div>
+    <div class="mcp-tf-detail">
+      <div class="mcp-tf-stage mcp-tf-stage-query">
+        Click Next to walk through the tool call pipeline.
+      </div>
+      <div class="mcp-tf-desc">User asks: "Summarize open high-priority Jira tasks."</div>
+    </div>
+    <div class="mcp-tf-bar"></div>
+    <div class="ar-controls">
+      <button class="ar-btn ar-btn-secondary mcp-tf-back">Back</button>
+      <button class="ar-btn ar-btn-primary mcp-tf-next">Next</button>
+      <button class="ar-btn ar-btn-secondary mcp-tf-reset">Reset</button>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Walk through how a user query flows through the MCP tool-calling pipeline, from LLM reasoning to tool execution.
+  </div>
+</div>
