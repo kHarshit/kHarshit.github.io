@@ -12,7 +12,7 @@ Instead of every AI app inventing its own way to connect to a database, SaaS too
 
 Without MCP, every integration becomes custom glue - hard to maintain, hard to secure, hard to scale.
 
-{% include img.html src="/img/blog/mcp_fig1.jpg" width="70%" caption="MCP: Universal AI Integration Layer" %}
+{% include img.html src="/img/blog/mcp_fig1.svg" width="70%" caption="MCP: Universal AI Integration Layer" %}
 
 MCP uses **JSON-RPC 2.0** as a **protocol** to communicate. It standardizes the request-response in a certain format:
 
