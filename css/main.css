@@ -1997,7 +1997,7 @@ input#themeswitch {
 .post-back-link:hover { opacity: 1 !important; }
 
 .post-header {
-    margin: 1rem 0 2rem;
+    margin: 1rem 0 1.25rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid #e8ecf0;
 }
