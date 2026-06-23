@@ -9,3 +9,4 @@ vendor/
 Gemfile.local
 Gemfile.local.lock
 .claude/
+python/
