@@ -12,6 +12,7 @@ permalink: /projects/
         <nav>
             <ul>
                 <li><a href="{{ site.url }}">Home</a></li>
+                <li class="current"><a href="/projects">Projects</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/poems">Poems</a></li>
             </ul>
@@ -46,6 +47,19 @@ permalink: /projects/
         </div>
 
         <ul class="project-list" id="projects-list">
+
+            <li class="project-list-item" data-category="computer-vision">
+                <a class="project-list-row" href="/nn-playground/">
+                    <div class="blog-list-thumb">
+                        <img src="/img/nn_playground.jpg" alt="NN Playground" loading="lazy">
+                    </div>
+                    <div class="project-list-body">
+                        <div class="project-list-tags"><span class="project-tag">Computer Vision</span></div>
+                        <h3 class="project-list-title">Interactive Digit Classifier: CNN in your browser</h3>
+                        <p class="project-list-desc">A real LeNet-5 convolutional neural network running entirely in the browser via ONNX.js. Draw digits and get instant predictions with confidence scores.</p>
+                    </div>
+                </a>
+            </li>
 
             <li class="project-list-item" data-category="llm computer-vision nlp">
                 <a class="project-list-row" href="https://github.com/kHarshit/visual-question-answering/" target="_blank" rel="noopener">

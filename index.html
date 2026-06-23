@@ -12,6 +12,7 @@ title: Harshit Kumar | Home
        	<nav>
             <ul>
                 <li class="current"><a href="{{ site.url }}">Home</a></li>
+                <li><a href="/projects">Projects</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/poems">Poems</a></li>
             </ul>
@@ -21,24 +22,7 @@ title: Harshit Kumar | Home
 
 <section id="main">
 
-	<!-- Floating Sidebar -->
-	<div class="floating-sidebar">
-		<a href="#showcase" class="sidebar-link" title="About">
-			<i class="fa fa-user"></i><span>About</span>
-		</a>
-		<a href="#experience" class="sidebar-link" title="Experience">
-			<i class="fa fa-briefcase"></i><span>Experience</span>
-		</a>
-		<a href="#education" class="sidebar-link" title="Education">
-			<i class="fa fa-graduation-cap"></i><span>Education</span>
-		</a>
-		<a href="#skills" class="sidebar-link" title="Skills">
-			<i class="fa fa-code"></i><span>Skills</span>
-		</a>
-		<a href="#projects" class="sidebar-link" title="Projects">
-			<i class="fa fa-folder-open-o"></i><span>Projects</span>
-		</a>
-	</div>
+
 
 
 
@@ -192,214 +176,7 @@ title: Harshit Kumar | Home
 				</div>
 			</section>
 
-
-			<!-- <section id="experience">
-				<h2>Experience</h2>
-				<ul>	
-					<li><a href="#">Deep Learning Research Co-op </a><i style="float: right"> Jul 2023 – Dec 2023</i>
-						<br /><i><a style="color: seagreen" href="https://www.vehant.com/">Vehant Technologies Pvt. Ltd.</a></i><br />
-						Researched and applied Explainable AI methods for Graph Neural Networks.<br />
-						<i>Technologies used: PyTorch Geometric, PyTorch Captum</i>
-					</li>
-					<br />
-					<li><a href="#">Machine Learning Engineer </a><i style="float: right"> Aug 2020 – Aug 2022</i>
-						<br /><i><a style="color: seagreen" href="https://www.vehant.com/">Vehant Technologies Pvt. Ltd.</a></i><br />
-						Researched and solved vision-related problems w.r.t. Intelligent Video Analytics for Smart Cities; and working on Edge AI solutions.<br />
-						<i>Technologies used: PyTorch, NVIDIA DeepStream, TensorFlow/Keras, OpenCV</i>
-					</li>
-					<br />
-					<li><a href="#">Computer Vision R&D Intern </a><i style="float: right">Jun 2019 - Jul 2020</i>
-						<br /><i><a style="color: seagreen" href="https://www.kritikalsecurescan.com/">Vehant Technologies Pvt. Ltd.</a></i><br />
-						Researched on deep-learning-based monocular depth estimation methods for under-vehicle object detection.<br />
-						<i>Technologies used: PyTorch, TensorFlow/Keras, OpenCV</i>
-					</li>
-					<br />
-					<li><a href="#">NLP Intern </a><i style="float: right">jun 2018 - aug 2018</i>
-						<br /><i><a style="color: seagreen" href="http://www.arbunize.com/">Arbunize Digital Pvt. Ltd.</a></i><br />
-						Applied Natural Language Processing algorithms on resumes for automatic information extraction and processing.<br />
-						<i>Technologies used: Keras, scikit-learn</i>
-					</li>
-				</ul>
-			</section> -->
-				
-					
-			<section id="projects">
-				<h2>Projects</h2>	
-					<div class="project-filters">
-
-						<button class="filter-btn all active" onclick="filterProjects('all', this)">All</button>
-						<button class="filter-btn computer-vision" onclick="filterProjects('computer-vision', this)">Computer Vision</button>
-						<button class="filter-btn nlp" onclick="filterProjects('nlp', this)">NLP</button>
-						<button class="filter-btn llm" onclick="filterProjects('llm', this)">LLM</button>
-						<button class="filter-btn data-science" onclick="filterProjects('data-science', this)">Data Science</button>
-						<!-- Add more buttons for different categories as needed -->
-					</div>
-				<div class="project-container">
-						<div class="project-card" data-category="llm computer-vision nlp">
-						<a href="https://github.com/kHarshit/visual-question-answering/">
-							<img src="/img/vqa_page.png" alt="VQA" loading="lazy">
-							<h4>Multimodal Visual Question Answering with Generative AI utilizing LLM and Vision Language Models</h4>
-							<!-- <p>This is a short description of Project 1.</p> -->
-						</a>
-						</div>
-						<div class="project-card" data-category="llm nlp data-science">
-						<a href="https://github.com/kHarshit/Financial_Document_Summarization_through_RAG">
-							<img src="/img/rag_chatbot_10q.png" alt="RAG Chatbot" loading="lazy">
-							<h4>Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports with Large Language Models</h4>
-						</a>
-						</div>
-						<div class="project-card" data-category="llm nlp data-science">
-						<a href="https://github.com/kHarshit/DS5983LLM">
-							<img src="/img/prompt_eng_llm.webp" alt="DS5983LLM" loading="lazy">
-							<h4>Prompt Engineering and Few-Shot Learning with Flan-T5 for Dialogue Summarization</h4>
-						</a>
-						</div>
-						<div class="project-card" data-category="computer-vision">
-						<a href="https://github.com/kHarshit/CS5330ComputerVision">
-							<img src="/img/ar_cs5330.png" alt="Project 3" loading="lazy">
-							<h4>Camera Calibration and Augmented Reality Integration with Checkerboard</h4>
-						</a>
-						</div>
-						<div class="project-card" data-category="computer-vision">
-						<a href="https://github.com/kHarshit/Colorization-of-paintings-GANs">
-							<img src="/img/colorization_GANs.png" alt="GAN" loading="lazy">
-							<h4>Image colorization of historical paintings with GAN</h4>
-						</a>
-						</div>
-						<div class="project-card" data-category="computer-vision">
-							<a href="https://github.com/kHarshit/vehicle-reidentification">
-								<img src="/img/veh_reid_demo.png" alt="Reidentification" loading="lazy">
-								<h4>Vehicle Reidentification using YOLOv8 and feature-based similarity</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="computer-vision">
-							<a href="https://github.com/kHarshit/pothole-segmentation">
-								<img src="/img/pothole.png" alt="Segmentation" loading="lazy">
-								<h4>Pothole Detection and Segmentation</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="nlp data-science">
-							<a href="https://github.com/kHarshit/udacity-nanodegree-projects">
-								<img src="/img/aws_sagemaker.webp" alt="AWS SageMaker" loading="lazy">
-								<h4>Sentiment Analysis on Amazon SageMaker</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="nlp data-science">
-							<a href="https://github.com/kHarshit/udacity-nanodegree-projects">
-								<img src="/img/ab_test.png" alt="A/B testing" loading="lazy">
-								<h4>A/B testing for e-commerce website</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="llm nlp">
-						<a href="https://github.com/kHarshit/DS5983LLM">
-							<img src="/img/llm_peft_lora.webp" alt="DS5983LLM" loading="lazy">
-							<h4>Fine-Tuning Flan-T5 with PEFT (LoRA)</h4>
-						</a>
-						</div>
-						<div class="project-card" data-category="nlp data-science">
-							<a href="https://github.com/kHarshit/Financial-Analysis-Tableau">
-								<img src="/img/financialdashboard.png" alt="tableau" loading="lazy">
-								<h4>Financial Data Analytics and Visualization with SQL and Tableau</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="nlp data-science">
-							<a href="https://github.com/kHarshit/recommendation-system">
-								<img src="/img/recommendation_system.png" alt="tableau" loading="lazy">
-								<h4>Recommendation Systems for movies</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="nlp data-science">
-							<a href="https://github.com/kHarshit/udacity-nanodegree-projects">
-								<img src="/img/sql_weather.png" alt="sql" loading="lazy">
-								<h4>Comparative Analysis of Local and Global Temperature Trends with SQL</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="computer-vision">
-                    		<a href="https://github.com/kHarshit/image-captioner">
-								<img src="/img/image_captioner_demo.png" alt="Image Captioning" loading="lazy">
-								<h4>Image captioning using Encoder-Decoder</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="computer-vision nlp data-science">
-							<a href="https://github.com/kHarshit/udacity-nanodegree-projects">
-								<img src="/img/face_gen.png" alt="Generation" loading="lazy">
-								<h4>TV Script generation and Face Generation using DCGAN</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="computer-vision">
-							<a href="https://github.com/kHarshit/udacity-nanodegree-projects">
-								<img src="/img/style_transfer.png" alt="Neural Style Transfer" loading="lazy">
-								<h4>Neural Style Transfer</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="nlp data-science">
-							<a href="https://github.com/kHarshit/udacity-nanodegree-projects">
-								<img src="/img/eda_flight.png" alt="eda_flight" loading="lazy">
-								<h4>EDA and Visualization of Flights' Cancellation and Delay</h4>
-							</a>
-						</div>
-						<div class="project-card" data-category="computer-vision data-science">
-							<a href="https://github.com/kHarshit/udacity-nanodegree-projects">
-								<img src="/img/rl_collaboration.png" alt="rl_collaboration" loading="lazy">
-								<h4>Collaborative Reinforcement Learning for Racket Sports Simulation</h4>
-							</a>
-						</div>
-
-				</div>
-
-				<a href="/projects" class="view-all-link">View all projects <i class="fa fa-arrow-right"></i></a>
-			</section>
-
-			<script>
-			// Enhance project cards with body wrapper and tags; whole card is clickable
-			document.querySelectorAll('.project-card').forEach(function(card) {
-				var link = card.querySelector('a');
-				if (!link) return;
-				var img  = link.querySelector('img');
-				var h4   = link.querySelector('h4');
-				var p    = link.querySelector('p');
-				if (!h4) return;
-
-				var href = link.href;
-
-				// Make entire card a link via click handler
-				card.style.cursor = 'pointer';
-				card.addEventListener('click', function() {
-					window.open(href, '_blank', 'noopener');
-				});
-
-				// Move img out of link to card top
-				if (img) card.insertBefore(img, link);
-
-				// Build body
-				var body = document.createElement('div');
-				body.className = 'project-card-body';
-				body.appendChild(h4);
-				if (p) body.appendChild(p);
-
-				// Tags from data-category
-				var cats = (card.dataset.category || '').split(' ').filter(Boolean);
-				if (cats.length) {
-					var footer = document.createElement('div');
-					footer.className = 'project-card-footer';
-					var tags = document.createElement('div');
-					tags.className = 'project-card-tags';
-					cats.forEach(function(c) {
-						var tag = document.createElement('span');
-						tag.className = 'project-card-tag';
-						tag.textContent = c.replace(/-/g, ' ');
-						tags.appendChild(tag);
-					});
-					footer.appendChild(tags);
-					body.appendChild(footer);
-				}
-
-				link.replaceWith(body);
-			});
-			</script>
-
         </article>
-
 
         <aside id="sidebar">
 
@@ -534,7 +311,6 @@ title: Harshit Kumar | Home
         </aside>
     </div>
 
-	<script src="/css/project_filter.js"></script>
-	<script src="/css/sidebar.js"></script>
+
 
 </section>

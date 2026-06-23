@@ -1,0 +1,54 @@
+---
+layout: default
+title: Harshit Kumar | Digit Classifier
+permalink: /nn-playground/
+---
+
+<header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ site.url }}">Home</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/poems">Poems</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main id="main">
+    <div class="container">
+        <div class="nn-header">
+            <h2>Handwritten Digit Classifier</h2>
+            <p>Draw a digit (0-9) on the canvas. A CNN classifies it in real-time, entirely in your browser.</p>
+        </div>
+
+        <div class="nn-digit-layout">
+            <div class="nn-draw-area">
+                <canvas id="drawCanvas" width="280" height="280"></canvas>
+                <div class="nn-draw-toolbar">
+                    <button id="clearBtn" class="nn-btn nn-btn-primary">Clear</button>
+                </div>
+                <div class="nn-preview-row">
+                    <span class="nn-preview-label">What the network sees (28&times;28):</span>
+                    <canvas id="previewCanvas" width="84" height="84"></canvas>
+                </div>
+            </div>
+
+            <div class="nn-results-area">
+                <div class="nn-prediction-header">Prediction</div>
+                <div id="predictionBars"></div>
+                <div id="predictionResult">Draw a digit to see the prediction</div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<link rel="stylesheet" href="/css/nn-playground.css">
+<script src="/js/mnist_weights.js"></script>
+<script src="/js/nn-playground.js"></script>
