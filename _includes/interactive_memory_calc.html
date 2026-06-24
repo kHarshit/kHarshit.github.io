@@ -7,22 +7,18 @@
   </div>
   <div class="dt-widget-body">
     <div class="dt-control-group">
-      <div class="dt-label">
-        <span>Model Parameters</span>
-        <span class="dt-label-value mem-params-display">7B</span>
-      </div>
+      <span class="dt-label-text">Model Parameters</span>
       <input type="range" class="dt-slider mem-slider" min="1" max="1000" value="7" step="1">
+      <span class="dt-label-value mem-params-display">7B</span>
     </div>
     <div class="dt-control-group">
-      <div class="dt-label">
-        <span>Precision</span>
-        <span class="dt-label-value mem-prec-label">BF16</span>
-      </div>
+      <span class="dt-label-text">Precision</span>
       <select class="dt-select mem-precision">
         <option value="fp32">FP32 (4 bytes/param)</option>
         <option value="bf16" selected>BF16 / FP16 (2 bytes/param)</option>
         <option value="int8">INT8 (1 byte/param)</option>
       </select>
+      <span class="dt-label-value mem-prec-label">BF16</span>
     </div>
 
     <div class="mem-calc-summary">

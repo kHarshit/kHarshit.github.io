@@ -327,7 +327,7 @@ figure.mbimgstyle::after {
 .mbgrid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
 .mbcard {
-    background: var(--mbcard-bg, #fff);
+    background: var(--mbcard-bg, "transparent");
     border: var(--mbcard-border, 1.5px solid var(--border-color, #a0d8d5));
     border-radius: 10px;
     padding: 1.1rem 1.25rem;

@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<script src="/js/interactive_hsv_explorer.js"></script>
+<div id="hsv-explorer" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-hsv-explorer">Interactive: HSV vs HSL Explorer</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="hsv-layout">
+        <div class="hsv-controls">
+          <div class="hsv-mode-tabs">
+            <button class="hsv-mode-tab active" data-mode="hsv">HSV</button>
+            <button class="hsv-mode-tab" data-mode="hsl">HSL</button>
+          </div>
+          <div class="hsv-controls-row">
+            <div class="hsv-sliders">
+              <div class="dt-control-group">
+                <span class="dt-label-text">Hue</span>
+                <input type="range" class="dt-slider hsv-slider" data-channel="h" min="0" max="360" value="0">
+                <span class="dt-label-value hsv-h-val">0&deg;</span>
+              </div>
+              <div class="dt-control-group">
+                <span class="dt-label-text">Saturation</span>
+                <input type="range" class="dt-slider hsv-slider" data-channel="s" min="0" max="100" value="100">
+                <span class="dt-label-value hsv-s-val">100%</span>
+              </div>
+              <div class="dt-control-group">
+                <span class="dt-label-text hsv-third-label">Value</span>
+                <input type="range" class="dt-slider hsv-slider" data-channel="v" min="0" max="100" value="100">
+                <span class="dt-label-value hsv-v-val">100%</span>
+              </div>
+              <div class="hsv-rgb-display">
+                <span>RGB: </span><span class="hsv-rgb-val">(255, 0, 0)</span>
+              </div>
+            </div>
+            <div class="hsv-swatch-area">
+              <div class="hsv-swatch" style="background: rgb(255,0,0);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hsv-shapes-row">
+      <div class="hsv-plane-container">
+        <canvas class="hsv-plane" width="260" height="260"></canvas>
+        <div class="hsv-plane-label">Side-view</div>
+      </div>
+      <div class="hsv-shape-container">
+        <canvas class="hsv-shape-canvas" width="260" height="260"></canvas>
+        <div class="hsv-shape-label"><span class="hsv-shape-name">Top-view V=100%</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    The cylinder shows the current hue's saturation×value/lightness range. The top-view shows all hues at the current V/L level.
+  </div>
+</div>

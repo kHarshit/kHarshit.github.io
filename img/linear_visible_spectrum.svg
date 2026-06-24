@@ -1,0 +1,104 @@
+<svg width="605" height="115" xmlns="http://www.w3.org/2000/svg">
+ <style id="gradientStyle" type="text/css"><![CDATA[
+stop{ stop-opacity: 1; }
+]]></style>
+ <linearGradient id="lgSpectrum">
+  <stop id="s380nm" offset="0" style="stop-color:#020005;"/>
+  <stop id="s385nm" offset="0.013514" style="stop-color:#020006;"/>
+  <stop id="s390nm" offset="0.027027" style="stop-color:#030008;"/>
+  <stop id="s395nm" offset="0.040541" style="stop-color:#04000A;"/>
+  <stop id="s400nm" offset="0.054054" style="stop-color:#06000D;"/>
+  <stop id="s405nm" offset="0.067568" style="stop-color:#080110;"/>
+  <stop id="s410nm" offset="0.081081" style="stop-color:#0C0117;"/>
+  <stop id="s415nm" offset="0.094595" style="stop-color:#11021F;"/>
+  <stop id="s420nm" offset="0.108108" style="stop-color:#17032A;"/>
+  <stop id="s425nm" offset="0.121622" style="stop-color:#1F053A;"/>
+  <stop id="s430nm" offset="0.135135" style="stop-color:#25084B;"/>
+  <stop id="s435nm" offset="0.148649" style="stop-color:#290A5C;"/>
+  <stop id="s440nm" offset="0.162162" style="stop-color:#2B0E6F;"/>
+  <stop id="s445nm" offset="0.175676" style="stop-color:#291380;"/>
+  <stop id="s450nm" offset="0.189189" style="stop-color:#1F237B;"/>
+  <stop id="s455nm" offset="0.202703" style="stop-color:#132E74;"/>
+  <stop id="s460nm" offset="0.216216" style="stop-color:#09376C;"/>
+  <stop id="s465nm" offset="0.229730" style="stop-color:#0A3E66;"/>
+  <stop id="s470nm" offset="0.243243" style="stop-color:#0C4667;"/>
+  <stop id="s475nm" offset="0.256757" style="stop-color:#0E4F6A;"/>
+  <stop id="s480nm" offset="0.270270" style="stop-color:#10596C;"/>
+  <stop id="s485nm" offset="0.283784" style="stop-color:#11636D;"/>
+  <stop id="s490nm" offset="0.297297" style="stop-color:#146E6F;"/>
+  <stop id="s495nm" offset="0.310811" style="stop-color:#177970;"/>
+  <stop id="s500nm" offset="0.324324" style="stop-color:#178672;"/>
+  <stop id="s505nm" offset="0.337838" style="stop-color:#1A9574;"/>
+  <stop id="s510nm" offset="0.351351" style="stop-color:#1DA375;"/>
+  <stop id="s515nm" offset="0.364865" style="stop-color:#1DB273;"/>
+  <stop id="s520nm" offset="0.378378" style="stop-color:#20C070;"/>
+  <stop id="s525nm" offset="0.391892" style="stop-color:#22CB6B;"/>
+  <stop id="s530nm" offset="0.405405" style="stop-color:#21D662;"/>
+  <stop id="s535nm" offset="0.418919" style="stop-color:#23E054;"/>
+  <stop id="s540nm" offset="0.432432" style="stop-color:#36E842;"/>
+  <stop id="s545nm" offset="0.445946" style="stop-color:#50ED28;"/>
+  <stop id="s550nm" offset="0.459459" style="stop-color:#73EB22;"/>
+  <stop id="s555nm" offset="0.472973" style="stop-color:#8FE722;"/>
+  <stop id="s560nm" offset="0.486486" style="stop-color:#A5E221;"/>
+  <stop id="s565nm" offset="0.500000" style="stop-color:#B9DC22;"/>
+  <stop id="s570nm" offset="0.513514" style="stop-color:#CBD621;"/>
+  <stop id="s575nm" offset="0.527027" style="stop-color:#DCCE20;"/>
+  <stop id="s580nm" offset="0.540541" style="stop-color:#ECC420;"/>
+  <stop id="s585nm" offset="0.554054" style="stop-color:#F2B735;"/>
+  <stop id="s590nm" offset="0.567568" style="stop-color:#F5AB42;"/>
+  <stop id="s595nm" offset="0.581081" style="stop-color:#F69F49;"/>
+  <stop id="s600nm" offset="0.594595" style="stop-color:#F7944B;"/>
+  <stop id="s605nm" offset="0.608108" style="stop-color:#F98848;"/>
+  <stop id="s610nm" offset="0.621622" style="stop-color:#FA7B42;"/>
+  <stop id="s615nm" offset="0.635135" style="stop-color:#FB6C39;"/>
+  <stop id="s620nm" offset="0.648649" style="stop-color:#FD5B2E;"/>
+  <stop id="s625nm" offset="0.662162" style="stop-color:#FC471F;"/>
+  <stop id="s630nm" offset="0.675676" style="stop-color:#F7300F;"/>
+  <stop id="s635nm" offset="0.689189" style="stop-color:#EA220D;"/>
+  <stop id="s640nm" offset="0.702703" style="stop-color:#D42215;"/>
+  <stop id="s645nm" offset="0.716216" style="stop-color:#BF2318;"/>
+  <stop id="s650nm" offset="0.729730" style="stop-color:#A92309;"/>
+  <stop id="s655nm" offset="0.743243" style="stop-color:#981F07;"/>
+  <stop id="s660nm" offset="0.756757" style="stop-color:#871B06;"/>
+  <stop id="s665nm" offset="0.770270" style="stop-color:#771805;"/>
+  <stop id="s670nm" offset="0.783784" style="stop-color:#671504;"/>
+  <stop id="s675nm" offset="0.797297" style="stop-color:#591303;"/>
+  <stop id="s680nm" offset="0.810811" style="stop-color:#4D1103;"/>
+  <stop id="s685nm" offset="0.824324" style="stop-color:#420E02;"/>
+  <stop id="s690nm" offset="0.837838" style="stop-color:#370C01;"/>
+  <stop id="s695nm" offset="0.851351" style="stop-color:#2E0A01;"/>
+  <stop id="s700nm" offset="0.864865" style="stop-color:#270801;"/>
+  <stop id="s705nm" offset="0.878378" style="stop-color:#210600;"/>
+  <stop id="s710nm" offset="0.891892" style="stop-color:#1E0400;"/>
+  <stop id="s715nm" offset="0.905405" style="stop-color:#1A0300;"/>
+  <stop id="s720nm" offset="0.918919" style="stop-color:#170200;"/>
+  <stop id="s725nm" offset="0.932432" style="stop-color:#130100;"/>
+  <stop id="s730nm" offset="0.945946" style="stop-color:#100100;"/>
+  <stop id="s735nm" offset="0.959459" style="stop-color:#0C0100;"/>
+  <stop id="s740nm" offset="0.972973" style="stop-color:#080100;"/>
+  <stop id="s745nm" offset="0.986486" style="stop-color:#060100;"/>
+  <stop id="s750nm" offset="1" style="stop-color:#040100;"/>
+ </linearGradient>
+ <g stroke="#000">
+  <rect x="2.5" y="47" width="599" height="64" fill="black" stroke-linejoin="round"/>
+  <rect x="2.5" y="47" width="599" height="64" fill="url(#lgSpectrum)" stroke-linejoin="round"/>
+  <path d="M2.5 4V43m114 0V4m72 0V43m120 0V4m36 0V43m48 0V4m210 0V43" fill="none"/>
+ </g>
+ <g font-family="FreeSans" font-size="20" text-anchor="middle">
+  <text x="497.01" y="30.79">R</text>
+  <text x="368.47" y="30.68">O</text>
+  <text x="321.28" y="30.79">Y</text>
+  <text x="248.74" y="30.68">G</text>
+  <text x="152.16" y="30.79">B</text>
+  <text x="59.43" y="30.79">V</text>
+  <g font-size="10" transform="rotate(-90)">
+   <text x="-23.41" y="13.09">380</text>
+   <text x="-23.39" y="112.77">450</text>
+   <text x="-23.42" y="184.77">495</text>
+   <text x="-23.43" y="304.77">570</text>
+   <text x="-23.43" y="340.77">590</text>
+   <text x="-23.47" y="388.77">620</text>
+   <text x="-23.48" y="598.77">750</text>
+  </g>
+ </g>
+</svg>
