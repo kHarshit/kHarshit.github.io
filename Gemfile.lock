@@ -182,7 +182,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  jekyll (~> 4.3)
+  jekyll (~> 4.4)
   jekyll-feed
   jekyll-github-metadata
   jekyll-paginate
