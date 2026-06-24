@@ -792,6 +792,8 @@ Fused layers execute in a single kernel call, reducing launch overhead, compared
 | **Quantization-Aware Training (QAT)** | Inference with highest accuracy | Near-lossless INT8 inference |
 {:.mbtablestyle}
 
+{% include quiz_mixed_precision.html %}
+
 **References:**
 
 - Nvidia Blog and docs

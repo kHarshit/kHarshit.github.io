@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="/css/quiz.css">
+<div id="quiz">
+  <div class="quiz-header">
+    <h2 class="quiz-title" id="test-your-knowledge">QUIZ: Test Your Knowledge</h2>
+    <div class="quiz-progress">
+      <span class="quiz-progress-text"></span>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="quiz-question-area">
+    <p class="quiz-question-text"></p>
+    <div class="quiz-options"></div>
+  </div>
+
+  <div class="quiz-footer">
+    <button class="quiz-btn quiz-btn-secondary" id="prev-btn">&#8592; Prev</button>
+    <div class="quiz-footer-right">
+      <button class="quiz-btn quiz-btn-primary" id="next-btn">Next &#8594;</button>
+      <button class="quiz-btn quiz-btn-primary" id="submit-btn" style="display:none">Submit</button>
+    </div>
+  </div>
+
+  <div class="quiz-results" style="display:none">
+    <div class="quiz-results-emoji"></div>
+    <p class="quiz-results-message"></p>
+    <p class="quiz-results-score"></p>
+    <button class="quiz-btn quiz-btn-secondary" id="retake-btn">&#8635; Retake Quiz</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+    var all_questions = [{
+      question_string: "What protocol does MCP use as its communication foundation?",
+      choices: {
+        correct: "JSON-RPC 2.0",
+        wrong: ["REST with HTTP/2", "gRPC with Protocol Buffers", "WebSocket with custom framing"]
+      }
+    }, {
+      question_string: "In MCP, what is the role of the host?",
+      choices: {
+        correct: "The application (like Claude Desktop) that orchestrates connections between clients and servers",
+        wrong: ["The server that provides tools and resources to the model", "The protocol layer that handles authentication", "The database that stores conversation history"]
+      }
+    }, {
+      question_string: "What is a tool in the MCP ecosystem?",
+      choices: {
+        correct: "A function exposed by a server that a model can invoke with structured parameters to perform an action",
+        wrong: ["A software library used to implement MCP servers", "A debugging utility for testing MCP connections", "A configuration file that defines the protocol version"]
+      }
+    }, {
+      question_string: "Which transport options does MCP support?",
+      choices: {
+        correct: "stdio (for subprocess communication) and Server-Sent Events over HTTP (for remote connections)",
+        wrong: ["TCP sockets and UDP datagrams", "WebRTC and Bluetooth", "Named pipes and shared memory"]
+      }
+    }, {
+      question_string: "What distinguishes a resource from a tool in MCP?",
+      choices: {
+        correct: "Resources provide structured data that the model reads, while tools let the model perform actions",
+        wrong: ["Resources are only available on servers, while tools exist on the host", "Resources use HTTP while tools use WebSocket", "Resources are immutable, while tools can be modified at runtime"]
+      }
+    }, {
+      question_string: "During the MCP handshake, what does the server advertise to the client?",
+      choices: {
+        correct: "Its capabilities: available tools, resources, and prompt templates it supports",
+        wrong: ["The model's IP address and authentication tokens", "The full conversation history from all connected hosts", "The hardware specifications of the server machine"]
+      }
+    }];
+  </script>
+  <script src="/js/quiz.js"></script>
+</div>

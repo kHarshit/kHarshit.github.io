@@ -317,6 +317,8 @@ within the document tags.</instructions>
 | ReAct | Alternate Thought → Action → Observation until done | Agents, knowledge-intensive QA |
 {:.mbtablestyle}
 
+{% include quiz_prompt_engineering.html %}
+
 **References:**
 - [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165)
 - [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903)

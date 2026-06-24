@@ -348,5 +348,7 @@ MCP standardizes the entire lifecycle of:
 
 {% include interactive_mcp_toolflow.html %}
 
+{% include quiz_mcp.html %}
+
 **References**
 * [Anthropic MCP guide (also image inspiration)](https://modelcontextprotocol.io/docs/getting-started/intro)

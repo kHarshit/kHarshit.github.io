@@ -18,12 +18,12 @@
     padding: 20px 24px;
 }
 
-.quiz-title {
+h2.quiz-title {
     color: #fff;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     margin: 0 0 12px;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
 }
 

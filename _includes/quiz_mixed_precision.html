@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="/css/quiz.css">
+<div id="quiz">
+  <div class="quiz-header">
+    <h2 class="quiz-title" id="test-your-knowledge">QUIZ: Test Your Knowledge</h2>
+    <div class="quiz-progress">
+      <span class="quiz-progress-text"></span>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="quiz-question-area">
+    <p class="quiz-question-text"></p>
+    <div class="quiz-options"></div>
+  </div>
+
+  <div class="quiz-footer">
+    <button class="quiz-btn quiz-btn-secondary" id="prev-btn">&#8592; Prev</button>
+    <div class="quiz-footer-right">
+      <button class="quiz-btn quiz-btn-primary" id="next-btn">Next &#8594;</button>
+      <button class="quiz-btn quiz-btn-primary" id="submit-btn" style="display:none">Submit</button>
+    </div>
+  </div>
+
+  <div class="quiz-results" style="display:none">
+    <div class="quiz-results-emoji"></div>
+    <p class="quiz-results-message"></p>
+    <p class="quiz-results-score"></p>
+    <button class="quiz-btn quiz-btn-secondary" id="retake-btn">&#8635; Retake Quiz</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+    var all_questions = [{
+      question_string: "What is the primary benefit of using FP16 over FP32 in mixed precision training?",
+      choices: {
+        correct: "Reduced memory usage and faster computation due to smaller data size",
+        wrong: ["Higher numerical precision for gradient updates", "Eliminates the need for loss scaling entirely", "Allows training without any weight updates"]
+      }
+    }, {
+      question_string: "What is the purpose of loss scaling in mixed precision training?",
+      choices: {
+        correct: "To prevent FP16 gradients from underflowing to zero by scaling them up before backpropagation",
+        wrong: ["To increase model accuracy by scaling the loss function", "To convert FP32 weights to FP16 format", "To reduce the learning rate during training"]
+      }
+    }, {
+      question_string: "How do Tensor Cores differ from standard CUDA cores?",
+      choices: {
+        correct: "Tensor Cores perform fused multiply-add on 4x4 matrices in one cycle, specialized for mixed precision",
+        wrong: ["Tensor Cores are software libraries while CUDA cores are hardware", "Tensor Cores only work with INT32 data types", "Tensor Cores are slower but more accurate than CUDA cores"]
+      }
+    }, {
+      question_string: "What is the key difference between Post-Training Quantization (PTQ) and Quantization-Aware Training (QAT)?",
+      choices: {
+        correct: "QAT simulates quantization during training to adapt weights, while PTQ quantizes a pre-trained model without retraining",
+        wrong: ["PTQ requires labeled data for training, while QAT does not", "QAT uses FP32 exclusively, while PTQ uses FP16", "PTQ always produces higher accuracy than QAT"]
+      }
+    }, {
+      question_string: "In INT8 quantization, what does the scale parameter represent?",
+      choices: {
+        correct: "The ratio between the FP32 value range and the INT8 integer range for a given tensor",
+        wrong: ["The number of bits used for exponent representation", "The precision of the mantissa in floating-point format", "The learning rate used during quantization-aware training"]
+      }
+    }, {
+      question_string: "What is the master copy of weights used for in mixed precision training?",
+      choices: {
+        correct: "An FP32 copy maintained alongside FP16 weights to accumulate gradient updates with full precision",
+        wrong: ["A separate FP16 copy stored on the CPU for inference", "A backup copy used only when FP16 weights overflow", "The original untrained weights saved before training begins"]
+      }
+    }];
+  </script>
+  <script src="/js/quiz.js"></script>
+</div>
