@@ -1261,7 +1261,7 @@ input#themeswitch {
     padding: 4px 13px;
     border-radius: 20px;
     background-color: var(--card-bg);
-    color: var(--font-color);
+    color: var(--accent-color);
     font-size: var(--text-sm);
     font-weight: 500;
     text-decoration: none;
@@ -2250,30 +2250,6 @@ input#themeswitch {
 .post-content h3:hover .heading-anchor,
 .post-content h4:hover .heading-anchor {
     opacity: 1;
-}
-
-/* Tags */
-.post-tag-list {
-    margin: 0.5rem 0 1.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.post-tag-chip {
-    font-size: var(--text-sm);
-    background: rgba(32,178,170,0.1);
-    color: var(--accent-color);
-    border: 1px solid rgba(32,178,170,0.25);
-    padding: 3px 12px;
-    border-radius: 20px;
-    text-decoration: none !important;
-    transition: background 0.15s;
-}
-
-.post-tag-chip:hover {
-    background: rgba(32,178,170,0.2);
-    opacity: 1 !important;
 }
 
 /* Edit bar */

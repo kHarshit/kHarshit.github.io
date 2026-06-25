@@ -28,6 +28,16 @@ layout: default
             <span class="post-meta-date"><i class="fa fa-calendar-o"></i> {{ page.date | date: "%b %-d, %Y" }}</span>
             <span class="post-meta-read"><i class="fa fa-clock-o"></i> {% include readtime.html %}</span>
         </div>
+
+        <!-- Tags -->
+        {% assign categories = page.categories %}
+        {% if categories.size > 0 %}
+        <ul class="tag-cloud">
+            {% for category in categories %}
+                <li><a href="{{ site.baseurl }}/categories/{{ category | slugify }}/">{{ category }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
     </div>
 
     <div class="post-layout">
@@ -43,16 +53,6 @@ layout: default
             </div>
         </div>
     </div>
-
-    <!-- Tags -->
-    {% assign categories = page.categories %}
-    {% if categories.size > 0 %}
-    <div class="post-tag-list">
-        {% for category in categories %}
-            <a href="{{ site.baseurl }}/categories/{{ category | slugify }}/" class="post-tag-chip">{{ category }}</a>
-        {% endfor %}
-    </div>
-    {% endif %}
 
     <!-- Edit on GitHub -->
     <div class="post-edit-bar">

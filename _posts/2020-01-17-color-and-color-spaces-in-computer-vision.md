@@ -4,7 +4,7 @@ title: "Color and Color Spaces in Computer Vision"
 date: 2020-01-17
 categories: [Computer Vision]
 mathjax: true
-excerpt: "Understanding color models (RGB, HSV, LAB) and color spaces in computer vision, how computers represent and work with color."
+excerpt: "Understanding color models (RGB, HSV, LAB, Luv) and color spaces in computer vision from additive mixing and chromaticity to perceptually uniform CIE spaces and Delta E color difference."
 ---
 
 ## Color
@@ -190,7 +190,7 @@ The three channels are:
 
 In practice, Lab is more common in image processing and computer vision, while Luv is often preferred for applications involving display calibration and video processing.
 
-## Delta E
+### Delta E
 
 Delta E (`ΔE`) is a single number that quantifies the **perceptual difference between two colors**. It answers the question: *how different do two colors look to a human observer?*
 
