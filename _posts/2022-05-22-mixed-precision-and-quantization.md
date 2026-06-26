@@ -593,34 +593,17 @@ $$
 \end{bmatrix}_{\text{FP32 (pre-quant)}}
 \xrightarrow[]{\text{unsigned [0,255] quantize}}
 \begin{bmatrix}
-64 & 134 \\
-3 & 81
+155 & 255 \\
+0 & 163
 \end{bmatrix}_{\text{INT8 (quant)}}
 \xrightarrow[]{\text{dequantize}}
 \begin{bmatrix}
-0.41 & 3.62 \\
--4.5 & 0.71
+0.33 & 3.74 \\
+-4.70 & 0.69
 \end{bmatrix}_{\text{FP32 (dequant)}}
 $$
 
-**Example** (signed [-128, 127]):
-
-$$
-\begin{bmatrix}
--1.54 & 0.22 \\
--0.26 & 2.0
-\end{bmatrix}_{\text{FP32 (pre-quant)}}
-\xrightarrow[]{\text{signed [-128,127] quantize}}
-\begin{bmatrix}
--5 & 1 \\
--1 & 7
-\end{bmatrix}_{\text{INT8 (quant)}}
-\xrightarrow[]{\text{dequantize}}
-\begin{bmatrix}
--1.43 & 0.28 \\
--0.28 & 2.0
-\end{bmatrix}_{\text{FP32 (dequant)}}
-$$
+{% include interactive_quant_sim.html %}
 
 ### Symmetric (Scale) Quantization
 
