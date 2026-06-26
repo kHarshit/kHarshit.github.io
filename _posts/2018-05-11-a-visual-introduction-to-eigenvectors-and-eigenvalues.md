@@ -84,6 +84,20 @@ $$\lambda ^ 2 - (a+d)\lambda + ad - bc = 0$$
 
 The solution of this equation gives the eigvenvalues. Put these eigenvalues in the original expression to get their corresponding eigenvectors.  
 
+## Why eigenvectors matter for data science: PCA
+
+Eigenvectors and eigenvalues are the foundation of **Principal Component Analysis (PCA)**, one of the most widely used dimensionality reduction techniques. PCA finds a new set of axes, the principal components, that capture the maximum variance in the data. These axes turn out to be the **eigenvectors of the covariance matrix** of the data.
+
+- The **eigenvectors** determine the directions of the new feature space (the principal components).
+- The **eigenvalues** determine the magnitude of variance captured by each principal component. Larger eigenvalues mean more variance is explained.
+
+A **cumulative eigenvalue plot** (scree plot) shows how much of the total variance is captured by the top `k` components. You typically choose `k` such that 90–95% of the variance is retained.
+
+PCA can be computed either via eigendecomposition of the covariance matrix or via **Singular Value Decomposition (SVD)**, which is more numerically stable. SVD factorizes a matrix A as:
+
+$$A = USV^T$$
+
+where `U` and `V` are orthogonal matrices and `S` is a diagonal matrix of singular values. The columns of `V` give the principal component directions, and the singular values relate to eigenvalues via $$e_i = \frac{s_i^2}{n-1}$$.
 
 **References:**  
 

@@ -4,7 +4,7 @@ title: "Loss functions"
 date: 2018-08-24
 categories: [Data Science, Machine Learning, Deep Learning]
 mathjax: true
-excerpt: "A survey of common loss functions MSE, cross-entropy, hinge loss, and when to use each for regression and classification problems."
+excerpt: "A survey of common loss functions MSE, cross-entropy, hinge loss, with background on entropy, KL divergence, and the MLE connection."
 ---
 
 In machine learning, the difference between the predicted output and the actual output is used to tune the parameters of the algorithm. This error in prediction, so called loss, is a crucial part of designing a good model as it evaluates the performance of our model. For accurate predictions, one needs to minimize this loss. In neural networks, it is done using the [gradient descent]({% post_url 2018-03-02-gradient-descent-the-core-of-neural-networks %}). There are many types loss functions. Some of them are:
@@ -49,7 +49,19 @@ def hinge(yhat, y):
 
 ## Cross-entropy (log loss)
 
-The cross-entropy loss is also used in case of classification problems for estimating the accuracy of model whose output is a probability, `p`, which lies between 0 and 1. In case of binary classification, it can be written as:
+### Background: Entropy
+
+Before understanding cross-entropy, it helps to understand **entropy**, a concept from information theory introduced by Claude Shannon. Entropy measures the amount of uncertainty or surprise in a probability distribution. For a discrete random variable X with probability distribution p(x), it is defined as:
+
+$$H(X) = -\sum_{x} p(x) \log p(x)$$
+
+The term $$-\log p(x)$$ represents the "surprise" of observing event x — the less likely an event, the more surprising it is. Entropy is the expected value of this surprise. It is high when probabilities are nearly uniform (high uncertainty) and low when the distribution is skewed (low uncertainty). For example, a fair coin has entropy of 1 bit, while a biased coin that always lands heads has zero entropy.
+
+Cross-entropy extends this concept to measure the difference between two distributions.
+
+### Definition
+
+The cross-entropy loss is used in case of classification problems for estimating the accuracy of model whose output is a probability, `p`, which lies between 0 and 1. In case of binary classification, it can be written as:
 
 $$L(y) = -{(y\log(p) + (1 - y)\log(1 - p))}$$
 
@@ -65,6 +77,22 @@ Here, `y` is a binary indicator (0 or 1) if class label `c` is the correct class
 def cross_entropy(y, p):
     return -np.sum(np.multiply(y, np.log(p)) + np.multiply((1-y), np.log(1-p)))
 {% endhighlight %}
+
+### Relationship to KL Divergence
+
+Cross-entropy is closely related to the **Kullback-Leibler (KL) divergence**, which quantifies the information lost when distribution Q is used to approximate another distribution P:
+
+$$D_{KL}(P \parallel Q) = H(P, Q) - H(P)$$
+
+where $$H(P, Q)$$ is the cross-entropy and $$H(P)$$ is the entropy of the true distribution. Since $$H(P)$$ is constant for a fixed dataset, **minimizing cross-entropy is equivalent to minimizing the KL divergence** between the true and predicted distributions. KL divergence is non-negative and non-symmetric; it equals zero only when $$P = Q$$.
+
+### Connection to Maximum Likelihood Estimation
+
+Minimizing cross-entropy is equivalent to maximizing the log-likelihood of the data under a Bernoulli (binary) or multinomial (multi-class) model. The negative log-likelihood for a Bernoulli distribution is exactly the binary cross-entropy loss:
+
+$$\theta_{MLE} = \arg\max_{\theta} \log L(\theta \mid x) \equiv \arg\min_{\theta} \text{CE Loss}$$
+
+This gives cross-entropy a solid statistical foundation. It is the loss function that yields the **Maximum Likelihood Estimate** of the model parameters.
 
 For a detailed example using *log loss*, check logistic regression implementation on GitHub: [kHarshit/ML-py](https://github.com/kHarshit/ML-py/blob/master/logistic_regression.ipynb).
 

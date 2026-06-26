@@ -23,6 +23,11 @@ To get good predictions, you'll need to find a balance of bias and variance the 
 
 <img src="/img/biasvariance.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
+Different ensemble methods address the bias-variance tradeoff in contrasting ways:
+
+- **Bagging (Bootstrap Aggregating)** is a **variance reduction** technique. It generates multiple training sets by sampling with replacement, trains a model on each, and averages their predictions. The averaging smooths out high-variance predictions without substantially increasing bias.
+- **Boosting** is a **bias reduction** technique. It trains weak models sequentially, each correcting the previous model's mistakes. This can convert weak learners into a strong learner (reducing bias), but it may increase variance and is more prone to overfitting.
+- **Random Forest** combines bagging with **feature bagging** (random subset of predictors at each split). This decorrelates the trees, making the forest robust to noise and less prone to overfitting than a single deep tree.
 
 ## How to solve the problem of overfitting?
 

@@ -8,7 +8,7 @@ excerpt: "Understanding data leakage when training data inadvertently contains i
 
 Let's say your machine learning model performs better than than you expect it to in the test set. You are happy. Well, you should be. Now, you release the model to the world, or say you apply the model on different data. But, then something awful happens. Oops! your model performs worse than it did in your test set. And not just worse, it does not make a single accurate prediction. The model which you trained for hours and gave a great R<sup>2</sup> value is abandoning you now. You spend hours in debugging. Then, you find the culprit: data leakage. 
 
-Data Leakage is the creation of unexpected additional information in the training data, allowing a model or machine learning algorithm to make unrealistically good predictions.
+Data Leakage is the creation of unexpected additional information in the training data, allowing a model or machine learning algorithm to make unrealistically good predictions. More broadly, data leakage occurs whenever information from outside the training dataset is used to create the model. For example, using features that would not be available at prediction time, or training on future data to predict the past.
 
 Data leakage can happen when the data you are using to train a machine learning algorithm contains the information you are trying to predict.
 
@@ -30,5 +30,7 @@ In this case, the yellow sausage gave your model too much predictive power and y
 You can minimize data leakage by:
 * performing data preparation within each cross-validation fold separately, not using the entire dataset.
 * splitting off a validation set for final sanity check of developed models.
+
+Cross-validation is a powerful tool for detecting data leakage. If your model achieves suspiciously high scores during cross-validation but fails on a held-out test set or in production, data leakage is a likely culprit. The consistent leakage across folds produces uniformly high scores that do not generalize.
 
 Before building the model, look for features highly correlated with the target value. Also, if your model is performing too good to be true, it may be an indication of data leakage. Data leakage is one the most common machine learning problems. So, it must be taken care of.

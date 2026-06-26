@@ -26,13 +26,23 @@ Most of the time you would observe that the accuracy increases with the decrease
 
 <img src="/img/lossVsAccuracy.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
-Now, the question is why does it happen?
+Now, why does this happen? Because accuracy and cross-entropy loss measure fundamentally different things:
 
-It's because accuracy and loss (cross-entropy) measure two different things. Cross-entropy loss awards lower loss to predictions which are closer to the class label. The accuracy, on the other hand, is a binary true/false for a particular sample. That is, Loss here is a _continuous variable_ i.e. it's best when predictions are close to 1 (for true labels) and close to 0 (for false ones). While accuracy is kind of discrete. It's evident from the above figure.
+- **Cross-entropy loss** is a continuous measure that penalizes confident wrong predictions the most. A single prediction that is 99% confident but wrong contributes far more to the loss than one that is 51% confident and wrong. It cares about *how wrong* the model is, not just *whether* it is wrong.
+
+- **Accuracy** is a binary measure, a prediction is either right or wrong, regardless of confidence. A model that predicts 51% confidence correctly gets the same accuracy credit as one that predicts 99% confidence correctly.
+
+This is why they can diverge. A model might be highly accurate but catastrophically wrong on a few examples (high loss, high accuracy). Or it might be well-calibrated but indecisive (low loss, low accuracy). The graph above illustrates this, notice how loss can fluctuate independently of accuracy.
 
 ## Conclusion
 
-Given two models: one with high accuracy and high loss and other with low accuracy and low loss, which one would you choose? Here, the question you need to ask yourself before looking at accuracy *or* loss is **What do you care about: Loss or Accuracy?** If the answer is loss, then choose the model having lower loss, and if the answer is accuracy, choose the model with high accuracy.
+So, which metric should you optimize? The answer depends on what your application demands:
+
+- **Optimize for loss (cross-entropy)** when you need well-calibrated probabilities, in medical diagnosis, risk assessment, or any scenario where you rank predictions by confidence. Cross-entropy is a *proper scoring rule*, meaning it is minimized only when predicted probabilities match the true underlying probabilities. Accuracy can be gamed: a model predicting 51% for every positive class can achieve high accuracy on a balanced dataset, but its probabilities are meaningless.
+
+- **Optimize for accuracy** when your application only cares about hard classifications, spam detection, content filtering, or any binary decision where the cost of a wrong prediction is roughly symmetric. If you must make a yes/no choice, accuracy (or better yet, precision/recall) is what ultimately matters.
+
+In practice, monitor both. A widening gap between loss and accuracy is a signal worth investigating, it often indicates mislabeled data, class imbalance, or a model that is memorizing rather than generalizing. Understanding what each metric tells you is the first step toward building models that don't just perform well on a leaderboard, but actually solve the problem you care about.
 
 
 **References:**  

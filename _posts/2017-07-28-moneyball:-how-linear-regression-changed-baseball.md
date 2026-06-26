@@ -4,14 +4,16 @@ title: "Moneyball: How linear regression changed baseball"
 date: 2017-07-28
 categories: [Data Science, Machine Learning, R]
 excerpt: "How Oakland A's used linear regression in R to identify undervalued players and compete despite limited budget."
+mathjax: true
 ---
 
-> It's unbelievable how much you don't know about the game you've been playing all your life.  
-> &mdash; <cite>Mickey Mantle</cite>
+> It's unbelievable how much you don't know about the game you've been playing all your life. &mdash; <cite>Mickey Mantle</cite>
 
 *Moneyball* tells the story of Oakland A's in 2002<sup id="a1">[1](#myfootnote1)</sup>. It was one of the poorest teams in baseball. Billy Beane became its General Manager in 1997. The team's performance started to improve. But, in the beginning of 2002, Oakland A's lost three key players. Could they continue improving?
 
 Billy Beane, with his colleague Paul DePodesta, followed an analytical, <abbr title="the statistical analysis of baseball">sabermetric</abbr> approach to assembling a competitive baseball team, despite Oakland's disadvantaged revenue situation. Their analysis suggested that some skills were undervalued and some skills were overvalued. If they could detect the undervalued skills, they could find players at a bargain.  
+
+## The Problem
 
 They analyzed that a team needs to win atleast 95 games to make to the playoffs. Based on this, the A's calculated that they must score 135 more runs than they allow during the regular season to expect to win 95 games. We can verify this using *linear regression*. I'm going to use R. The dataset<sup id="a2">[2](#myfootnote2)</sup> <em title="click to download">[baseball.csv](/assets/baseball.csv)</em> consists of 15 variables, whose description is given in [codebook](/assets/moneyball_codebook.pdf).
 
@@ -143,16 +145,28 @@ Multiple R-squared:  0.8808,	Adjusted R-squared:  0.8807
 F-statistic:  6651 on 1 and 900 DF,  p-value: < 2.2e-16
 {% endhighlight %}
 
+The regression output includes several important statistics.
+
+The **t-statistic** for each coefficient is calculated as the ratio of the estimated coefficient to its standard error (e.g., for RD: 0.105766 / 0.001297 = 81.55). It tests the null hypothesis that the specific coefficient is zero, that the predictor has no real effect. A large absolute t-value produces a very small p-value (< 2e-16), which means we reject the null and conclude that Run Difference is significantly associated with Wins.
+
+The **F-statistic** (6651 on 1 and 900 degrees of freedom) tests the broader null hypothesis that *all* model coefficients (except the intercept) are simultaneously zero:
+
+$$F = \frac{\text{variation explained by the model}}{\text{variation not explained by the model}}$$
+
+A large F-statistic with a tiny p-value (< 2.2e-16) confirms the model as a whole is statistically significant.
+
 Our regression equation for <em id="eq">wins</em> is:  
  W = 80.8814 + 0.105766 &times; RD and W >= 95  
 &rArr; 95 >= 80.8814 + 0.105766 &times; RD  
 &rArr; RD = 133.4  
 Thus, a team need to score almost 135 more pts than allowed to get into the playoffs.
 
+## Predicting Runs Scored
+
 Now, how does the A's score more runs?  
 The A's discovered that two baseball statistics were significantly more important than others: 
 * On-Base percentage (OBP): Percentage of time a player gets on base (including walks) and 
-* Sluggish percentage (SLG): How far a player gets around the bases on his turn (measures power).
+* Slugging percentage (SLG): How far a player gets around the bases on his turn (measures power).
 
 And, Batting Average was overvalued. Let's verify this: 
 
@@ -181,12 +195,14 @@ Multiple R-squared:  0.9296,	Adjusted R-squared:  0.9294
 F-statistic:  5934 on 2 and 899 DF,  p-value: < 2.2e-16
 
 {% endhighlight %}
-The linear regression yields a R-squared value of 0.92, thus our model is a good fit; and both variables are significant.    
+In this multiple regression model, the F-statistic of 5934 (p < 2.2e-16) tests whether at least one of the predictors (OBP or SLG) has a non-zero coefficient. The individual t-statistics for OBP (30.19) and SLG (37.60) are both very large with tiny p-values, confirming both On-Base Percentage and Slugging Percentage are significant predictors of runs scored. The linear regression yields a R-squared value of 0.92, thus our model is a good fit; and both variables are significant.    
 Runs Scored (RS) = -804.63 + 2737.77(OBP) + 1584.91(SLG)  ...<em id="eq1">(i)</em>
+
+## Predicting Runs Allowed
 
 We can use pitching statistics to predict runs allowed: 
 * Opponents On-Base percentage (OOBP)
-* Opponents Sluggish percentage (OSLG)  
+* Opponents Slugging percentage (OSLG)  
 
 We get the linear regression model as:
 
@@ -218,6 +234,8 @@ F-statistic: 425.8 on 2 and 87 DF,  p-value: < 2.2e-16
 
 Runs Allowed (RA) = -837.38 + 2913.60(OOBP) + 1514.29(OSLG)  ...<em id="eq2">(ii)</em>
 
+## Results
+
 We can predict how many games the 2002 A's will win using our models. Using 2001 regular season statistics, 
 * Team OBP is 0.339 and 
 * Team SLG is 0.430.  
@@ -240,10 +258,6 @@ Paul DePosta used a similar approach to make predictions.
 {:.mbtablestyle}
 
 Our prediction closely match actual performace. The A’s set a League record by winning 20 games in a row and made it to the playoffs. Their 2002 record of 103-59 was joint best in Major League Baseball.
-
-<div style="text-align: center">
-<iframe src="https://giphy.com/embed/sd4KZg3bpSSsw" width="480" height="258" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/moneyball-sd4KZg3bpSSsw"></a></p>
-</div>
 
 Although they didn’t win the World Series, Paul and Billy revolutinised the game through their data-driven approach. 
 Neverthless, Moneyball changed the way many major league front offices do business.

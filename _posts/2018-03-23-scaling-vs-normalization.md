@@ -118,7 +118,7 @@ You need to normalize our data if you're going use a machine learning or statist
 
 ## Applications
 
-In stochastic gradient descent, feature scaling can sometimes improve the convergence speed of the algorithm. In support vector machines, it can reduce the time to find support vectors.
+In stochastic gradient descent, feature scaling can sometimes improve the convergence speed of the algorithm. The reason is that unscaled features with vastly different ranges create an elongated, elliptical loss surface. Gradient descent oscillates back and forth across the narrow valleys, requiring many steps. Scaling features to a similar range makes the loss contours more spherical, allowing gradient descent to take a more direct path to the optimum and converge much faster. In support vector machines, scaling can reduce the time to find support vectors.
 
 **Further Readings:**  
 1. [Feature scaling - Wikipedia](https://en.wikipedia.org/wiki/Feature_scaling)

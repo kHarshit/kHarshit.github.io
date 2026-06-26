@@ -8,7 +8,15 @@ excerpt: "Comparing gradient boosted trees and random forests, their differences
 
 Does gradient boosted trees generally perform better than random forest? Let's see that. But, first what are these methods? Random forest and boosting are ensemble methods, proved to generally perform better than than basic algorithms.
 
-Let's start with bagging, an ensemble of decision trees. Random forest is an improvement over bagging. It reduces variance. Random forest build trees in parallel, while in boosting, trees are built sequentially i.e. each tree is grown using information from previously grown trees unlike in bagging where we create multiple copies of original training data and fit separate decision tree on each. That's why it generally performs better than random forest.
+## Bagging and Random Forest
+
+Let's start with bagging (Bootstrap Aggregating), an ensemble of decision trees. Bagging generates *m* training sets by sampling with replacement from the original data. Each bootstrap sample contains approximately 63.2% unique observations. Predictions are combined by averaging (regression) or majority voting (classification). Bagging is a **variance reduction** technique.
+
+Random forest is an improvement over bagging. At each split, a random subset of *m < p* predictors is considered, this is called **feature bagging**, which decorrelates the trees and makes the forest robust to noise.
+
+## Boosting
+
+Random forest builds trees in parallel, while in boosting, trees are built sequentially i.e. each tree is grown using information from previously grown trees. Boosting initializes sample weights uniformly and increases weights for misclassified samples at each step, forcing the next tree to focus on hard cases. It is a **bias reduction** technique. It can convert weak learners into strong ones, which is why it generally performs better than random forest, though it is more prone to overfitting.
 
 One drawback of gradient boosted trees is that they have a number of hyperparameters to tune, while random forest is practically tuning-free (has only one hyperparameter i.e. number of features to randomly select from set of features). Though both random forests and boosting trees are prone to overfitting,  boosting models are more prone.
 
