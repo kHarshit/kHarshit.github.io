@@ -1970,3 +1970,58 @@ h3.dt-widget-title {
   .chroma-layout { flex-direction: column; align-items: center; }
   .chroma-canvas { width: 240px; height: 240px; }
 }
+
+/* ---- Chunk Explorer ---- */
+.chunk-text-display {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+.chunk-text-display::-webkit-scrollbar { width: 6px; }
+.chunk-text-display::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+[data-theme="dark"] .chunk-text-display {
+  background: #111827 !important;
+  border-color: #2e3a4a !important;
+}
+[data-theme="dark"] .chunk-text-display::-webkit-scrollbar-thumb { background: #334155; }
+
+/* ---- Vector Search Simulator ---- */
+.vecsearch-plot {
+  max-width: 100%;
+}
+.vecsearch-query:focus {
+  border-color: #20B2AA !important;
+}
+.vecsearch-btn:hover {
+  background: #178f8c !important;
+}
+.vecsearch-btn:active {
+  transform: scale(0.97);
+}
+.vecsearch-random-btn:hover {
+  border-color: #20B2AA !important;
+  color: #20B2AA !important;
+}
+.vecsearch-random-btn:active {
+  transform: scale(0.97);
+}
+.vecsearch-results {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+.vecsearch-results::-webkit-scrollbar { width: 5px; }
+.vecsearch-results::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+[data-theme="dark"] .vecsearch-results {
+  scrollbar-color: #334155 transparent;
+}
+[data-theme="dark"] .vecsearch-results::-webkit-scrollbar-thumb { background: #334155; }
+
+[data-theme="dark"] .vecsearch-query {
+  background: #1a1a2e !important;
+  color: #ccc !important;
+  border-color: #2e3a4a !important;
+}
+
+@media (max-width: 640px) {
+  .vecsearch-plot { width: 100%; }
+  .vecsearch-plot svg { width: 100%; height: auto; }
+}

@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<script src="/js/interactive_chunk_explorer.js"></script>
+<div id="chunk-explorer" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-chunk-explorer">Interactive: Chunking Strategy Explorer</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="dt-control-group">
+      <span class="dt-label-text" style="flex:0 0 100px;">Chunk Size</span>
+      <input type="range" class="dt-slider chunk-size-slider" min="100" max="1000" value="500" step="50">
+      <span class="dt-label-value chunk-size-display" style="min-width:36px;">500</span>
+    </div>
+    <div class="dt-control-group">
+      <span class="dt-label-text" style="flex:0 0 100px;">Chunk Overlap</span>
+      <input type="range" class="dt-slider chunk-overlap-slider" min="0" max="500" value="300" step="25">
+      <span class="dt-label-value chunk-overlap-display" style="min-width:36px;">300</span>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;">
+        <div class="chunk-text-display"
+             style="font-family:'Courier New',monospace;font-size:0.82rem;line-height:1.6;padding:14px;background:var(--bg-color,#f8fafc);border:1px solid #e2e8f0;border-radius:8px;word-wrap:break-word;height:320px;overflow-y:auto;box-sizing:border-box;">
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px;display:flex;flex-direction:column;">
+        <div class="chunk-stats"></div>
+        <div class="chunk-bars" style="flex:1;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Each color represents one chunk; hatched regions in the bar map show where chunks overlap. 
+  </div>
+</div>

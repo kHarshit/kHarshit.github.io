@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<script src="/js/interactive_vecsearch_sim.js"></script>
+<div id="vecsearch-sim" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-vecsearch-sim">Interactive: Vector Search Simulator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap;">
+      <input type="text" class="vecsearch-query" placeholder="e.g. total assets, gross margin, vehicle deliveries..."
+             style="flex:1;min-width:160px;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;background:var(--bg-color,#fff);color:var(--font-color,#333);outline:none;transition:border-color 0.15s;">
+      <button class="vecsearch-btn" style="padding:9px 20px;background:#20B2AA;color:#fff;border:none;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:background 0.15s;">Search</button>
+      <button class="vecsearch-random-btn" style="padding:9px 16px;background:transparent;border:1.5px solid #e2e8f0;color:var(--font-color,#666);border-radius:8px;font-size:0.85rem;cursor:pointer;transition:border-color 0.15s;">Random</button>
+    </div>
+    <div class="dt-control-group" style="margin-bottom:14px;">
+      <span class="dt-label-text" style="flex:0 0 80px;">Results (k)</span>
+      <input type="range" class="dt-slider vecsearch-k-slider" min="1" max="15" value="5" step="1">
+      <span class="dt-label-value vecsearch-k-display" style="min-width:24px;">5</span>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <div class="vecsearch-plot-container" style="flex:2;min-width:280px;position:relative;">
+        <svg class="vecsearch-plot" width="100%" viewBox="0 0 480 400" style="background:var(--bg-color,#f8fafc);border:1px solid #e2e8f0;border-radius:8px;display:block;"></svg>
+      </div>
+      <div class="vecsearch-results" style="flex:1;min-width:180px;max-height:400px;overflow-y:auto;font-size:0.82rem;"></div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Each dot is a text chunk encoded as a 2D embedding (dimensionality reduced for visualization). Type a query to find the semantically closest chunks. The closer a point is to your query marker, the more similar it is.
+  </div>
+</div>

@@ -25,9 +25,9 @@ leverages LLMs to generate response based on the context provided by the retriev
 </div>
 </div>
 
-## RAG vs Fine-Tuning
+## RAG vs Fine Tuning
 
-**Fine-tuning** updates the model's weights by training further on domain-specific data, baking knowledge into the parameters. This works well when you need the model to adopt a specific tone or domain expertise. However, fine-tuning is expensive, and it can't incorporate new information without another training run, and offers no attribution i.e. the model can't show which document it used.
+**Fine tuning** updates the model's weights by training further on domain-specific data, baking knowledge into the parameters. This works well when you need the model to adopt a specific tone or domain expertise. However, fine-tuning is expensive, and it can't incorporate new information without another training run, and offers no attribution i.e. the model can't show which document it used.
 
 **RAG**, by contrast, keeps the LLM's weights frozen. Knowledge lives in an external vector database that can be updated instantly: add new documents or remove outdated ones without touching the model. Every answer is grounded in retrieved context, providing transparent attribution and lowering hallucination risk.
 
@@ -114,7 +114,9 @@ The `chunk_size=500` and `chunk_overlap=300` parameters control how the document
 </div>
 </div>
 
-A chunk overlap of 300 ensures that sentences or table rows split across chunk boundaries appear in at least two chunks, preventing information loss at cut points. This is especially important for financial documents where a table's header row might end up in chunk N while its data rows fall in chunk N+1.
+The optimal chunking balances context preservation with retrieval precision. A chunk overlap of 300 ensures that sentences or table rows split across chunk boundaries appear in at least two chunks, preventing information loss at cut points. This is especially important for financial documents where a table's header row might end up in chunk N while its data rows fall in chunk N+1.
+
+{% include interactive_chunk_explorer.html %}
 
 We now create the embeddings using Sentence Transformer and HuggingFace embeddings. In order to create vector embeddings, we use the open-source Chroma vector database.
 
@@ -127,6 +129,8 @@ embeddings = HuggingFaceEmbeddings(model_name=model_name, model_kwargs={"device"
 
 vectordb = Chroma.from_documents(documents=all_splits, embedding=embeddings, persist_directory="chroma_db")
 {% endhighlight %}
+
+{% include interactive_vecsearch_sim.html %}
 
 We use HuggingFace to load LLama 2 model and create a HuggingFace pipeline. Since, we're going to use LangChain, we use `HugggingFacePipeline` wrapper from LangChain to create LangChain llm object, which we're going to use to do further processing. 
 
