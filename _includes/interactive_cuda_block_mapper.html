@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<script src="/js/interactive_cuda_block_mapper.js"></script>
+<div id="cuda-block-mapper" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-cuda-block-mapper">Interactive: Thread Block Mapper</h3>
+  </div>
+  <div class="dt-widget-body">
+    <p style="font-size:0.85rem;color:var(--font-color,#666);margin-bottom:14px;">
+      Each thread computes one output element. The index formula: <code>row = blockIdx.y × blockDim.y + threadIdx.y</code>, <code>col = blockIdx.x × blockDim.x + threadIdx.x</code>.
+    </p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center;">
+      <div class="dt-control-group" style="flex:0 0 180px;margin:0;">
+        <span class="dt-label-text" style="flex:0 0 50px;">Block X</span>
+        <select class="cbm-block-x" style="flex:1;padding:5px 6px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:0.8rem;background:var(--bg-color,#fff);color:var(--font-color,#333);">
+          <option value="4">4</option>
+          <option value="8" selected>8</option>
+          <option value="16">16</option>
+          <option value="32">32</option>
+        </select>
+      </div>
+      <div class="dt-control-group" style="flex:0 0 180px;margin:0;">
+        <span class="dt-label-text" style="flex:0 0 50px;">Block Y</span>
+        <select class="cbm-block-y" style="flex:1;padding:5px 6px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:0.8rem;background:var(--bg-color,#fff);color:var(--font-color,#333);">
+          <option value="4">4</option>
+          <option value="8" selected>8</option>
+          <option value="16">16</option>
+          <option value="32">32</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:280px;overflow-x:auto;">
+        <svg class="cbm-grid-svg" width="100%" style="display:block;margin:0 auto;"></svg>
+      </div>
+      <div style="flex:0 0 180px;">
+        <div style="font-size:0.82rem;font-weight:600;color:var(--font-color,#555);margin-bottom:8px;">Thread Info</div>
+        <div class="cbm-thread-info" style="font-size:0.82rem;color:var(--font-color,#555);padding:10px;background:var(--bg-color,#f8fafc);border:1px solid #e2e8f0;border-radius:8px;min-height:100px;">
+          Click a cell to see thread details.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    A 16×16 block of threads maps to a contiguous 16×16 tile of C. <code>blockIdx</code> indexes which tile. Changing block dimensions changes how the grid of blocks covers the output matrix.
+  </div>
+</div>

@@ -2072,4 +2072,16 @@ h3.dt-widget-title {
 }
 [data-theme="dark"] .quant-table tbody td { border-color: #2e3a4a; }
 
+/* ---- CUDA Thread Block Mapper ---- */
+[data-theme="dark"] .cbm-grid-svg { background: #111827; }
+[data-theme="dark"] .cbm-block-x, [data-theme="dark"] .cbm-block-y { background: #1a1a2e !important; color: #ccc !important; border-color: #2e3a4a !important; }
+[data-theme="dark"] .cbm-thread-info { background: #111827 !important; border-color: #2e3a4a !important; }
+
+/* ---- CUDA Tiled Matmul Animator ---- */
+[data-theme="dark"] .cta-matrix-a svg, [data-theme="dark"] .cta-matrix-b svg,
+[data-theme="dark"] .cta-matrix-c svg, [data-theme="dark"] .cta-shared-a svg,
+[data-theme="dark"] .cta-shared-b svg { background: #111827; }
+[data-theme="dark"] .cta-phase { background: #0a1f14 !important; border-color: #178f8c !important; }
+
+
 
