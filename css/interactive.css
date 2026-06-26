@@ -17,7 +17,7 @@
   box-shadow: 0 2px 16px rgba(0,0,0,0.3);
 }
 .dt-widget-header {
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  background: var(--accent-color, #20B2AA);
   padding: 16px 20px;
 }
 h3.dt-widget-title {
