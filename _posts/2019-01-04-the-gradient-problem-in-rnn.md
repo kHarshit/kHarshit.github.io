@@ -55,5 +55,22 @@ Inside the cell state, we can either remember or forget our previous state, and 
 
 In LSTM, the backpropagation only involves element-wise multiplication by $$f$$, and no matrix multiplication by $$W$$ i.e. the cell state gradient is multiplied only by the forget gate element-wise (better than full matrix multiplication). Also, in vanilla RNN, we're multiplying by same $$W$$ over and over again leading to exploding or vanishing gradient problems. But, here this forget gate will vary at each time-step (e.g. values sometimes > 1 or < 1) thus avoiding these problems.
 
+### Peephole Connections
+
+Peephole connections are a variation where the gates also "peek" at the cell state, giving them more contextual information. In standard LSTMs, the gates only have access to the previous hidden state and current input. Peephole connections allow the input, forget, and output gates to also see the cell state, enhancing the LSTM's ability to learn precise timing of outputs.
+
+## GRU
+
+The Gated Recurrent Unit (GRU) simplifies the LSTM by combining the forget and input gates into a single **update gate** ($$z$$), and merging the cell state and hidden state.
+
+* **Update Gate ($$z$$)**: Decides how much of the past information to pass along to the future.
+* **Reset Gate ($$r$$)**: Decides how much of the past information to forget, making the model more adaptable to new information.
+
+LSTMs may outperform GRUs, especially when the sequence length is very large, due to their more complex gating mechanisms.
+
+## Teacher Forcing
+
+Teacher forcing is a training strategy for seq2seq generation models (RNNs, LSTMs, GRUs) in tasks like machine translation and text generation. During training, instead of feeding the model's own prediction from the previous time step as input, the model is given the actual ground-truth output from the training corpus. This leads to faster convergence and improved stability by guiding the model with the correct sequence of outputs.
+
 **References:**  
 1. [CS231n: Convolutional Neural Networks for Visual Recognition (also image source)](http://cs231n.stanford.edu/)

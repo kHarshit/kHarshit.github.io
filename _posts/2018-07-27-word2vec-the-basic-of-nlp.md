@@ -55,6 +55,33 @@ The embeddings are stored as a $$\|V\| \times D$$ matrix, where `V` is our vocab
 > The embedding vector dimension should be the 4th root of the number of categories i.e. 4th root of the vocab size. *You can choose it as a rule of thumb.*
 > &mdash; <cite>Google Developer's blog<sup id="a2">[2](#myfootnote2)</sup></cite>
 
+## Beyond word2vec: Contextualized Word Vectors
+
+The two big ideas in the evolution of word representations:
+
+1. **What is encoded:** from individual words to words-in-context (transition from Word2Vec/GloVe to CoVe/ELMo)
+2. **Usage for downstream tasks:** from replacing only word embeddings in task-specific models to replacing entire task-specific models (transition from CoVe/ELMo to GPT/BERT)
+
+### GloVe/CoVe
+
+**GloVe** (Global Vectors for Word Representation) learns word vectors by aggregating global word-word co-occurrence statistics from a corpus, rather than just local context windows.
+
+**CoVe** (Contextualized Word Vectors Learned in Translation) goes a step further. The authors train a Seq2Seq model with attention for Neural Machine Translation and use its encoder (two-layer bi-directional LSTM) to produce context-aware vectors. Since the encoder is bidirectional, each output contains information about both left and right contexts of a token. For downstream tasks, the concatenation of GloVe (token-level) and CoVe (contextualized) vectors is used, they encode different kinds of information, and their combination proves useful.
+
+### ELMo
+
+ELMo (Embeddings from Language Models) differs from CoVe by using representations from a language model rather than an NMT model. Just by replacing word embeddings (GloVe) with ELMo embeddings, significant improvements were seen across tasks like question answering and sentiment analysis.
+
+The model consists of a two-layer bi-LSTM language model (forward and backward). Each layer encodes different information: layer 0 captures word-level features, layers 1 and 2 capture words in context. Since different downstream tasks need different kinds of information, ELMo uses task-specific learned scalars to weight and combine representations from all three layers.
+
+### Training Options for Embeddings
+
+You have three options for getting embeddings for your model:
+
+1. **Train from scratch** as part of your model, the model will only "know" the classification data, which may not be enough to learn word relationships well.
+2. **Use pretrained embeddings** (Word2Vec, GloVe, etc.) and freeze them, the model leverages knowledge from a huge corpus.
+3. **Initialize with pretrained embeddings and fine-tune** them with the network, adapts the embeddings to your task-specific data, bringing modest performance gains.
+
 ## Bag of Words
 
 The Bag of Words model treats each document (text units) as a bag (collection) of words. A set of documents is called a corpus. First, collect all unique words from your corpus to form vocabulary and arrange them into a matrix of vectors by number of occurrences of each word. This matrix is called Document-Term-Matrix where each document is a row and unique words are columns. Each element is called a term frequency, which denotes how many times that term occur in the corresponding document. To calculate the similarity of words, the term-frequency can be compared using cosine-similarity, given by dot product of two vectors and divided by their magnitudes.
@@ -63,4 +90,6 @@ The Bag of Words model treats each document (text units) as a bag (collection) o
 **References:**  
 <a name="myfootnote1"></a>1: [word2vec:  Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781) [↩](#a1)  
 <a name="myfootnote2"></a>2: [Google Developer's blog](https://developers.googleblog.com/2017/11/introducing-tensorflow-feature-columns.html) [↩](#a2)  
-<a name="myfootnote3"></a>3: [An Intuitive Understanding of Word Embeddings: From Count Vectors to Word2Vec](https://www.analyticsvidhya.com/blog/2017/06/word-embeddings-count-word2veec/)
+<a name="myfootnote3"></a>3: [An Intuitive Understanding of Word Embeddings: From Count Vectors to Word2Vec](https://www.analyticsvidhya.com/blog/2017/06/word-embeddings-count-word2veec/)  
+<a name="myfootnote4"></a>4: [CoVe: Learned in Translation: Contextualized Word Vectors](https://arxiv.org/abs/1708.00107)  
+<a name="myfootnote5"></a>5: [ELMo: Deep contextualized word representations](https://arxiv.org/abs/1802.05365)

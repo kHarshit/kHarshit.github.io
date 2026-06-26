@@ -35,8 +35,11 @@ It is easier to optimize this residual function F(x) compared to the original ma
 
 The Microsoft Research team won the ImageNet 2015 competition using these deep residual layers, which use skip connections. They used ResNet-152 convolutional neural network architecture, which consists of 152 layers.
 
-
 <img src="/img/resnet_50.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+
+### Residual Connections in Transformers
+
+Skip connections are also a critical component of the Transformer architecture. In the Transformer, each sub-layer (multi-head self-attention and feedforward network) has a residual connection around it, followed by layer normalization. This helps with the flow of gradients during training, solving the vanishing gradient problem, the same motivation as in ResNets, and enables training of very deep transformer models with dozens of layers.
 
 
 **References:**  

@@ -757,6 +757,26 @@ Fused layers execute in a single kernel call, reducing launch overhead, compared
 - ReLU + ReLU
 - Conv + Pooling, etc.
 
+### FP8 Format
+
+FP8 is a newer 8-bit floating-point format supported on NVIDIA H100 (Hopper) GPUs, available in two variants:
+
+| Format | Exponent Bits | Mantissa Bits | Range | Use Case |
+|--------|:------------:|:-------------:|:-----:|:---------|
+| **E4M3** | 4 | 3 | -448 to 448 | Weights and activations |
+| **E5M2** | 5 | 2 | -57344 to 57344 | Gradients |
+{:.mbtablestyle}
+
+E5M2 has the same exponent range as FP16 (offering similar dynamic range) but with much less precision. E4M3 trades one exponent bit for an extra mantissa bit, increasing precision at the expense of range. The recommended use is E4M3 for weight and activation tensors, and E5M2 for gradient tensors (which need wider range to prevent overflow).
+
+### Model Optimization Beyond Quantization
+
+**Pruning**: Removes model weights that don't contribute much to model accuracy, reducing model size and improving inference speed.
+
+**Distillation**: Transfers knowledge from a larger teacher model to a smaller student model. The student is trained to mimic the teacher's output, allowing it to approach the teacher's accuracy with fewer parameters. For example, DistilBERT retains 97% of BERT's language understanding while being 40% smaller and 60% faster.
+
+**Model Compilation**: ML compilers apply techniques like operator fusion (combining multiple operations into a single kernel), memory planning (efficient allocation of intermediate tensors), and graph optimizations to improve inference throughput. Libraries like TensorRT, FasterTransformer, and ONNX Runtime provide optimized implementations for GPU inference.
+
 ### Quantization Summary
 
 | Quantization Mode | Q-params Calculation | Data Requirements | Speed | Accuracy Loss | Use Case |
