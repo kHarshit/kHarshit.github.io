@@ -114,6 +114,8 @@ loss_t = cross_entropy_loss(logits, labels, axis=1)
 loss = (loss_i + loss_t)/2
 {% endhighlight %}
 
+{% include interactive_clip_matrix.html %}
+
 #### Zero-Shot Image Classification
 
 CLIP can classify images into categories it was not explicitly trained on. By providing text descriptions of categories, CLIP can match the image to the appropriate category based on its learned representations.
@@ -161,6 +163,8 @@ Wrt VLMs, we can either
 3. Mask both image and text.
 
 Implementing masking is straightforward for transformer based models, since the input is tokenized, we can easily drop the tokens to be masked during training.
+
+{% include interactive_masking_viz.html %}
 
 ### 2.1. FLAVA (Foundational Language And Vision Alignment Model)
 

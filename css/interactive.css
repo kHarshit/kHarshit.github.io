@@ -2025,3 +2025,38 @@ h3.dt-widget-title {
   .vecsearch-plot { width: 100%; }
   .vecsearch-plot svg { width: 100%; height: auto; }
 }
+
+/* ---- Temp Explorer ---- */
+[data-theme="dark"] .temp-orig-chart,
+[data-theme="dark"] .temp-mod-chart {
+  background: #111827 !important;
+  border-color: #2e3a4a !important;
+}
+
+/* ---- Masking Viz ---- */
+[data-theme="dark"] .masking-image-grid > div {
+  border-color: #2e3a4a !important;
+}
+[data-theme="dark"] .masking-text-tokens {
+  background: #111827 !important;
+  border-color: #2e3a4a !important;
+}
+[data-theme="dark"] .masking-description {
+  background: #111827 !important;
+  border-color: #2e3a4a !important;
+}
+
+/* ---- Arch Compare ---- */
+[data-theme="dark"] .arch-diagram svg {
+  background: #111827 !important;
+}
+[data-theme="dark"] .arch-diagram svg rect[fill*="var"] {
+  fill: #111827 !important;
+}
+[data-theme="dark"] .arch-diagram svg text {
+  fill: #e2e8f0 !important;
+}
+[data-theme="dark"] .arch-details {
+  background: #111827 !important;
+  border-color: #2e3a4a !important;
+}
