@@ -2,7 +2,7 @@
 layout: post
 title: "Transfer learning: How to build accurate models"
 date: 2018-08-10
-categories: [Deep Learning, Computer Vision, Python]
+categories: [Deep Learning, Computer Vision]
 excerpt: "Using pre-trained CNN models via feature extraction or fine-tuning to build accurate models when training data is limited."
 ---
 

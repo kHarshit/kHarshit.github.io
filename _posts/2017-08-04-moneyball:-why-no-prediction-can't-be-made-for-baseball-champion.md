@@ -2,7 +2,7 @@
 layout: post
 title: "Moneyball: Why no prediction can't be made for baseball champion"
 date: 2017-08-04
-categories: [Data Science, Machine Learning, R]
+categories: [Data Science, Machine Learning]
 excerpt: "Using logistic regression in R to explore why ML cannot reliably predict the baseball World Series champion."
 ---
 

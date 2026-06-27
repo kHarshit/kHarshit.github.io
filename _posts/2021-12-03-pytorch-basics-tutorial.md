@@ -2,7 +2,7 @@
 layout: post
 title: "PyTorch Basic Tutorial"
 date: 2021-12-03
-categories: [Computer Vision, Deep Learning, PyTorch]
+categories: [Computer Vision, Deep Learning]
 mathjax: true
 excerpt: "A practical introduction to PyTorch covering tensors, autograd, neural network modules, and key libraries like torchvision and torchaudio."
 ---

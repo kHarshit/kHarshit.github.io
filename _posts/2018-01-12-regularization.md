@@ -2,7 +2,7 @@
 layout: post
 title: "Regularization"
 date: 2018-01-12
-categories: [Data Science, Machine Learning, Python]
+categories: [Data Science, Machine Learning]
 mathjax: true
 excerpt: "How regularization techniques, L1 (Lasso) and L2 (Ridge), add penalty terms to the loss function to combat overfitting in linear models."
 ---

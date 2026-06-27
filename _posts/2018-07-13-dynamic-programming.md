@@ -2,7 +2,7 @@
 layout: post
 title: "Dynamic Programming"
 date: 2018-07-13
-categories: [Algorithms, Python]
+categories: [Algorithms]
 mathjax: true
 excerpt: "Dynamic programming explained through the Fibonacci sequence using memoization and tabulation to avoid redundant computations."
 ---

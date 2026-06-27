@@ -2,7 +2,7 @@
 layout: post
 title: "Anscombe's Quartet"
 date: 2018-02-02
-categories: [Data Science, Visualization, Python]
+categories: [Data Science, Visualization]
 excerpt: "Anscombe's quartet illustrates why visualizing data matters,  four datasets with nearly identical statistics but completely different distributions."
 ---
 

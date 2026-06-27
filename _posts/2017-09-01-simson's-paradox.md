@@ -2,7 +2,7 @@
 layout: post
 title: "Simpson's paradox"
 date: 2017-09-01
-categories: [Data Science, R]
+categories: [Data Science]
 excerpt: "Simpson's paradox explained through UC Berkeley's 1973 admissions data, a trend that reverses when data is aggregated across groups."
 ---
 
