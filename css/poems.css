@@ -32,7 +32,11 @@
 
 /* Header: title + meta */
 .poem-header {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.poem-header .tag-cloud {
+    margin-bottom: 0;
 }
 
 .poem-title {

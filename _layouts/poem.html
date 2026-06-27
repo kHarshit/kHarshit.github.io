@@ -28,9 +28,11 @@ layout: default
             <div class="poem-meta">
                 <span class="poem-author">{{ page.author }}</span>
                 {% if page.categories.size > 0 %}
+                    <ul class="tag-cloud">
                     {% for category in page.categories %}
-                    <a href="{{ site.baseurl }}/poems#{{ category | slugify }}" class="post-tag-chip">{{ category | capitalize }}</a>
+                        <li><a href="{{ site.baseurl }}/poems#{{ category | slugify }}">{{ category | capitalize }}</a></li>
                     {% endfor %}
+                    </ul>
                 {% endif %}
             </div>
         </div>
