@@ -28,9 +28,3 @@ categories: romantic
 - I should learn to look at an empty sky  
 - And feel its total dark sublime,  
 - Though this might take me a little time.  
-
----
-
-## Footnotes
-
-Read the [poem explanation](https://studentnewspaper.org/poem-of-the-week-the-more-loving-one/).
