@@ -6,9 +6,8 @@ date: 2019-11-19 20:07 +05:30
 editor: Harshit Kumar
 source: 
 categories: life
+img_source: /img/poems/IfTomorrowStartsWithoutMe.jpg
 ---
-<img loading="lazy" src="/img/poems/IfTomorrowStartsWithoutMe.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - When tomorrow starts without me,
 - And I'm not there to see,
 - If the sun should rise and find your eyes

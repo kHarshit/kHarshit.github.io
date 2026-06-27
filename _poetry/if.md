@@ -6,9 +6,8 @@ date: 2019-11-16 15:58 +05:30
 editor: Harshit Kumar
 source: Poets.org
 categories: motivational
+img_source: /img/poems/If.jpg
 ---
-<img loading="lazy" src="/img/poems/If.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - If you can keep your head when all about you
 - {:.indent-2}Are losing theirs and blaming it on you;
 - If you can trust yourself when all men doubt you,

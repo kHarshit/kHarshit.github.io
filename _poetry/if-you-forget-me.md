@@ -6,9 +6,8 @@ date: 2019-11-15 20:51 +05:30
 editor: Harshit Kumar
 source: PoetryHunter
 categories: romantic
+img_source: /img/poems/IfYouForgetMe.jpg
 ---
-<img loading="lazy" src="/img/poems/IfYouForgetMe.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - I want you to know
 - one thing.
 

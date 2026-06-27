@@ -2,14 +2,12 @@
 layout: poem
 title: Not Marble nor the Gilded Monuments
 author: William Shakespeare
-date: 2026-06-26 22:30 +05:30
+date: 2026-06-26
 editor: Harshit Kumar
 source: 
 categories: romantic
+img_source: /img/poems/Not_marble_nor_the_gilded_monuments.jpg
 ---
-
-<img loading="lazy" src="/img/poems/Not_marble_nor_the_gilded_monuments.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Not marble, nor the gilded monuments
 - Of princes, shall outlive this powerful rhyme;
 - But you shall shine more bright in these contents

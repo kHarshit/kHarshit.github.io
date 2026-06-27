@@ -45,6 +45,9 @@ layout: default
         </div>
 
         <div class="poem-body">
+            {% if page.img_source %}
+            <img src="{{ page.img_source }}" alt="{{ page.title }}" loading="lazy" class="poem-hero-img">
+            {% endif %}
             {{ content }}
 
             {% if page.explanations %}
@@ -79,13 +82,7 @@ layout: default
         <h3 class="poem-related-heading">Similar Poems</h3>
         <div class="poem-related-grid" id="poem-related-grid">
             {% for poem in related_poems %}
-                {% assign img_src = "" %}
-                {% if poem.content contains '<img' %}
-                    {% assign _split = poem.content | split: 'src="' %}
-                    {% if _split.size > 1 %}
-                        {% assign img_src = _split[1] | split: '"' | first %}
-                    {% endif %}
-                {% endif %}
+                {% assign img_src = poem.img_source | default: "" %}
                 <a href="{{ poem.url }}" class="poem-related-card">
                     <div class="poem-related-thumb">
                         {% if img_src != "" %}

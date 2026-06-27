@@ -6,9 +6,8 @@ date: 2019-11-16 16:20 +05:30
 editor: Harshit Kumar
 source: reddit.com/user/Poem_for_your_sprog/
 categories: romantic
+img_source: /img/poems/YouAre.jpg
 ---
-<img loading="lazy" src="/img/poems/YouAre.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - You're my comfort and my pleasure,
 - You're the apple of my eye!
 - You're as precious as a treasure,

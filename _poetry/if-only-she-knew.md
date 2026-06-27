@@ -6,9 +6,8 @@ date: 2020-04-22 21:10 +05:30
 editor: Harshit Kumar
 source: Family Friend Poems
 categories: romantic
+img_source: /img/poems/IfOnlySheKnew.jpg
 ---
-<img loading="lazy" src="/img/poems/IfOnlySheKnew.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - She has her own special way
 - Of turning around my terrible day.
 - She makes all the bad things go away

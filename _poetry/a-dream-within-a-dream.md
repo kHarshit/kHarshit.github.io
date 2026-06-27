@@ -6,9 +6,8 @@ date: 2019-11-15 20:54 +05:30
 editor: Harshit Kumar
 source: Poetry Foundation
 categories: life 
+img_source: /img/poems/ADreamWithinaDream.jpg
 ---
-<img loading="lazy" src="/img/poems/ADreamWithinaDream.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Take this kiss upon the brow!
 - And, in parting from you now,
 - Thus much let me avow —

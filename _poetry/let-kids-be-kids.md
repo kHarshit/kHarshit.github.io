@@ -6,9 +6,8 @@ date: 2020-04-19 10:25 +05:30
 editor: Harshit Kumar
 source: 
 categories: life
+img_source: /img/poems/LetKidsBeKids.jpg
 ---
-<img loading="lazy" src="/img/poems/LetKidsBeKids.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Let kids be kids; just let them be
 - Princesses, pirates; let the bath be the sea!
 

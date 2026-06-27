@@ -6,9 +6,8 @@ date: 2019-11-15 22:02 +05:30
 editor: Harshit Kumar
 source: Poem Hunter
 categories: life
+img_source: /img/poems/DoNotStandAtMyGraveAndWeep.jpg
 ---
-<img loading="lazy" src="/img/poems/DoNotStandAtMyGraveAndWeep.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Do not stand at my grave and weep
 - I am not there. I do not sleep.
 - I am a thousand winds that blow.

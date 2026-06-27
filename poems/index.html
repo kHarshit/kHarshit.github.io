@@ -58,15 +58,7 @@ title: "Harshit Kumar | Poems"
         {% for item in sorted_poems %}
           {% assign category_classes = item.categories | join: ' ' | slugify %}
           {% assign excerpt = item.content | strip_html | strip_newlines | truncatewords: 18 %}
-          {% assign first_img_src = "" %}
-          {% if item.content contains '<img' %}
-            {% assign img_split = item.content | split: '<img' %}
-            {% assign first_img  = img_split[1] %}
-            {% assign src_split  = first_img | split: 'src="' %}
-            {% if src_split.size > 1 %}
-              {% assign first_img_src = src_split[1] | split: '"' | first %}
-            {% endif %}
-          {% endif %}
+          {% assign first_img_src = item.img_source | default: "" %}
           <li class="blog-list-item text-category-title {{ category_classes }}">
             <a href="{{ item.url }}">
               <div class="blog-list-thumb">

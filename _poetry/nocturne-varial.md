@@ -6,9 +6,8 @@ date: 2019-11-16 16:06 +05:30
 editor: Harshit Kumar
 source: Poetry Nook
 categories: motivational
+img_source: /img/poems/NocturneVarial.jpg
 ---
-<img loading="lazy" src="/img/poems/NocturneVarial.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - I came as a shadow,
 - I stand now a light;
 - The depth of my darkness

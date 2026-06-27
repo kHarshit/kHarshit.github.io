@@ -6,6 +6,7 @@ date: 2020-09-30 22:10 +05:30
 editor: Harshit Kumar
 source: 
 categories: romantic
+img_source: /img/poems/ShallIcomparetheetoasummersday.jpg
 explanations:
   - >
     Shall I compare you to a summer's day? You are more lovely and more
@@ -23,8 +24,6 @@ explanations:
     So long as there are people on this earth, this poem will live on,
     making you immortal.
 ---
-<img loading="lazy" src="/img/poems/ShallIcomparetheetoasummersday.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Shall I compare thee to a summer’s day?
 - Thou art more lovely and more temperate:
 - Rough winds do shake the darling buds of May,

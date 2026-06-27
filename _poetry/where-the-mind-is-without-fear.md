@@ -6,9 +6,8 @@ date: 2019-11-20 21:59 +05:30
 editor: Harshit Kumar
 source: Gitanjali
 categories: life
+img_source: /img/poems/WhereTheMindIsWithoutFear.jpg
 ---
-<img loading="lazy" src="/img/poems/WhereTheMindIsWithoutFear.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Where the mind is without fear and the head is held high;
 - Where knowledge is free;
 - Where the world has not been broken up into fragments by narrow domestic walls;

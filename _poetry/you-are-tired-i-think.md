@@ -6,9 +6,8 @@ date: 2020-04-19 10:24 +05:30
 editor: Harshit Kumar
 source: 
 categories: life
+img_source: /img/poems/YouAreTiredIthink.jpg
 ---
-<img loading="lazy" src="/img/poems/YouAreTiredIthink.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - You are tired,
 - (I think)
 - Of the always puzzle of living and doing;

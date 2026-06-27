@@ -6,9 +6,8 @@ date: 2023-06-11 08:12 -04:00
 editor: Harshit Kumar
 source: Poets.org
 categories: romantic
+img_source: /img/poems/TheMoreLovingOne.jpg
 ---
-<img loading="lazy" src="/img/poems/TheMoreLovingOne.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Looking up at the stars, I know quite well  
 - That, for all they care, I can go to hell,  
 - But on earth indifference is the least  

@@ -6,9 +6,8 @@ date: 2020-01-20 11:57 +05:30
 editor: Harshit Kumar
 source: AllPoetry
 categories: romantic
+img_source: /img/poems/BecauseSheWouldAskMeWhyILovedHer.jpg
 ---
-<img loading="lazy" src="/img/poems/BecauseSheWouldAskMeWhyILovedHer.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - If questioning would make us wise
 - No eyes would ever gaze in eyes;
 - If all our tale were told in speech

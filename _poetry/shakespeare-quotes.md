@@ -5,9 +5,8 @@ author: William Shakespeare
 date: 2023-05-06 13:00 -04:00
 editor: Harshit Kumar
 categories: romantic
+img_source: /img/poems/ShakespeareQuotes.jpg
 ---
-<img loading="lazy" src="/img/poems/ShakespeareQuotes.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Shall I compare thee to a summer's day?
 
 <p align="center">&sect;</p> 

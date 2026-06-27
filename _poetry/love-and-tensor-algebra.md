@@ -6,9 +6,8 @@ date: 2019-11-15 21:57 +05:30
 editor: Harshit Kumar
 source: Poetry Foundation
 categories: romantic
+img_source: /img/poems/LoveandTensorAlgebrafromTheCyriad.jpg
 ---
-<img loading="lazy" src="/img/poems/LoveandTensorAlgebrafromTheCyriad.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Come, let us hasten to a higher plane
 - Where dyads tread the fairy fields of Venn,
 - Their indices bedecked from one to n

@@ -5,7 +5,21 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
-        <meta name="description" content="{{ page.description | default: site.description }}">
+        {% if page.description %}
+          {% assign _og_desc = page.description %}
+        {% elsif page.excerpt and page.excerpt != "" %}
+          {% assign _og_desc = page.excerpt | strip_html | strip_newlines | truncate: 160 %}
+        {% elsif page.layout == 'poem' %}
+          {% assign _poem_excerpt = page.content | strip_html | strip_newlines | truncate: 160 %}
+          {% if _poem_excerpt != "" %}
+            {% assign _og_desc = _poem_excerpt %}
+          {% else %}
+            {% assign _og_desc = site.description %}
+          {% endif %}
+        {% else %}
+          {% assign _og_desc = site.description %}
+        {% endif %}
+        <meta name="description" content="{{ _og_desc }}">
 		<meta name="author" content="Harshit Kumar">
         {% if page.layout == "post" or page.layout == "poem" or page.layout == "category" %}
         <title>{{ page.title }} | Harshit Kumar</title>
@@ -14,18 +28,17 @@
         {% endif %}
         <!-- Open Graph -->
         <meta property="og:title" content="{{ page.title | default: site.title }}">
-        {% if page.description %}
-          {% assign _og_desc = page.description %}
-        {% elsif page.excerpt and page.excerpt != "" %}
-          {% assign _og_desc = page.excerpt | strip_html | strip_newlines | truncate: 160 %}
-        {% else %}
-          {% assign _og_desc = site.description %}
-        {% endif %}
         <meta property="og:description" content="{{ _og_desc }}">
         <meta property="og:type" content="{% if page.layout == 'post' or page.layout == 'poem' %}article{% else %}website{% endif %}">
         <meta property="og:url" content="{{ page.url | absolute_url }}">
         {% assign og_image = site.url | append: "/img/harshit_nu.jpeg" %}
-        {% if page.layout == 'post' or page.layout == 'poem' %}
+        {% if page.layout == 'poem' and page.img_source %}
+          {% if page.img_source contains 'http' %}
+            {% assign og_image = page.img_source %}
+          {% else %}
+            {% assign og_image = site.url | append: page.img_source %}
+          {% endif %}
+        {% elsif page.layout == 'post' %}
           {% assign _img_split = page.content | split: 'src="' %}
           {% if _img_split.size > 1 %}
             {% assign _img_src = _img_split[1] | split: '"' | first %}
@@ -41,7 +54,7 @@
         <meta name="twitter:card" content="{% if page.layout == 'post' or page.layout == 'poem' %}summary_large_image{% else %}summary{% endif %}">
         <meta name="twitter:site" content="@{{ site.twitter_username }}">
         <meta name="twitter:title" content="{{ page.title | default: site.title }}">
-        <meta name="twitter:description" content="{{ page.excerpt | strip_html | truncate: 160 | default: site.description }}">
+        <meta name="twitter:description" content="{{ _og_desc }}">
         <meta name="twitter:image" content="{{ og_image }}">
         <!--
 			HHHH        HHHH
@@ -94,12 +107,8 @@
         <link rel="canonical" href="{{ page.url | absolute_url }}">
 
         {% comment %}Preload hero image for poem pages{% endcomment %}
-        {% if page.layout == 'poem' %}
-          {% assign _preload_split = page.content | split: 'src="' %}
-          {% if _preload_split.size > 1 %}
-            {% assign _preload_src = _preload_split[1] | split: '"' | first %}
-            <link rel="preload" as="image" href="{{ _preload_src }}">
-          {% endif %}
+        {% if page.layout == 'poem' and page.img_source %}
+          <link rel="preload" as="image" href="{{ page.img_source }}">
         {% endif %}
 
         {% comment %}JSON-LD Structured Data{% endcomment %}
@@ -124,7 +133,8 @@
           "name": {{ page.title | jsonify }},
           "author": {"@type": "Person", "name": {{ page.author | jsonify }}},
           "url": "{{ page.url | absolute_url }}"{% if og_image != "" %},
-          "image": "{{ og_image }}"{% endif %}
+          "image": "{{ og_image }}"{% endif %},
+          "description": {{ _og_desc | jsonify }}
         }
         </script>
         {% endif %}

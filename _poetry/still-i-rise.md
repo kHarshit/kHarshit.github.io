@@ -6,9 +6,8 @@ date: 2019-11-15 21:50 +05:30
 editor: Harshit Kumar
 source: Poem Hunter
 categories: motivational
+img_source: /img/poems/StillIRise.jpg
 ---
-<img loading="lazy" src="/img/poems/StillIRise.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - You may write me down in history
 - With your bitter, twisted lies,
 - You may tread me in the very dirt

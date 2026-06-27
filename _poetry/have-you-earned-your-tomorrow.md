@@ -6,9 +6,8 @@ date: 2020-04-22 21:10 +05:30
 editor: Harshit Kumar
 source: Family Friend Poems
 categories: life
+img_source: /img/poems/HaveYouEarnedYourTomorrow.jpg
 ---
-<img loading="lazy" src="/img/poems/HaveYouEarnedYourTomorrow.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Is anybody happier because you passed his way?
 - {:.indent-2}Does anyone remember that you spoke to him today?
 - This day is almost over, and its toiling time is through;

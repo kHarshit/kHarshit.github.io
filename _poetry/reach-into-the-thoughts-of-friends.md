@@ -6,9 +6,8 @@ date: 2021-08-15 18:32 +05:30
 editor: Harshit Kumar
 source: Linux song poems
 categories: life
+img_source: /img/poems/Reachintothethoughtsoffriends.jpg
 ---
-<img loading="lazy" src="/img/poems/Reachintothethoughtsoffriends.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Reach into the thoughts of friends,
 - And find they do not know your name.
 - Squeeze the teddy bear too tight,

@@ -6,10 +6,8 @@ date: 2019-11-15 21:00 +05:30
 editor: Harshit Kumar
 source: PoemHunter
 categories: life
+img_source: /img/poems/silence.jpg
 ---
-
-<img loading="lazy" src="/img/poems/silence.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - I have known the silence of the stars and of the sea,
 - And the silence of the city when it pauses,
 - And the silence of a man and a maid,

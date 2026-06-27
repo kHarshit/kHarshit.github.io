@@ -6,9 +6,8 @@ date: 2020-01-20 11:50 +05:30
 editor: Harshit Kumar
 source: r/OCPoetry
 categories: romantic
+img_source: /img/poems/VeinsofMarble.jpg
 ---
-<img loading="lazy" src="/img/poems/VeinsofMarble.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - If lovers turned to stone
 - Would you still envy them
 - Would you run free or sit and gaze

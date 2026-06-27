@@ -6,10 +6,8 @@ date: 2020-01-07 20:50 +05:30
 editor: Harshit Kumar
 source: The Wordsworth Trust
 categories: life
+img_source: /img/poems/daffodils.jpg
 ---
-
-<img loading="lazy" src="/img/poems/daffodils.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - I wandered lonely as a cloud
 - That floats on high o’er vales and hills,
 - When all at once I saw a crowd,

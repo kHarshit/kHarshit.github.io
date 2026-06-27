@@ -6,9 +6,8 @@ date: 2019-11-16 21:28 +05:30
 editor: Harshit Kumar
 source: Wikipedia, [Quora answer](https://qr.ae/T94I4v)
 categories: life
+img_source: /img/poems/blue-marble.jpg
 ---
-<img loading="lazy" src="/img/poems/blue-marble.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - अयं निजः परो वे/ति गणना लघुचेतसाम् ।
 - उदारचरितानां तु वसुधैव कुटुम्बकम् ॥
 

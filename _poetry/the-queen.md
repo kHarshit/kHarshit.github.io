@@ -6,10 +6,8 @@ date: 2019-11-16 16:11 +05:30
 editor: Harshit Kumar
 source: Genuis.com
 categories: romantic
+img_source: /img/poems/queen.jpg
 ---
-
-<img loading="lazy" src="/img/poems/queen.jpg" style="display: block; margin: auto; max-width: 70%;">
-
 - I have named you queen.
 - There are taller than you, taller.
 - There are purer than you, purer.

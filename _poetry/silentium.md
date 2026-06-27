@@ -6,9 +6,8 @@ date: 2020-01-20 12:05 +05:30
 editor: Harshit Kumar
 source: Culturedarm
 categories: life
+img_source: /img/poems/Silentium.jpg
 ---
-<img loading="lazy" src="/img/poems/Silentium.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Speak not, lie hidden, and conceal
 - the way you dream, the things you feel.
 - Deep in your spirit let them rise

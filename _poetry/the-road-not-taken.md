@@ -6,10 +6,8 @@ date: 2019-11-20 22:23 +05:30
 editor: Harshit Kumar
 source: Poetry Foundation
 categories: life
+img_source: /img/poems/roads.jpg
 ---
-
-<img loading="lazy" src="/img/poems/roads.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Two roads diverged in a yellow wood,
 - And sorry I could not travel both
 - And be one traveler, long I stood

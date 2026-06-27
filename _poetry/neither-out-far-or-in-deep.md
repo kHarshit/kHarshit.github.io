@@ -6,9 +6,8 @@ date: 2020-04-19 10:24 +05:30
 editor: Harshit Kumar
 source: 
 categories: life
+img_source: /img/poems/NeitherOutFarOrInDeep.jpg
 ---
-<img loading="lazy" src="/img/poems/NeitherOutFarOrInDeep.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - The people along the sand All turn and look one way. They turn their back on the land. They look at the sea all day.
 
 - As long as it takes to pass A ship keeps raising its hull; The wetter ground like glass Reflects a standing gull

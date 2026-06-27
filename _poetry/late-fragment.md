@@ -6,9 +6,8 @@ date: 2019-11-18 22:54 +05:30
 editor: Harshit Kumar
 source: Words for the year
 categories: life
+img_source: /img/poems/LateFragment.jpg
 ---
-<img loading="lazy" src="/img/poems/LateFragment.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - And did you get what
 - you wanted from this life, even so?
 - I did.

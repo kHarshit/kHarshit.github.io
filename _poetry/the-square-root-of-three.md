@@ -6,9 +6,8 @@ date: 2019-11-15 22:18 +05:30
 editor: Harshit Kumar
 source: Genius.com
 categories: romantic
+img_source: /img/poems/TheSquarRootofThree.jpg
 ---
-<img loading="lazy" src="/img/poems/TheSquarRootofThree.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - I fear that I will always be
 - A lonely number like root three
 - A three is all that's good and right,

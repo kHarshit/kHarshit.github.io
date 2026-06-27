@@ -2,10 +2,11 @@
 layout: poem
 title: She Walks in Beauty
 author: Lord Byron
-date: 2026-06-27 12:00 +05:30
+date: 2026-06-27
 editor: Harshit Kumar
 source:
 categories: romantic
+img_source: /img/poems/SheWalksInBeauty.jpg
 explanations:
   - >
     Byron compares the woman's beauty to a cloudless, star-filled night.
@@ -20,9 +21,6 @@ explanations:
     mind, a life well spent, and a heart capable of innocent love. True
     beauty, Byron suggests, is moral at its core.
 ---
-
-<img loading="lazy" src="/img/poems/SheWalksInBeauty.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - She walks in beauty, like the night
 - Of cloudless climes and starry skies;
 - And all that's best of dark and bright

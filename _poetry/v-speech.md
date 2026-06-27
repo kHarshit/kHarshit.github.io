@@ -6,10 +6,8 @@ date: 2020-06-26 10:40 +05:30
 editor: Harshit Kumar
 source: 
 categories: life
+img_source: /img/poems/Anonymous.jpg
 ---
-
-<img loading="lazy" src="/img/poems/Anonymous.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 Voilà!
 
 In view, a humble vaudevillian veteran, cast vicariously as both victim and villain by the vicissitudes of Fate. This visage, no mere veneer of vanity, is a vestige of the vox populi, now vacant, vanished. However, this valorous visitation of a by-gone vexation stands vivified, and has vowed to vanquish these venal and virulent vermin vanguarding vice and vouchsafing the violently vicious and voracious violation of volition.

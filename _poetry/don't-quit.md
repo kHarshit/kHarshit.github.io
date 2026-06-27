@@ -6,9 +6,8 @@ date: 2019-12-12 11:30 +05:30
 editor: Harshit Kumar
 source: Public Domain
 categories: motivational
+img_source: /img/poems/DontQuit.jpg
 ---
-<img loading="lazy" src="/img/poems/DontQuit.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - When things go wrong as they sometimes will,
 - When the road you're trudging seems all up hill,
 - When the funds are low and the debts are high

@@ -6,9 +6,8 @@ date: 2019-11-15 20:58 +05:30
 editor: Harshit Kumar
 source: Famous Poets and Poems
 categories: motivational
+img_source: /img/poems/PhenomenalWoman.jpg
 ---
-<img loading="lazy" src="/img/poems/PhenomenalWoman.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Pretty women wonder where my secret lies.
 - I'm not cute or built to suit a fashion model's size
 - But when I start to tell them,

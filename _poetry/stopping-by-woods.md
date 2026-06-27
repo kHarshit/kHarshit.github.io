@@ -6,9 +6,8 @@ date: 2020-02-28 21:41 +05:30
 editor: Harshit Kumar
 source: 
 categories: motivational
+img_source: /img/poems/StoppingbyWoodsonaSnowyEvening.jpg
 ---
-<img loading="lazy" src="/img/poems/StoppingbyWoodsonaSnowyEvening.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - Whose woods these are I think I know.
 - His house is in the village though;
 - He will not see me stopping here

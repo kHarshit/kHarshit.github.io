@@ -6,9 +6,8 @@ date: 2023-06-11 08:35 -04:00
 editor: Harshit Kumar
 source: Poets.org
 categories: romantic
+img_source: /img/poems/IcarryyourHeartwithme.jpg
 ---
-<img loading="lazy" src="/img/poems/IcarryyourHeartwithme.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - i carry your heart with me(i carry it in
 - my heart)i am never without it(anywhere
 - i go you go,my dear;and whatever is done

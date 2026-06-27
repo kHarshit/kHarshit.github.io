@@ -6,9 +6,8 @@ date: 2019-11-16 16:18 +05:30
 editor: Harshit Kumar
 source: reddit.com/user/Poem_for_your_sprog/
 categories: motivational
+img_source: /img/poems/WithAllThatExtraTime.jpg
 ---
-<img loading="lazy" src="/img/poems/WithAllThatExtraTime.jpg" style="display: block; margin: auto; max-width: 100%;">
-
 - With all that extra time I had,
 - With all that extra time...
 
