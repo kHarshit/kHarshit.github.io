@@ -34,7 +34,7 @@ Ensembles can be constructed in several ways: using K-identical base learners tr
 
 Decision trees, the building block of these ensemble methods, split nodes using criteria such as **Gini impurity** (choose feature with minimum Gini), **Information Gain** (based on entropy), or **Variance Reduction** (minimize RSS for regression trees).
 
-<img src="/img/ensemble.jpg" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/ensembling-is-the-key/ensemble.jpg" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
 
 Many other techniques exist such as XGBoost (Extreme Gradient Boosting), an efficient and scalable implementation of gradient boosting widely used in competitions and production. In the Netflix prize, teams found that they obtained the best results by combining their learners with other teams’, and merged into larger and larger teams. The winner and runner-up were both stacked ensembles of over 100 learners, and combining the two ensembles further improved the results.
 

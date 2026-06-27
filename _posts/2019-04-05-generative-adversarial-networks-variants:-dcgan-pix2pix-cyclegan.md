@@ -15,7 +15,7 @@ Generative Adversarial Networks (GANs) are used for generation of new data i.e. 
 
 A Deep Convolutional GAN or DCGAN is a direct extension of the GAN, except that it explicitly uses convolutional and transpose-convolutional layers in the discriminator and generator, respectively. The discriminator is made up of strided convolution layers, batch norm layers, and LeakyReLU activations without max-pooling layers i.e. convolution > batch norm > leaky ReLU.
 
-<img src="/img/dcgan_discriminator.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/generative-adversarial-networks-variants:-dcgan-pix2pix-cyclegan/dcgan_discriminator.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 A helper function consisting of convolutional and batch norm layer can be created in PyTorch for ease as follows.
 
@@ -43,7 +43,7 @@ def conv(in_channels, out_channels, kernel_size, stride=2, padding=1, batch_norm
 
 The generator is comprised of transpose-convolutional layers, batch norm layers, and ReLU activations i.e. transpose convolution > batch norm > ReLU.
 
-<img src="/img/dcgan_generator.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/generative-adversarial-networks-variants:-dcgan-pix2pix-cyclegan/dcgan_generator.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 The training is same as in case of [GAN]({% post_url 2018-09-28-generative-models-and-generative-adversarial-networks %}).
 
@@ -65,13 +65,13 @@ The problem with pix2pix is training because the two image spaces are needed to 
 
 CycleGAN is also used for Image-to-Image translation. The objective of CycleGAN is to train generators that learn to transform an image from domain 𝑋 into an image that looks like it belongs to domain 𝑌 (and vice versa). CycleGAN uses an unsupervised approach to learn mapping from one image domain to another i.e. the training images don't have labels. The direct correspondence between individual images is not required in domains.
 
-<img src="/img/cycleGAN_horse2zebra.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/generative-adversarial-networks-variants:-dcgan-pix2pix-cyclegan/cycleGAN_horse2zebra.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 A CycleGAN is made of two discriminator, and two generator networks. The discriminators, $$D_Y$$ and $$D_X$$, which are convolutional neural networks that classify an input image as real or fake, learn the mappings $$G: X \rightarrow Y$$ and $$F: Y \rightarrow X$$ respectively. $$D_Y$$ encourages $$G$$ to translate $$X$$ into outputs indistinguishable from domain $$Y$$, and vice versa for $$D_X$$ and $$F$$. 
 
 The generators, $$G_XtoY$$ and $$G_YtoX$$, are made of an *encoder*, a conv net that is responsible for turning an image into a smaller feature representation, and a *decoder*, a transpose-conv net that is responsible for turning that representation into an transformed image.
 
-<img src="/img/cycleGAN_loss.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/generative-adversarial-networks-variants:-dcgan-pix2pix-cyclegan/cycleGAN_loss.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 For discriminator, least squares GAN or LSGAN is used as loss function to overcome the problem of vanishing gradient while using cross-entropy loss i.e. the discriminator losses will be mean squared errors between the output of the discriminator, given an image, and the target value, 0 or 1, depending on whether it should classify that image as fake or real.
 

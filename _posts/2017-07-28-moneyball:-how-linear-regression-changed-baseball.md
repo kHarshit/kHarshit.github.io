@@ -117,7 +117,7 @@ Thus, A team having atleast 95 wins has almost always got into the playoffs, whi
 > plot(moneyball$RD, moneyball$W, xlab = "Run Difference", ylab = "Wins", title("Moneyball: Relationship b/w Wins and RD"))
 {% endhighlight %}
 
-<img src="/img/Rplot.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/moneyball:-how-linear-regression-changed-baseball/Rplot.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 The above plot shows linear relationship b/w Wins and Run Difference.
 Now, let's build our regression model.
 

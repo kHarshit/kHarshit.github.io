@@ -10,7 +10,7 @@ excerpt: "How gradient descent works to optimize neural network weights by follo
 As discussed in the post [linear algebra and deep learning]({% post_url 2018-02-16-linear-algebra-the-essence-behind-deep-learning %}), the **optimization** is the *third* and last step in solving image classification problem in deep learning. It helps us find the values of weights `W` and bias `b` that minimizes the loss function.
 
 
-<img src="/img/gradient_descent_demystified.png" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/gradient-descent-the-core-of-neural-networks/gradient_descent_demystified.png" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
 
 ### The Strategy
 We use the concept of *following the gradient* to find the optimal pairs of `W` and `b` i.e. we can compute the best direction along which we should change our weight vectors that is mathematically guaranteed to be the direction of the steepest descent. This direction is found out by the <abbr title="gradient is a vector of derivatives of multi-variable functions i.e. vector of partial derivates in each dimension">*gradient*</abbr> of the loss function.

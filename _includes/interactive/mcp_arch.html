@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<script src="/js/interactive/mcp_arch.js"></script>
+<div id="mcp-arch" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-mcp-arch">Interactive: MCP Architecture Explorer</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="mcp-arch-diagram">
+      <div class="mcp-arch-component" style="--mcp-color:#6366f1">
+        <div class="mcp-arch-arrow mcp-arch-arrow-right">&#8594;</div>
+        <div class="mcp-arch-card" data-component="host">
+          <div class="mcp-arch-card-icon">H</div>
+          <div class="mcp-arch-card-title">MCP Host</div>
+          <div class="mcp-arch-card-sub">AI Application</div>
+        </div>
+      </div>
+      <div class="mcp-arch-component" style="--mcp-color:#20B2AA">
+        <div class="mcp-arch-card" data-component="client">
+          <div class="mcp-arch-card-icon">C</div>
+          <div class="mcp-arch-card-title">MCP Client</div>
+          <div class="mcp-arch-card-sub">Connection &#215; N</div>
+        </div>
+        <div class="mcp-arch-arrow mcp-arch-arrow-right">&#8594;</div>
+        <div class="mcp-arch-arrow mcp-arch-arrow-left">&#8592;</div>
+      </div>
+      <div class="mcp-arch-component" style="--mcp-color:#10b981">
+        <div class="mcp-arch-card" data-component="server">
+          <div class="mcp-arch-card-icon">S</div>
+          <div class="mcp-arch-card-title">MCP Server</div>
+          <div class="mcp-arch-card-sub">Tool Provider</div>
+        </div>
+      </div>
+    </div>
+    <div class="mcp-arch-detail">
+      <div class="mcp-arch-detail-header">
+        <span class="mcp-arch-detail-title">MCP Host</span>
+        <span class="mcp-arch-detail-role">AI Application Coordinator</span>
+      </div>
+      <div class="mcp-arch-detail-body">
+        <div class="mcp-arch-detail-section">
+          <div class="mcp-arch-detail-label">Role</div>
+          <div class="mcp-arch-detail-desc">The AI application that coordinates one or more MCP clients.</div>
+        </div>
+        <div class="mcp-arch-detail-section">
+          <div class="mcp-arch-detail-label">Key Capabilities</div>
+          <div class="mcp-arch-detail-prims">Orchestrates clients, aggregates context, manages lifecycle</div>
+        </div>
+        <div class="mcp-arch-detail-section">
+          <div class="mcp-arch-detail-label">Example JSON</div>
+          <pre class="mcp-arch-detail-json">{"jsonrpc":"2.0","method":"initialize"}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Click each component to see its role, capabilities, and example JSON-RPC messages.
+  </div>
+</div>

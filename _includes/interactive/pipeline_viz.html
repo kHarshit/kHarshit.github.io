@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<script src="/js/interactive/pipeline_viz.js"></script>
+<div id="pipeline-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-pipeline-viz">Interactive: Pipeline Bubble Simulator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="pipeline-controls">
+      <div class="pipeline-control-group">
+        <div class="dt-label">
+          <span>Pipeline Stages</span>
+          <span class="dt-label-value pipeline-stages-display">4</span>
+        </div>
+        <input type="range" class="dt-slider pipeline-stages" min="2" max="8" value="4" step="1">
+      </div>
+      <div class="pipeline-control-group">
+        <div class="dt-label">
+          <span>Micro-batches</span>
+          <span class="dt-label-value pipeline-micro-display">4</span>
+        </div>
+        <input type="range" class="dt-slider pipeline-micro" min="2" max="16" value="4" step="1">
+      </div>
+    </div>
+
+    <div class="pipeline-grid-wrapper">
+      <div class="pipeline-grid"></div>
+    </div>
+
+    <div class="pipeline-legend">
+      <span class="pipeline-legend-item">
+        <span class="pipeline-legend-swatch fwd"></span> Forward
+      </span>
+      <span class="pipeline-legend-item">
+        <span class="pipeline-legend-swatch bwd"></span> Backward
+      </span>
+      <span class="pipeline-legend-item">
+        <span class="pipeline-legend-swatch idle"></span> Bubble (idle)
+      </span>
+    </div>
+
+    <div class="pipeline-bubble-stat">
+      <div class="pipeline-bubble-stat-item">
+        <div class="pipeline-bubble-stat-value pipeline-total-steps">14</div>
+        <div class="pipeline-bubble-stat-label">Total Steps</div>
+      </div>
+      <div class="pipeline-bubble-stat-item">
+        <div class="pipeline-bubble-stat-value pipeline-fwd-steps">7</div>
+        <div class="pipeline-bubble-stat-label">Forward Steps</div>
+      </div>
+      <div class="pipeline-bubble-stat-item">
+        <div class="pipeline-bubble-stat-value pipeline-bubble-pct success">42.9%</div>
+        <div class="pipeline-bubble-stat-label">Bubble Ratio</div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Adjust pipeline stages and micro-batches to see how they affect bubble and idle time.
+  </div>
+</div>

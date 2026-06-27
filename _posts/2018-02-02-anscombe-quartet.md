@@ -76,7 +76,7 @@ All the datasets have the same statistical summary: mean, standard deviation, sa
 
 {% endhighlight %}
 
-<img src="/img/anscombe.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/anscombe-quartet/anscombe.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
 OMG, these datasets are so much different while they seemed the same by looking at the statistical summary.
 Now, we realize the importance of graphing data before analyzing it.  

@@ -10,7 +10,7 @@ Suppose you've an image, consisting of cats. You want to classify every pixel of
 
 One of the ways to do so is to use a **Fully Convolutional Network (FCN)** i.e. you stack a bunch of convolutional layers in a encoder-decoder fashion. The encoder downsamples the image using strided convolution giving a compressed feature representation of the image, and the decoder upsamples the image using methods like transpose convolution to give the segmented output *([Read more about downsampling and upsampling]({% post_url 2019-02-15-autoencoder:-downsampling-and-upsampling %}))*.
 
-<img src="/img/segmentation_fcn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_fcn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 The fully connected (fc) layers of a convolutional neural network requires a fixed size input. Thus, if your model is trained on an image size of `224x224`, the input image of size `227x227` will throw an error. The solution, as adapted in FCN, is to [replace fc layers with `1x1` conv layers]({% post_url 2019-08-02-converting-fc-layers-to-conv-layers %}). Thus, FCN can perform semantic segmentation for any input size image.
 
@@ -28,7 +28,7 @@ The U-Net build upon the concept of FCN. Its architecture, similar to the above 
 
 The pretrained models such as resnet18 can be used as the left part of the model.
 
-<img src="/img/segmentation_unet.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_unet.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 U-Net also has skip connections in order to localize, as shown in white. The upsampled output is concatenated with the corresponding cropped *(cropped due to the loss of border pixels in every convolution)* feature maps from the contracting path *(the features learned during downsampling are used during upsampling)*.
 
@@ -44,7 +44,7 @@ To understand the DeepLab architecture, let's go through its fundamental buildin
 
 In order to deal with the different input image sizes, fc layers can be replaced by `1x1` conv layers as in case of FCN. But we want our model to be robust to different size of input images. The solution to deal with variable sized images is to train the model on various scales of the input image to capture multi-scale contextual information.
 
-<img src="/img/segmentation_spp.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_spp.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 Usually, a single pooling layer is used between the last conv layer and fc layer. DeepLab, instead, utilizes a technique of using multiple pooling layer called Spatial Pyramid Pooling (SPP) to deal with multi-scale images. SPP divides the feature maps from the last conv layer into a fixed number of spatial bins having size proportional to the image size. Each bin gives a different scaled image as shown in the figure. The output of the SPP is a fixed size vector `FxB`, where `F` is the number of filters (feature maps) in the last conv layer, and `B` is the fixed number of bins. The different output vectors (`16x256-d, 4x256-d, 1x256-d`) are concatenated to form a fixed `(4x4+2x2+1)x256=5376` dimension vector, which is fed into the fc layer.
 
@@ -55,8 +55,8 @@ There is a drawback to SPP that it leads to an increase in the computational com
 Unlike the normal convolution, dilation or atrous convolution has one more parameter called dilation or atrous rate, r, which defines the spacing between the values in a kernel. The dilation rate of 1 corresponds to the normal convolution. DeepLab uses atrous rates of 6, 12 and 18.
 
 <div style="text-align:center">
-<img src="/img/segmentation_conv.gif" style="margin: auto; width: auto; max-width: 100%;">
-<img src="/img/segmentation_dilation_conv.gif" style="margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_conv.gif" style="margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_dilation_conv.gif" style="margin: auto; width: auto; max-width: 100%;">
 </div>
 
 The benefit of this type of convolution is that it enlarges field of view of filters to incorporate larger context without increasing the number of parameters.
@@ -74,7 +74,7 @@ The depthwise separable convolution dissolves the above into two steps:
 
 The process can be described as `12x12x3 — (5x5x1x1) —> (1x1x3x256) —> 12x12x256`. This whole operation took `3x5x5x8x8 + 256x1x1x3x8x8 = 53,952` multiplication, which is far less compared to that of normal convolution.
 
-<img src="/img/segmentation_deeplab.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_deeplab.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 DeepLabv3+ uses xception (pointwise conv is followed by depthwise conv) as the feature extractor in the encoder portion. The depthwise separable convolutions are applied in place of max-pooling. The encoder uses output stride of 16, while in decoder, the encoded features by the encoder are first upsampled by 4, then concatenated with corresponding features from the encoder, then upsampled again to give output segmentation map.
 
@@ -129,7 +129,7 @@ plt.savefig("segmented_output.png", bbox_inches='tight')
 # plt.show()
 {% endhighlight %}
 
-<img src="/img/segmentation_cat_output.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_cat_output.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 **References:**  
 

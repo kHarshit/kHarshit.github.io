@@ -17,7 +17,7 @@ $$\sigma(x) =  \frac{1}{(1 + e^{-x})}$$
 
 It returns a value between 0 and 1. The two major problems with sigmoid activation functions are:
 
-<img src="/img/sigmoid.jpeg" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/don't-use-sigmoid-neural-nets/sigmoid.jpeg" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
 
 * **Sigmoid saturate and kill gradients:** The output of sigmoid saturates (i.e. the curve becomes parallel to x-axis) for a large positive or large negative number. Thus, the gradient at these regions is almost zero. During backpropagation, this local gradient is multiplied with the gradient of this gates' output. Thus, if the local gradient is very small, it'll kill the the gradient and  the network will not learn. This problem of *vanishing gradient* is solved by ReLU.
 * **Not zero-centered:** Sigmoid outputs are not zero-centered, which is undesirable because it can indirectly introduce undesirable zig-zagging dynamics in the gradient updates for the weights.
@@ -28,12 +28,13 @@ There are other activation functions such as
 
 **Tanh:** It gives a value in range of [-1, 1] for a real number. But, as in sigmoid, its output saturate but are zero-centered.
 
+<img src="/img/blog/don't-use-sigmoid-neural-nets/tanh.jpeg" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 **ReLU:** Rectified Linear Unit is another popular choice. It is defined as
 
 $$f(x) = max(0, x)$$
 
-<img src="/img/relu.jpeg" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/don't-use-sigmoid-neural-nets/relu.jpeg" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
 
 It solves the problem of saturation *(though only in the positive region)*. In the negative region, the gradient is zero, hence again the weights of the network do not update. Also, ReLU units can die during training e.g. a large gradient flowing through a ReLU neuron could cause the weights to update in such a way that the neuron will never activate on any datapoint again. Thus, if learning rate is set too high, as much as 40% of your network can be dead (i.e. neurons that never activate across the entire training dataset). However, this problem can be solved with the proper setting of the learning rate.
 

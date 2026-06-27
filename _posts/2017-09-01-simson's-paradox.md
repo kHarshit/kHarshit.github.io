@@ -12,7 +12,7 @@ But, after examining the individual departments, it appeared that no department 
 
 It was a case of Simpson's paradox<sup id="a1">[1](#myfootnote1)</sup>, a phenomenon in which a trend appears in different groups of data but disappears or reverses when these groups are combined.
 
-<img src="/img/simpson.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/simson's-paradox/simpson.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 Let's analyze the UC Berkeley graduate admissions data of 1973.
 R comes preloaded with dataset<sup id="a2">[2](#myfootnote2)</sup> UCBAdmissions.
@@ -101,7 +101,7 @@ Let's draw mosaic plot<sup id="a3">[3](#myfootnote3)</sup>, which provides a way
 +            main = "Student admissions at UC Berkeley")
 {% endhighlight %}
 
-<img src="/img/Rplot_ucb_mosaic_overall.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/simson's-paradox/Rplot_ucb_mosaic_overall.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
 It seems to indicate a gender bias.
 However, there is a lurking variable: `Dept`. Here is what happens if we stratify on department: 
@@ -110,7 +110,7 @@ However, there is a lurking variable: `Dept`. Here is what happens if we stratif
 > plot(ucb, color=TRUE, main='Student admissions at UC Berkeley')
 {% endhighlight %}
 
-<img src="/img/Rplot_ucb_mosaic_analysis.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/simson's-paradox/Rplot_ucb_mosaic_analysis.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
 The `Admit` row in our table of contents corresponds to the *width* of columns in the mosaic plot. More people were rejected than admitted because Rejected column is wider. Of the people admitted, a much higher proportion were `Male` because of the height of the rectangles. Of the people rejected, it appears to be pretty even.
 
@@ -122,9 +122,9 @@ The research paper by Bickel et al.<sup id="a4">[4](#myfootnote4)</sup> conclude
 
 If you express matters algebraically, the appearance of the Paradox is no surprise.  
 For, suppose
-<img src="/img/eqn6592.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/simson's-paradox/eqn6592.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 No one would dream of deducing that  
-<img src="/img/eqn6594.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/simson's-paradox/eqn6594.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
 would they?
 

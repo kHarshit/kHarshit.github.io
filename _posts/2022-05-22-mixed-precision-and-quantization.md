@@ -603,7 +603,7 @@ $$
 \end{bmatrix}_{\text{FP32 (dequant)}}
 $$
 
-{% include interactive_quant_sim.html %}
+{% include interactive/quant_sim.html %}
 
 ### Symmetric (Scale) Quantization
 
@@ -795,7 +795,7 @@ E5M2 has the same exponent range as FP16 (offering similar dynamic range) but wi
 | **Quantization-Aware Training (QAT)** | Inference with highest accuracy | Near-lossless INT8 inference |
 {:.mbtablestyle}
 
-{% include quiz_mixed_precision.html %}
+{% include quiz/mixed_precision.html %}
 
 **References:**
 

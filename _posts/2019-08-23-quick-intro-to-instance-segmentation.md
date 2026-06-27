@@ -9,20 +9,20 @@ excerpt: "Instance segmentation with Mask R-CNN: combining object detection and 
 
 *This is the third post in the Quick intro series: [object detection (I)]({% post_url 2019-03-15-quick-intro-to-object-detection %}), [semantic segmentation (II)]({% post_url 2019-08-09-quick-intro-to-semantic-segmentation %})*.
 
-<img src="/img/ibrahim-rifath-D0x1GOoiPzw-unsplash_inst_seg.jpg" style="display: block; margin: auto; width: 80%; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/ibrahim-rifath-D0x1GOoiPzw-unsplash_inst_seg.jpg" style="display: block; margin: auto; width: 80%; max-width: 100%;">
 
 > “Boxes are stupid anyway though, I’m probably a true believer in masks except I can’t get YOLO to learn them.”
 > &mdash; <cite>Joseph Redmon, YOLOv3</cite>
 
 The instance segmentation combines *object detection*, where the goal is to classify individual objects and localize them using a bounding box, and *semantic segmentation*, where the goal is to classify each pixel into the given classes. In instance segmentation, we care about detection and segmentation of the instances of objects separately.
 
-<img src="/img/segmentation.png" style="display: block; margin: auto; width: 90%; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/segmentation.png" style="display: block; margin: auto; width: 90%; max-width: 100%;">
 
 ## Mask R-CNN
 
 Mask R-CNN is a state-of-the-art model for instance segmentation. It extends Faster R-CNN, the model used for object detection, by adding a parallel branch for predicting segmentation masks.
 
-<img src="/img/seg_mask_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/seg_mask_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 Before getting into Mask R-CNN, let's take a look at Faster R-CNN.
 
@@ -36,7 +36,7 @@ The *first stage* is a deep convolutional network with **Region Proposal Network
 
 The input image is fed into a CNN, often called **backbone**, which is usually a pretrained network such as ResNet101. The classification (fully connected) layers from the backbone network are removed so as to use it as a feature extractor. This also makes the network fully convolutional, thus it can take any input size image.
 
-<img src="/img/remove_fc_layers.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/remove_fc_layers.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 The RPN uses a sliding window method to get <abbr title="boxes having high probability of containing object">relevant anchor boxes</abbr> *(the precalculated fixed sized bounding boxes having different sizes that are placed throughout the image that represent the approximate bbox predictions so as to save the time to search)* from the feature maps. 
 
@@ -44,7 +44,7 @@ It then does a binary classification that the anchor has object or not (into cla
 
 > At each sliding window location, a number of proposals (max `k`) are predicted corresponding to anchor boxes. So the `reg` layer has `4k` outputs encoding the coordinates of `k` boxes, and the `cls` layer outputs `2k` scores that estimate probability of *object* or *not object* for each proposal.
 
-<img src="/img/rpn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/rpn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 > In Faster R-CNN, k=9 anchors representing 3 scales and 3 aspect ratios of anchor boxes are present at *each* sliding window position. Thus, for a convolutional feature map of a size `W×H` *(typically∼2,400)*, there are `WHk` anchors in total.
 
@@ -52,7 +52,7 @@ Hence, at this stage, there are two losses i.e. bbox binary classification loss,
 
 The top *(positive)* anchors output by the RPN, called proposals or Region of Interest (RoI) are fed to the next stage.
 
-<img src="/img/faster_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/faster_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ### Stage II
 
@@ -63,7 +63,7 @@ For example, say, for a 8x8 feature map, the RoI is 7x5 in the bottom left corne
 * Divide the RoI into 2x2.
 * Perform max-pooling i.e. take maximum value from each section.
 
-<img src="/img/roi_pooling.gif" style="display: block; margin: auto; width: 80%; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/roi_pooling.gif" style="display: block; margin: auto; width: 80%; max-width: 100%;">
 
 The fc layer further performs softmax classification of objects into classes (e.g. car, person, bg),  and the same bounding box regression to refine bounding boxes.
 
@@ -74,7 +74,7 @@ Thus, at the second stage as well, there are two losses i.e. object classificati
 
 Mask R-CNN has the identical first stage, and in second stage, it also predicts binary mask in addition to class score and bbox. The mask branch takes positive RoI and predicts mask using a fully convolutional network (FCN). 
 
-<img src="/img/mask_head.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/mask_head.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 In simple terms, Mask R-CNN = Faster R-CNN + FCN
 
@@ -105,17 +105,17 @@ Mask R-CNN also utilizes a more effective backbone network architecture called *
 
 > Faster R-CNN with an FPN backbone extracts RoI features from different levels of the feature  pyramid  according  to  their  scale,  but  otherwise  the rest of the approach is similar to vanilla ResNet.
 
-<img src="/img/fpn_0.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/fpn_0.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 In order to detect object at different scales, various techniques have been proposed. One of them (c) utilizes the fact that deep CNN build a multi-scale representation of the feature maps. The features computed by various layers of the CNN acts as a feature pyramid. Here, you can use your model to detect objects at different levels of the pyramid thus allowing your model to detect object across a large range of scales e.g. the model can detect small objects at `conv3` as it has higher spatial resolution thus allowing the model to extract better features for detection compared to detecting small objects at `conv5`, which has lower spatial resolution. But, an important thing to note here is that the quality of features at `conv3` won't be as good for classification as features at `conv5`.
 
-<img src="/img/fpn_1.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/fpn_1.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 The above idea is fast as it utilizes the inherent working of CNN by using the features extracted at different conv layers for multi-scale detection, but compromises with the feature quality.
 
 FPN uses the inherent multi-scale representation in the network as above, and solves the problem of weak features at later layers for multi-scale detection.
 
-<img src="/img/fpn_2.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/fpn_2.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 The forward pass of the CNN gives the feature maps at different conv layers i.e. builds the multi-level representation at different scales. In FPN, lateral connections are added at each level of the pyramid. The idea is to take top-down strong features (from `conv5`) and propagate them to the high resolution feature maps (to `conv3`) thus having strong features across all levels.
 
@@ -123,11 +123,11 @@ The forward pass of the CNN gives the feature maps at different conv layers i.e.
 
 As discussed above, RoIPool layer extracts small feature maps from each RoI.  The problem with RoIPool is quantization. If the RoI doesn't perfectly align with the grid in feature map as shown, the quantization breaks pixel-to-pixel alignment. It isn't much of a problem in object detection, but in case of predicting masks, which require finer spatial localization, it matters.
 
-<img src="/img/roi_quantization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/roi_quantization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 **RoIAlign** is an improvement over the RoIPool operation. What RoIAlign does is to smoothly transform features from the RoIs (which has different aspect sizes) into fixed size feature vectors without using *quantization*. It uses bilinear interpolation to do. A grid of sampling points are used within each bin of RoI, which are used to interpolate the features at its nearest neighbors as shown. 
 
-<img src="/img/roialign.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/roialign.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 For example, in the above figure, you can't apply the max-pooling directly due to the misalignment of RoI with the feature map grids, thus in case of RoIAlign, four points are sampled in each bin using bilinear interpolation from its nearest neighbors. Finally, the max value from these points is chosen to get the required 2x2 feature map.
 
@@ -220,7 +220,7 @@ plt.savefig("segmented_output.png", bbox_inches='tight')
 
 
 
-<img src="/img/segmentation_cat_output_instance.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/segmentation_cat_output_instance.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 Notice that, here, both the instances of cats are segmented separately, unlike [semantic segmentation]({% post_url 2019-08-09-quick-intro-to-semantic-segmentation %}).
 
@@ -239,7 +239,7 @@ i.e. MS R-CNN = Mask R-CNN + MaskIoU head module
 
 YOLACT is the current fastest instance segmentation method. It can achieve real-time instance segmentation results i.e. 30fps.
 
-<img src="/img/yolact.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-instance-segmentation/yolact.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 It breaks the instance segmentation process into two parts i.e. it generates a set of prototype masks in parallel with predicting per-instance mask coefficients. Then the prototypes are linearly combined with the mask coefficients to produce the instance masks.
 

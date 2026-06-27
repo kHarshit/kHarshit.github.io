@@ -22,7 +22,7 @@ One drawback of gradient boosted trees is that they have a number of hyperparame
 
 Random forest build treees in parallel and thus are fast and also efficient. Parallelism can also be achieved in boosted trees. XGBoost<sup id="a1">[1](#myfootnote1)</sup>, a gradient boosting library, is quite famous on kaggle<sup id="a2">[2](#myfootnote2)</sup> for its better results. It provides a parallel tree boosting (also known as GBDT, GBM).
 
-<img src="/img/gbm_rf.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/gradient-boosted-trees-better-than-random-forest/gbm_rf.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 A research paper in 2015 proposes another ensemble method, Randomer forest<sup id="a3">[3](#myfootnote3)</sup>, claiming to outperform  other methods.
 

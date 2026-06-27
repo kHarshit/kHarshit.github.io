@@ -13,7 +13,7 @@ In deep neural networks, you not only have input features but activations in the
 
 > It's called "batch" normalization because, during training, we normalize each layer's inputs by using the mean and standard deviation (or variance) of the values in the current batch
 
-<img src="/img/batch_normalization.png" style="display: block; margin: auto; width: 420px; max-width: 100%;">
+<img src="/img/blog/why-batch-normalization/batch_normalization.png" style="display: block; margin: auto; width: 420px; max-width: 100%;">
 
 In simple terms, in batch normalization, rather than just performing normalization once in the beginning, you're doing it all over the network. But, normaliztion will squeeze your values to [0, 1]. It's not desirable always. So, you apply $$\gamma$$ and $$\beta$$ parameters to your normalization value. These parameters are learned the same way as other hyperparameters through backpropagation during the training process.
 
@@ -29,13 +29,13 @@ Suppose you train a neural network on the images of black cats only. Then your m
 
 The idea is that even when the exact values of inputs to hidden layers change, their mean and standard deviation will still almost remain same thus reducing the covariate shift. This weakens the coupling between parameters of early layer and that of later layers hence, allowing each layer of the network to learn by itself i.e. more independent of each other. This has the effect of speeding up the learning process.
 
-<img src="/img/batch_norm_plot.png" style="display: block; margin: auto; width: 420px; max-width: 100%;">
+<img src="/img/blog/why-batch-normalization/batch_norm_plot.png" style="display: block; margin: auto; width: 420px; max-width: 100%;">
 
 The other benefit of batch normalization is that it acts as **regularization**. Each mini-batch is scaled using its mean and standard deviation. This introduces some noise to each layer, providing a regularization effect.
 
 Due to numerous benefits of batch normalization, it's extensively used nowadays as evident from the below figure.
 
-<img src="/img/batch_norm_milestone.png" style="display: block; margin: auto; width: 420px; max-width: 100%;">
+<img src="/img/blog/why-batch-normalization/batch_norm_milestone.png" style="display: block; margin: auto; width: 420px; max-width: 100%;">
 
 **References:**  
 1. [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/pdf/1502.03167v3.pdf)  

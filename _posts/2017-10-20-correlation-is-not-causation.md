@@ -16,7 +16,7 @@ In the above example, the month when the sale of ice cream is high plays a signi
 
 Have a look at another example<sup id="a2">[2](#myfootnote2)</sup>.
 
-<img src="/img/correlation.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/correlation-is-not-causation/correlation.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
 The correlation between divorce rate in Maine and per capita consumption of margarine tempts us to believe that consumption of margarine causes divorce, which is incorrect.
 

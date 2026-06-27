@@ -80,7 +80,7 @@ axes[0].set_xlabel('X1')
 axes[1].set_xlabel('X2')
 {% endhighlight %}
 
-<img src="/img/bayesian_data.png" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/the-bayesian-thinking-iii/bayesian_data.png" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
 
 {% highlight python %}
 # creates new Model object

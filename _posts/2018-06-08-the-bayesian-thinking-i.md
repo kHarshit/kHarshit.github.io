@@ -36,14 +36,14 @@ Here, `P[Cause]`, the probability of the cause, is often the most difficult ot f
 Coming back to our question, we want to find out `P[D|+]`.  
 We're given `P[D] = 0.1%`. We also know *sensitivity* of the test (True positive rate i.e. positive if disease) `P[+|D] = 99%`. The [False positive rate]({% post_url 2017-12-29-false-positives %}) (1 - *specificity*) is also known, `P[+|-D] = 1%`.
 
-<img src="/img/bayes.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/the-bayesian-thinking-i/bayes.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 Hence, using
 
 $$P[D \mid +] = \frac{P[+ \mid D].P[D]}{P[+]}$$
 
 we get, `P[D|+] = 0.09` i.e. you have 9% chances of having the disease. It can be better understood with the help of the following venn diagram.
 
-<img src="/img/bayes_venn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/the-bayesian-thinking-i/bayes_venn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ## Bayesian statistical view of probability
 

@@ -12,7 +12,7 @@ Deep neural networks contain multiple non-linear hidden layers which allow them 
 
 ## How Dropout Works
 
-<img src="/img/dropout.png" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/dropout-prevent-overfitting/dropout.png" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;">
 
 What dropout regularization does is to randomly drop neurons (along with their connections) from the neural network during training in each iteration. When we drop different sets of neurons, it's equivalent to training different neural networks (as in [ensemble methods]({% post_url 2018-03-16-ensembling-is-the-key %})). So, the dropout procedure is like averaging the effects of large number of different networks. The different networks will overfit in different ways, so the net effect of dropout will be to reduce overfitting. Also, these networks all share weights i.e. we aren't optimizing weights separately for these networks. (tip: so basically every network gets trained very rarely.) But, it works. It serves its purpose of regularization.
 

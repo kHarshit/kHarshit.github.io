@@ -35,7 +35,7 @@ where `i` and `j` are the row and column indices of the resulting matrix `C` and
 
 <div style="text-align: center">
 <figure>
-<img src="/img/cuda_matmul_naive.png" style="display: block; margin: auto;  max-width: 55%;">
+<img src="/img/blog/matrix-multiplication-cuda/cuda_matmul_naive.png" style="display: block; margin: auto;  max-width: 55%;">
 <figcaption>Naive matmul (source: Nvidia CUDA docs)</figcaption>
 </figure>
 </div>
@@ -111,7 +111,7 @@ In CUDA programming model, there is a three-level hierarchy. The threads are the
 
 <div style="text-align: center">
 <figure>
-<img src="/img/cuda_thread_grid.png" style="display: block; margin: auto;  max-width: 55%;">
+<img src="/img/blog/matrix-multiplication-cuda/cuda_thread_grid.png" style="display: block; margin: auto;  max-width: 55%;">
 <figcaption>CUDA grid of thread blocks (source: Nvidia CUDA docs)</figcaption>
 </figure>
 </div>
@@ -160,7 +160,7 @@ kernel<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C);
 
 This setup ensures that the CUDA kernel efficiently processes the entire matrix by dividing the workload among the available threads and blocks.
 
-{% include interactive_cuda_block_mapper.html %}
+{% include interactive/cuda_block_mapper.html %}
 
 To execute CUDA program:
 
@@ -231,7 +231,7 @@ The previous CUDA kernel uses DRAM, but we can optimize performance by leveragin
 
 <div style="text-align: center">
 <figure>
-<img src="/img/cuda_matmul_sharedmem.png" style="display: block; margin: auto;  max-width: 55%;">
+<img src="/img/blog/matrix-multiplication-cuda/cuda_matmul_sharedmem.png" style="display: block; margin: auto;  max-width: 55%;">
 <figcaption>Shared memory matmul (source: Nvidia CUDA docs)</figcaption>
 </figure>
 </div>
@@ -303,7 +303,7 @@ __global__ void matMulSharedMemoryKernel(Matrix A, Matrix B, Matrix C)
 
 The animation below demonstrates the tiled matmul process: tiles of A and B are cooperatively loaded into shared memory, threads compute partial products, then the next tile is loaded.
 
-{% include interactive_cuda_tiled_anim.html %}
+{% include interactive/cuda_tiled_anim.html %}
 
 We can call our kernel as follows:
 
@@ -343,7 +343,7 @@ By combining these advanced optimization techniques with shared memory, you can 
 
 
 <section>
-	{% include quiz_cuda_matmul.html %}	 
+	{% include quiz/cuda_matmul.html %}	 
 </section>
 
 **References**

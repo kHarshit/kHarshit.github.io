@@ -16,7 +16,7 @@ A Recurrent Neural Network (RNN) can be used to map a varied-length input sequen
 * The **Encoder** processes the input sequence $$(x_1, x_2, x_3, ..., x_n)$$ and gives a context vector, `C` that summarizes the input sequence.
 * The **Decoder** uses `C` to generate the output sequence $$(y_1, y_2, y_3, ..., y_m)$$, where `n` and `m` may not be equal.
 
-<img src="/img/encoder_decoder_arch.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/attention/encoder_decoder_arch.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 The final hidden state of the hidden state of encoder RNN is used to compute `C`, which is further provided as an input to the decoder.
 
@@ -24,7 +24,7 @@ The problem with encoder-decoder approach is that all the input information need
 
 Every step in the decoder (only) requires calculation of attention vector in seq2seq model. The Attention decoder uses a scoring function to score each hidden state. These scores when fed into a softmax function gives the weight of each vector in the attention vector. Now, these weights are multiplied by corresponding hidden state vector, whose sum gives the attention context vector. The decoder at each step looks at input sequence as well as attention context vector, which focuses its attention at appropriate place in input sequence, and produces the hidden state.
 
-<img src="/img/attention_decoder.png" style="display: block; margin: auto; width: 620px; max-width: 100%;">
+<img src="/img/blog/attention/attention_decoder.png" style="display: block; margin: auto; width: 620px; max-width: 100%;">
 
 > The important part is that each decoder output $$y_t$$ now depends on a weighted combination of all the input states, not just the last state.
 

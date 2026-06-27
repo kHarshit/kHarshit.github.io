@@ -16,7 +16,7 @@ A greedy algorithm always makes the choice that looks best at the moment i.e. it
 **NOTE:** Greedy algorithm do not always yield optimal solutions, but for many problems they do.
 
 <figure>
-<img src="/img/greedy-search-path-example.gif" style="display: block; margin: auto; width: auto; max-width: 100%;"> 
+<img src="/img/blog/greedy-algorithms/greedy-search-path-example.gif" style="display: block; margin: auto; width: auto; max-width: 100%;"> 
 <figcaption>
 With a goal of reaching the largest-sum, at each step, the greedy algorithm will choose what appears to be the optimal immediate choice, so it will choose 12 instead of 3 at the second step, and will not reach the best solution, which contains 99.</figcaption>
 </figure> 

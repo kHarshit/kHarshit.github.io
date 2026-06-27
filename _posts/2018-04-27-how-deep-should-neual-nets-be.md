@@ -21,7 +21,7 @@ The input layer contains neurons equal to number of features.
 
 There is one output layer. Most of the time, it has only one neuron.
 
-<img src="/img/deep_neural_net.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/how-deep-should-neural-nets-be/deep_neural_net.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ### Hidden layer
 

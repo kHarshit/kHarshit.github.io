@@ -11,9 +11,9 @@ In semantic segmentation, the goal is to classify each pixel into the given clas
 
 *Read about [semantic segmentation]({% post_url 2019-08-09-quick-intro-to-semantic-segmentation %}), and [instance segmentation]({% post_url 2019-08-23-quick-intro-to-instance-segmentation %})*.
 
-<img src="/img/college_semantic.png" style="width: 304px; max-width: 100%">
-<img src="/img/college_instance.png" style="width: 304px; max-width: 100%">
-<img src="/img/college_panoptic.png" style="width: 304px; max-width: 100%">
+<img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/college_semantic.png" style="width: 304px; max-width: 100%">
+<img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/college_instance.png" style="width: 304px; max-width: 100%">
+<img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/college_panoptic.png" style="width: 304px; max-width: 100%">
 <figcaption style="text-align: center;">Left: semantic segmentation, middle: instance segmentation, right: panoptic segmentation</figcaption>
 
 ## Introduction
@@ -74,7 +74,7 @@ As in the calculation of `AP`, `PQ` is also first calculated independently for e
 
 Step 1 (matching): The predicted and ground truth segments are considered to be matched if their `IoU > 0.5`. It, with non-overlapping instances property, results in a unique matching i.e. there can be at most one predicted segment corresponding to a ground truth segment.
 
-<img src="/img/pq.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/pq.png" style="display: block; margin: auto; max-width: 100%;">
 
 Step 2 (calculation): Mathematically, for a ground truth segment `g`, and for predicted segment `p`, PQ is calculated as follows.
 
@@ -92,11 +92,11 @@ Here, in the first equation, the numerator divided by `TP` is simply the average
 
 One of the ways to solve the problem of panoptic segmentation is to combine the predictions from semantic and instance segmentation models, e.g. [Fully Convolutional Network (FCN)]({% post_url 2019-08-09-quick-intro-to-semantic-segmentation %}) and [Mask R-CNN]({% post_url 2019-08-23-quick-intro-to-instance-segmentation %}), to get panoptic predictions. In order to do so, the overlapping instance predictions are first need to be converted to non-overlapping ones using a NMS-like (Non-max suppression) procedure.
 
-<img src="/img/fpn_approach.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/fpn_approach.png" style="display: block; margin: auto; max-width: 100%;">
 
 A better way is to use a unified **Panoptic FPN** (Feature Pyramid Network) framework. The idea is to use FPN for multi-level feature extraction as backbone, which is to be used for region-based instance segmentation as in case of Mask R-CNN, and add a parallel dense-prediction branch on top of same FPN features to perform semantic segmentation.
 
-<img src="/img/panoptic_fpn.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/panoptic_fpn.png" style="display: block; margin: auto; max-width: 100%;">
 
 During training, the instance segmentation branch has three losses $$L_{cls}$$ (classification loss), $$L_{bbox}$$ (bounding-box loss), and $$L_{mask}$$ (mask loss). The semantic segmentation branch has semantic loss, $$L_s$$, computed as the per-pixel cross-entropy between the predicted and the ground truth labels.
 
@@ -122,7 +122,7 @@ python setup.py build develop
 python demo/demo.py --config-file configs/COCO-PanopticSegmentation/panoptic_fpn_R_50_3x.yaml --input ~/Pictures/image.jpg --opts MODEL.WEIGHTS detectron2://COCO-PanopticSegmentation/panoptic_fpn_R_50_3x/139514569/model_final_c10459.pkl MODEL.DEVICE cpu
 {% endhighlight %}
 
-<img src="/img/panoptic_example.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/panoptic_example.png" style="display: block; margin: auto; max-width: 100%;">
 
 **References & Further Readings:**  
 1. [Panoptic Segmentation paper](https://arxiv.org/pdf/1801.00868.pdf)  

@@ -26,13 +26,13 @@ The loss function or simply the output error at time `t` can be written as
 $$E_t = (d_t - y_t)^2$$
 
 <div style="text-align:center">
-<img src="/img/rnn2.png" style="margin: auto; width: auto; max-width: 100%;">
-<img src="/img/rnn1.png" style="margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/backpropagation-through-time/rnn2.png" style="margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/backpropagation-through-time/rnn1.png" style="margin: auto; width: auto; max-width: 100%;">
 </div>  
 
 The unrolled representation of RNN is shown
 
-<img src="/img/bptt.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/backpropagation-through-time/bptt.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 Here, $$W_x$$​, $$W_y$$ and $$W_s$$ represent the weight matrices connecting the inputs to the state layer, connecting the state to the output and connecting the state from the previous timestep to the state in the following timestep respectively.
 

@@ -30,7 +30,7 @@ Every word in vocabulary is represented by a vector. In Skip-gram model, we use 
 
 The below figure demonstrates example windows and process for computing $$P(w_{t+2} \mid w_t)$$.
 
-<img src="/img/word_prob.png" style="display: block; margin: auto; width: 80%; max-width: 100%;">
+<img src="/img/blog/word2vec-the-basic-of-nlp/word_prob.png" style="display: block; margin: auto; width: 80%; max-width: 100%;">
 
 We can implement word2vec model in `python`:
 
@@ -48,7 +48,7 @@ While designing neural networks, an embedding layer is used. The word2vec model 
 
 This embedding layer is just like a hidden layer, which behaves as a *lookup table* i.e. instead of doing matrix multiplication, the embedding of a particular word can be extracted from the weight matrix of embeddings using an index. For example "heart" is encoded as 958. Then to get embedding for "heart", you just take the 958th row of the embedding matrix. It's possible because the multiplication of a one-hot encoded vector with a matrix returns the row of the matrix corresponding the index of the "on" input unit.
 
-<img src="/img/lookup.png" style="display: block; margin: auto; width: 50%; max-width: 100%;">
+<img src="/img/blog/word2vec-the-basic-of-nlp/lookup.png" style="display: block; margin: auto; width: 50%; max-width: 100%;">
 
 The embeddings are stored as a $$\|V\| \times D$$ matrix, where `V` is our vocabulary, and `D` is the dimensionality of the embeddings, such that the word assigned index `i` has its embedding stored in the `i`‘th row of the matrix. For hidden dimensions *(for most of the problems)*, `D`, any number between 200-500 should work. It's kind of a hyperparameter. There's no precise number.
 

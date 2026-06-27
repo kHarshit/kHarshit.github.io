@@ -31,7 +31,7 @@
         <meta property="og:description" content="{{ _og_desc }}">
         <meta property="og:type" content="{% if page.layout == 'post' or page.layout == 'poem' %}article{% else %}website{% endif %}">
         <meta property="og:url" content="{{ page.url | absolute_url }}">
-        {% assign og_image = site.url | append: "/img/harshit_nu.jpeg" %}
+        {% assign og_image = site.url | append: "/img/site/harshit_nu.jpeg" %}
         {% if page.layout == 'poem' and page.img_source %}
           {% if page.img_source contains 'http' %}
             {% assign og_image = page.img_source %}
@@ -80,7 +80,7 @@
         <link rel="stylesheet" href="/css/syntax.css">
         {% if page.layout == 'poem' %}<link rel="stylesheet" href="/css/poems.css">{% endif %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <!-- <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"> -->
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
 
         <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
@@ -179,7 +179,7 @@
             </footer>
 
             <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
-            <script src="/js/script.js"></script>
+            <script src="/js/site/script.js"></script>
         </div>
     </body>
 </html>

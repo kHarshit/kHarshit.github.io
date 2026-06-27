@@ -247,7 +247,7 @@ The comments are the reasoning trace, written in natural language so the model c
 
 Pure reasoning prompts work when the model has the relevant knowledge. But many real-world questions require looking things up, running code, or calling APIs. ReAct interleaves reasoning traces with actions.
 
-{% include img.html src="/img/blog/prompt_react_loop.svg" width="90%" caption="ReAct loop: model alternates between Thought Action, and Observation" %}
+{% include img.html src="/img/blog/prompt-engineering-techniques/prompt_react_loop.svg" width="90%" caption="ReAct loop: model alternates between Thought Action, and Observation" %}
 
 The model generates three types of tokens in sequence.
 
@@ -317,7 +317,7 @@ within the document tags.</instructions>
 | ReAct | Alternate Thought → Action → Observation until done | Agents, knowledge-intensive QA |
 {:.mbtablestyle}
 
-{% include quiz_prompt_engineering.html %}
+{% include quiz/prompt_engineering.html %}
 
 **References:**
 - [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165)

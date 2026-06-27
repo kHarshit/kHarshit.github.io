@@ -15,7 +15,7 @@ Recurrent Neural Networks (RNN) are used for varied number of applications inclu
 
 In image captioning, the core idea is to use CNN as encoder and a normal RNN as decoder. This application uses the architecture proposed by [Show and Tell: A Neural Image Caption Generator](https://arxiv.org/abs/1411.4555).
 
-<img src="/img/image_captioner_structure.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/image-captioning-using-encoder-decoder/image_captioner_structure.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 Here's an excerpt from the paper:
 > Here, we propose to follow this elegant recipe, replacing the encoder RNN by a deep convolution neural network (CNN).  Over  the  last  few  years  it  has  been  convincingly shown that CNNs can produce a rich representation of the input image by embedding it to a fixed-length vector, such that this representation can be used for a variety of vision tasks. Hence, it is natural to use a CNN as an image “encoder”, by first pre-training it for an image classification task and using the last hidden layer as an input to the RNN decoder that generates sentences. We call this model the **Neural Image Caption**, or **NIC**.
@@ -52,7 +52,7 @@ $ python manage.py runserver
 Your app should now be running on [localhost:8000](http://localhost:8000/).
 
 <a href="https://github.com/kHarshit/image-captioner/#running-locally">
-<img src="/img/image_captioner_demo.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/image-captioning-using-encoder-decoder/image_captioner_demo.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 </a>
 
 ## Image captioning with Attention

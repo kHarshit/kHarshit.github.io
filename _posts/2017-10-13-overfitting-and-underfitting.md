@@ -13,7 +13,7 @@ If we have too many features, the machine learning model may fit the training da
 
 On the other hand, *underfitting* occurs when our model is too simple to capture the underlying trend of the data thus doesn't even perform well on the training data and not likely to generalize well on the testing data as well. For example, when fitting a linear model to non-linear data. Such a model would have poor predictive performance.
 
-<img src="/img/overfitting.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/overfitting-and-underfitting/overfitting.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
 ## Bias-Variance tradeoff
 
@@ -21,7 +21,7 @@ The bias is the difference between the model's predictions and the true values. 
 The variance is the model's sensitivity to small fluctuations in the training set. High variance can cause the model to overfit.  
 To get good predictions, you'll need to find a balance of bias and variance the minimizes the total error.
 
-<img src="/img/biasvariance.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/overfitting-and-underfitting/biasvariance.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
 Different ensemble methods address the bias-variance tradeoff in contrasting ways:
 

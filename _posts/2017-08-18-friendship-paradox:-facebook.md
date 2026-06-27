@@ -6,7 +6,7 @@ categories: [Data Science]
 excerpt: "Exploring the friendship paradox, phenomenon where most people have fewer friends than their friends have on average, using Facebook data and Python."
 ---
 
-<img src="/img/friends.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/friendship-paradox:-facebook/friends.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 According to a 2012 study by <cite>Pew Research Center’s Internet and American Life Project<sup id="a1">[1](#myfootnote1)</sup></cite>:  
 > On Facebook, the average person has 245 friends. However, the average friend of a person has 359 Facebook friends. The finding, that people’s friends have more friends than they do, was nearly universal.
@@ -82,7 +82,7 @@ In[14]: plt.show()
 {% endhighlight %}
 
 <figure>
-<img src="/img/facebook_friends.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/friendship-paradox:-facebook/facebook_friends.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 <figcaption>The vertical lines: – black, blue, red – represent the mean, the median, and my own personal friend count, respectively.</figcaption>
 </figure>
 

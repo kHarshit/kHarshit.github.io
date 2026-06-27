@@ -22,7 +22,7 @@ But, the gradient flow in RNNs often lead to the following problems:
 * Exploding gradients
 * Vanishing gradients  
 
-<img src="/img/gradient_flow_rnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/the-gradient-problem-in-rnn/gradient_flow_rnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 
 The gradient computation involves recurrent multiplication of $$W$$. This multiplying by $$W$$ to each cell has a bad effect. *Think like this:* If you a scalar (number) and you multiply gradients by it over and over again for say 100 times, if that number > 1, it'll explode the gradient and if < 1, it'll vanish towards 0.
@@ -35,7 +35,7 @@ The problem of exploding gradients can be solved by *gradient clipping* i.e. if 
 
 A Long Short Term Memory (LSTM) utilizes four gates that perform a specific function.
 
-<img src="/img/lstm.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/the-gradient-problem-in-rnn/lstm.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 
 * Input gate ($$i$$): controls what to write to the LSTM cell
@@ -47,7 +47,7 @@ Inside the cell state, we can either remember or forget our previous state, and 
 
 > The first step in our LSTM is to decide what information we’re going to throw away from the cell state. This decision is made by a sigmoid layer called the “forget gate layer.” It looks at $$h_{t-1}$$ and $$x_t$$, and outputs a number between 0 and 1 for each number in the cell state $$c_{t−1}$$. A 1 represents “completely keep this” while a 0 represents “completely get rid of this.”
 
-<img src="/img/gradient_flow_lstm.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/the-gradient-problem-in-rnn/gradient_flow_lstm.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 > The next step is to decide what new information we’re going to store in the cell state. This has two parts. First, a sigmoid layer called the “input gate layer” decides which values we’ll update. Next, a tanh layer creates a vector of new candidate values, $$c_t$$, that could be added to the state. In the next step, we’ll combine these two to create an update to the state.
 

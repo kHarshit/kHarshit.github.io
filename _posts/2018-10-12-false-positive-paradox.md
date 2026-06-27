@@ -10,7 +10,7 @@ A [false positive]({% post_url 2017-12-29-false-positives %}) is an error when t
 
 Let's take an example to understand this. 
 
-<img src="/img/falsepositiveparadox.jpg" style="display: block; margin: auto; width: 420px; max-width: 100%;">
+<img src="/img/blog/false-positive-paradox/falsepositiveparadox.jpg" style="display: block; margin: auto; width: 420px; max-width: 100%;">
 
 The test results of a rare disease in a population **A**, in which 40% people are infected, are as follows: 
 

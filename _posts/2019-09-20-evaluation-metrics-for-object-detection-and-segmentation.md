@@ -16,7 +16,7 @@ The different evaluation metrics are used for different datasets/competitions. M
 
 To decide whether a prediction is correct w.r.t to an object or not, **IoU** or **Jaccard Index** is used. It is defines as the intersection b/w the predicted bbox and actual bbox divided by their union. A prediction is considered to be True Positive if `IoU > threshold`, and False Positive if `IoU < threshold`.
 
-<img src="/img/iou.png" style="display: block; margin: auto; width: 35%; max-width: 100%;">
+<img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/iou.png" style="display: block; margin: auto; width: 35%; max-width: 100%;">
 
 
 ## Precision and Recall
@@ -36,15 +36,15 @@ In order to calculate mAP, first, you need to calculate AP per class.
 
 Consider the below images containing ground truths (in green) and bbox predictions (in red) for a particular class.
 
-<img src="/img/map_bboxes.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/map_bboxes.png" style="display: block; margin: auto; max-width: 100%;">
 
 The details of the bboxes are as follows:
 
-<img src="/img/map_gt.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/map_gt.png" style="display: block; margin: auto; max-width: 100%;">
 
 In this example, TP is considered if IoU > 0.5 else FP. Now, sort the images based on the confidence score. Note that if there are more than one detection for a single object, the detection having highest IoU is considered as TP, rest as FP e.g. in image 2. 
 
-<img src="/img/map_table.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/map_table.png" style="display: block; margin: auto; max-width: 100%;">
 
 > In VOC metric, Recall is defined as  the  proportion of  all positive examples ranked  above a given rank. Precision is the proportion of all examples above that rank which are from the positive class. 
 
@@ -60,7 +60,7 @@ The precision at each recall level r is interpolated by taking the maximum preci
 
 $$p_{interp(r)} = \max_{\tilde{r}:\tilde{r}\geq r}{p(r)}$$
 
-<img src="/img/interpolateAP.jpeg" style="display: block; margin: auto; width: 75%; max-width: 100%;">
+<img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/interpolateAP.jpeg" style="display: block; margin: auto; width: 75%; max-width: 100%;">
 
 i.e. take the max precision value to the right at 11 equally spaced recall points [0: 0.1: 1], and take their mean to get AP.
 
@@ -72,7 +72,7 @@ i.e. given the PR curve in orange, calculate the max precision to the right for 
 
 Now, we have AP per class (object category), **mean Average Precision (mAP)** is the averaged AP over all the object categories. 
 
-<img src="/img/map.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/map.png" style="display: block; margin: auto; max-width: 100%;">
 
 For the segmentation challenge in VOC, the **segmentation accuracy** (per-pixel accuracy calculated using IoU) is used as the evaluation criterion, which is defined as follows:
 
@@ -100,7 +100,7 @@ $$mAP_{\text{COCO}} = \frac{mAP_{0.50} + mAP_{0.55} + ... + mAP_{0.95}}{10}$$
 
 $$\text{AP[class]} = \frac{1}{\text{#thresolds}} \sum_{\text{iou $\in$ thresholds}}{AP[class, iou]}$$
 
-<img src="/img/ap.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/ap.png" style="display: block; margin: auto; max-width: 100%;">
 
 * *Step 2:* Calculate the final AP by averaging the AP over different classes.
 
@@ -108,7 +108,7 @@ $$\text{AP} = \frac{1}{\text{#classes}} \sum_{\text{class $\in$ classes}}{AP[cla
 
 > AP is in fact an <abbr title="classes">average</abbr>, <abbr title="IoU thresholds">average, </abbr><abbr title="precision at different recall levels">average</abbr> precision.
 
-<img src="/img/coco_eval.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/coco_eval.png" style="display: block; margin: auto; max-width: 100%;">
 
 ## Conclusion
 

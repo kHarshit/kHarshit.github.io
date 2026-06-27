@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<script src="/js/interactive/quant_sim.js"></script>
+<div id="quant-sim" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-quant-sim">Interactive: Quantization Simulator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+      <div class="dt-control-group" style="gap:4px;margin:0;">
+        <span class="dt-label-text" style="flex:0 0 45px;">Input</span>
+        <input type="text" class="quant-input" value="0.34, 3.75, -4.7, 0.68" style="flex:1;padding:5px 6px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:0.8rem;background:var(--bg-color,#fff);color:var(--font-color,#333);">
+      </div>
+      <div class="dt-control-group" style="gap:4px;margin:0;">
+        <span class="dt-label-text" style="flex:0 0 45px;">Mode</span>
+        <select class="quant-mode" style="flex:1;padding:5px 6px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:0.8rem;background:var(--bg-color,#fff);color:var(--font-color,#333);">
+          <option value="asymmetric">Asymmetric [0,255]</option>
+          <option value="symmetric-unsigned">Sym-unsigned [0,255]</option>
+          <option value="symmetric-signed">Sym-signed [-128,127]</option>
+          <option value="restricted">Restricted [-127,127]</option>
+        </select>
+      </div>
+      <div class="dt-control-group" style="gap:4px;margin:0;">
+        <span class="dt-label-text" style="flex:0 0 45px;">Bits</span>
+        <input type="range" class="dt-slider quant-bits-slider" min="4" max="16" value="8" step="1" style="flex:1;margin:0;">
+        <span class="dt-label-value quant-bits-display" style="min-width:28px;font-size:0.8rem;">8</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div style="overflow-x:auto;overflow-y:auto;max-height:165px;flex:1;min-width:280px;">
+        <table class="quant-table" style="width:100%;border-collapse:collapse;font-size:0.78rem;">
+          <thead><tr>
+            <th style="padding:3px 5px;border-bottom:2px solid #e2e8f0;text-align:right;color:var(--font-color,#555);">FP32</th>
+            <th style="padding:3px 5px;border-bottom:2px solid #e2e8f0;text-align:right;color:var(--font-color,#555);">÷s + z</th>
+            <th style="padding:3px 5px;border-bottom:2px solid #e2e8f0;text-align:right;color:var(--font-color,#555);">Quant</th>
+            <th style="padding:3px 5px;border-bottom:2px solid #e2e8f0;text-align:right;color:var(--font-color,#555);">Dequant</th>
+            <th style="padding:3px 5px;border-bottom:2px solid #e2e8f0;text-align:right;color:var(--font-color,#555);">Error</th>
+          </tr></thead>
+          <tbody class="quant-tbody"></tbody>
+        </table>
+      </div>
+      <div style="flex:0 0 200px;display:grid;grid-template-columns:1fr 1fr;gap:4px;align-content:start;">
+        <div class="ppl-stat-item"><div class="ppl-stat-value quant-scale-info" style="font-size:0.9rem;">—</div><div class="ppl-stat-label" style="font-size:0.7rem;font-family:monospace;">Scale (s)</div></div>
+        <div class="ppl-stat-item"><div class="ppl-stat-value quant-zp-info" style="font-size:0.9rem;">—</div><div class="ppl-stat-label" style="font-size:0.7rem;font-family:monospace;">Zero-point (z)</div></div>
+        <div class="ppl-stat-item"><div class="ppl-stat-value quant-avg-error" style="font-size:0.9rem;">—</div><div class="ppl-stat-label" style="font-size:0.7rem;">Avg Error</div></div>
+        <div class="ppl-stat-item"><div class="ppl-stat-value quant-max-error" style="font-size:0.9rem;">—</div><div class="ppl-stat-label" style="font-size:0.7rem;">Max Error</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Quantization converts FP32 values to integers using scale (s) and zero-point (z). Lower bit-width = more error.
+  </div>
+</div>

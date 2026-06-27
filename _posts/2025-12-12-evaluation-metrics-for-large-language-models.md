@@ -49,7 +49,7 @@ The units are **bits per token**. A lower cross-entropy means the model's predic
 
 Perplexity (PP) is the most widely used intrinsic metric for language models. It measures how "confused" the model is when predicting the next token. Think of it as the average number of equally likely tokens the model is choosing from at each step.
 
-{% include img.html src="/img/blog/perplexity_visual.jpg" width="80%" %}
+{% include img.html src="/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg" width="80%" %}
 
 $$PP(\mathbf{x}) = 2^{-\frac{1}{n} \sum_{i=1}^{n} \log_2 P(x_i \mid x_1, \ldots, x_{i-1})} = 2^{H(\mathbf{x})}$$
 
@@ -66,7 +66,7 @@ Perplexity ranges from $$1$$ (a perfect model assigns probability 1 to every tok
 | 100 | Very uncertain | 
 {:.mbtablestyle}
 
-{% include interactive_perplexity_viz.html %}
+{% include interactive/perplexity_viz.html %}
 
 The fundamental intuition behind using perplexity as a model performance metric is that the model's confidence correlates well with its accuracy. Suppose the model is confident about its predictions. In that case, statistically, it is more likely to be correct than in cases where it is confused between two or many words.
 
@@ -127,7 +127,7 @@ $$\text{BLEU} = \min\!\left(1,\ \exp\!\left(1 - \frac{\text{reference-length}}{\
 
 BLEU scores range between 0 and 1, where 1 indicates a perfect match.
 
-{% include interactive_bleu_calc.html %}
+{% include interactive/bleu_calc.html %}
 
 > **Sentence-level vs. corpus-level.** The strict formula above produces a score of 0 whenever *any* n-gram order has zero clipped matches, common at the sentence level. In practice, BLEU is computed over **entire test corpus** where zero-precision collapse are extremely rare. For sentence-level use, **add-1 smoothing** (adding 1 to each n-gram's numerator and denominator) prevents the zero-collapse.
 
@@ -387,7 +387,7 @@ The judge LLM is typically prompted with a rubric and asked to produce a score (
 {:.mbtablestyle}
 
 <section>
-  {% include quiz_llm_eval_metrics.html %}
+  {% include quiz/llm_eval_metrics.html %}
 </section>
 
 **References:**

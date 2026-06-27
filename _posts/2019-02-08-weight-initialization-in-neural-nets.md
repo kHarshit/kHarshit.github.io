@@ -28,7 +28,7 @@ def init_weights(m, constant_weight):
         m.bias.data.fill_(0)
 {% endhighlight %}
 
-<img src="/img/weight_init0.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/weight-initialization-in-neural-nets/weight_init0.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ## Uniform distribution
 
@@ -43,13 +43,13 @@ Choosing high values of weights is not the best for the model as it brings probl
 > Good practice is to start your weights in the range of $$[-y, y]$$ where $$y=1/\sqrt{n}$$  
 ($$n$$ is the number of inputs to a given neuron).
 
-<img src="/img/weight_init1.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/weight-initialization-in-neural-nets/weight_init1.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ## Normal distribution
 
 Another way is to initialize weights randomly from a normal distribution. As most values are concentrated towards the mean, most of the random values selected have higher probability to be closer to mean (say $$\mu=0$$).
 
-<img src="/img/weight_init2.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/weight-initialization-in-neural-nets/weight_init2.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 There are many other ways for weight initialization such as Xavier initialization. It's an active area of research.
 

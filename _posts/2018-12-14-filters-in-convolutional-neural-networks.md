@@ -10,7 +10,7 @@ excerpt: "How convolutional filters detect spatial patterns and edges by respond
 
 In Convolutional Neural Networks, Filters detect spatial patterns such as edges in an image by detecting the changes in intensity values of the image.
 
-<img src="/img/lineVsEdge.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/filters-in-convolutional-neural-networks/lineVsEdge.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 In terms of an image, a *high-frequency* image is the one where the intensity of the pixels changes by a large amount, whereas a *low-frequency* image is the one where the intensity is almost uniform. Usually, an image has both high and low frequency components. The high-frequency components correspond to the edges of an object because at the edges the rate of change of intensity of pixel values is high.
 
@@ -20,7 +20,7 @@ Let's take an **example** that a part of your image has pixel values as [[10, 10
 
 Now, we take the convolutional of these two matrices that give the output [[10, 0, 0], [10, 0, 0], [10, 0, 0]]. Finally, these values are summed up to give a pixel value of 30, which gives the variation in pixel values as we move from left to right. Similarly, we find the subsequent pixel values. 
 
-<img src="/img/edge_detection.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/filters-in-convolutional-neural-networks/edge_detection.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 Here, you will notice that a rate of change of pixel values varies a lot from left to right thus a vertical edge has been detected. Had you used the filter [[1, 1, 1], [0, 0, 0], [-1, -1, -1]], you would get the convolutional output consisting of 0s only i.e. no horizontal edge present. In the similar ways, [[-1, 1], [-1, 1]] detects a vertical edge.
 
@@ -41,7 +41,7 @@ gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 plt.imshow(gray, cmap='gray')  # requires color information so we pass cmap='gray'
 {% endhighlight %}
 
-<img src="/img/edge_detection_ex.jpg" style="display: block; margin: auto; width: 420px; max-width: 100%;">
+<img src="/img/blog/filters-in-convolutional-neural-networks/edge_detection_ex.jpg" style="display: block; margin: auto; width: 420px; max-width: 100%;">
 
 One good example of edge detection filter is **Sobel filter**. Let's implement that for edge detection.
 
@@ -65,8 +65,8 @@ ax[1].set_title('vertical edge detection', fontsize=14)
 ax[1].imshow(filtered_image2, cmap='gray')
 {% endhighlight %}
 
-<img src="/img/edge_detection_example.png" style="display: block; margin: auto; width: auto; max-width: 100%;"> 
-<img src="/img/edge_detection_example2.png" style="display: block; margin: auto; width: auto; max-width: 100%;"> 
+<img src="/img/blog/filters-in-convolutional-neural-networks/edge_detection_example.png" style="display: block; margin: auto; width: auto; max-width: 100%;"> 
+<img src="/img/blog/filters-in-convolutional-neural-networks/edge_detection_example2.png" style="display: block; margin: auto; width: auto; max-width: 100%;"> 
 
 ***Note:*** In convolutional neural networks, the filters are learned the same way as hyperparameters through backpropagation during the training process.
 

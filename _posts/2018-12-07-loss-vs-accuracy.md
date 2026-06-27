@@ -24,7 +24,7 @@ $$Accuracy = \frac{\text{No of correct predictions}}{\text{Total no of predictio
 
 Most of the time you would observe that the accuracy increases with the decrease in loss. But, it may not be always true as in the given example.
 
-<img src="/img/lossVsAccuracy.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/loss-vs-accuracy/lossVsAccuracy.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 Now, why does this happen? Because accuracy and cross-entropy loss measure fundamentally different things:
 

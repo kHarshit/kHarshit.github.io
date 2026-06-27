@@ -14,7 +14,7 @@ ConvNets consists of layers. Every layer in ConvNet transform the 3D input volum
 * **Pooling layer** reduces the spatial size, amount of parameters and computation in the network and hence, control the overfitting i.e. it takes large images and shrink them down without losing much information from them. Mostly, *max-pooling* is used in practice.
 * **FC (fully connected) layer** computes the class scores (votes) for each image. In it, each neuron is connected to all the neurons in the previous layer.
 
-<img src="/img/convnet.jpeg" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/the-magic-behind-convnets/convnet.jpeg" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 The amount of error in voting (right prediction - wrong prediction) tells us how good the features and weights are. [Backpropagation]({% post_url 2018-03-09-computational-graphs-backpropagation %}) is used for assigning the optimum weights to neurons.
 

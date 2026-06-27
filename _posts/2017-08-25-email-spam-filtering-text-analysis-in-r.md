@@ -734,7 +734,7 @@ Note that the logistic regression model yielded the messages `algorithm did not 
 > prp(spamCART)
 {% endhighlight %}
 
-<img src="/img/Rplot_CART.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/email-spam-filtering-text-analysis-in-r/Rplot_CART.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
 ## Random Forest model
 

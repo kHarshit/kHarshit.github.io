@@ -13,7 +13,7 @@ Deep neural networks are difficult to train. They also have vanishing or explodi
 
 One solution to this problem was proposed by Kaiming He et. al in *Deep Residual Learning for Image Recognition*<sup id="a1">[1](#myfootnote1)</sup> to use Resnet blocks, which connect the output of one layer with the input of an earlier layer. These skip connections are implemented as follows.
 
-<img src="/img/resnet_block.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/skip-connections-and-residual-blocks/resnet_block.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 Usually, a deep learning model learns the mapping, M, from an input x to an output y i.e.
 
@@ -35,7 +35,7 @@ It is easier to optimize this residual function F(x) compared to the original ma
 
 The Microsoft Research team won the ImageNet 2015 competition using these deep residual layers, which use skip connections. They used ResNet-152 convolutional neural network architecture, which consists of 152 layers.
 
-<img src="/img/resnet_50.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/skip-connections-and-residual-blocks/resnet_50.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ### Residual Connections in Transformers
 

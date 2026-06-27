@@ -45,7 +45,7 @@ ax[1].set_title("Scaled data")
 plt.show()
 {% endhighlight %}
 
-<img src="/img/scaling.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/scaling-vs-normalization/scaling.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 
 ## Normalization and Standardization
@@ -70,7 +70,7 @@ The z-score comes from statistics, defined as
 
 $$z = \frac{x - \mu}{\sigma}$$
 
-<img src="/img/standardization.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/scaling-vs-normalization/standardization.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 where $$\mu$$ is the mean. By subtracting the mean from the distribution, we're essentially shifting it towards left or right by amount equal to mean i.e. if we have a distribution of mean 100, and we subtract mean 100 from every value, then we shift the distribution left by 100 without changing its shape. Thus, the new mean will be 0. When we divide by standard deviation $$\sigma$$, we're changing the shape of distribution. The new standard deviation of this standardized distribution is 1 which you can get putting the new mean, $$\mu = 0$$ in the z-score equation.
 
@@ -89,7 +89,7 @@ ax[1].set_title("Standardized data")
 plt.show()
 {% endhighlight %}
 
-<img src="/img/standardization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/scaling-vs-normalization/standardization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ## #2
 
@@ -110,11 +110,11 @@ ax[1].set_title("Normalized data")
 plt.show()
 {% endhighlight %}
 
-<img src="/img/normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/scaling-vs-normalization/normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 You need to normalize our data if you're going use a machine learning or statistics technique that assumes that data is normally distributed e.g. t-tests, ANOVAs, linear regression, linear discriminant analysis (LDA) and Gaussian Naive Bayes. 
 
-<img src="/img/scaling_vs_normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/scaling-vs-normalization/scaling_vs_normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ## Applications
 

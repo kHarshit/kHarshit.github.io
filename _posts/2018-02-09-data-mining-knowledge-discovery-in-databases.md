@@ -8,7 +8,7 @@ excerpt: "An overview of the KDD (Knowledge Discovery in Databases) process and 
 
 Knowledge discovery in databases (KDD) is a 7 step process to search for hidden knowledge in data. *Data Mining* refers to the analysis step in the *KDD* process.
 
-<img src="/img/KDD.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/data-mining-knowledge-discovery-in-databases/KDD.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 ## The KDD Process  
 

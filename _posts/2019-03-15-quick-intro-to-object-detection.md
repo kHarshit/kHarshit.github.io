@@ -9,7 +9,7 @@ excerpt: "A concise introduction to object detection methods, classification wit
 
 Object detection deals with the detection of object instances in an image. There are a number of methods to accomplish it. The following post summarizes few important object detection methods.
 
-<img src="/img/ibrahim-rifath-D0x1GOoiPzw-unsplash_obj_det.jpg" style="display: block; margin: auto; width: 80%; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-object-detection/ibrahim-rifath-D0x1GOoiPzw-unsplash_obj_det.jpg" style="display: block; margin: auto; width: 80%; max-width: 100%;">
 
 ## Classification and Localization
 
@@ -33,7 +33,7 @@ $$\begin{align}
 
 where $$p_c$$ is the probability of the object *(0 if background, no object)*, and $$c_1, c_2, ..., c_m$$ are the class probabilities.
 
-<img src="/img/obj_detect.png" style="display: block; margin: auto; width: 90%; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-object-detection/obj_detect.png" style="display: block; margin: auto; width: 90%; max-width: 100%;">
 
 The loss may consists of softmax loss for classification and L2 regression loss for bounding box. The problem with this approach is that an image may contain different number of objects thus each image need different number of outputs, which creates a problem.
 
@@ -51,7 +51,7 @@ The various region based methods i.e. region-proposals are:
 
 * **R-CNN:** First, the Region of Interest (ROI) is suggested by a region proposal method. These regions are then fed into CNN and support vector machines is used to classify them.
 
-<img src="/img/rcnn.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-object-detection/rcnn.png" style="display: block; margin: auto; max-width: 100%;">
 
 * **Fast R-CNN:** Instead of passing each region through CNN, in Fast R-CNN the entire image is passed once generating convolutional feature maps, using which the regions are proposed. The ROI pooling layer is then used to convert these regions into a fixed size, finally feeding it into a fully connected network.
 * **Faster R-CNN:** Unlike Fast R-CNN which uses selective search for ROI, Faster R-CNN uses Region Proposal Network (RPN) to predict proposals from features.
@@ -73,7 +73,7 @@ But in YOLO, each grid cell predicts a number of bboxes *(not one)*, `B`, for th
 
 To decide whether a prediction is correct w.r.t to an object or not, IoU or Jaccard Index is used. It is defines as the intersection b/w the predicted bbox and actual bbox divided by their union. A prediction is considered to be True Positive if `IoU > threshold`.
 
-<img src="/img/iou.png" style="display: block; margin: auto; width: 35%; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-object-detection/iou.png" style="display: block; margin: auto; width: 35%; max-width: 100%;">
 
 #### Non-max suppression
 
@@ -86,13 +86,13 @@ It might happen that more than one grid cell may predict the same object such th
 
 Note that this greedy approach suffers from certain problems such as the assumption that the best scoring $$p_c$$ is the best fit for the object.
 
-<img src="/img/nms.png" style="display: block; margin: auto; width: 90%; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-object-detection/nms.png" style="display: block; margin: auto; width: 90%; max-width: 100%;">
 
 #### Anchors
 
 Since we discussed that each grid cell may predict only a single object, it won't be able to detect two different objects such as car and person, even if their centers lie in that grid cell thus ignoring one of the object. This is not what we want. The anchor boxes or priors allow multiple detections per grid cell. These are precalculated fixed bbox representing the approximate bbox prediction. Now, each object is assigned to a grid cell that contains its midpoint, and anchor box of the grid cell with hightest IoU.
 
-<img src="/img/anchors.png" style="display: block; margin: auto; width: 35%; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-object-detection/anchors.png" style="display: block; margin: auto; width: 35%; max-width: 100%;">
 
 Hence, the `y` label now has multiple predictions w.r.t. anchor box.
 
@@ -124,7 +124,7 @@ The SSD also performs the localization and classification in a single forward pa
 
 SSD takes the VGG network, called base network, and converts its fc layers to conv layers, and further add more convolutional layers, called auxiliary convolutions, to create a powerful feature extractor. It allows predictions at different scales from the feature maps of different scales produced by these layers as they decrease in size progressively. It also applies the NMS to produce the final detections.
 
-<img src="/img/ssd.png" style="display: block; margin: auto; max-width: 100%;">
+<img src="/img/blog/quick-intro-to-object-detection/ssd.png" style="display: block; margin: auto; max-width: 100%;">
 
 The multibox loss is weighted sum of localization loss, $$L_{\text{loc}}$$, for bbox, and classification confidence loss, $$L_{\text{conf}}$$ for object classes.
 

@@ -32,22 +32,22 @@ The theorem for which the greatest number of different proofs have been discover
 Now, let's talk about the mathematicians that find beauty in objects, shapes.
 In mathematics, two quantities are in the golden ratio if their ratio is the same as the ratio of their sum to the larger of the two quantities.
 For quantities a and b such that a, b > 0:
-<img src="/img/eqnphi.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/mathematics-and-beauty/eqnphi.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 It comes out to be an irrational number (&phi; = 1.61805...), called the **golden ratio**<sup id="a2">[2](#myfootnote2)</sup>.
 
 Some of the great works of the 20th century are based on the golden rectangle, a rectangle whose side lengths are in the golden ratio -- believing this proportion to be aesthetically <abbr title="While it is interesting mathematically, I wouldn't take it too seriously...">pleasing</abbr>.
 such as Leonardo da Vinci's *Vitruvian Man*<sup id="a3">[3](#myfootnote3)</sup>, showing the golden ratio in body dimensions.
 
-<img src="/img/pentagram_and_human_body.jpg" style="display: block; margin: auto; width: auto; max-width: 35%;">  
+<img src="/img/blog/mathematics-and-beauty/pentagram_and_human_body.jpg" style="display: block; margin: auto; width: auto; max-width: 35%;">  
 
 Some mathematicians see beauty in mathematical results that establish connections between two areas of mathematics that at first sight appear to be unrelated. For example, Euler's identity:
-<img src="/img/eqneuler.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/mathematics-and-beauty/eqneuler.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 which relates five mathematical constants in a concise and elegant way.
 
 Now, the question arises: Why should the non-mathematician care about things of this nature?  
 The foremost reason is that mathematics is *beautiful*, even if it is, sadly, more inaccessible than other forms of art. The second is that it is *useful*. Mathematics is founded on simple yet powerful elements — numbers. Numbers, just like the elements of nature, share a complex relationship with every other element in that set. This relationship is universally valid.  
 The equation:
-<img src="/img/eqnsq.png" style="display: block; margin: auto; width: auto; max-width: 35%;"> stands true on Earth, on Jupiter and even if the galaxies collide. Because, mathematics doesn’t exist in the physical dimension. It exists entirely in the human mind, it’s a mental concept, and I think this is the most beautiful concept ever made by the human mind. Mathematics and human beings are co-dependent to aid each other’s growth.  
+<img src="/img/blog/mathematics-and-beauty/eqnsq.png" style="display: block; margin: auto; width: auto; max-width: 35%;"> stands true on Earth, on Jupiter and even if the galaxies collide. Because, mathematics doesn’t exist in the physical dimension. It exists entirely in the human mind, it’s a mental concept, and I think this is the most beautiful concept ever made by the human mind. Mathematics and human beings are co-dependent to aid each other’s growth.  
 And, this is the reason:
 > If beauty is truth, and truth is beauty, then surely mathematics is the most beautiful thing of all.
 

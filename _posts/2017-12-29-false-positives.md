@@ -105,7 +105,7 @@ Area Under the ROC Curve gives the AUC score of a model. AUC has several useful 
 * **Classification-threshold-invariant:** It evaluates the quality of predictions irrespective of which threshold is chosen.
 * An AUC of 0.5 suggests no discriminative power (random guessing), while an AUC of 1.0 indicates perfect separation.
 
-<img src="/img/roc_auc.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/false-positives/roc_auc.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 * The threshold of 1 means that the model will not catch any poor care cases, or have sensitivity of 0 but it'll correctly label all the good care cases, meaning that you have a false positive rate of 0.
 * The threshold of 0 means that the model will catch all of the poor care cases or have a sensitivity of 1, but it'll label all of the good care cases as poor care cases too, meaning that you'll have a false positive rate of 1.

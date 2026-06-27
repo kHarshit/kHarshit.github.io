@@ -15,13 +15,13 @@ Data leakage can happen when the data you are using to train a machine learning 
 ## Hot dog / Not hot dog
 
 For example, you want to train a machine learning algorithm to classify whether the image contains a hot dog or not. And you train your model with the following images: 
-<img src="/img/hotdog1.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">  
-<img src="/img/hotdog2.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">  
-<img src="/img/hotdog3.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/data-leakage-a-big-problem/hotdog1.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/data-leakage-a-big-problem/hotdog2.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/data-leakage-a-big-problem/hotdog3.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
 Your classifier may seem to do well on most hot dogs but it may decide a hot dog is a thing which has yellow sausage on it. So, it may not recognize this as a hot dog.
 
-<img src="/img/hotdog4.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/data-leakage-a-big-problem/hotdog4.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;">  
 
 In this case, the yellow sausage gave your model too much predictive power and your model is using it to cheat on its predictions.
 

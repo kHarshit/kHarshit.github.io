@@ -11,7 +11,7 @@ excerpt: "Understanding color models (RGB, HSV, LAB, Luv) and color spaces in co
 
 The color we see is how our brain visually perceive the world. The color of an object is determined by the different wavelengths of light it reflects (and absorbs), which is affected by the object's physical properties.
 
-{% include img.html src="/img/debashis-biswas-dyPFnxxUhYk-unsplash.jpg" caption="A picture is worth a millions words. " width="60%" %}
+{% include img.html src="/img/blog/color-and-color-spaces-in-computer-vision/debashis-biswas-dyPFnxxUhYk-unsplash.jpg" caption="A picture is worth a millions words. " width="60%" %}
 
 > Color is a perception, not the physical property of an object ... though it's affected by the object's properties.
 
@@ -38,7 +38,7 @@ How light or dark the color is, ranging from black to white. Different models us
 
 Light is a part of the electromagnetic radiation that is visible to the human eye. The **visible spectrum** spans wavelengths from approximately 380 nm (violet) to 780 nm (red). Colors corresponding to a single wavelength are called **spectral colors** e.g. light at 570 nm produces a pure spectral yellow.
 
-{% include img.html src="/img/linear_visible_spectrum.svg" width="80%" caption="The visible spectrum from 380 nm (violet) to 750 nm (red), with wavelength labels and color names (source: Wikipedia)" %}
+{% include img.html src="/img/blog/color-and-color-spaces-in-computer-vision/linear_visible_spectrum.svg" width="80%" caption="The visible spectrum from 380 nm (violet) to 750 nm (red), with wavelength labels and color names (source: Wikipedia)" %}
 
 The human eye does not respond uniformly to all wavelengths. It is **trichromatic**, it contains three types of photo-receptors called **cones** that are sensitive to different but overlapping ranges of wavelengths:
 
@@ -59,7 +59,7 @@ Peak sensitivity around 564–580 nm (yellow-green), not red. Our perception of 
 
 The graph below shows the normalized response of each cone type across the visible spectrum.
 
-{% include img.html src="/img/cone_fundamentals.svg" width="80%" caption="Normalized response curves of S-cones (blue), M-cones (green), and L-cones (red) across the visible spectrum. (source: Wikipedia)" %}
+{% include img.html src="/img/blog/color-and-color-spaces-in-computer-vision/cone_fundamentals.svg" width="80%" caption="Normalized response curves of S-cones (blue), M-cones (green), and L-cones (red) across the visible spectrum. (source: Wikipedia)" %}
 
 White is **not** a spectral color, no single wavelength produces it. We perceive white when S, M, and L cones are stimulated at similar levels by a broad mix of wavelengths (like sunlight). This is also why RGB displays mix red, green, and blue subpixels to produce white.
 
@@ -85,9 +85,9 @@ In RGB color model, all the colors are represented by adding the combinations of
 
 Though RGB model is a convenient model for representing colors, it differs from how human eye perceive colors.
 
-{% include interactive_rgb_mixer.html %}
+{% include interactive/rgb_mixer.html %}
 
-{% include img.html src="/img/rgb_cymk.png" width="70%" caption="RGB (additive) versus CMYK (subtractive) color models." %}
+{% include img.html src="/img/blog/color-and-color-spaces-in-computer-vision/rgb_cymk.png" width="70%" caption="RGB (additive) versus CMYK (subtractive) color models." %}
 
 ## CYMK
 
@@ -120,9 +120,9 @@ Both HSV (Hue, Saturation, Value) and HSL (Hue, Saturation, Lightness) are cylin
 - **Saturation** (0-1): how pure the color is. 0 is gray, 1 is fully vivid.
 - **Value / Lightness** (0-1): how bright the color is. 0 is always black. At 1 they both reach white, but full saturation is reached at V=1 for HSV and at L=0.5 for HSL.
 
-{% include img.html src="/img/hsv_hsl.png" caption="HSL and HSV: cylindrical representations of color" %}
+{% include img.html src="/img/blog/color-and-color-spaces-in-computer-vision/hsv_hsl.png" caption="HSL and HSV: cylindrical representations of color" %}
 
-{% include interactive_hsv_explorer.html %}
+{% include interactive/hsv_explorer.html %}
 
 ## Chromaticity
 
@@ -136,7 +136,7 @@ Each channel tells you "what fraction of the total light is red (green / blue)?"
 
 Since $$r + g + b = 1$$, we only need two of the three values. Plotting every possible (r, g) pair produces a right triangle called the **rg chromaticity diagram**.
 
-{% include interactive_chromaticity_explorer.html %}
+{% include interactive/chromaticity_explorer.html %}
 
 Chromaticity is widely used in computer vision: discarding intensity lets algorithms segment objects by material color while staying robust to shadows and illumination gradients.
 
@@ -218,10 +218,10 @@ $$\Delta E_{00} = \sqrt{\left(\frac{\Delta L'}{k_L S_L}\right)^2 + \left(\frac{\
 
 where $$S_L$$, $$S_C$$, $$S_H$$ are weighting functions and $$R_T$$ is the rotation term.
 
-{% include interactive_delta_e.html %}
+{% include interactive/delta_e.html %}
 
 <section>
-	{% include quiz_color.html %}	 
+	{% include quiz/color.html %}	 
 </section>
 
 

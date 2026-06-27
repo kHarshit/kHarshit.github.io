@@ -12,7 +12,7 @@ Instead of every AI app inventing its own way to connect to a database, SaaS too
 
 Without MCP, every integration becomes custom glue - hard to maintain, hard to secure, hard to scale.
 
-{% include img.html src="/img/blog/mcp_fig1.svg" width="70%" caption="MCP: Universal AI Integration Layer" %}
+{% include img.html src="/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg" width="70%" caption="MCP: Universal AI Integration Layer" %}
 
 MCP uses **JSON-RPC 2.0** as a **protocol** to communicate. It standardizes the request-response in a certain format:
 
@@ -68,9 +68,9 @@ A program that provides context to MCP clients. It's just any other service we b
 </div>
 </div>
 
-{% include img.html src="/img/blog/mcp_fig2.jpg" width="70%" caption="MCP Architecture: Host, Clients & Servers" %}
+{% include img.html src="/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig2.jpg" width="70%" caption="MCP Architecture: Host, Clients & Servers" %}
 
-{% include interactive_mcp_arch.html %}
+{% include interactive/mcp_arch.html %}
 
 Modern LLMs support **tool calling** (evolved from function calling), where the model is told "here are the tools you can use". The LLM can then request "call tool X with param Y". The host application executes the tool call, sends the results back to the LLM, which uses this as additional context to generate a response.
 
@@ -203,7 +203,7 @@ Server → Client (response: capabilities):
 }
 ```
 
-{% include interactive_mcp_handshake.html %}
+{% include interactive/mcp_handshake.html %}
 
 ### 2. Tool Discovery (Primitives)
 
@@ -346,9 +346,9 @@ MCP standardizes the entire lifecycle of:
 - returning structured results
 - continuing reasoning
 
-{% include interactive_mcp_toolflow.html %}
+{% include interactive/mcp_toolflow.html %}
 
-{% include quiz_mcp.html %}
+{% include quiz/mcp.html %}
 
 **References**
 * [Anthropic MCP guide (also image inspiration)](https://modelcontextprotocol.io/docs/getting-started/intro)

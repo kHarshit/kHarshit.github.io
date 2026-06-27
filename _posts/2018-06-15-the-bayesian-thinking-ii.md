@@ -27,7 +27,7 @@ Let's take an example of finding probability of coin being fair. Let's say an in
 
 Thus in Bayesian interpretation, the probability is a summary of an individual's opinion. The different individuals may have different opinion (prior belief), as they might have different data and ways of interpreting it. However, as both of theses individuals get new information (data), their potentially differing beliefs leads to the same posterior belief.
 
-<img src="/img/bayesgraph.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/the-bayesian-thinking-ii/bayesgraph.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
 
 
 ## Frequentist vs Bayesian

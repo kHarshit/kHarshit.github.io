@@ -64,7 +64,7 @@ Dynamic graphs (righ side) can change during successive forward passes. Differen
 
 <div style="text-align: center">
 <figure>
-<img src="/img/graph_static_dynamic.png" style="display: block; margin: auto;  max-width: 100%;">
+<img src="/img/blog/pytorch-basics-tutorial/graph_static_dynamic.png" style="display: block; margin: auto;  max-width: 100%;">
 <figcaption>Source: Deep Learning with PyTorch book</figcaption>
 </figure>
 </div>
@@ -229,7 +229,7 @@ It does so by keeping track of operations performed on tensors, then going backw
 
 <div style="text-align: center">
 <figure>
-<img src="/img/autograd.png" style="display: block; margin: auto;  max-width: 100%;">
+<img src="/img/blog/pytorch-basics-tutorial/autograd.png" style="display: block; margin: auto;  max-width: 100%;">
 <figcaption>Source: Deep Learning with PyTorch book</figcaption>
 </figure>
 </div>
@@ -558,7 +558,7 @@ Estimated Total Size (MB): 113.09
 
 <div style="text-align: center">
 <figure>
-<img src="/img/tensorboard_dogmodel.png" style="display: block; margin: auto;  max-width: 100%;">
+<img src="/img/blog/pytorch-basics-tutorial/tensorboard_dogmodel.png" style="display: block; margin: auto;  max-width: 100%;">
 <figcaption>Model graph in Tensorboard</figcaption>
 </figure>
 </div>
@@ -784,7 +784,7 @@ def predict_breed_transfer(img_path):
 predict_breed_transfer('dogImages/train/001.Affenpinscher/Affenpinscher_00001.jpg')
 {% endhighlight %}
     
-<img src="/img/dog_output_Affenpinscher.png" style="display: block; margin: auto;  max-width: 100%;">
+<img src="/img/blog/pytorch-basics-tutorial/dog_output_Affenpinscher.png" style="display: block; margin: auto;  max-width: 100%;">
     
 
 {% highlight python %}
@@ -914,7 +914,7 @@ Dataset: [Flower images](https://s3.amazonaws.com/content.udacity-data.com/cours
 Note: Don't forget to normalize the data before training. You can also apply data augmentation, regularization, learning rate decay etc.
 
 <section>
-	{% include quiz_pytorch.html %}	 
+	{% include quiz/pytorch.html %}	 
 </section>
 
 ---
