@@ -3,6 +3,7 @@ layout: post
 title: "Evaluation Metrics for Large Language Models"
 date: 2025-12-12
 categories: [LLM, Generative AI]
+permalink: /blog/evaluation-metrics-for-large-language-models/
 excerpt: "Walkthrough of evaluation metrics for large language models: perplexity, cross-entropy, BLEU, ROUGE, METEOR, CIDEr, BERTScore, RAG metrics, safety metrics, and LLM-as-a-judge, with equations and visualizations."
 mathjax: true
 ---

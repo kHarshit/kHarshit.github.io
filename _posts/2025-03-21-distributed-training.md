@@ -3,6 +3,7 @@ layout: post
 title: "Distributed Training: How to train Large Language Models (LLM)"
 date: 2025-03-21
 categories: [LLM, Generative AI, Deep Learning]
+permalink: /blog/distributed-training/
 excerpt: "Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, 3D parallelism, DeepSpeed with interactive visualization, code examples."
 mathjax: true
 

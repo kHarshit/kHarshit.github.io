@@ -3,6 +3,7 @@ layout: post
 title: "Vision Language Models (VLM)"
 date: 2024-07-12
 categories: [LLM, Generative AI, Deep Learning]
+permalink: /blog/vision-language-models/
 excerpt: "Overview of Vision Language Models (VLMs) and their training paradigms: contrastive learning (CLIP), masking (FLAVA), generative approaches (CoCa, Chameleon), and pretrained backbone methods (Frozen, LLaVA, BLIP-2)."
 mathjax: true
 ---

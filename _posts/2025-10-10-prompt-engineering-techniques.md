@@ -3,6 +3,7 @@ layout: post
 title: "Prompt Engineering Techniques: How to Write Effective Prompts"
 date: 2025-10-10
 categories: [LLM, Generative AI, Agentic AI]
+permalink: /blog/prompt-engineering-techniques/
 excerpt: "A deep-dive into prompt engineering techniques from few-shot prompting and chain-of-thought, ReAct, and prompt injections with examples."
 mathjax: false 
 ---
