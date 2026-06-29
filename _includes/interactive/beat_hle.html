@@ -1,0 +1,181 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<style>
+#bhle-widget .bhle-question {
+  background: var(--bg-color, #f9fafb);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+[data-theme="dark"] #bhle-widget .bhle-question {
+  background: #1e293b;
+  border-color: #334155;
+}
+#bhle-widget .bhle-question-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-bottom: 6px;
+}
+#bhle-widget .bhle-question-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--font-color, #1f2937);
+  margin-bottom: 12px;
+}
+#bhle-widget .bhle-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+#bhle-widget .bhle-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 0.9rem;
+  color: var(--font-color, #333);
+}
+[data-theme="dark"] #bhle-widget .bhle-option {
+  border-color: #4b5563;
+}
+#bhle-widget .bhle-option:hover {
+  border-color: #20B2AA;
+  background: rgba(32, 178, 170, 0.05);
+}
+#bhle-widget .bhle-option.selected {
+  border-color: #20B2AA;
+  background: rgba(32, 178, 170, 0.1);
+}
+#bhle-widget .bhle-option.correct {
+  border-color: #059669;
+  background: rgba(5, 150, 105, 0.1);
+}
+#bhle-widget .bhle-option.wrong {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+}
+#bhle-widget .bhle-option input[type="radio"] {
+  accent-color: #20B2AA;
+}
+#bhle-widget .bhle-submit {
+  display: inline-block;
+  padding: 10px 28px;
+  background: #20B2AA;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#bhle-widget .bhle-submit:hover {
+  background: #1a9a93;
+}
+#bhle-widget .bhle-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+#bhle-widget .bhle-results {
+  display: none;
+  margin-top: 16px;
+}
+#bhle-widget .bhle-results.show {
+  display: block;
+}
+#bhle-widget .bhle-result-card {
+  background: var(--bg-color, #f9fafb);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 8px;
+}
+[data-theme="dark"] #bhle-widget .bhle-result-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+#bhle-widget .bhle-result-header {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--font-color, #1f2937);
+}
+#bhle-widget .bhle-model-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+#bhle-widget .bhle-model-name {
+  flex: 0 0 110px;
+  font-size: 0.82rem;
+  text-align: right;
+  color: var(--font-color, #555);
+}
+#bhle-widget .bhle-bar-track {
+  flex: 1;
+  height: 18px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+[data-theme="dark"] #bhle-widget .bhle-bar-track {
+  background: #374151;
+}
+#bhle-widget .bhle-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+#bhle-widget .bhle-bar-label {
+  flex: 0 0 40px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--font-color, #1f2937);
+  font-variant-numeric: tabular-nums;
+}
+#bhle-widget .bhle-you-bar .bhle-bar-fill {
+  background: linear-gradient(90deg, #f59e0b, #f97316);
+}
+#bhle-widget .bhle-next-btn {
+  display: inline-block;
+  padding: 8px 20px;
+  background: transparent;
+  color: #20B2AA;
+  border: 1.5px solid #20B2AA;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.15s;
+}
+#bhle-widget .bhle-next-btn:hover {
+  background: #20B2AA;
+  color: #fff;
+}
+#bhle-widget .bhle-question-counter {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 12px;
+}
+</style>
+<div id="bhle-widget" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-beat-hle">Interactive: Can You Beat the Frontier AI models?</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div id="bhle-content"></div>
+  </div>
+  <div class="dt-widget-footer">
+    Answer each question, then see how your performance compares against frontier models on HLE.
+  </div>
+</div>
+<script src="/js/interactive/beat_hle.js"></script>

@@ -47,7 +47,7 @@
     h.appendChild(a);
   });
 
-  var tocHeadings = headings.filter(function(h) { return !!h.id; });
+  var tocHeadings = headings.filter(function(h) { return !!h.id && !h.hasAttribute('data-toc-exclude'); });
   if (tocHeadings.length >= 2) {
     var block = document.getElementById('toc-block');
     var list = document.getElementById('toc-list');
@@ -77,10 +77,15 @@
       });
 
       var spyOffset = 100;
+      function absoluteTop(el) {
+        var top = 0;
+        while (el) { top += el.offsetTop; el = el.offsetParent; }
+        return top;
+      }
       function updateActive() {
-        var current = tocLinks[0];
+        var current = null;
         tocLinks.forEach(function(item) {
-          if (window.scrollY >= item.heading.offsetTop - spyOffset) {
+          if (window.scrollY >= absoluteTop(item.heading) - spyOffset) {
             current = item;
           }
         });

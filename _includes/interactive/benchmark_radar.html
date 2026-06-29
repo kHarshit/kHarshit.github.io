@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<style>
+#br-radar {
+  position: relative;
+  width: 100%;
+}
+#br-radar canvas {
+  display: block;
+  margin: 0 auto;
+}
+#br-radar canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.br-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+.br-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+}
+.br-legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.br-legend-item input { display: none; }
+.br-legend-item input:checked + .br-legend-swatch { opacity: 1; }
+.br-legend-item input:not(:checked) ~ .br-legend-swatch { opacity: 0.3; }
+.br-legend-item input:not(:checked) ~ span { opacity: 0.4; }
+.br-axis-label {
+  font-size: 0.75rem;
+  fill: #666;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+[data-theme="dark"] .br-axis-label { fill: #999; }
+.br-score-label {
+  font-size: 0.65rem;
+  fill: #888;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+[data-theme="dark"] .br-score-label { fill: #777; }
+</style>
+<div id="br-radar" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-benchmark-radar">Interactive: Frontier Model Radar</h3>
+  </div>
+  <div class="dt-widget-body">
+    <canvas id="br-canvas"></canvas>
+    <div class="br-legend" id="br-legend"></div>
+  </div>
+  <div class="dt-widget-footer">
+    Click a model in the legend to toggle it on/off. Hover over data points for exact scores.
+  </div>
+</div>
+<script src="/js/interactive/benchmark_radar.js"></script>
