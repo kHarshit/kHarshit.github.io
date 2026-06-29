@@ -194,14 +194,87 @@ nav a:hover {
     font-weight: 500;
 }
 
-nav .current a {
+nav > ul > li.current > a {
     color: var(--accent-color);
     font-weight: 600;
 }
 
-nav .current a::after {
+nav > ul > li.current > a::after {
     width: 100%;
     background: var(--accent-color);
+}
+
+.nav-dropdown-menu li.current a {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* More dropdown */
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown.current .nav-dropdown-toggle {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.nav-dropdown.current .nav-dropdown-toggle::after {
+    display: none;
+}
+
+.nav-dropdown-toggle {
+    cursor: default;
+    user-select: none;
+}
+
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--header-bg);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 16px 0 6px;
+    min-width: 120px;
+    z-index: 100;
+    list-style: none;
+    margin: 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+    display: block;
+}
+
+.nav-dropdown-menu li {
+    display: block;
+    padding: 0;
+}
+
+.nav-dropdown-menu li a {
+    display: block;
+    padding: 8px 18px;
+    white-space: nowrap;
+    text-decoration: none;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    transition: color 0.2s ease, text-decoration-color 0.25s ease;
+}
+
+.nav-dropdown-menu li a::after {
+    display: none;
+}
+
+.nav-dropdown-menu li a:hover {
+    text-decoration: underline;
+    text-decoration-color: rgba(255,255,255,0.85);
+}
+
+[data-theme="dark"] .nav-dropdown-menu {
+    background: var(--header-bg);
 }
 
 #btmnav {

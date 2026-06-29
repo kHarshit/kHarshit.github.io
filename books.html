@@ -1,0 +1,124 @@
+---
+layout: default
+title: Harshit Kumar | Books
+permalink: /books/
+---
+
+<link rel="stylesheet" href="/css/books.css">
+
+<header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
+        </div>
+        {% include nav.html %}
+    </div>
+</header>
+
+<main id="main">
+    <div class="container">
+
+        <div class="blog-page-header">
+            <h1 class="blog-page-title">Books</h1>
+        </div>
+        <p class="blog-page-desc">Short reviews of books I've read.</p>
+
+        <div id="category-filters" class="books-filters">
+            <button class="filter-btn active" onclick="filterSelection('all')">All</button>
+            <button class="filter-btn" onclick="filterSelection('literature')">Literature</button>
+
+            <button class="filter-btn" onclick="filterSelection('philosophy')">Philosophy</button>
+            <button class="filter-btn" onclick="filterSelection('science')">Science</button>
+        </div>
+
+        <ul class="books-list" id="books-list">
+
+            <li class="books-item text-category-title literature">
+                <div class="books-cover" style="--cover-color: #8e44ad;">
+                    <img src="/img/books/midsummer-nights-dream.jpg" alt="A Midsummer Night's Dream" loading="lazy">
+                </div>
+                <div class="books-body">
+                    <div class="books-meta">
+                        <h3 class="books-title">A Midsummer Night's Dream</h3>
+                        <span class="books-author">William Shakespeare</span>
+                    </div>
+                    <div class="books-tags">
+                        <span class="books-tag">Classic</span>
+                        <span class="books-tag">Comedy</span>
+                    </div>
+                    <p class="books-desc">Shakespeare's most playful comedy, lovers fleeing into a forest, a mischievous fairy, and a man with a donkey's head. The layered confusion is pure delight. Bottom's performance is quite funny.</p>
+                </div>
+            </li>
+
+            <li class="books-item text-category-title literature">
+                <div class="books-cover" style="--cover-color: #2ecc71;">
+                    <img src="/img/books/forest-of-enchantments.jpg" alt="The Forest of Enchantments" loading="lazy">
+                </div>
+                <div class="books-body">
+                    <div class="books-meta">
+                        <h3 class="books-title">The Forest of Enchantments</h3>
+                        <span class="books-author">Chitra Banerjee Divakaruni</span>
+                    </div>
+                    <div class="books-tags">
+                        <span class="books-tag">Mythology</span>
+                        <span class="books-tag">Feminist Retelling</span>
+                    </div>
+                    <p class="books-desc">A beautiful retelling of the Ramayana from Sita's perspective. Divakaruni gives voice to a character often seen only through others, her strength, dignity, and quiet defiance are unforgettable.</p>
+                </div>
+            </li>
+
+            <li class="books-item text-category-title">
+                <div class="books-cover" style="--cover-color: #e67e22;">
+                    <img src="/img/books/how-to-win-friends.jpg" alt="How to Win Friends and Influence People" loading="lazy">
+                </div>
+                <div class="books-body">
+                    <div class="books-meta">
+                        <h3 class="books-title">How to Win Friends and Influence People</h3>
+                        <span class="books-author">Dale Carnegie</span>
+                    </div>
+                    <div class="books-tags">
+                        <span class="books-tag">Communication</span>
+                    </div>
+                    <p class="books-desc">The principles feel obvious after you read them, but that's exactly why they're genius. Smile, listen, be genuinely interested. Simple, profound, and surprisingly effective in both work and life.</p>
+                </div>
+            </li>
+
+            <li class="books-item text-category-title philosophy">
+                <div class="books-cover" style="--cover-color: #e74c3c;">
+                    <img src="/img/books/subtle-art.jpg" alt="The Subtle Art of Not Giving a F*ck" loading="lazy">
+                </div>
+                <div class="books-body">
+                    <div class="books-meta">
+                        <h3 class="books-title">The Subtle Art of Not Giving a F*ck</h3>
+                        <span class="books-author">Mark Manson</span>
+                    </div>
+                    <div class="books-tags">
+                        <span class="books-tag">Philosophy</span>
+                    </div>
+                    <p class="books-desc">A much-needed antidote to toxic positivity. Manson's core argument, choose what you care about wisely, then be willing to suffer for it, reframed how I think about motivation and happiness.</p>
+                </div>
+            </li>
+
+            <li class="books-item text-category-title science">
+                <div class="books-cover" style="--cover-color: #3498db;">
+                    <img src="/img/books/grand-design.jpg" alt="The Grand Design" loading="lazy">
+                </div>
+                <div class="books-body">
+                    <div class="books-meta">
+                        <h3 class="books-title">The Grand Design</h3>
+                        <span class="books-author">Stephen Hawking &amp; Leonard Mlodinow</span>
+                    </div>
+                    <div class="books-tags">
+                        <span class="books-tag">Physics</span>
+                        <span class="books-tag">Cosmology</span>
+                    </div>
+                    <p class="books-desc">The first popular science book I read. The idea that the universe may have no single history but every possible history is genuinely mind-bending.</p>
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+</main>
+
+<script src="/js/site/filter_btn.js"></script>

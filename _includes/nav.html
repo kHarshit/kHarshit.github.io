@@ -1,0 +1,14 @@
+<nav aria-label="Main navigation">
+    <ul>
+        <li{% if page.url == "/" %} class="current"{% endif %}><a href="{{ site.url }}">Home</a></li>
+        <li{% if page.url contains "/projects" %} class="current"{% endif %}><a href="/projects">Projects</a></li>
+        <li{% if page.url contains "/blog" or page.url contains "/categories" or page.layout == "post" or page.layout == "category" %} class="current"{% endif %}><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown{% if page.url contains "/poems" or page.url contains "/books" or page.layout == "poem" %} current{% endif %}">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li{% if page.url contains "/poems" or page.layout == "poem" %} class="current"{% endif %}><a href="/poems">Poems</a></li>
+                <li{% if page.url contains "/books" %} class="current"{% endif %}><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
