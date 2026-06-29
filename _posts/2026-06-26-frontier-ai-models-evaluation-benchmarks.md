@@ -92,8 +92,6 @@ MMLU (Massive Multitask Language Understanding) was the benchmark that defined A
 
 MMLU-Pro was built to extend the original MMLU : 12k+ graduate-level questions with ten answer choices instead of four, making guessing much harder. At launch it caused a 16–33% accuracy drop across models. As of early 2026, the leading score has already reached ~90%, and MMLU-Pro is itself approaching saturation.
 
-{% include img.html src="/img/blog/llm-benchmarks/benchmark_saturation_chart.svg" width="95%" caption="Benchmark score trajectories from 2020–2026. Every benchmark follows the same arc: rapid improvement, then ceiling." %}
-
 ### GPQA Diamond
 
 Graduate-Level Google-Proof Q&A contains much complex questions. Its 198 questions in biology, physics, and chemistry were written by PhD-level domain experts and designed to be unsolvable by searching the web. The calibration is striking:
@@ -269,6 +267,8 @@ As frontier labs compete for enterprise use cases, domain-specific benchmarks ar
 ## Why Benchmarks Break Down
 
 Running through each domain makes clear how much progress the field has made. But it also reveals a deeper problem: benchmarks have a shelf life, and that shelf life is shrinking.
+
+{% include img.html src="/img/blog/llm-benchmarks/benchmark_saturation_chart.svg" width="95%" caption="Benchmark score trajectories from 2020–2026. Every benchmark follows the same arc: rapid improvement, then ceiling." %}
 
 <div class="mbgrid mbgrid-2" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070" markdown="1">
 <div class="mbcard" markdown="1">

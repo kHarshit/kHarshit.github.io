@@ -1,118 +1,105 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="system-ui, -apple-system, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f8f9fa"/>
-      <stop offset="100%" stop-color="#e9ecef"/>
+      <stop offset="0%" stop-color="#f8fcfb"/>
+      <stop offset="100%" stop-color="#f2f8f7"/>
     </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#000" flood-opacity="0.06"/>
+    </filter>
   </defs>
 
-  <rect width="800" height="500" fill="url(#bg)" rx="12"/>
+  <rect width="800" height="500" fill="url(#bg)" rx="10" filter="url(#shadow)"/>
 
-  <text x="400" y="32" text-anchor="middle" font-size="17" font-weight="700" fill="#212529">Benchmark Score Evolution (2020–2026)</text>
-  <text x="400" y="52" text-anchor="middle" font-size="12" fill="#6c757d">Frontier models saturate each benchmark within 2–4 years of introduction</text>
+  <g transform="translate(75, 55)">
+    <!-- dimensions: 650 wide, 360 high -->
 
-  <!-- Chart area -->
-  <g transform="translate(70, 75)">
-    <!-- Chart dimensions -->
-    <!-- width=660, height=360 -->
+    <!-- Grid lines -->
+    <line x1="0" y1="0" x2="650" y2="0" stroke="#e2e8f0" stroke-width="0.5"/>
+    <line x1="0" y1="90" x2="650" y2="90" stroke="#e2e8f0" stroke-width="0.5"/>
+    <line x1="0" y1="180" x2="650" y2="180" stroke="#e2e8f0" stroke-width="0.5"/>
+    <line x1="0" y1="270" x2="650" y2="270" stroke="#e2e8f0" stroke-width="0.5"/>
+    <line x1="0" y1="360" x2="650" y2="360" stroke="#d1d5db" stroke-width="1"/>
 
-    <!-- Grid lines (0%, 25%, 50%, 75%, 100%) -->
-    <line x1="0" y1="0" x2="660" y2="0" stroke="#e2e8f0" stroke-width="0.5"/>
-    <line x1="0" y1="90" x2="660" y2="90" stroke="#e2e8f0" stroke-width="0.5"/>
-    <line x1="0" y1="180" x2="660" y2="180" stroke="#e2e8f0" stroke-width="0.5"/>
-    <line x1="0" y1="270" x2="660" y2="270" stroke="#e2e8f0" stroke-width="0.5"/>
-    <line x1="0" y1="360" x2="660" y2="360" stroke="#e2e8f0" stroke-width="0.5"/>
+    <!-- Saturation zone annotation -->
+    <rect x="0" y="0" width="650" height="28" fill="#dc2626" opacity="0.06" rx="2"/>
+    <line x1="0" y1="28" x2="650" y2="28" stroke="#dc2626" stroke-width="0.5" stroke-dasharray="4,3"/>
+    <text x="648" y="18" text-anchor="end" font-size="9" fill="#dc2626" font-weight="600">~92% saturation ceiling</text>
 
     <!-- Y-axis labels -->
-    <text x="-10" y="4" text-anchor="end" font-size="11" fill="#9ca3af">100%</text>
-    <text x="-10" y="94" text-anchor="end" font-size="11" fill="#9ca3af">75%</text>
-    <text x="-10" y="184" text-anchor="end" font-size="11" fill="#9ca3af">50%</text>
-    <text x="-10" y="274" text-anchor="end" font-size="11" fill="#9ca3af">25%</text>
-    <text x="-10" y="364" text-anchor="end" font-size="11" fill="#9ca3af">0%</text>
+    <text x="-10" y="4" text-anchor="end" font-size="11" fill="#9ca3af" font-variant-numeric="tabular-nums">100%</text>
+    <text x="-10" y="94" text-anchor="end" font-size="11" fill="#9ca3af" font-variant-numeric="tabular-nums">75%</text>
+    <text x="-10" y="184" text-anchor="end" font-size="11" fill="#9ca3af" font-variant-numeric="tabular-nums">50%</text>
+    <text x="-10" y="274" text-anchor="end" font-size="11" fill="#9ca3af" font-variant-numeric="tabular-nums">25%</text>
+    <text x="-10" y="364" text-anchor="end" font-size="11" fill="#9ca3af" font-variant-numeric="tabular-nums">0%</text>
 
-    <!-- X-axis labels and ticks -->
-    <!-- 2020 at x=0, 2021 at x=110, ..., 2026 at x=660 -->
-    <line x1="0" y1="360" x2="660" y2="360" stroke="#d1d5db" stroke-width="1"/>
+    <!-- X-axis labels -->
     <text x="0" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2020</text>
-    <text x="110" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2021</text>
-    <text x="220" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2022</text>
-    <text x="330" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2023</text>
-    <text x="440" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2024</text>
-    <text x="550" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2025</text>
-    <text x="660" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2026</text>
+    <text x="108" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2021</text>
+    <text x="217" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2022</text>
+    <text x="325" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2023</text>
+    <text x="433" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2024</text>
+    <text x="542" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2025</text>
+    <text x="650" y="380" text-anchor="middle" font-size="11" font-weight="700" fill="#282828">2026</text>
 
-    <!-- Data: years 0-6 (2020-2026), scores as % -->
-    <!-- MMLU: #dc3545 -->
-    <!-- Points: (0,68), (1,55), (2,40), (3,25), (4,12), (5,9), (6,7) -->
-    <!-- y = 360 - (score/100 * 360) -->
-    <!-- MMLU: 32, 45, 60, 75, 88, 91, 93 -->
-    <polyline points="0,244.8 110,198 220,144 330,90 440,43.2 550,32.4 660,25.2" fill="none" stroke="#dc3545" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- MMLU: #dc3545 (red) - starts at 2020 -->
+    <polyline points="0,244.8 108,198 217,144 325,90 433,43.2 542,32.4 650,25.2" fill="none" stroke="#dc3545" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="0" cy="244.8" r="3.5" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="108" cy="198" r="3.5" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="217" cy="144" r="3.5" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="325" cy="90" r="3.5" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="433" cy="43.2" r="3.5" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="542" cy="32.4" r="3.5" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="650" cy="25.2" r="4.5" fill="#dc3545" stroke="#fff" stroke-width="2"/>
+    <text x="6" y="240" font-size="11" font-weight="700" fill="#dc3545">MMLU</text>
+    <text x="6" y="254" font-size="9" fill="#9ca3af">32% (2020) → 93% (2026)</text>
 
-    <!-- MMLU data points -->
-    <circle cx="0" cy="244.8" r="4" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="110" cy="198" r="4" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="220" cy="144" r="4" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="330" cy="90" r="4" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="440" cy="43.2" r="4" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="550" cy="32.4" r="4" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="660" cy="25.2" r="4.5" fill="#dc3545" stroke="#fff" stroke-width="1.5"/>
+    <!-- MMLU-Pro: #f59e0b (amber) - starts at 2024 -->
+    <polyline points="433,129.6 542,64.8 650,36" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4"/>
+    <circle cx="433" cy="129.6" r="3.5" fill="#f59e0b" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="542" cy="64.8" r="3.5" fill="#f59e0b" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="650" cy="36" r="4.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
+    <text x="439" y="125" font-size="11" font-weight="700" fill="#f59e0b">MMLU-Pro</text>
+    <text x="439" y="139" font-size="9" fill="#9ca3af">64% (2024) → 90% (2026)</text>
 
-    <!-- MMLU label -->
-    <text x="670" y="25.2" font-size="12" font-weight="600" fill="#dc3545">MMLU</text>
+    <!-- GPQA Diamond: #14b8a6 (teal) - starts at 2023 -->
+    <polyline points="325,180 433,126 542,64.8 650,28.8" fill="none" stroke="#14b8a6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="325" cy="180" r="3.5" fill="#14b8a6" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="433" cy="126" r="3.5" fill="#14b8a6" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="542" cy="64.8" r="3.5" fill="#14b8a6" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="650" cy="28.8" r="4.5" fill="#14b8a6" stroke="#fff" stroke-width="2"/>
+    <text x="331" y="176" font-size="11" font-weight="700" fill="#14b8a6">GPQA Diamond</text>
+    <text x="331" y="190" font-size="9" fill="#9ca3af">50% (2023) → 92% (2026)</text>
 
-    <!-- MMLU-Pro: #fd7e14 -->
-    <!-- Data: null, null, null, null, 64, 82, 90 -->
-    <polyline points="440,129.6 550,64.8 660,36" fill="none" stroke="#fd7e14" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4"/>
-    <circle cx="440" cy="129.6" r="4" fill="#fd7e14" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="550" cy="64.8" r="4" fill="#fd7e14" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="660" cy="36" r="4.5" fill="#fd7e14" stroke="#fff" stroke-width="1.5"/>
+    <!-- SWE-bench: #3b82f6 (blue) - starts at 2023 -->
+    <polyline points="325,344.2 433,101.9 542,79.2 650,72" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4"/>
+    <circle cx="325" cy="344.2" r="3.5" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="433" cy="101.9" r="3.5" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="542" cy="79.2" r="3.5" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="650" cy="72" r="4.5" fill="#3b82f6" stroke="#fff" stroke-width="2"/>
+    <text x="331" y="354" font-size="11" font-weight="700" fill="#3b82f6">SWE-bench</text>
+    <text x="331" y="368" font-size="9" fill="#9ca3af">4.4% (2023) → 80% (2026)</text>
 
-    <!-- MMLU-Pro label -->
-    <text x="670" y="36" font-size="12" font-weight="600" fill="#fd7e14">MMLU-Pro</text>
+    <!-- HLE: #d63384 (pink) - starts at 2025 -->
+    <polyline points="542,334.8 650,225" fill="none" stroke="#d63384" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4"/>
+    <circle cx="542" cy="334.8" r="3.5" fill="#d63384" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="650" cy="225" r="4.5" fill="#d63384" stroke="#fff" stroke-width="2"/>
+    <text x="548" y="330" font-size="11" font-weight="700" fill="#d63384">HLE</text>
+    <text x="548" y="344" font-size="9" fill="#9ca3af">7% (2025) → 37.5% (2026)</text>
 
-    <!-- GPQA Diamond: #20c997 -->
-    <!-- Data: null, null, null, 50, 65, 82, 92 -->
-    <polyline points="330,180 440,126 550,64.8 660,28.8" fill="none" stroke="#20c997" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="330" cy="180" r="4" fill="#20c997" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="440" cy="126" r="4" fill="#20c997" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="550" cy="64.8" r="4" fill="#20c997" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="660" cy="28.8" r="4.5" fill="#20c997" stroke="#fff" stroke-width="1.5"/>
-
-    <!-- GPQA label -->
-    <text x="670" y="28.8" font-size="12" font-weight="600" fill="#20c997">GPQA Diamond</text>
-
-    <!-- SWE-bench: #0d6efd -->
-    <!-- Data: null, null, null, 4.4, 71.7, 78, 80 -->
-    <polyline points="330,344.2 440,101.9 550,79.2 660,72" fill="none" stroke="#0d6efd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4"/>
-    <circle cx="330" cy="344.2" r="4" fill="#0d6efd" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="440" cy="101.9" r="4" fill="#0d6efd" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="550" cy="79.2" r="4" fill="#0d6efd" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="660" cy="72" r="4.5" fill="#0d6efd" stroke="#fff" stroke-width="1.5"/>
-
-    <!-- SWE-bench label -->
-    <text x="670" y="72" font-size="12" font-weight="600" fill="#0d6efd">SWE-bench</text>
-
-    <!-- HLE: #d63384 -->
-    <!-- Data: null, null, null, null, null, 7, 37.5 -->
-    <polyline points="550,334.8 660,225" fill="none" stroke="#d63384" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4"/>
-    <circle cx="550" cy="334.8" r="4" fill="#d63384" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="660" cy="225" r="4.5" fill="#d63384" stroke="#fff" stroke-width="1.5"/>
-
-    <!-- HLE label -->
-    <text x="670" y="225" font-size="12" font-weight="600" fill="#d63384">HLE</text>
-
-    <!-- Annotation: Saturation zone -->
-    <rect x="0" y="0" width="660" height="30" fill="#dc3545" opacity="0.08" rx="2"/>
-    <text x="660" y="20" text-anchor="end" font-size="10" fill="#dc3545" font-style="italic">~95% ceiling (saturation zone)</text>
+    <!-- FrontierCode: #8b5cf6 (violet) - starts at 2025 -->
+    <polyline points="542,345.6 650,254.5" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4"/>
+    <circle cx="542" cy="345.6" r="3.5" fill="#8b5cf6" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="650" cy="254.5" r="4.5" fill="#8b5cf6" stroke="#fff" stroke-width="2"/>
+    <text x="548" y="357" font-size="11" font-weight="700" fill="#8b5cf6">FrontierCode</text>
+    <text x="548" y="371" font-size="9" fill="#9ca3af">~2% (2025) → 29.3% (2026)</text>
   </g>
 
   <!-- Legend -->
-  <g transform="translate(70, 470)">
-    <circle cx="0" cy="0" r="4" fill="#dc3545"/>
-    <text x="12" y="4" font-size="11" fill="#495057">Solid = still active</text>
-    <circle cx="160" cy="0" r="4" fill="#6b7280"/>
-    <text x="172" y="4" font-size="11" fill="#495057">Dashed = approaching saturation</text>
-    <circle cx="420" cy="0" r="4" fill="#9ca3af"/>
-    <text x="432" y="4" font-size="11" fill="#495057">Data labels = SOTA score for each year</text>
+  <g transform="translate(75, 472)">
+    <line x1="0" y1="4" x2="20" y2="4" stroke="#374151" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="26" y="8" font-size="10" fill="#6b7280">Solid (still active)</text>
+    <line x1="180" y1="4" x2="200" y2="4" stroke="#374151" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5,3"/>
+    <text x="206" y="8" font-size="10" fill="#6b7280">Dashed (approaching saturation)</text>
   </g>
 </svg>
