@@ -1,35 +1,4 @@
-<link rel="stylesheet" href="/css/quiz.css">
-<div id="quiz">
-  <div class="quiz-header">
-    <h2 class="quiz-title" id="test-your-knowledge">QUIZ: Test Your Benchmark Knowledge</h2>
-    <div class="quiz-progress">
-      <span class="quiz-progress-text"></span>
-      <div class="quiz-progress-bar"><div class="quiz-progress-fill"></div></div>
-    </div>
-  </div>
-
-  <div class="quiz-question-area">
-    <p class="quiz-question-text"></p>
-    <div class="quiz-options"></div>
-  </div>
-
-  <div class="quiz-footer">
-    <button class="quiz-btn quiz-btn-secondary" id="prev-btn">&#8592; Prev</button>
-    <div class="quiz-footer-right">
-      <button class="quiz-btn quiz-btn-primary" id="next-btn">Next &#8594;</button>
-      <button class="quiz-btn quiz-btn-primary" id="submit-btn" style="display:none">Submit</button>
-    </div>
-  </div>
-
-  <div class="quiz-results" style="display:none">
-    <div class="quiz-results-emoji"></div>
-    <p class="quiz-results-message"></p>
-    <p class="quiz-results-score"></p>
-    <button class="quiz-btn quiz-btn-secondary" id="retake-btn">&#8635; Retake Quiz</button>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script>
+<script>
     var all_questions = [{
       question_string: "A benchmark is considered 'saturated' when:",
       choices: {
@@ -61,15 +30,9 @@
         wrong: ["They are cheaper to run", "They cover more capability domains", "They use human judges instead of automated scoring"]
       }
     }, {
-      question_string: "What does the 'with tools' column in the HLE leaderboard tell you about a model?",
-      choices: {
-        correct: "How much the model relies on external tools versus internal reasoning",
-        wrong: ["Whether the model can use a search engine at all", "The model's score on agentic benchmarks", "How fast the model generates answers"]
-      }
-    }, {
       question_string: "Which capability domain does ARC-AGI-2 primarily test?",
       choices: {
-        correct: "Fluid intelligence — solving novel visual puzzles from first principles",
+        correct: "Fluid intelligence: solving novel visual puzzles from first principles",
         wrong: ["Code generation from natural language", "Document parsing and retrieval", "Multi-turn conversation quality"]
       }
     }, {
@@ -79,18 +42,11 @@
         wrong: ["Arena uses a different scoring system", "LegalBench only tests open-source models", "Arena scores decay over time"]
       }
     }, {
-      question_string: "What is the main limitation of 'context window size' as a measure of long-context capability?",
-      choices: {
-        correct: "A model can technically accept long inputs but degrade in quality the deeper into a document it needs to look",
-        wrong: ["Larger context windows always cost more to run", "Context window size is not reported publicly", "It only applies to multimodal models"]
-      }
-    }, {
       question_string: "Benchmark 'gaming' refers to:",
       choices: {
         correct: "Models being optimized for specific benchmarks, inflating scores without genuine capability gains",
         wrong: ["Benchmarks that test video game playing ability", "Deliberately submitting incorrect answers to avoid scrutiny", "Using benchmark scores to set model prices"]
       }
     }];
-  </script>
-  <script src="/js/quiz/quiz.js"></script>
-</div>
+</script>
+{% include quiz.html title="Test Your Benchmark Knowledge" %}

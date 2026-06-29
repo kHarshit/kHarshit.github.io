@@ -1,6 +1,7 @@
 var Question = function(question_string, correct_choice, wrong_choices) {
     this.question_string = question_string;
     this.user_choice_index = null;
+    this.submitted = false;
     this.choices = [];
 
     // Place the correct answer at a random index
@@ -26,7 +27,6 @@ var Quiz = function(questions_data) {
 Quiz.prototype.build = function() {
     this.questions = [];
     this.current_index = 0;
-    // Shuffle question order each build
     var shuffled = this.questions_data.slice().sort(function() { return Math.random() - 0.5; });
     for (var i = 0; i < shuffled.length; i++) {
         this.questions.push(new Question(
@@ -45,7 +45,8 @@ Quiz.prototype.render = function($container) {
     var $options      = $container.find('.quiz-options');
     var $prevBtn      = $container.find('#prev-btn');
     var $nextBtn      = $container.find('#next-btn');
-    var $submitBtn    = $container.find('#submit-btn');
+    var $checkBtn     = $container.find('#check-btn');
+    var $finishBtn    = $container.find('#finish-btn');
     var $retakeBtn    = $container.find('#retake-btn');
     var $questionArea = $container.find('.quiz-question-area');
     var $footer       = $container.find('.quiz-footer');
@@ -53,7 +54,6 @@ Quiz.prototype.render = function($container) {
     var $progressText = $container.find('.quiz-progress-text');
     var $progressFill = $container.find('.quiz-progress-fill');
 
-    // Reset view state
     $results.hide();
     $questionArea.show();
     $footer.show();
@@ -65,20 +65,47 @@ Quiz.prototype.render = function($container) {
         $progressFill.css('width', (current / total * 100) + '%');
     }
 
-    function allAnswered() {
-        return self.questions.every(function(q) { return q.user_choice_index !== null; });
+    function allSubmitted() {
+        return self.questions.every(function(q) { return q.submitted; });
     }
 
     function updateFooter() {
+        var q = self.questions[self.current_index];
         var isLast = self.current_index === self.questions.length - 1;
+
         $prevBtn.prop('disabled', self.current_index === 0);
+
+        // Check button: show when answer selected and not yet submitted
+        if (!q.submitted && q.user_choice_index !== null) {
+            $checkBtn.show();
+        } else {
+            $checkBtn.hide();
+        }
+
+        // Next / Finish
         if (isLast) {
             $nextBtn.hide();
-            $submitBtn.show().prop('disabled', !allAnswered());
+            $finishBtn.show().prop('disabled', !allSubmitted());
         } else {
-            $nextBtn.show();
-            $submitBtn.hide();
+            $nextBtn.show().prop('disabled', !q.submitted);
+            $finishBtn.hide();
         }
+    }
+
+    function applySubmittedColors($opts, q) {
+        $opts.find('.quiz-option').each(function() {
+            var idx = parseInt($(this).attr('data-index'));
+            $(this).addClass('locked');
+            if (idx === q.correct_choice_index) {
+                $(this).removeClass('selected incorrect').addClass('correct');
+                $(this).find('input').prop('checked', idx === q.user_choice_index);
+            } else if (idx === q.user_choice_index) {
+                $(this).removeClass('selected correct').addClass('incorrect');
+                $(this).find('input').prop('checked', true);
+            } else {
+                $(this).removeClass('selected');
+            }
+        });
     }
 
     function renderQuestion() {
@@ -91,36 +118,48 @@ Quiz.prototype.render = function($container) {
                 var $label = $('<label class="quiz-option">').attr('data-index', idx);
                 var $radio = $('<input type="radio" name="quiz-choice">').val(idx);
                 if (q.user_choice_index === idx) {
-                    $label.addClass('selected');
                     $radio.prop('checked', true);
+                    if (!q.submitted) $label.addClass('selected');
                 }
                 $label.append($radio).append($('<span>').text(q.choices[idx]));
                 $options.append($label);
             })(i);
         }
 
-        $options.find('.quiz-option').on('click', function() {
-            var idx = parseInt($(this).attr('data-index'));
-            self.questions[self.current_index].user_choice_index = idx;
-            $options.find('.quiz-option').removeClass('selected');
-            $(this).addClass('selected');
-            updateFooter();
-        });
+        if (q.submitted) {
+            applySubmittedColors($options, q);
+        } else {
+            $options.find('.quiz-option').on('click', function() {
+                var idx = parseInt($(this).attr('data-index'));
+                self.questions[self.current_index].user_choice_index = idx;
+                $options.find('.quiz-option').removeClass('selected');
+                $(this).addClass('selected');
+                updateFooter();
+            });
+        }
 
         updateFooter();
         updateProgress();
     }
 
-    // Navigation
     $prevBtn.off('click').on('click', function() {
         if (self.current_index > 0) { self.current_index--; renderQuestion(); }
     });
+
     $nextBtn.off('click').on('click', function() {
         if (self.current_index < self.questions.length - 1) { self.current_index++; renderQuestion(); }
     });
 
-    // Submit
-    $submitBtn.off('click').on('click', function() {
+    $checkBtn.off('click').on('click', function() {
+        var q = self.questions[self.current_index];
+        q.submitted = true;
+        applySubmittedColors($options, q);
+        // Remove click handlers by replacing options (already locked via CSS)
+        $options.find('.quiz-option').off('click');
+        updateFooter();
+    });
+
+    $finishBtn.off('click').on('click', function() {
         var score = 0;
         self.questions.forEach(function(q) {
             if (q.user_choice_index === q.correct_choice_index) score++;
@@ -128,7 +167,7 @@ Quiz.prototype.render = function($container) {
 
         var pct = score / self.questions.length;
         var emoji, message;
-        if (pct === 1)       { emoji = '🎉'; message = 'Perfect score!'; }
+        if (pct === 1)        { emoji = '🎉'; message = 'Perfect score!'; }
         else if (pct >= 0.75) { emoji = '👍'; message = 'Great job!'; }
         else if (pct >= 0.5)  { emoji = '📚'; message = 'Almost there!'; }
         else                  { emoji = '💪'; message = 'Keep practicing!'; }
@@ -144,7 +183,6 @@ Quiz.prototype.render = function($container) {
         $results.slideDown(250);
     });
 
-    // Retake
     $retakeBtn.off('click').on('click', function() {
         $results.slideUp(200, function() {
             self.render($container);
