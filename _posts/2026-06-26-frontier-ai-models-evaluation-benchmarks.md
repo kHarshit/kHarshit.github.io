@@ -27,56 +27,72 @@ Not all benchmarks test the same thing. Before looking at specific evaluations, 
 
 Does the model know things, and can it apply that knowledge? These tests range from broad general knowledge across dozens of subjects to deep, PhD-level questions in science and mathematics. 
 
+<div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none" markdown="1">
 *Key signal:* A model can score well on broad knowledge tests by memorizing facts, while still failing at questions that require genuine reasoning and analysis.
+</div>
 </div>
 <div class="mbcard" markdown="1">
 **Mathematical & Logical Reasoning**
 
-Can the model work through multi-step problems without making errors along the way? Tests range from grade-school word problems (now fully solved) to competition mathematics and open research problems that no model has come close to cracking.
+Can the model work through multi-step problems without making errors along the way? Tests range from grade-school word problems to competition mathematics and open research problems.
 
+<div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none" markdown="1">
 *Key signal:* Models that struggle here tend to make silent arithmetic or logic errors in real-world multi-step tasks.
+</div>
 </div>
 <div class="mbcard" markdown="1">
 **Coding & Software Engineering**
 
 Can a model write, debug, and navigate real codebases? For example, replicating the behavior of a software engineer, a model is asked to produce a working fix for a bug report given the model an entire codebase.
 
+<div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none" markdown="1">
 *Key signal:* The gap between "can write code" and "can fix a real bug in a large codebase" is significant, and this is where models still differ meaningfully.
+</div>
 </div>
 <div class="mbcard" markdown="1">
 **Agentic & Tool-Use Capability**
 
 Can the model take actions autonomously, not just answer questions, but use tools, navigate software, and complete multi-step tasks? These benchmarks test whether a model can operate like an assistant that does things, not just one that says things.
 
+<div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none" markdown="1">
 *Key signal:* Agentic tasks expose failure modes, getting stuck, losing context across steps, making unrecoverable errors, that simple question-answer don't cover.
+</div>
 </div>
 <div class="mbcard" markdown="1">
 **Long-Context & Document Understanding**
 
 These benchmarks test whether a model can retrieve, connect, and reason over information spread across very long inputs in a long document.
 
+<div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none" markdown="1">
 *Key signal:* A model may technically support a large context window but quietly degrade in quality the deeper into a document it needs to look.
+</div>
 </div>
 <div class="mbcard" markdown="1">
 **Vision & Multimodal Reasoning**
 
 These benchmarks test whether a model can genuinely reason about visual content (e.g. charts, diagrams, photographs, scanned documents) alongside text.
 
+<div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none" markdown="1">
 *Key signal:* Parsing a document image and reasoning about a diagram are very different skills. A model strong at one is not necessarily strong at the other.
+</div>
 </div>
 <div class="mbcard" markdown="1">
 **Human Preference & Instruction Following**
 
-Automated tests measure specific skills, but not whether a model is actually good at interact with humans. Human preference benchmarks collect real votes from real users on which response they preference without knowing which model produced it.
+Automated tests measure specific skills, but not whether a model is good at interacting with humans. Human preference benchmarks collect votes from real users on which response they prefer without knowing which model produced it.
 
+<div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none" markdown="1">
 *Key signal:* A model can score well on capability benchmarks while still feeling unhelpful or frustrating to use in practice.
+</div>
 </div>
 <div class="mbcard" markdown="1">
 **Safety & Alignment**
 
-Safety benchmarks test honesty, resistance to manipulation, and whether a model can be tricked into producing harmful outputs.
+Safety benchmarks test bias ,toxicity, unsafe output generation, jail-break, resistance to manipulation, and whether a model can be tricked into producing harmful outputs.
 
+<div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none" markdown="1">
 *Key signal:* Capability and safety do not automatically go hand in hand. Some of the most capable models require the most careful safety evaluation.
+</div>
 </div>
 </div>
 
@@ -335,12 +351,14 @@ And if history is any guide, the benchmarks you read about today will be obsolet
 - [FrontierMath: A Benchmark for Evaluating Advanced Mathematical Reasoning in AI](https://arxiv.org/abs/2411.04872)
 - [ARC Prize: ARC-AGI-2](https://arcprize.org)
 - [Evaluating Large Language Models Trained on Code (HumanEval)](https://arxiv.org/abs/2107.03374)
-- [SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770)
+- [SWE-Bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770)
 - [SWE-Bench Verified vals.ai](https://www.vals.ai/benchmarks/swebench)
 - [SWE-Bench Pro](https://labs.scale.com/leaderboard/swe_bench_pro_public)
 - [OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments](https://arxiv.org/abs/2404.07972)
 - [MMMU: A Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark](https://arxiv.org/abs/2311.16502)
 - [Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference](https://arxiv.org/abs/2403.04132)
+- [Chatbot Arena + Leaderboard](https://openlm.ai/chatbot-arena/)
+- [Terminal-Bench 2.1 Leaderboard](https://www.tbench.ai/leaderboard/terminal-bench/2.1)
 - [TruthfulQA: Measuring How Models Mimic Human Falsehoods](https://arxiv.org/abs/2109.07958)
 - [A StrongREJECT for Empty Jailbreaks](https://arxiv.org/abs/2402.10260)
 - [MedQA: What Disease does this Patient Have?](https://arxiv.org/abs/2009.13081)
