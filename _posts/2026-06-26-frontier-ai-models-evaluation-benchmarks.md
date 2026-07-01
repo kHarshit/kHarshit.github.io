@@ -39,7 +39,7 @@ Can the model work through multi-step problems without making errors along the w
 <div class="mbcard" markdown="1">
 **Coding & Software Engineering**
 
-Can a model write, debug, and navigate real codebases? For example, replicating the behavior of a software engineer, a model is asked to produce a working fix for a bug report give the model an entire codebase.
+Can a model write, debug, and navigate real codebases? For example, replicating the behavior of a software engineer, a model is asked to produce a working fix for a bug report given the model an entire codebase.
 
 *Key signal:* The gap between "can write code" and "can fix a real bug in a large codebase" is significant, and this is where models still differ meaningfully.
 </div>
@@ -67,7 +67,7 @@ These benchmarks test whether a model can genuinely reason about visual content 
 <div class="mbcard" markdown="1">
 **Human Preference & Instruction Following**
 
-Automated tests measure specific skills, but not whether a model is actually good at interact with human. Human preference benchmarks collect real votes from real users on which response they preference without knowing which model produced it.
+Automated tests measure specific skills, but not whether a model is actually good at interact with humans. Human preference benchmarks collect real votes from real users on which response they preference without knowing which model produced it.
 
 *Key signal:* A model can score well on capability benchmarks while still feeling unhelpful or frustrating to use in practice.
 </div>
@@ -86,7 +86,7 @@ The most natural place to start evaluating a model is: does it know things? The 
 
 ### MMLU
 
-MMLU (Massive Multitask Language Understanding) was the benchmark that defined AI progress for half a decade. It covers 57 academic subjects, from abstract algebra to world history, using 16k+ multiple-choice questions. GPT-3 model scored around 32% in 2020 on MMLU. Today every frontier model exceeds 88%, with the best at 93%. A 2-point gap between models falls within measurement noise. MMLU is now a floor check, useful only for confirming a model isn't broken.
+MMLU (Massive Multitask Language Understanding) was the benchmark that defined AI progress for half a decade. It covers 57 academic subjects, from abstract algebra to world history, using 16k+ multiple-choice questions. GPT-3 model scored around 32% in 2020 on MMLU. Today every frontier model exceeds 88%. A 2-point gap between models falls within measurement noise. MMLU is now a floor check, useful only for confirming a model isn't broken.
 
 ### MMLU-Pro
 
@@ -99,8 +99,11 @@ Graduate-Level Google-Proof Q&A contains much complex questions. Its 198 questio
 - Skilled non-experts with unrestricted internet access: **34%**
 - PhD experts in the relevant field: **~65%**
 - GPT-5.4 (April 2026): **92%**
+- Claude Fable 5 and Gemini 3.1 Pro (June 2026): **94%**
 
-Frontier models have surpassed PhD experts on their own subject matter. GPQA Diamond is approaching saturation at the very top but still separates models in the 60–90% range.
+Frontier models have surpassed PhD experts on subject matter. Gemini 3.1 Pro (94.3%), Claude Fable 5 (94.1%), and Claude Opus 4.8 (93.6%) currently lead the leaderboard . GPQA Diamond is approaching saturation at the very top but still separates models in the 60–90% range.
+
+Note that human expert scores vary across benchmarks: ~65% on GPQA Diamond (narrow, field-specific questions) versus ~90% on HLE (broader questions across many fields). Both use domain experts, but GPQA tests depth within a subfield while HLE tests breadth across disciplines.
 
 ### Humanity's Last Exam (HLE)
 
@@ -109,16 +112,15 @@ HLE is the current ceiling for knowledge evaluation. It comprises 2,500 question
 | Model | Score (no tools) | Score (with tools) |
 | - | - | - |
 | Claude Fable 5 | 59.0% | 64.5% |
-| Claude Mythos 5 Preview | 56.8% | 64.7% |
 | Claude Opus 4.8 | 49.8% | 57.9% |
 | GPT-5.5 | ~41.4% | — |
 | Gemini 3 Pro Preview | 37.5% | — |
 | GPT-5 Pro | 31.6% | — |
-| DeepSeek-V4 Pro | ~28% | — |
+| DeepSeek-V4 | ~28% | — |
 | Human domain experts (reference) | ~90% | — |
 {:.mbtablestyle}
 
-The "with tools" column is worth noting: when models can run code or search the web during the test, scores jump by 5–8 points. That gap tells you how much a model depends on external tools versus internal reasoning. At the current pace, HLE may saturate within a year or two, following the same arc as every benchmark before it.
+The "with tools" column is worth noting: when models can run code or search the web during the test, scores jump by 5-8 points. That gap tells you how much a model depends on external tools versus internal reasoning. At the current pace, HLE may saturate within a year or two, following the same arc as every benchmark before it.
 
 {% include interactive/beat_hle.html %}
 
@@ -131,16 +133,16 @@ LiveBench takes a different approach to keeping knowledge benchmarks fresh: it r
 Mathematical reasoning tests the ability to chain together logical steps to solve math and logic questions.
 
 ### GSM8K and HellaSwag
-GSM8K (grade-school math word problems) is saturated above 95%. HellaSwag (commonsense sentence completion) is saturated above 92%. These are now regression checks only.
+GSM8K tests grade-school math word problems. HellaSwag tests commonsense reasoning i.e. whether a model can pick the most sensible ending to a story. Both are now saturated with models scoring above 95% and 92% respectively. They are only useful as quick sanity checks to make sure a model isn't broken.
 
 ### AIME
 AIME (American Invitational Mathematics Examination) consists of 15 difficult competition math problems with integer answers. It became a useful evaluation once the easier tests saturated. Top frontier models in 2026 approach ceiling performance on AIME 2025, thus pushing the field toward harder contests like the USAMO and PutnamBench.
 
 ### FrontierMath
-It represents the current open frontier for mathematics. These are original problems crafted by expert mathematicians, spanning most major branches of math. As of mid-2026, frontier models score below 10%. It is one of the last benchmarks with genuinely vast headroom.
+It consists of hundreds of unpublished challenging math problems. These are divided into 4 difficulty tiers with level 4 for research-level math.
 
 ### ARC-AGI-2
-ARC-AGI-2, created by François Chollet, tests something fundamentally different: *fluid intelligence* — the ability to solve novel visual puzzles from just a few examples, with no relevant training data to draw on. The puzzles are grids of colored squares; the model must infer the underlying rule and complete the pattern. Where most benchmarks reward pattern-matching from training, ARC-AGI-2 requires reasoning from first principles. As of mid-2026, frontier models still perform below the best humans.
+ARC-AGI-2, created by François Chollet, tests something fundamentally different: *fluid intelligence*, ability to solve novel visual puzzles from just a few examples, with no relevant training data to draw on. The puzzles are grids of colored squares; the model must infer the underlying rule and complete the pattern. Where most benchmarks reward pattern-matching from training, ARC-AGI-2 requires reasoning from first principles. As of mid-2026, GPT-5.5 leads the leaderboard at ~85%, surpassing the average individual human performance of ~66%. Top human panel scores (where multiple experts must agree) still exceed the best AI, but the gap has closed dramatically since past year.
 
 ## Coding & Software Engineering
 
@@ -149,19 +151,18 @@ These benchmarks measure whether a model can write, debug, and navigate real cod
 ### HumanEval
 One of the first coding benchmarks, it asked models to complete Python functions from docstrings. It saturated above 93% and has been retired in favor of harder successors.
 
-### SWE-Bench & SWE-Bench Pro
-Given a real GitHub codebase and a real bug report, can the model produce a correct patch?
+### SWE-Bench, SWE-Bench Verified, SWE-Bench Pro
+The SWE-Bench measures: *Given a real GitHub codebase and a bug report, can the model produce a correct patch?* The SWE-Bench Verified is a subset of 500 problems from SWE-Bench verified by researchers. The SWE-Bench Pro is harder version with problems from spanning complex codebases e.g. consumer applications, B2B services, and developer tools. It contains 1865 problems from 41 actively managed repositories. 
 
 - **2023**: 4.4% of issues solved
 - **2024**: 71.7% solved (+67 pp in one year)
-- **Mid-2026**: Claude Fable 5 reached 80.3% on **SWE-bench Pro**, the harder variant where models receive no hints about which files to edit
+- **Mid-2026**: Claude Fable 5 reached 80.3% on SWE-bench Pro
 
-| Model | SWE-bench Pro | SWE-bench Verified |
+| Model | SWE-bench Verified | SWE-bench Pro |
 | - | - | - |
-| Claude Fable 5 | 80.3% | — |
-| Gemini 3 Pro | — | 76.2% |
-| Claude Opus 4.8 | 69.2% | — |
-| GPT-5.5 | 58.6% | — |
+| Claude Fable 5 | 95.0% | 80.3% |
+| Claude Opus 4.8 | 88.6% | 69.2% |
+| GPT-5.5 | 82.6% | 58.6% |
 {:.mbtablestyle}
 
 ### FrontierCode
@@ -178,34 +179,32 @@ TerminalBench tests multi-step agentic terminal operation i.e. writing scripts, 
 
 | Model | TerminalBench 2.1 |
 | - | - |
-| GPT-5.6 Sol Ultra | 91.9% |
-| GPT-5.6 Sol | 88.8% |
-| Claude Mythos 5 / Fable 5 | 88.0% |
-| GPT-5.5 | 83.4% |
-| Claude Opus 4.8 | 82.7% |
+| GPT-5.5 (Codex CLI) | 83.4% |
+| Claude Fable 5 (Claude Code) | 83.1% |
+| Claude Opus 4.8 (Claude Code) | 78.9% |
 | Gemini 3.1 Pro | 70.7% |
 {:.mbtablestyle}
 
 ### OSWorld
 
-OSWorld takes agentic evaluation the furthest: can a model operate a real computer? It tests tasks across operating systems: opening files, navigating a browser, running terminal commands, interacting with GUI applications. Unlike TerminalBench, OSWorld involves full visual interfaces and requires the model to perceive and act on a screen. Accuracy rose from ~12% to 66.3% in two years. Human performance is around 72%, meaning the gap is now less than 6 percentage points.
+OSWorld takes agentic evaluation the furthest: can a model operate a real computer? It tests tasks across operating systems: opening files, navigating a browser, running terminal commands, interacting with GUI applications. Unlike TerminalBench, OSWorld involves full visual interfaces and requires the model to perceive and act on a screen. Accuracy has risen from ~12% to 85.0% (Claude Fable 5). Human performance is around 72%, meaning models have now surpassed the human baseline on this benchmark.
 
 ## Vision, Long-Context & Document Understanding
 
 The benchmarks so far have mostly involved text. But real-world tasks often require more: understanding images, reasoning over long documents, or both at once. These two domains are closely related; both test what happens when you give a model richer, more complex input than a short text prompt.
 
 ### Long-context benchmarks
-They test whether models can actually *use* their large context windows. Context windows have grown from 4K tokens (GPT-3) to over 1M tokens (Gemini 3 Pro), but accepting a long document and reasoning over it are very different things. RULER and HELMET measure whether models can actually retrieve and connect information spread across very long inputs. A well-known failure mode here is "lost in the middle" where a model handles the beginning and end of a document fine but loses track of content buried deeper inside.
+They test whether models can actually *use* their large context windows. Context windows have grown from 4K tokens (GPT-3) to over 1M tokens (Gemini 3 Pro), but accepting a long document and reasoning over it are very different things. RULER and HELMET measure whether models can actually retrieve and connect information spread across very long inputs. A well-known failure mode here is "lost-in-the-middle" where a model handles the beginning and end of a document fine but loses track of content buried deeper inside.
 
 ### Vision and multimodal reasoning
-The models that handle both images and text are called **vision-language models (VLMs)**. **MMMU** (Massive Multidisciplinary Multimodal Understanding) is the standard: college-level questions across six disciplines that require genuinely understanding images, not just reading captions. Top VLMs score in the 75–85% range, with room still to improve. More specific benchmarks test narrower skills:
+The models that handle both images and text are called **vision-language models (VLMs)**. **MMMU** (Massive Multidisciplinary Multimodal Understanding) is the standard: college-level questions across six disciplines that require genuinely understanding images, not just reading captions. Top VLMs score in the 75–86% range, with room still to improve. More specific benchmarks test narrower skills:
 
 | Benchmark | What it tests | 2026 SOTA | Status |
 | - | - | - | - |
-| **MMMU** | Multidisciplinary multimodal reasoning | ~82% | Active |
+| **MMMU** | Multidisciplinary multimodal reasoning | ~86% | Active |
 | **MMT-Bench** | Multimodal reasoning (broader) | ~78% | Active |
 | **ChartQA** | Chart understanding | ~88% | Approaching ceiling |
-| **DocVQA** | Document parsing | ~92% | Near-saturated |
+| **DocVQA** | Document parsing | ~96% | Near-saturated |
 | **MMBench** | Visual QA | ~85% | Active |
 {:.mbtablestyle}
 
@@ -221,20 +220,19 @@ All of the benchmarks above measure what a model *can* do. But two important que
 
 **Arena Elo Ratings (June 2026):**
 
-| Lab | Model | Elo |
+| Model | Lab | Elo |
 | - | - | - |
-| Anthropic | Claude Opus 4.8 | ~1,510 |
-| OpenAI | GPT-5.6 Pro | ~1,505 |
-| Anthropic | Claude Mythos 5 | ~1,500 |
-| Google | Gemini 3.1 Pro Preview | ~1,495 |
-| xAI | Grok 4 | ~1,495 |
-| Anthropic | Claude Opus 4.7 | ~1,490 |
-| OpenAI | GPT-5.5 | ~1,488 |
-| Alibaba | Qwen 3.7 Max | ~1,455 |
-| DeepSeek | DeepSeek-V4 | ~1,430 |
+| Claude Fable 5           | Anthropic | 1,510 |
+| Claude Opus 4.8 Thinking | Anthropic | 1,506 |
+| GPT-5.5 High             | OpenAI    | 1,506 |
+| Gemini 3.1 Pro           | Google    | 1505 |
+| Grok 4.20                | xAI       | 1496 |
+| GLM-5.2                  | Z.ai      | 1488 |
+| Qwen 3.7 Max             | Alibaba   | 1486 |
+| DeepSeek-V4-Pro          | DeepSeek  | 1467 |
 {:.mbtablestyle}
 
-The top eight models are clustered within ~55 Elo points, the tightest spread on record. This has a practical implication: choosing a model now means matching it to your use case, not just picking the highest number. Price, latency, context window, and domain fit often matter more than raw capability differences.
+The top models are clustered within ~45 Elo points, the tightest spread on record. This has a practical implication: choosing a model now means matching it to your use case, not just picking the highest number. Price, latency, context window, and domain fit often matter more than raw capability differences.
 
 The **Open LLM Leaderboard v2** (HuggingFace) provides a consistent automated harness for comparing open-weight models across six benchmarks. Its value is standardization, any model can be run through the same evaluation pipeline.
 
@@ -299,21 +297,21 @@ Putting it all together, here is the current state across the key benchmarks:
 
 | Benchmark | Domain | Top Score | Leader | Status |
 | - | - | - | - | - |
-| MMLU | Knowledge breadth | 93% | Multiple | Saturated |
+| MMLU | Knowledge breadth | 92.5% | Multiple | Saturated |
 | MMLU-Pro | Graduate knowledge | 90% | Gemini 3 Pro Preview | Near-saturated |
-| GPQA Diamond | PhD-level science | 92.4% | Qwen 3.7 Max / Opus 4.8 | Active, saturating |
+| GPQA Diamond | PhD-level science | 94.3% | Gemini 3.1 Pro | Active, saturating |
 | HLE | Knowledge frontier | 59.0% | Claude Fable 5 | Active, fast-improving |
-| AIME 2025 | Competition math | ~90% | Multiple | Near-saturated |
-| FrontierMath | Research math | <10% | None dominant | Wide-open |
-| ARC-AGI-2 | Fluid reasoning | Below human | None dominant | Wide-open |
+| AIME 2025 | Competition math | 100% | Multiple | Saturated |
+| FrontierMath | Research math | ~52% | GPT-5.5 Pro | Active |
+| ARC-AGI-2 | Fluid reasoning | ~85% | GPT-5.5 | Active, fast-improving |
 | SWE-bench Pro | Agentic coding | 80.3% | Claude Fable 5 | Active, saturating |
-| TerminalBench 2.1 | Agentic terminal ops | 91.9% | GPT-5.6 Sol Ultra | New, active |
+| TerminalBench 2.1 | Agentic terminal ops | 83.4% | GPT-5.5 (Codex CLI) | New, active |
 | FrontierCode | Research-level coding | 29.3% | Claude Fable 5 | Wide-open |
-| OSWorld | Agentic computer tasks | 66.3% | Claude Opus 4.6 | Active |
-| Arena Elo | Human preference | ~1,510 | Claude Opus 4.8 | Converged |
+| OSWorld | Agentic computer tasks | 85.0% | Claude Fable 5 | Active |
+| Arena Elo | Human preference | ~1,510 | Claude Fable 5 | Converged |
 {:.mbtablestyle}
 
-No model leads across all benchmarks. FrontierMath and ARC-AGI-2 remain genuinely wide open. The agentic benchmarks, TerminalBench and OSWorld, are where the most active competition is happening right now.
+No model leads across all benchmarks. ARC-AGI-2 remains genuinely wide open. The agentic benchmarks, TerminalBench and OSWorld, are where the most active competition is happening right now.
 
 {% include interactive/benchmark_radar.html %}
 
@@ -331,13 +329,15 @@ And if history is any guide, the benchmarks you read about today will be obsolet
 - [Measuring Massive Multitask Language Understanding (MMLU)](https://arxiv.org/abs/2009.03300)
 - [MMLU-Pro: A More Robust and Challenging Multi-Task Language Understanding Benchmark](https://arxiv.org/abs/2406.01574)
 - [GPQA: A Graduate-Level Google-Proof Q&A Benchmark](https://arxiv.org/abs/2311.12022)
-- [Humanity's Last Exam](https://hle.scale.com)
+- [Humanity's Last Exam](https://labs.scale.com/leaderboard/humanitys_last_exam)
 - [LiveBench: A Challenging, Contamination-Free LLM Benchmark](https://arxiv.org/abs/2406.19314)
 - [Training Verifiers to Solve Math Word Problems (GSM8K)](https://arxiv.org/abs/2110.14168)
 - [FrontierMath: A Benchmark for Evaluating Advanced Mathematical Reasoning in AI](https://arxiv.org/abs/2411.04872)
 - [ARC Prize: ARC-AGI-2](https://arcprize.org)
 - [Evaluating Large Language Models Trained on Code (HumanEval)](https://arxiv.org/abs/2107.03374)
 - [SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770)
+- [SWE-Bench Verified vals.ai](https://www.vals.ai/benchmarks/swebench)
+- [SWE-Bench Pro](https://labs.scale.com/leaderboard/swe_bench_pro_public)
 - [OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments](https://arxiv.org/abs/2404.07972)
 - [MMMU: A Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark](https://arxiv.org/abs/2311.16502)
 - [Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference](https://arxiv.org/abs/2403.04132)

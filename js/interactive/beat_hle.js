@@ -298,12 +298,14 @@
     var yourPct = (results.filter(function (r) { return r; }).length / filteredQuestions.length) * 100;
 
     var models = [
-      { name: 'You',           score: yourPct, color: '#f59e0b' },
-      { name: 'Gemini 3 Pro',  score: 37.5,    color: '#2563eb' },
-      { name: 'Claude 4.6',    score: 34.4,    color: '#d97706' },
-      { name: 'GPT-5 Pro',     score: 31.6,    color: '#059669' },
-      { name: 'DeepSeek-V4',   score: 28,      color: '#7c3aed' },
-      { name: 'Human Expert',  score: 90,      color: '#6b7280' }
+      { name: 'You',                   score: yourPct, color: '#f59e0b' },
+      { name: 'Claude Fable 5',        score: 59.0,    color: '#e11d48' },
+      { name: 'Claude Opus 4.8',       score: 49.8,    color: '#d97706' },
+      { name: 'GPT-5.5',               score: 41.4,    color: '#059669' },
+      { name: 'Gemini 3 Pro Preview',  score: 37.5,    color: '#2563eb' },
+      { name: 'GPT-5 Pro',             score: 31.6,    color: '#16a34a' },
+      { name: 'DeepSeek-V4',           score: 28,      color: '#7c3aed' },
+      { name: 'Human Expert',          score: 90,      color: '#6b7280' }
     ];
 
     var sorted = models.slice().sort(function (a, b) {

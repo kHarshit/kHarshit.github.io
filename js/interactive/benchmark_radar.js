@@ -3,7 +3,7 @@
 
   var MODELS = [
     { name: 'Claude Fable 5',   color: '#f59e0b' },
-    { name: 'GPT-5.6 Sol',      color: '#10b981' },
+    { name: 'GPT-5.5',          color: '#10b981' },
     { name: 'Claude Opus 4.8',  color: '#d97706' },
     { name: 'Gemini 3.1 Pro',   color: '#2563eb' },
     { name: 'Qwen 3.7 Max',     color: '#0891b2' },
@@ -21,13 +21,13 @@
   ];
 
   var DATA = {
-    'Claude Fable 5':  { gpqa: 91,   hle: 59.0, swe: 80, aime: 90, mmmu: 84, arena: 99.5 },
-    'GPT-5.6 Sol':     { gpqa: 92,   hle: 45,   swe: 72, aime: 91, mmmu: 82, arena: 99.7 },
-    'Claude Opus 4.8': { gpqa: 92.4, hle: 49.8, swe: 69, aime: 89, mmmu: 83, arena: 100  },
-    'Gemini 3.1 Pro':  { gpqa: 91.9, hle: 37.5, swe: 76, aime: 87, mmmu: 86, arena: 99.0 },
-    'Qwen 3.7 Max':    { gpqa: 92.4, hle: 36,   swe: 63, aime: 88, mmmu: 80, arena: 96.4 },
-    'DeepSeek-V4':     { gpqa: 88,   hle: 28,   swe: 65, aime: 88, mmmu: 78, arena: 94.7 },
-    'Grok 4':          { gpqa: 89,   hle: 32,   swe: 70, aime: 86, mmmu: 79, arena: 99.0 }
+    'Claude Fable 5':  { gpqa: 94.1, hle: 59.0, swe: 80,   aime: 96, mmmu: 84, arena: 100  },
+    'GPT-5.5':         { gpqa: 93.6, hle: 41.4, swe: 58.6, aime: 97, mmmu: 82, arena: 99.7 },
+    'Claude Opus 4.8': { gpqa: 93.6, hle: 49.8, swe: 69,   aime: 94, mmmu: 83, arena: 99.7 },
+    'Gemini 3.1 Pro':  { gpqa: 94.3, hle: 44.7, swe: 76,   aime: 94, mmmu: 86, arena: 99.7 },
+    'Qwen 3.7 Max':    { gpqa: 92.4, hle: 36,   swe: 63,   aime: 93, mmmu: 80, arena: 98.4 },
+    'DeepSeek-V4':     { gpqa: 88,   hle: 28,   swe: 65,   aime: 90, mmmu: 78, arena: 97.2 },
+    'Grok 4':          { gpqa: 89,   hle: 32,   swe: 70,   aime: 90, mmmu: 79, arena: 99.1 }
   };
 
   var PADDING = 40;
