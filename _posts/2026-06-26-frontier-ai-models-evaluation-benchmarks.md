@@ -102,11 +102,11 @@ The most natural place to start evaluating a model is: does it know things? The 
 
 ### MMLU
 
-MMLU (Massive Multitask Language Understanding) was the benchmark that defined AI progress for half a decade. It covers 57 academic subjects, from abstract algebra to world history, using 16k+ multiple-choice questions. GPT-3 model scored around 32% in 2020 on MMLU. Today every frontier model exceeds 88%. A 2-point gap between models falls within measurement noise. MMLU is now a floor check, useful only for confirming a model isn't broken.
+MMLU (Massive Multitask Language Understanding) contains 16k+ multiple-choice questions covering 57 academic subjects like humanities (law, history, philosophy, etc.), social sciences (politics, geography, etc.), STEM (science, math, physics, etc), medicine, etc. GPT-3 model scored around 43.9% in 2020 compared to human expert's 89.8% on MMLU. Today every frontier model exceeds 88%. A 2-point gap between models falls within measurement noise. MMLU is now a floor check, useful only for confirming a model isn't broken.
 
 ### MMLU-Pro
 
-MMLU-Pro was built to extend the original MMLU : 12k+ graduate-level questions with ten answer choices instead of four, making guessing much harder. At launch it caused a 16–33% accuracy drop across models. As of early 2026, the leading score has already reached ~90%, and MMLU-Pro is itself approaching saturation.
+MMLU-Pro is an upgrade over MMLU with 12k+ graduate-level reasoning-based questions with ten answer choices instead of four, making guessing much harder. As of early 2026, the leading score has already reached ~90%, and MMLU-Pro is itself approaching saturation.
 
 ### GPQA Diamond
 
@@ -123,7 +123,7 @@ Note that human expert scores vary across benchmarks: ~65% on GPQA Diamond (narr
 
 ### Humanity's Last Exam (HLE)
 
-HLE is the current ceiling for knowledge evaluation. It comprises 2,500 questions created by domain experts across dozens of fields, all written from scratch, making it nearly impossible for a model to have "seen" the answers during training. When HLE launched, the best models scored below 10%. A year later in 2026, the current status is:
+HLE is the current ceiling for knowledge evaluation. It comprises 2,500 questions created by domain experts across math, humanities, and natural sciences, all written from scratch, making it nearly impossible for a model to have "seen" the answers during training. The current status in 2026 looks like this:
 
 | Model | Score (no tools) | Score (with tools) |
 | - | - | - |
@@ -136,13 +136,13 @@ HLE is the current ceiling for knowledge evaluation. It comprises 2,500 question
 | Human domain experts (reference) | ~90% | — |
 {:.mbtablestyle}
 
-The "with tools" column is worth noting: when models can run code or search the web during the test, scores jump by 5-8 points. That gap tells you how much a model depends on external tools versus internal reasoning. At the current pace, HLE may saturate within a year or two, following the same arc as every benchmark before it.
+The "with tools" means models can run code or search the web during the test. That gap tells you how much a model depends on external tools versus internal reasoning. At the current pace, HLE may saturate within a year or two, following the same arc as every benchmark before it.
 
 {% include interactive/beat_hle.html %}
 
 ### LiveBench
 
-LiveBench takes a different approach to keeping knowledge benchmarks fresh: it releases new questions monthly, drawn from recent news and newly published papers. Because questions are always fresh, models cannot have memorized the answers during training.
+LiveBench takes a different approach to keeping knowledge benchmarks fresh: it releases new questions monthly, drawn from recent math competitions, research papers, etc. Because questions are always fresh, models cannot have memorized the answers during training. It contains 18 tasks in 6 categories: math, coding, reasoning, language, instruction following, and data analysis.
 
 ## Mathematics & Logical Reasoning
 
@@ -158,7 +158,7 @@ AIME (American Invitational Mathematics Examination) consists of 15 difficult co
 It consists of hundreds of unpublished challenging math problems. These are divided into 4 difficulty tiers with level 4 for research-level math.
 
 ### ARC-AGI-2
-ARC-AGI-2, created by François Chollet, tests something fundamentally different: *fluid intelligence*, ability to solve novel visual puzzles from just a few examples, with no relevant training data to draw on. The puzzles are grids of colored squares; the model must infer the underlying rule and complete the pattern. Where most benchmarks reward pattern-matching from training, ARC-AGI-2 requires reasoning from first principles. As of mid-2026, GPT-5.5 leads the leaderboard at ~85%, surpassing the average individual human performance of ~66%. Top human panel scores (where multiple experts must agree) still exceed the best AI, but the gap has closed dramatically since past year.
+ARC-AGI-2 tests abstract reasoning and fluid intelligence, the ability to solve novel visual puzzles from just a few examples, with no relevant training data to draw on. The puzzles are grids of colored squares; the model must infer the underlying rule and complete the pattern. As of mid-2026, GPT-5.5 leads the leaderboard at ~85%, surpassing the average individual human performance of ~66%. Top human panel scores (where multiple experts must agree) still exceed the best AI, but the gap has closed dramatically since past year.
 
 ## Coding & Software Engineering
 
@@ -342,27 +342,31 @@ And if history is any guide, the benchmarks you read about today will be obsolet
 {% include quiz/llm_benchmarks.html %}
 
 **References:**
-- [Measuring Massive Multitask Language Understanding (MMLU)](https://arxiv.org/abs/2009.03300)
-- [MMLU-Pro: A More Robust and Challenging Multi-Task Language Understanding Benchmark](https://arxiv.org/abs/2406.01574)
-- [GPQA: A Graduate-Level Google-Proof Q&A Benchmark](https://arxiv.org/abs/2311.12022)
-- [Humanity's Last Exam](https://labs.scale.com/leaderboard/humanitys_last_exam)
-- [LiveBench: A Challenging, Contamination-Free LLM Benchmark](https://arxiv.org/abs/2406.19314)
-- [Training Verifiers to Solve Math Word Problems (GSM8K)](https://arxiv.org/abs/2110.14168)
-- [FrontierMath: A Benchmark for Evaluating Advanced Mathematical Reasoning in AI](https://arxiv.org/abs/2411.04872)
-- [ARC Prize: ARC-AGI-2](https://arcprize.org)
-- [Evaluating Large Language Models Trained on Code (HumanEval)](https://arxiv.org/abs/2107.03374)
-- [SWE-Bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770)
-- [SWE-Bench Verified vals.ai](https://www.vals.ai/benchmarks/swebench)
-- [SWE-Bench Pro](https://labs.scale.com/leaderboard/swe_bench_pro_public)
-- [OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments](https://arxiv.org/abs/2404.07972)
-- [MMMU: A Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark](https://arxiv.org/abs/2311.16502)
-- [Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference](https://arxiv.org/abs/2403.04132)
-- [Chatbot Arena + Leaderboard](https://openlm.ai/chatbot-arena/)
-- [Terminal-Bench 2.1 Leaderboard](https://www.tbench.ai/leaderboard/terminal-bench/2.1)
-- [TruthfulQA: Measuring How Models Mimic Human Falsehoods](https://arxiv.org/abs/2109.07958)
-- [A StrongREJECT for Empty Jailbreaks](https://arxiv.org/abs/2402.10260)
-- [MedQA: What Disease does this Patient Have?](https://arxiv.org/abs/2009.13081)
-- [LegalBench: A Collaboratively Built Benchmark for Measuring Legal Reasoning in LLMs](https://arxiv.org/abs/2308.11462)
-- [FinanceBench: A New Benchmark for Financial Question Answering](https://arxiv.org/abs/2311.11944)
-- [Claude Fable 5 and Claude Mythos 5](https://www.anthropic.com/news/claude-fable-5-mythos-5)
-- [Previewing GPT‑5.6 Sol: a next-generation model](https://openai.com/index/previewing-gpt-5-6-sol/)
+- [Paper: MMLU, Measuring Massive Multitask Language Understanding (MMLU)](https://arxiv.org/abs/2009.03300)
+- [Paper: MMLU-Pro, A More Robust and Challenging Multi-Task Language Understanding Benchmark](https://arxiv.org/abs/2406.01574)
+- [Leaderboard: MMLU-Pro](https://huggingface.co/spaces/TIGER-Lab/MMLU-Pro)
+- [Paper: GPQA, A Graduate-Level Google-Proof Q&A Benchmark](https://arxiv.org/abs/2311.12022)
+- [Leaderboard: GPQA Diamond](https://epoch.ai/benchmarks/gpqa-diamond?view=graph&tab=release-date)
+- [Paper: Humanity’s Last Exam](https://arxiv.org/pdf/2501.14249)
+- [Leaderboard: Humanity's Last Exam](https://labs.scale.com/leaderboard/humanitys_last_exam)
+- [Paper: LiveBench, A Challenging, Contamination-Free LLM Benchmark](https://arxiv.org/abs/2406.19314)
+- [Paper: GSM8K, Training Verifiers to Solve Math Word Problems](https://arxiv.org/abs/2110.14168)
+- [Paper: FrontierMath, A Benchmark for Evaluating Advanced Mathematical Reasoning in AI](https://arxiv.org/abs/2411.04872)
+- [Paper: ARC-AGI-2](https://arxiv.org/pdf/2505.11831)
+- [Leaderboard: ARC-AGI-2](https://arcprize.org/leaderboard)
+- [Paper: HumanEval, Evaluating Large Language Models Trained on Code](https://arxiv.org/abs/2107.03374)
+- [Paper: SWE-Bench, Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770)
+- [Leaderboard: SWE-Bench Verified vals.ai](https://www.vals.ai/benchmarks/swebench)
+- [Leaderboard: SWE-Bench Pro](https://labs.scale.com/leaderboard/swe_bench_pro_public)
+- [Paper: OSWorld, Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments](https://arxiv.org/abs/2404.07972)
+- [Paper: MMMU, A Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark](https://arxiv.org/abs/2311.16502)
+- [Paper: Chatbot Arena, An Open Platform for Evaluating LLMs by Human Preference](https://arxiv.org/abs/2403.04132)
+- [Leaderboard: Chatbot Arena](https://openlm.ai/chatbot-arena/)
+- [Leaderboard: Terminal-Bench 2.1](https://www.tbench.ai/leaderboard/terminal-bench/2.1)
+- [Paper: TruthfulQA, Measuring How Models Mimic Human Falsehoods](https://arxiv.org/abs/2109.07958)
+- [Paper: A StrongREJECT for Empty Jailbreaks](https://arxiv.org/abs/2402.10260)
+- [Paper: MedQA, What Disease does this Patient Have?](https://arxiv.org/abs/2009.13081)
+- [Paper: LegalBench, A Collaboratively Built Benchmark for Measuring Legal Reasoning in LLMs](https://arxiv.org/abs/2308.11462)
+- [Paper: FinanceBench, A New Benchmark for Financial Question Answering](https://arxiv.org/abs/2311.11944)
+- [Blog: Claude Fable 5 and Claude Mythos 5](https://www.anthropic.com/news/claude-fable-5-mythos-5)
+- [Blog: reviewing GPT‑5.6 Sol: a next-generation model](https://openai.com/index/previewing-gpt-5-6-sol/)
