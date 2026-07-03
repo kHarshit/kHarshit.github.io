@@ -47,6 +47,21 @@
     transition: width 0.1s linear;
 }
 
+/* ── Named color utilities (for inline color-name highlighting) ─── */
+.color-red    { color: #ef4444; }
+.color-green  { color: #22c55e; }
+.color-blue   { color: #3b82f6; }
+.color-yellow { color: #eab308; }
+.color-cyan   { color: #06b6d4; }
+.color-magenta{ color: #d946ef; }
+.color-violet { color: #8b5cf6; }
+.color-white  { color: #888; }    /* not pure white — use visible gray */
+.color-black  { color: #000; }
+.color-gray   { color: #888; }
+.color-orange { color: #f97316; }
+.color-pink   { color: #ec4899; }
+.color-brown  { color: #a16207; }
+
 /* ── Focus states ──────────────────────────────────────────── */
 :focus-visible {
     outline: 2px solid var(--accent-color);
