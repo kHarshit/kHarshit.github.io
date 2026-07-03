@@ -46,15 +46,15 @@ The human eye does not respond uniformly to all wavelengths. It is **trichromati
 <div class="mbgrid mbgrid-3" markdown="1">
 <div class="mbcard" style="--mbcard-border:1.5px solid #93c5fd;--mbcard-title-color:#3b82f6" markdown="1">
 **S-cones (short-wavelength)**
-Peak sensitivity around 420–440 nm (<span class="color-blue">blue</span>-<span class="color-violet">violet</span>). These cones have the narrowest response curve and are most sensitive to the short-wavelength end of the visible spectrum.
+Peak sensitivity around 420-440 nm (<span class="color-blue">blue</span>-<span class="color-violet">violet</span>). These cones have the narrowest response curve and are most sensitive to the short-wavelength end of the visible spectrum.
 </div>
 <div class="mbcard" style="--mbcard-border:1.5px solid #86efac;--mbcard-title-color:#22c55e" markdown="1">
 **M-cones (middle-wavelength)**
-Peak sensitivity around 534–555 nm (<span class="color-green">green</span>). They respond strongly to the middle of the visible spectrum and overlap significantly with L-cones.
+Peak sensitivity around 534-555 nm (<span class="color-green">green</span>). They respond strongly to the middle of the visible spectrum and overlap significantly with L-cones.
 </div>
 <div class="mbcard" style="--mbcard-border:1.5px solid #fca5a5;--mbcard-title-color:#ef4444" markdown="1">
 **L-cones (long-wavelength)**
-Peak sensitivity around 564–580 nm (<span class="color-yellow">yellow</span>-<span class="color-green">green</span>), not <span class="color-red">red</span>. Our perception of <span class="color-red">red</span> comes from the long tail of L-cone sensitivity combined with very low M-cone response at those wavelengths.
+Peak sensitivity around 564-580 nm (<span class="color-yellow">yellow</span>-<span class="color-green">green</span>), not <span class="color-red">red</span>. Our perception of <span class="color-red">red</span> comes from the long tail of L-cone sensitivity combined with very low M-cone response at those wavelengths.
 </div>
 </div>
 
