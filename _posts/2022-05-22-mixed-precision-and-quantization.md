@@ -2,6 +2,7 @@
 layout: post
 title: "Mixed Precision and Quantization: Accelerating Deep Learning Training and Inference"
 date: 2022-05-22
+permalink: /blog/mixed-precision-and-quantization/
 categories: [Deep Learning, CUDA]
 mathjax: true
 excerpt: "Comprehensive guide to mixed precision training (FP16/FP32) and INT8 quantization, covering GPU architecture, Tensor Cores, loss scaling, AMP, PTQ, QAT, and layer fusion with practical code examples."

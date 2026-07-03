@@ -2,6 +2,7 @@
 layout: post
 title: "Color and Color Spaces in Computer Vision"
 date: 2020-01-17
+permalink: /blog/color-and-color-spaces-in-computer-vision/
 categories: [Computer Vision]
 mathjax: true
 excerpt: "Understanding color models (RGB, HSV, LAB, Luv) and color spaces in computer vision from additive mixing and chromaticity to perceptually uniform CIE spaces and Delta E color difference."
