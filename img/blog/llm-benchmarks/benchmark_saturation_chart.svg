@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f8fcfb"/>
-      <stop offset="100%" stop-color="#f2f8f7"/>
+      <stop offset="0%" stop-color="#f4fcfb"/>
+      <stop offset="100%" stop-color="#edf8f6"/>
     </linearGradient>
     <filter id="shadow">
       <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#000" flood-opacity="0.06"/>
@@ -15,11 +15,11 @@
     <!-- dimensions: 650 wide, 360 high -->
 
     <!-- Grid lines -->
-    <line x1="0" y1="0" x2="650" y2="0" stroke="#e2e8f0" stroke-width="0.5"/>
-    <line x1="0" y1="90" x2="650" y2="90" stroke="#e2e8f0" stroke-width="0.5"/>
-    <line x1="0" y1="180" x2="650" y2="180" stroke="#e2e8f0" stroke-width="0.5"/>
-    <line x1="0" y1="270" x2="650" y2="270" stroke="#e2e8f0" stroke-width="0.5"/>
-    <line x1="0" y1="360" x2="650" y2="360" stroke="#d1d5db" stroke-width="1"/>
+    <line x1="0" y1="0" x2="650" y2="0" stroke="#d0ecea" stroke-width="0.5"/>
+    <line x1="0" y1="90" x2="650" y2="90" stroke="#d0ecea" stroke-width="0.5"/>
+    <line x1="0" y1="180" x2="650" y2="180" stroke="#d0ecea" stroke-width="0.5"/>
+    <line x1="0" y1="270" x2="650" y2="270" stroke="#d0ecea" stroke-width="0.5"/>
+    <line x1="0" y1="360" x2="650" y2="360" stroke="#a0d8d5" stroke-width="1"/>
 
     <!-- Saturation zone annotation -->
     <rect x="0" y="0" width="650" height="28" fill="#dc2626" opacity="0.06" rx="2"/>
@@ -27,19 +27,19 @@
     <text x="648" y="18" text-anchor="end" font-size="9" fill="#dc2626" font-weight="600">~92% saturation ceiling</text>
 
     <!-- Y-axis labels -->
-    <text x="-10" y="4" text-anchor="end" font-size="11" fill="#9ca3af" font-variant-numeric="tabular-nums">100%</text>
-    <text x="-10" y="94" text-anchor="end" font-size="11" fill="#9ca3af" font-variant-numeric="tabular-nums">75%</text>
-    <text x="-10" y="184" text-anchor="end" font-size="11" fill="#9ca3af" font-variant-numeric="tabular-nums">50%</text>
-    <text x="-10" y="274" text-anchor="end" font-size="11" fill="#9ca3af" font-variant-numeric="tabular-nums">25%</text>
-    <text x="-10" y="364" text-anchor="end" font-size="11" fill="#9ca3af" font-variant-numeric="tabular-nums">0%</text>
+    <text x="-10" y="4" text-anchor="end" font-size="11" fill="#5a8a87" font-variant-numeric="tabular-nums">100%</text>
+    <text x="-10" y="94" text-anchor="end" font-size="11" fill="#5a8a87" font-variant-numeric="tabular-nums">75%</text>
+    <text x="-10" y="184" text-anchor="end" font-size="11" fill="#5a8a87" font-variant-numeric="tabular-nums">50%</text>
+    <text x="-10" y="274" text-anchor="end" font-size="11" fill="#5a8a87" font-variant-numeric="tabular-nums">25%</text>
+    <text x="-10" y="364" text-anchor="end" font-size="11" fill="#5a8a87" font-variant-numeric="tabular-nums">0%</text>
 
     <!-- X-axis labels -->
-    <text x="0" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2020</text>
-    <text x="108" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2021</text>
-    <text x="217" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2022</text>
-    <text x="325" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2023</text>
-    <text x="433" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2024</text>
-    <text x="542" y="380" text-anchor="middle" font-size="11" fill="#6b7280">2025</text>
+    <text x="0" y="380" text-anchor="middle" font-size="11" fill="#5a8a87">2020</text>
+    <text x="108" y="380" text-anchor="middle" font-size="11" fill="#5a8a87">2021</text>
+    <text x="217" y="380" text-anchor="middle" font-size="11" fill="#5a8a87">2022</text>
+    <text x="325" y="380" text-anchor="middle" font-size="11" fill="#5a8a87">2023</text>
+    <text x="433" y="380" text-anchor="middle" font-size="11" fill="#5a8a87">2024</text>
+    <text x="542" y="380" text-anchor="middle" font-size="11" fill="#5a8a87">2025</text>
     <text x="650" y="380" text-anchor="middle" font-size="11" font-weight="700" fill="#282828">2026</text>
 
     <!-- MMLU: #dc3545 (red) - starts at 2020 -->
@@ -97,9 +97,9 @@
 
   <!-- Legend -->
   <g transform="translate(75, 472)">
-    <line x1="0" y1="4" x2="20" y2="4" stroke="#374151" stroke-width="2.5" stroke-linecap="round"/>
-    <text x="26" y="8" font-size="10" fill="#6b7280">Solid (still active)</text>
-    <line x1="180" y1="4" x2="200" y2="4" stroke="#374151" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5,3"/>
-    <text x="206" y="8" font-size="10" fill="#6b7280">Dashed (approaching saturation)</text>
+    <line x1="0" y1="4" x2="20" y2="4" stroke="#20B2AA" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="26" y="8" font-size="10" fill="#5a8a87">Solid (still active)</text>
+    <line x1="180" y1="4" x2="200" y2="4" stroke="#20B2AA" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5,3"/>
+    <text x="206" y="8" font-size="10" fill="#5a8a87">Dashed (approaching saturation)</text>
   </g>
 </svg>

@@ -96,6 +96,8 @@ Safety benchmarks test bias ,toxicity, unsafe output generation, jail-break, res
 </div>
 </div>
 
+{% include img.html src="/img/blog/llm-benchmarks/benchmark_timeline.svg" caption="Benchmark Release Timeline" %}
+
 ## Knowledge & Factual Reasoning
 
 The most natural place to start evaluating a model is: does it know things? The first generation of knowledge benchmarks tested broad coverage. As models mastered those, the tests had to get deeper and more expert.
