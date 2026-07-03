@@ -104,13 +104,41 @@ The most natural place to start evaluating a model is: does it know things? The 
 
 MMLU (Massive Multitask Language Understanding) contains 16k+ multiple-choice questions covering 57 academic subjects like humanities (law, history, philosophy, etc.), social sciences (politics, geography, etc.), STEM (science, math, physics, etc), medicine, etc. GPT-3 model scored around 43.9% in 2020 compared to human expert's 89.8% on MMLU. Today every frontier model exceeds 88%. A 2-point gap between models falls within measurement noise. MMLU is now a floor check, useful only for confirming a model isn't broken.
 
+{% highlight markdown %}
+# Example Question:
+One of the reasons that the government discourages and regulates monopolies is that
+(A) producer surplus is lost and consumer surplus is gained.
+(B) monopoly prices ensure productive efficiency but cost society allocative efficiency.
+(C) monopoly firms do not engage in significant research and development.
+(D) consumer surplus is lost with higher prices and lower levels of output.
+## Answer: D
+{% endhighlight %}
+
 ### MMLU-Pro
 
 MMLU-Pro is an upgrade over MMLU with 12k+ graduate-level reasoning-based questions with ten answer choices instead of four, making guessing much harder. As of early 2026, the leading score has already reached ~90%, and MMLU-Pro is itself approaching saturation.
 
+{% highlight markdown %}
+# Example Question:
+Ms. Chen purchased a used car, worth $1650, on the installment plan, paying $50 down and $1,840 in monthly installment payments over a period of two years. What annual interest rate did she pay?
+Options:
+A. 10% B. 17.5% C. 15.2% D. 13.3% E. 20% F. 19.8% G. 18% H. 16% I. 12% J. 14.4%
+## Answer: J
+{% endhighlight %}
+
 ### GPQA Diamond
 
-Graduate-Level Google-Proof Q&A contains much complex questions. Its 198 questions in biology, physics, and chemistry were written by PhD-level domain experts and designed to be unsolvable by searching the web. The calibration is striking:
+Graduate-Level Google-Proof Q&A contains much complex questions. Its 198 questions in biology, physics, and chemistry were written by PhD-level domain experts and designed to be unsolvable by searching the web.
+
+{% highlight markdown %}
+# Example Question:
+Methylcyclopentadiene was allowed to react with methyl isoamyl ketone and a catalytic amount of pyrrolidine. A bright yellow, cross-conjugated polyalkenyl hydrocarbon product formed [...] How many chemically distinct isomers make up the final product (not counting stereoisomers)?
+(a) 2 (b) 16 (c) 8 (d) 4
+## Answer: b
+Explanation Methylcyclopentadiene exists as an interconverting mixture
+of 3 isomers [...] if there are 4 dienes, and 4 different directions of approach
+the dienophile can take to each of them, there are 4*4 = 16 possible products
+{% endhighlight %}
 
 - Skilled non-experts with unrestricted internet access: **34%**
 - PhD experts in the relevant field: **~65%**
@@ -144,6 +172,24 @@ The "with tools" means models can run code or search the web during the test. Th
 
 LiveBench takes a different approach to keeping knowledge benchmarks fresh: it releases new questions monthly, drawn from recent math competitions, research papers, etc. Because questions are always fresh, models cannot have memorized the answers during training. It contains 18 tasks in 6 categories: math, coding, reasoning, language, instruction following, and data analysis.
 
+{% highlight markdown %}
+# Example Question:
+There are 3 people standing in a line numbered 1 through 3 in a left to right order.
+Each person has a set of attributes: Food, Nationality, Hobby.
+The attributes have the following possible values:
+- Food: nectarine, garlic, cucumber
+- Nationality: chinese, japanese, thai
+- Hobby: magic-tricks, filmmaking, puzzles
+and exactly one person in the line has a given value for an attribute.
+Given the following premises about the line of people:
+- the person that likes garlic is on the far left
+- the person who is thai is somewhere to the right of the person who likes magic-tricks
+- the person who is chinese is somewhere between the person that likes cucumber and the person
+who likes puzzles
+Answer the following question: What is the hobby of the person who is thai? Return your
+answer as a single word, in the following format: **X**, where X is the answer.
+{% endhighlight %}
+
 ## Mathematics & Logical Reasoning
 
 Mathematical reasoning tests the ability to chain together logical steps to solve math and logic questions.
@@ -151,14 +197,39 @@ Mathematical reasoning tests the ability to chain together logical steps to solv
 ### GSM8K and HellaSwag
 GSM8K tests grade-school math word problems. HellaSwag tests commonsense reasoning i.e. whether a model can pick the most sensible ending to a story. Both are now saturated with models scoring above 95% and 92% respectively. They are only useful as quick sanity checks to make sure a model isn't broken.
 
+{% highlight markdown %}
+# Example question from GSM8k:
+Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?
+## Answer
+Natalia sold 48/2 = <<48/2=24>>24 clips in May.
+Natalia sold 48+24 = <<48+24=72>>72 clips altogether in April and May.
+Answer: 72
+
+# Example question from HellaSwag:
+A bearded man is seen speaking to the camera and making several faces. the man
+a) then switches off and shows himself via the washer and dryer rolling down a towel and scrubbing the floor. (0.0%)
+b) then rubs and wipes down an individual’s face and leads into another man playing another person’s flute. (0.0%)
+c) is then seen eating food on a ladder while still speaking. (0.0%)
+d) then holds up a razor and begins shaving his face. (100.0%)
+{% endhighlight %}
+
 ### AIME
 AIME (American Invitational Mathematics Examination) consists of 15 difficult competition math problems with integer answers. It became a useful evaluation once the easier tests saturated. Top frontier models in 2026 approach ceiling performance on AIME 2025, thus pushing the field toward harder contests like the USAMO and PutnamBench.
 
 ### FrontierMath
 It consists of hundreds of unpublished challenging math problems. These are divided into 4 difficulty tiers with level 4 for research-level math.
 
+{% highlight markdown %}
+# Example Question:
+Construct a degree 19 polynomial p(x) ∈ C[x] such that X := {p(x) = p(y)} ⊂ P1 × P1 has at least 3 (but not all linear) irreducible components over C. Choose p(x) to be odd, monic, have real coefficients and linear coefficient -19 and calculate p(19).
+## Answer: 1876572071974094803391179
+{% endhighlight %}
+
+
 ### ARC-AGI-2
 ARC-AGI-2 tests abstract reasoning and fluid intelligence, the ability to solve novel visual puzzles from just a few examples, with no relevant training data to draw on. The puzzles are grids of colored squares; the model must infer the underlying rule and complete the pattern. As of mid-2026, GPT-5.5 leads the leaderboard at ~85%, surpassing the average individual human performance of ~66%. Top human panel scores (where multiple experts must agree) still exceed the best AI, but the gap has closed dramatically since past year.
+
+{% include img.html src="/img/blog/frontier-ai-benchmarks/arc_agi_2.jpg" width="85%" caption="ARC-AGI-2 example (source: ARC-AGI-2 paper)" %}
 
 ## Coding & Software Engineering
 
@@ -167,8 +238,24 @@ These benchmarks measure whether a model can write, debug, and navigate real cod
 ### HumanEval
 One of the first coding benchmarks, it asked models to complete Python functions from docstrings. It saturated above 93% and has been retired in favor of harder successors.
 
+{% highlight python %}
+# Example Question 
+def words_string(s):
+    """You will be given a string of words separated by
+    commas or spaces. Your task is to split the string 
+    into words and return an array of the words.
+    For example:
+    words_string("Hi, my name is John") == ["Hi", "my",
+        "name", "is", "John"]
+    words_string("One, two, three, four, five, six") ==
+        ["One", "two", "three", "four", "five", "six"]
+    """
+{% endhighlight %}
+
 ### SWE-Bench, SWE-Bench Verified, SWE-Bench Pro
 The SWE-Bench measures: *Given a real GitHub codebase and a bug report, can the model produce a correct patch?* The SWE-Bench Verified is a subset of 500 problems from SWE-Bench verified by researchers. The SWE-Bench Pro is harder version with problems from spanning complex codebases e.g. consumer applications, B2B services, and developer tools. It contains 1865 problems from 41 actively managed repositories. 
+
+{% include img.html src="/img/blog/frontier-ai-benchmarks/swe_bench.jpg" caption="SWE-Bench example task with model prediction (source: SWE-Bench paper)" %}
 
 - **2023**: 4.4% of issues solved
 - **2024**: 71.7% solved (+67 pp in one year)
@@ -183,17 +270,21 @@ The SWE-Bench measures: *Given a real GitHub codebase and a bug report, can the 
 
 ### FrontierCode
 
-As SWE-bench approaches saturation, FrontierCode (by Cognition) is emerging as the next rung: Claude Fable 5 scores 29.3% vs. Opus 4.8's 13.4%, still wide open at research-grade engineering.
+FrontierCode (by Cognition) evaluates whether the model can write production-quality code that would eventually get merged by benchmarking it against PR rubrics. It measures correctness, test quality, scope discipline, style, and adherence to codebase standards. Claude Fable 5 scores 29.3% vs. Opus 4.8's 13.4%, still wide open at research-grade engineering.
+
+{% include img.html src="/img/blog/frontier-ai-benchmarks/frontiercode.jpg" caption="FrontierCode grading pipeline (source: FrontierCode website)" %}
 
 ## Agentic & Tool-Use Capability
 
 Coding benchmarks test whether a model can produce the right output. Agentic benchmarks go further: can the model *take actions* across many steps, use tools, and recover when things go wrong? This is what it means to deploy a model as an autonomous assistant rather than a question-answering system.
 
-### TerminalBench 2.1
+### Terminal-Bench 2.1
 
-TerminalBench tests multi-step agentic terminal operation i.e. writing scripts, debugging shell pipelines, and interpreting command-line output across many turns. Instead of producing a single file, the model must operate an actual terminal environment end-to-end.
+Terminal-Bench tests multi-step agentic terminal operation i.e. writing scripts, debugging shell pipelines, and interpreting command-line output across many turns. Instead of producing a single file, the model must operate an actual terminal environment end-to-end.
 
-| Model | TerminalBench 2.1 |
+{% include img.html src="/img/blog/frontier-ai-benchmarks/terminalbench.jpg" caption="Original Terminal-Bench (source: Terminal-Bench paper)" %}
+
+| Model | Terminal-Bench 2.1 |
 | - | - |
 | GPT-5.5 (Codex CLI) | 83.4% |
 | Claude Fable 5 (Claude Code) | 83.1% |
@@ -205,6 +296,8 @@ TerminalBench tests multi-step agentic terminal operation i.e. writing scripts, 
 
 OSWorld takes agentic evaluation the furthest: can a model operate a real computer? It tests tasks across operating systems: opening files, navigating a browser, running terminal commands, interacting with GUI applications. Unlike TerminalBench, OSWorld involves full visual interfaces and requires the model to perceive and act on a screen. Accuracy has risen from ~12% to 85.0% (Claude Fable 5). Human performance is around 72%, meaning models have now surpassed the human baseline on this benchmark.
 
+{% include img.html src="/img/blog/frontier-ai-benchmarks/osworld.jpg" caption="OSWorld example task (source: OSWorld paper)" %}
+
 ## Vision, Long-Context & Document Understanding
 
 The benchmarks so far have mostly involved text. But real-world tasks often require more: understanding images, reasoning over long documents, or both at once. These two domains are closely related; both test what happens when you give a model richer, more complex input than a short text prompt.
@@ -214,6 +307,8 @@ They test whether models can actually *use* their large context windows. Context
 
 ### Vision and multimodal reasoning
 The models that handle both images and text are called **vision-language models (VLMs)**. **MMMU** (Massive Multidisciplinary Multimodal Understanding) is the standard: college-level questions across six disciplines that require genuinely understanding images, not just reading captions. Top VLMs score in the 75–86% range, with room still to improve. More specific benchmarks test narrower skills:
+
+{% include img.html src="/img/blog/frontier-ai-benchmarks/mmmu.jpg" caption="MMMU example tasks (source: MMMU paper)" %}
 
 | Benchmark | What it tests | 2026 SOTA | Status |
 | - | - | - | - |
@@ -233,6 +328,8 @@ All of the benchmarks above measure what a model *can* do. But two important que
 ### Human Preference
 
 **Chatbot Arena** (LMArena) is the most widely trusted human preference evaluation. Users chat with two anonymous models simultaneously without knowing which is which, and vote on which response they prefer. Millions of these votes are aggregated into an **Elo rating**, the same system used in chess rankings. A higher Elo means a model wins more head-to-head matchups.
+
+{% include img.html src="/img/blog/frontier-ai-benchmarks/chatbotarena.jpg" caption="Chatbot Arena (source: Chatbot Arena paper)" %}
 
 **Arena Elo Ratings (June 2026):**
 
@@ -351,6 +448,7 @@ And if history is any guide, the benchmarks you read about today will be obsolet
 - [Leaderboard: Humanity's Last Exam](https://labs.scale.com/leaderboard/humanitys_last_exam)
 - [Paper: LiveBench, A Challenging, Contamination-Free LLM Benchmark](https://arxiv.org/abs/2406.19314)
 - [Paper: GSM8K, Training Verifiers to Solve Math Word Problems](https://arxiv.org/abs/2110.14168)
+- [Website: HellaSwag](https://rowanzellers.com/hellaswag/)
 - [Paper: FrontierMath, A Benchmark for Evaluating Advanced Mathematical Reasoning in AI](https://arxiv.org/abs/2411.04872)
 - [Paper: ARC-AGI-2](https://arxiv.org/pdf/2505.11831)
 - [Leaderboard: ARC-AGI-2](https://arcprize.org/leaderboard)
@@ -358,10 +456,12 @@ And if history is any guide, the benchmarks you read about today will be obsolet
 - [Paper: SWE-Bench, Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770)
 - [Leaderboard: SWE-Bench Verified vals.ai](https://www.vals.ai/benchmarks/swebench)
 - [Leaderboard: SWE-Bench Pro](https://labs.scale.com/leaderboard/swe_bench_pro_public)
+- [Blog: FrontierCode](https://cognition.com/blog/frontier-code)
 - [Paper: OSWorld, Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments](https://arxiv.org/abs/2404.07972)
 - [Paper: MMMU, A Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark](https://arxiv.org/abs/2311.16502)
 - [Paper: Chatbot Arena, An Open Platform for Evaluating LLMs by Human Preference](https://arxiv.org/abs/2403.04132)
 - [Leaderboard: Chatbot Arena](https://openlm.ai/chatbot-arena/)
+- [Paper: Terminal-Bench](https://arxiv.org/pdf/2601.11868)
 - [Leaderboard: Terminal-Bench 2.1](https://www.tbench.ai/leaderboard/terminal-bench/2.1)
 - [Paper: TruthfulQA, Measuring How Models Mimic Human Falsehoods](https://arxiv.org/abs/2109.07958)
 - [Paper: A StrongREJECT for Empty Jailbreaks](https://arxiv.org/abs/2402.10260)
