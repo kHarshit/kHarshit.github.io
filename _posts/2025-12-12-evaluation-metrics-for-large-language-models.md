@@ -131,6 +131,7 @@ BLEU scores range between 0 and 1, where 1 indicates a perfect match.
 {% include interactive/bleu_calc.html %}
 
 > **Sentence-level vs. corpus-level.** The strict formula above produces a score of 0 whenever *any* n-gram order has zero clipped matches, common at the sentence level. In practice, BLEU is computed over **entire test corpus** where zero-precision collapse are extremely rare. For sentence-level use, **add-1 smoothing** (adding 1 to each n-gram's numerator and denominator) prevents the zero-collapse.
+{: .info-callout}
 
 ### METEOR
 

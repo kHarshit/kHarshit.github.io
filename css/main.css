@@ -2281,12 +2281,77 @@ input#themeswitch {
 
 #post blockquote {
     margin: 1.5rem 0;
-    padding: 0.1rem 0.5rem;
-    border-left: 4px solid var(--accent-color);
-    background: #f8fafc;
-    border-radius: 0 6px 6px 0;
+    padding: 0.4rem 1.5rem;
+    background: #f0faf9;
+    border-radius: 6px;
     color: #555;
     font-style: italic;
+    overflow: hidden;
+}
+
+#post blockquote p {
+    margin: 0.2rem 0;
+    padding: 0 1.1em;
+}
+
+#post blockquote::before {
+    content: "\201C";
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2.2em;
+    color: var(--accent-color);
+    line-height: 0.8;
+    float: left;
+    margin-left: -0.25em;
+    opacity: 0.4;
+}
+
+#post blockquote p:last-child::after {
+    content: "\201D";
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2.2em;
+    color: var(--accent-color);
+    line-height: 0.8;
+    float: right;
+    margin-right: -0.35em;
+    opacity: 0.4;
+}
+
+[data-theme="dark"] #post blockquote {
+    background: #0a1f1e;
+}
+
+/* ── Info callout ──────────────────────────────────────────── */
+#post blockquote.info-callout {
+    margin: 1.5rem 0;
+    padding: 0.4rem 1.5rem;
+    background: #f0faf9;
+    border-radius: 6px;
+    color: #555;
+    overflow: hidden;
+}
+
+#post blockquote.info-callout p {
+    margin: 0.2rem 0;
+    padding: 0 1.1em;
+}
+
+#post blockquote.info-callout::before {
+    content: "\2139";
+    font-size: 1.6em;
+    color: var(--accent-color);
+    line-height: 0.8;
+    float: left;
+    margin-left: -0.25em;
+    opacity: 0.5;
+}
+
+#post blockquote.info-callout p:last-child::after {
+    content: none;
+}
+
+[data-theme="dark"] #post blockquote.info-callout {
+    background: #0a1f1e;
+    color: #aab;
 }
 
 [data-theme="dark"] #post blockquote {
