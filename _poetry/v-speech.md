@@ -7,6 +7,30 @@ editor: Harshit Kumar
 source: 
 categories: life
 img_source: /img/poems/Anonymous.jpg
+explanations:
+  - >
+    V introduces himself as a "vaudevillian veteran" (a theatrical performer with
+    experience), "cast vicariously as both victim and villain by the vicissitudes
+    of Fate", meaning he was made indirectly into both the harmed and the
+    wrongdoer by life's unpleasant turns. His "visage" (face) is not a "veneer
+    of vanity" (cover of pride) but a "vestige of the vox populi" (remnant of
+    the people's voice), now "vacant, vanished." Yet this "valorous visitation"
+    (courageous return) of a past "vexation" (annoying irritation) is now
+    "vivified" (energized), and he has "vowed to vanquish" (promised to defeat)
+    the "venal and virulent vermin" (corrupt and poisonous pests) who guard
+    "vice" (evil) and enable the "vicious and voracious violation of volition"
+    (harmful and greedy destruction of free will).
+  - >
+    "The only verdict is vengeance", the sole judgment is revenge. This
+    "vendetta" (blood feud) is held as a "votive" (a sacred offering), not "in
+    vain" (without purpose), because the "value and veracity" (worth and
+    truthfulness) of his mission shall one day "vindicate" (clear from blame)
+    the "vigilant" (alert) and the "virtuous" (the morally good).
+  - >
+    "Verily" (truly), this "vichyssoise of verbiage" (soup of words) "veers
+    most verbose" (becomes excessively wordy). So V breaks character with a
+    self-aware aside: he simply adds that it is his "very good honor to meet
+    you", and asks to be called V.
 ---
 Voilà!
 

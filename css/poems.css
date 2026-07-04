@@ -343,10 +343,38 @@
     align-items: flex-start;
 }
 
-.stanza-block ul {
+.stanza-block ul,
+.stanza-block > div {
     flex: 1;
     min-width: 0;
     margin-bottom: 0;
+}
+
+.stanza-block > div p {
+    margin: 0 0 1em 0;
+}
+
+.stanza-block > div p:last-child {
+    margin-bottom: 0;
+}
+
+/* Paragraph-based layout — explanation below content, full width */
+.stanza-block-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stanza-block-column > div p {
+    margin: 0 0 1em 0;
+}
+
+.stanza-block-column > div p:last-child {
+    margin-bottom: 0;
+}
+
+.stanza-block-column .stanza-explain-card {
+    width: auto;
 }
 
 /* Explanation card — collapsed until .open */

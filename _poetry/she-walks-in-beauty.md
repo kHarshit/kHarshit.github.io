@@ -9,8 +9,8 @@ categories: romantic
 img_source: /img/poems/SheWalksInBeauty.jpg
 explanations:
   - >
-    Byron compares the woman's beauty to a cloudless, star-filled night.
-    He describes a perfect harmony of light and dark in her face and eyes,
+    The poem compares the woman's beauty to a cloudless, star-filled night.
+    It describes a perfect harmony of light and dark in her face and eyes,
     a balance that makes her beauty striking yet gentle.
   - >
     Even a small change would disrupt her "nameless grace." Every feature,
@@ -19,7 +19,7 @@ explanations:
   - >
     The poem closes by connecting outer beauty to inner virtue: a peaceful
     mind, a life well spent, and a heart capable of innocent love. True
-    beauty, Byron suggests, is moral at its core.
+    beauty is moral at its core.
 ---
 - She walks in beauty, like the night
 - Of cloudless climes and starry skies;
