@@ -140,6 +140,12 @@
 .indent-9  { padding-left: 9em; }
 .indent-10 { padding-left: 10em; }
 
+/* ── Comments ────────────────────────────────────────────── */
+.poem-notecomments {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+}
+
 /* ── Similar poems ───────────────────────────────────────── */
 .poem-related {
     max-width: 680px;
