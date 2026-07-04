@@ -302,12 +302,11 @@
     padding-top: 22px;
 }
 
-/* ── Explain toggle button (in poem-meta row) ────────────── */
+/* ── Explain toggle button ───────────────────────────────── */
 .poem-explain-toggle {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    margin-left: auto;
     border: 1.5px solid #e0e0e0;
     background: transparent;
     color: #888;
@@ -330,6 +329,8 @@
     border-color: var(--accent-color);
     color: var(--accent-color);
 }
+
+
 
 /* ── Stanza layout: poem left, card right ────────────────── */
 .poem-explain-grid {
@@ -400,7 +401,7 @@
 
 .stanza-explain-card-inner {
     padding: 10px 14px;
-    background: rgba(32, 178, 170, 0.04);
+    background: var(--chip-bg);
     border-radius: 8px;
     font-size: var(--text-sm);
     line-height: 1.65;
@@ -408,7 +409,7 @@
 }
 
 [data-theme="dark"] .stanza-explain-card-inner {
-    background: rgba(32, 178, 170, 0.06);
+    background: #333;
     color: #999;
 }
 
@@ -425,4 +426,5 @@
     .stanza-explain-card {
         width: auto;
     }
+
 }

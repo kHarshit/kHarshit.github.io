@@ -22,18 +22,32 @@ layout: default
                 <div class="poem-meta-row">
                     <span class="poem-author">{{ page.author }}</span>
                     {% if page.explanations %}
-                    <button class="poem-explain-toggle" id="poem-explain-toggle">
-                        <i class="fa fa-info-circle"></i> Show explanations
-                    </button>
+                    <div class="post-meta-actions">
+                        <button class="poem-explain-toggle" id="poem-explain-toggle">
+                            <i class="fa fa-info-circle"></i> Show explanations
+                        </button>
+                    </div>
                     {% endif %}
                 </div>
-                {% if page.categories.size > 0 %}
+                <div class="post-meta-tags-row">
+                    {% if page.categories.size > 0 %}
                     <ul class="tag-cloud">
                     {% for category in page.categories %}
                         <li><a href="{{ site.baseurl }}/poems#{{ category | slugify }}">{{ category | capitalize }}</a></li>
                     {% endfor %}
                     </ul>
-                {% endif %}
+                    {% endif %}
+                    <div class="post-meta-actions">
+                        <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                            <i class="fa fa-headphones"></i>
+                        </button>
+                        <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                            <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                            <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                            <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -112,6 +126,7 @@ layout: default
         {% include giscus.html %}
     </div>
 
+    <script src="/js/site/soundscape.js"></script>
     <script src="/js/site/poem.js"></script>
 
 </div>

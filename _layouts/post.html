@@ -20,16 +20,28 @@ layout: default
         <div class="post-meta">
             <span class="post-meta-date"><i class="fa fa-calendar-o"></i> {{ page.date | date: "%b %-d, %Y" }}</span>
             <span class="post-meta-read"><i class="fa fa-clock-o"></i> {% include readtime.html %}</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                </div>
+            </div>
         </div>
 
         <!-- Tags -->
         {% assign categories = page.categories %}
         {% if categories.size > 0 %}
-        <ul class="tag-cloud">
-            {% for category in categories %}
-                <li><a href="{{ site.baseurl }}/categories/{{ category | slugify }}/">{{ category }}</a></li>
-            {% endfor %}
-        </ul>
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                {% for category in categories %}
+                    <li><a href="{{ site.baseurl }}/categories/{{ category | slugify }}/">{{ category }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
         {% endif %}
     </div>
 
@@ -141,6 +153,7 @@ layout: default
     </div>
 
     <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
 
     {% if page.mathjax %}
     <!-- MathJax -->
