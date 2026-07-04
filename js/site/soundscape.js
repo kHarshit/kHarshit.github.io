@@ -10,7 +10,8 @@
   var sources = {
     rain: '/audio/rain.mp3',
     ocean: '/audio/ocean.mp3',
-    wind: '/audio/wind.mp3'
+    wind: '/audio/wind.mp3',
+    birds: '/audio/birds.mp3'
   };
 
   function preload(sound) {
