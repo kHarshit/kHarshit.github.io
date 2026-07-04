@@ -418,6 +418,10 @@
 }
 
 @media (max-width: 768px) {
+    .poetry {
+        padding: 1.5rem 1.25rem 2rem;
+    }
+
     .stanza-block {
         flex-direction: column;
         gap: 0;
