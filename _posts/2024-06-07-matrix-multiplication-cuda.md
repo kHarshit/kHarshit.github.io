@@ -162,6 +162,10 @@ This setup ensures that the CUDA kernel efficiently processes the entire matrix 
 
 {% include interactive/cuda_block_mapper.html %}
 
+The visualization below shows the same block-and-thread hierarchy in 3D; each block is a cluster of thread spheres, and you can explore the full `gridDim × blockDim` structure interactively.
+
+{% include interactive/3d_cuda_grid.html %}
+
 To execute CUDA program:
 
 <div class="mbsteps" markdown="1">

@@ -1,0 +1,115 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<style>
+#ce-container {
+  width: 100%;
+  height: 520px;
+  position: relative;
+  background: var(--bg-color, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: grab;
+}
+#ce-container:active { cursor: grabbing; }
+#ce-container canvas { display: block; }
+.ce-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.ce-controls label {
+  font-size: 12px;
+  color: var(--font-color, #333);
+}
+.ce-controls input[type=range] {
+  width: 80px;
+  accent-color: #20B2AA;
+}
+.ce-controls .ar-btn {
+  font-family: inherit;
+}
+.ce-status {
+  text-align: center;
+  color: var(--font-color, #333);
+  font-size: 13px;
+  padding: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.ce-status span {
+  font-weight: 600;
+  color: #20B2AA;
+}
+.ce-info {
+  text-align: center;
+  color: var(--font-color, #333);
+  font-size: 12px;
+  padding: 2px 12px 10px;
+  opacity: 0.8;
+}
+.ce-detail {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  display: none;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+.ce-detail .ce-dd-label {
+  font-weight: 600;
+  font-size: 14px;
+}
+.ce-detail .ce-dd-caption {
+  opacity: 0.8;
+  font-size: 12px;
+}
+</style>
+<script>
+(function() {
+  if (document.querySelector('script[type="importmap"]')) return;
+  var im = document.createElement('script');
+  im.type = 'importmap';
+  im.textContent = JSON.stringify({
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  });
+  document.head.appendChild(im);
+})();
+</script>
+<script type="module" src="/js/interactive/3d_clip_embedding.js"></script>
+<div id="ce-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-3d-clip-embedding">Interactive: 3D CLIP Embedding Space</h3>
+  </div>
+  <div class="dt-widget-body" style="position:relative">
+    <div id="ce-container">
+      <div id="ce-detail" class="ce-detail">
+        <div class="ce-dd-label" id="ce-dd-label"></div>
+        <div class="ce-dd-caption" id="ce-dd-caption"></div>
+      </div>
+    </div>
+    <div class="ce-controls">
+      <button id="ce-play" class="ar-btn ar-btn-primary">&#9654; Play</button>
+      <button id="ce-reset" class="ar-btn ar-btn-secondary">Reset</button>
+      <label for="ce-speed">Speed:</label>
+      <input type="range" id="ce-speed" min="1" max="10" value="5" step="1">
+      <span id="ce-speed-val" style="font-size:12px;color:var(--font-color,#333);min-width:32px;">1.0x</span>
+    </div>
+    <div class="ce-status">
+      Step: <span id="ce-step">0</span>/300 &nbsp;&nbsp;|&nbsp;&nbsp; Loss: <span id="ce-loss">0.000</span>
+    </div>
+    <div class="ce-info">Drag to orbit &bull; Watch matching pairs attract, non-matching repel</div>
+  </div>
+</div>

@@ -1,0 +1,137 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<style>
+#cg-container {
+  width: 100%;
+  height: 520px;
+  position: relative;
+  background: var(--bg-color, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: grab;
+}
+#cg-container:active { cursor: grabbing; }
+#cg-container canvas { display: block; }
+.cg-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 12px;
+  flex-wrap: wrap;
+}
+.cg-control-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.cg-control-group label {
+  font-size: 12px;
+  color: var(--font-color, #888);
+}
+.cg-control-group input[type=range] {
+  width: 80px;
+  accent-color: #20B2AA;
+  height: 4px;
+}
+.cg-info {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  display: none;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+  font-family: sans-serif;
+}
+.cg-info .cg-tt-label {
+  font-weight: 600;
+  font-size: 14px;
+}
+.cg-info .cg-tt-detail {
+  opacity: 0.8;
+  font-size: 12px;
+}
+.cg-legend {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  flex-wrap: wrap;
+  font-size: 11px;
+}
+.cg-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+</style>
+<script>
+(function() {
+  if (document.querySelector('script[type="importmap"]')) return;
+  var im = document.createElement('script');
+  im.type = 'importmap';
+  im.textContent = JSON.stringify({
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  });
+  document.head.appendChild(im);
+})();
+</script>
+<script type="module" src="/js/interactive/3d_cuda_grid.js"></script>
+<div id="widget-cuda-grid" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-3d-cuda-grid">Interactive: 3D CUDA Thread Grid</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div id="cg-container">
+      <div id="cg-info" class="cg-info"></div>
+    </div>
+    <div class="cg-controls">
+      <div class="cg-control-group">
+        <label for="cg-slider-gx">Grid X</label>
+        <input type="range" id="cg-slider-gx" min="1" max="4" value="3" step="1">
+        <span id="cg-slider-gx-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">3</span>
+      </div>
+      <div class="cg-control-group">
+        <label for="cg-slider-gy">Grid Y</label>
+        <input type="range" id="cg-slider-gy" min="1" max="4" value="2" step="1">
+        <span id="cg-slider-gy-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">2</span>
+      </div>
+      <div class="cg-control-group">
+        <label for="cg-slider-gz">Grid Z</label>
+        <input type="range" id="cg-slider-gz" min="1" max="2" value="2" step="1">
+        <span id="cg-slider-gz-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">2</span>
+      </div>
+      <div class="cg-control-group">
+        <label for="cg-slider-bx">Block X</label>
+        <input type="range" id="cg-slider-bx" min="1" max="6" value="4" step="1">
+        <span id="cg-slider-bx-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">4</span>
+      </div>
+      <div class="cg-control-group">
+        <label for="cg-slider-by">Block Y</label>
+        <input type="range" id="cg-slider-by" min="1" max="6" value="3" step="1">
+        <span id="cg-slider-by-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">3</span>
+      </div>
+      <div class="cg-control-group">
+        <label for="cg-slider-bz">Block Z</label>
+        <input type="range" id="cg-slider-bz" min="1" max="2" value="2" step="1">
+        <span id="cg-slider-bz-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">2</span>
+      </div>
+    </div>
+    <div id="cg-legend" class="cg-legend"></div>
+    <div style="text-align:center;color:#888;font-size:12px;padding:4px 12px 8px;">
+      Drag to orbit &bull; Click a thread to see its indices &bull; Adjust sliders to change dimensions
+    </div>
+  </div>
+</div>

@@ -117,6 +117,10 @@ loss = (loss_i + loss_t)/2
 
 {% include interactive/clip_matrix.html %}
 
+The interactive 3D visualization below shows CLIP's contrastive learning in action: image and text embeddings begin randomly scattered, and over training steps, matching pairs attract while non-matching pairs repel, showing how CLIP learns its joint embedding space.
+
+{% include interactive/3d_clip_embedding.html %}
+
 #### Zero-Shot Image Classification
 
 CLIP can classify images into categories it was not explicitly trained on. By providing text descriptions of categories, CLIP can match the image to the appropriate category based on its learned representations.

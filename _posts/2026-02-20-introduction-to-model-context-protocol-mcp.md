@@ -69,9 +69,7 @@ A program that provides context to MCP clients. It's just any other service we b
 </div>
 </div>
 
-{% include img.html src="/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig2.jpg" width="70%" caption="MCP Architecture: Host, Clients & Servers" %}
-
-{% include interactive/mcp_arch.html %}
+{% include interactive/3d_mcp_arch.html %}
 
 Modern LLMs support **tool calling** (evolved from function calling), where the model is told "here are the tools you can use". The LLM can then request "call tool X with param Y". The host application executes the tool call, sends the results back to the LLM, which uses this as additional context to generate a response.
 
