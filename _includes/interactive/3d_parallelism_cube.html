@@ -1,0 +1,138 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<style>
+#pc-container {
+  width: 100%;
+  height: 520px;
+  position: relative;
+  background: var(--bg-color, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: grab;
+}
+#pc-container:active { cursor: grabbing; }
+#pc-container canvas { display: block; }
+.pc-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 14px 12px 8px;
+  flex-wrap: wrap;
+}
+.pc-btn {
+  padding: 7px 18px;
+  border: 1.5px solid #444;
+  background: #222;
+  color: #aaa;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.pc-btn:hover { background: #333; color: #ddd; }
+.pc-btn.active {
+  background: #20B2AA;
+  color: #fff;
+  border-color: #20B2AA;
+}
+.pc-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 20px 4px;
+  justify-content: center;
+}
+.pc-slider-row label {
+  color: #888;
+  font-size: 13px;
+  white-space: nowrap;
+}
+#pc-slider {
+  flex: 0 1 200px;
+  accent-color: #20B2AA;
+  height: 4px;
+}
+#pc-slice-val {
+  color: #20B2AA;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 28px;
+}
+.pc-info {
+  text-align: center;
+  color: #555;
+  font-size: 12px;
+  padding: 6px 12px 10px;
+}
+.pc-desc {
+  text-align: center;
+  color: #20B2AA;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 20px 10px;
+  min-height: 22px;
+  line-height: 1.4;
+}
+.pc-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 20px 12px;
+  flex-wrap: wrap;
+}
+.pc-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #888;
+}
+.pc-legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid #555;
+}
+</style>
+<script>
+(function() {
+  if (document.querySelector('script[type="importmap"]')) return;
+  var im = document.createElement('script');
+  im.type = 'importmap';
+  im.textContent = JSON.stringify({
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  });
+  document.head.appendChild(im);
+})();
+</script>
+<script type="module" src="/js/interactive/3d_parallelism_cube.js"></script>
+<div id="pc-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-3d-parallelism">Interactive: 3D Parallelism Cube</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div id="pc-container"></div>
+    <div class="pc-controls">
+      <button class="pc-btn active" data-mode="all">Overview</button>
+      <button class="pc-btn" data-mode="dp">Data Parallelism</button>
+      <button class="pc-btn" data-mode="pp">Pipeline Parallelism</button>
+      <button class="pc-btn" data-mode="tp">Tensor Parallelism</button>
+    </div>
+    <div class="pc-slider-row" id="pc-slider-row" style="display:none">
+      <label>Slice:</label>
+      <input type="range" id="pc-slider" min="0" max="3" value="0" step="1">
+      <span id="pc-slice-val">1</span>
+    </div>
+    <div class="pc-desc" id="pc-desc">All 24 GPUs arranged in a 3D grid. Drag to rotate &bull; Scroll to zoom</div>
+    <div class="pc-legend">
+      <span class="pc-legend-item"><span class="pc-legend-swatch" style="background:hsl(210,70%,50%)"></span> DP=0</span>
+      <span class="pc-legend-item"><span class="pc-legend-swatch" style="background:hsl(185,65%,50%)"></span> DP=1</span>
+      <span class="pc-legend-item"><span class="pc-legend-swatch" style="background:hsl(150,60%,45%)"></span> DP=2</span>
+      <span class="pc-legend-item"><span class="pc-legend-swatch" style="background:hsl(30,80%,55%)"></span> DP=3</span>
+    </div>
+  </div>
+</div>

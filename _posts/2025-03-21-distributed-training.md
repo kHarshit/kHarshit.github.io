@@ -568,6 +568,8 @@ SMP provides Sharded data parallelism, Expert parallelism, Tensor parallelism, A
 
 {% include img.html src="/img/blog/distributed-training/3d_parallelism.jpg" caption="3D Parallelism: Data, Pipeline, and Tensor Parallelism" %}
 
+{% include interactive/3d_parallelism_cube.html %}
+
 > Total GPUs = DP degree x PP degree x TP degree
 
 For example, with 2 nodes (16 GPUs), TP=2, PP=4, you'd have DP=N/(TPxPP) = 16/(2×4) = 2 data-parallel groups.
