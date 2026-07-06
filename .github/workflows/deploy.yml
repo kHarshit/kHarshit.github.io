@@ -19,7 +19,8 @@ jobs:
           bundler-cache: true
 
       - name: Inject GitHub token
-        run: sed -i 's|github_contact_token: \"\"|github_contact_token: "${{ secrets.PRIVATE_REPO_CHATBOT_TOKEN }}"|' _config.yml
+        run: |
+          sed -i "s|github_contact_token: \"\"|github_contact_token: \"${{ secrets.PRIVATE_REPO_CHATBOT_TOKEN }}\"|" _config.yml
 
       - name: Build site
         run: bundle exec jekyll build
