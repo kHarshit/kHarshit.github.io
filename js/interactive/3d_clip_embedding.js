@@ -16,7 +16,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
   var COLORS = ['#20b2aa', '#f59e0b', '#ec4899', '#8b5cf6', '#10b981', '#3b82f6'];
   var TEMPERATURE = 0.5;
-  var CLAMP = 2.0;
+  var CLAMP = 4.0;
   var ATTRACT = 0.012;
   var REPEL = 0.004;
 
@@ -60,7 +60,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     var r = 1.5 + Math.random() * 0.4;
     return new THREE.Vector3(
       r * Math.sin(phi) * Math.cos(theta),
-      r * Math.sin(phi) * Math.sin(theta),
+      r * Math.sin(phi) * Math.sin(theta) + 1.8,
       r * Math.cos(phi)
     );
   };
@@ -70,7 +70,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     var h = this.container.clientHeight;
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 20);
-    this.camera.position.set(5, 3, 6);
+    this.camera.position.set(4.8, 1.0, 5.5);
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.setSize(w, h);
@@ -95,12 +95,12 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
   };
 
   ClipEmbedding3D.prototype.initBackground = function () {
-    var axes = new THREE.AxesHelper(3);
-    axes.position.y = -2.5;
+    var axes = new THREE.AxesHelper(2);
+    axes.position.y = -0.5;
     this.scene.add(axes);
   };
 
-  ClipEmbedding3D.prototype.makeCircleTexture = function (symbol, colorHex) {
+  ClipEmbedding3D.prototype.makeImageTexture = function (symbol, colorHex) {
     var size = 256;
     var c = document.createElement('canvas');
     c.width = size;
@@ -108,15 +108,13 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     var ctx = c.getContext('2d');
     ctx.clearRect(0, 0, size, size);
 
-    ctx.beginPath();
-    ctx.arc(size / 2, size / 2, size / 2 - 4, 0, Math.PI * 2);
     ctx.fillStyle = colorHex;
-    ctx.fill();
+    ctx.fillRect(0, 0, size, size);
 
-    ctx.font = '130px sans-serif';
+    ctx.font = '220px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(symbol, size / 2, size / 2 + 4);
+    ctx.fillText(symbol, size / 2, size / 2 + 6);
 
     var tex = new THREE.CanvasTexture(c);
     tex.minFilter = THREE.LinearFilter;
@@ -166,8 +164,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
       var txtPos = self.randomOnSphere();
       var color = new THREE.Color(COLORS[idx]);
 
-      var imgTex = self.makeCircleTexture(pair.img, COLORS[idx]);
-      var imgGeo = new THREE.SphereGeometry(0.32, 32, 32);
+      var imgTex = self.makeImageTexture(pair.img, COLORS[idx]);
+      var imgGeo = new THREE.BoxGeometry(0.65, 0.5, 0.1);
       var imgMat = new THREE.MeshPhysicalMaterial({
         map: imgTex,
         emissive: color,
@@ -182,7 +180,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
       self.allMeshes.push(imgMesh);
 
       var txtTex = self.makeRectTexture(pair.label, COLORS[idx]);
-      var txtGeo = new THREE.BoxGeometry(0.55, 0.18, 0.08);
+      var txtGeo = new THREE.BoxGeometry(0.8, 0.5, 0.1);
       var txtMat = new THREE.MeshPhysicalMaterial({
         map: txtTex,
         emissive: color,
@@ -332,9 +330,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.08;
-    this.controls.minDistance = 2;
-    this.controls.maxDistance = 12;
-    this.controls.target.set(0, 0, 0);
+    this.controls.minDistance = 1.5;
+    this.controls.maxDistance = 10;
+    this.controls.target.set(0, 1.8, 0);
     this.controls.update();
   };
 
