@@ -20,6 +20,17 @@ markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
 
 
+# GitHub token and repo for the chatbot contact widget on the homepage sidebar.
+# When a visitor completes the chat, their message (name, email, topic, extra notes)
+# is posted to the GitHub Issues API in the repo below, creating a private issue.
+#
+# The token is injected at deploy time from the GitHub Actions secret
+# "PRIVATE_REPO_CHATBOT_TOKEN" (see .github/workflows/deploy.yml).
+# For local development, keep your real token in _config_local.yml (gitignored)
+# and run: bundle exec jekyll serve --config _config.yml,_config_local.yml
+github_contact_token: ""
+github_contact_repo: "kHarshit/kHarshit.github.io-contact"
+
 # Google services
 google_analytics: G-Y3EW0WPEZY
 
