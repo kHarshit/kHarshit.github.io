@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Understanding color models (RGB, HSV, LAB, Luv) and color spaces in computer vision from additive mixing and chromaticity to perceptually uniform CIE spaces ...">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Color and Color Spaces in Computer Vision | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Color and Color Spaces in Computer Vision">
+        <meta property="og:description" content="Understanding color models (RGB, HSV, LAB, Luv) and color spaces in computer vision from additive mixing and chromaticity to perceptually uniform CIE spaces ...">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/color-and-color-spaces-in-computer-vision/">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/color-and-color-spaces-in-computer-vision/debashis-biswas-dyPFnxxUhYk-unsplash.jpg">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Color and Color Spaces in Computer Vision">
+        <meta name="twitter:description" content="Understanding color models (RGB, HSV, LAB, Luv) and color spaces in computer vision from additive mixing and chromaticity to perceptually uniform CIE spaces ...">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/color-and-color-spaces-in-computer-vision/debashis-biswas-dyPFnxxUhYk-unsplash.jpg">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/color-and-color-spaces-in-computer-vision/">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Color and Color Spaces in Computer Vision",
+          "datePublished": "2020-01-17T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Understanding color models (RGB, HSV, LAB, Luv) and color spaces in computer vision from additive mixing and chromaticity to perceptually uniform CIE spaces ...",
+          "url": "https://kharshit.github.io/blog/color-and-color-spaces-in-computer-vision/",
+          "image": "https://kHarshit.github.io/img/blog/color-and-color-spaces-in-computer-vision/debashis-biswas-dyPFnxxUhYk-unsplash.jpg"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Color and Color Spaces in Computer Vision</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Jan 17, 2020</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      16 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/computer-vision/">Computer Vision</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <h2 id="color">Color</h2>
+
+<p>The color we see is how our brain visually perceive the world. The color of an object is determined by the different wavelengths of light it reflects (and absorbs), which is affected by the object’s physical properties.</p>
+
+<figure class="mbimgstyle" style="--img-width: 60%; --img-caption: 'A picture is worth a millions words. ';">
+<img src="/img/blog/color-and-color-spaces-in-computer-vision/debashis-biswas-dyPFnxxUhYk-unsplash.jpg" alt="A picture is worth a millions words. " />
+</figure>
+
+<blockquote>
+  <p>Color is a perception, not the physical property of an object … though it’s affected by the object’s properties.</p>
+</blockquote>
+
+<h3 id="characteristics-of-color">Characteristics of color</h3>
+
+<p>Any color can be described by three fundamental attributes:</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>Hue</strong>
+The dominant color: what we name as <span class="color-red">red</span>, <span class="color-yellow">yellow</span>, <span class="color-green">green</span>, <span class="color-blue">blue</span>, etc. This is what distinguishes a <span class="color-red">red</span> apple from a <span class="color-green">green</span> one.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Saturation (chroma)</strong>
+How pure or vivid the color is. A fully saturated color is intense and contains no <span class="color-white">white</span> or <span class="color-gray">gray</span>; a desaturated color appears dull or washed out.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Lightness / Brightness / Value</strong>
+How light or dark the color is, ranging from <span class="color-black">black</span> to <span class="color-white">white</span>. Different models use different names (value in HSV, lightness in HSL), but the idea is the same.</p>
+  </div>
+</div>
+
+<h3 id="human-eye-and-visible-spectrum">Human eye and visible spectrum</h3>
+
+<p>Light is a part of the electromagnetic radiation that is visible to the human eye. The <strong>visible spectrum</strong> spans wavelengths from approximately 380 nm (<span class="color-violet">violet</span>) to 780 nm (<span class="color-red">red</span>). Colors corresponding to a single wavelength are called <strong>spectral colors</strong> e.g. light at 570 nm produces a pure spectral <span class="color-yellow">yellow</span>.</p>
+
+<figure class="mbimgstyle" style="--img-width: 80%; --img-caption: 'The visible spectrum from 380 nm (violet) to 750 nm (red), with wavelength labels and color names (source: Wikipedia)';">
+<img src="/img/blog/color-and-color-spaces-in-computer-vision/linear_visible_spectrum.svg" alt="The visible spectrum from 380 nm (violet) to 750 nm (red), with wavelength labels and color names (source: Wikipedia)" />
+</figure>
+
+<p>The human eye does not respond uniformly to all wavelengths. It is <strong>trichromatic</strong>, it contains three types of photo-receptors called <strong>cones</strong> that are sensitive to different but overlapping ranges of wavelengths:</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard" style="--mbcard-border:1.5px solid #93c5fd;--mbcard-title-color:#3b82f6">
+    <p><strong>S-cones (short-wavelength)</strong>
+Peak sensitivity around 420-440 nm (<span class="color-blue">blue</span>-<span class="color-violet">violet</span>). These cones have the narrowest response curve and are most sensitive to the short-wavelength end of the visible spectrum.</p>
+  </div>
+  <div class="mbcard" style="--mbcard-border:1.5px solid #86efac;--mbcard-title-color:#22c55e">
+    <p><strong>M-cones (middle-wavelength)</strong>
+Peak sensitivity around 534-555 nm (<span class="color-green">green</span>). They respond strongly to the middle of the visible spectrum and overlap significantly with L-cones.</p>
+  </div>
+  <div class="mbcard" style="--mbcard-border:1.5px solid #fca5a5;--mbcard-title-color:#ef4444">
+    <p><strong>L-cones (long-wavelength)</strong>
+Peak sensitivity around 564-580 nm (<span class="color-yellow">yellow</span>-<span class="color-green">green</span>), not <span class="color-red">red</span>. Our perception of <span class="color-red">red</span> comes from the long tail of L-cone sensitivity combined with very low M-cone response at those wavelengths.</p>
+  </div>
+</div>
+
+<p>The graph below shows the normalized response of each cone type across the visible spectrum.</p>
+
+<figure class="mbimgstyle" style="--img-width: 80%; --img-caption: 'Normalized response curves of S-cones (blue), M-cones (green), and L-cones (red) across the visible spectrum. (source: Wikipedia)';">
+<img src="/img/blog/color-and-color-spaces-in-computer-vision/cone_fundamentals.svg" alt="Normalized response curves of S-cones (blue), M-cones (green), and L-cones (red) across the visible spectrum. (source: Wikipedia)" />
+</figure>
+
+<p><span class="color-white">White</span> is <strong>not</strong> a spectral color, no single wavelength produces it. We perceive <span class="color-white">white</span> when S, M, and L cones are stimulated at similar levels by a broad mix of wavelengths (like sunlight). This is also why RGB displays mix <span class="color-red">red</span>, <span class="color-green">green</span>, and <span class="color-blue">blue</span> subpixels to produce <span class="color-white">white</span>.</p>
+
+<p>Because the retina has three different cone types, any color sensation can be matched using just three primary colors with varying intensities. This property is called <strong>trichromacy</strong> and is the foundation of all RGB display technologies.</p>
+
+<p>The responses of the S, M, and L cones form the basis of the <strong>LMS color space</strong>, a color space defined directly by the human visual system’s physiological response. Most other color spaces (RGB, XYZ, Lab) are derived from or calibrated against this fundamental space.</p>
+
+<p>In addition to cones, the eye also contains <strong>rods</strong>, highly light-sensitive receptors that handle vision in low-light conditions (scotopic vision). Rods are responsible for our ability to see in dim light but do not contribute to color perception since they can’t distinguish different wavelengths of light.</p>
+
+<h2 id="color-space-vs-color-model">Color space vs Color model</h2>
+
+<p>These two terms are often used interchangeably, but they mean different things:</p>
+
+<p>A <strong>color model</strong> is a mathematical way to organize colors, it defines the axes and the structure. RGB uses a cube with <span class="color-red">red</span>, <span class="color-green">green</span>, and <span class="color-blue">blue</span> axes. HSV uses a cylinder with hue, saturation, and value. The model tells you <em>how</em> colors are arranged, but not what they actually look like.</p>
+
+<p>A <strong>color space</strong> takes a model and maps it to real-world colors. It gives it real-world meaning by defining things like the exact primary colors, white point, and gamma correction. For example, sRGB and Adobe RGB are both based on the RGB model, but they define the primary colors differently. sRGB has a smaller gamut (range of colors) than Adobe RGB. So the same RGB values like (128, 0, 0) will look different on each.</p>
+
+<p>Think of it this way: the color model is the coordinate system, and the color space is the mapping from those coordinates to actual colors you see on a screen.</p>
+
+<h2 id="rgb">RGB</h2>
+
+<p>In RGB color model, all the colors are represented by adding the combinations of three primary colors; <span class="color-red">Red</span>, <span class="color-green">Green</span>, and <span class="color-blue">Blue</span>. All the primary colors at full intensity form <span class="color-white">white</span> represented by RGB(255, 255, 255), and at zero intensity gives <span class="color-black">black</span> (0, 0, 0).</p>
+
+<p>Though RGB model is a convenient model for representing colors, it differs from how human eye perceive colors.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/rgb_mixer.js"></script>
+
+<div id="rgb-mixer" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-rgb-mixer">Interactive: RGB Color Mixer</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="rgb-layout">
+      <div class="rgb-controls">
+        <div class="dt-control-group">
+          <span class="dt-label-text">Red</span>
+          <input type="range" class="dt-slider rgb-slider" data-channel="r" min="0" max="255" value="128" />
+          <span class="dt-label-value rgb-r-val">255</span>
+        </div>
+        <div class="dt-control-group">
+          <span class="dt-label-text">Green</span>
+          <input type="range" class="dt-slider rgb-slider" data-channel="g" min="0" max="255" value="64" />
+          <span class="dt-label-value rgb-g-val">128</span>
+        </div>
+        <div class="dt-control-group">
+          <span class="dt-label-text">Blue</span>
+          <input type="range" class="dt-slider rgb-slider" data-channel="b" min="0" max="255" value="128" />
+          <span class="dt-label-value rgb-b-val">64</span>
+        </div>
+      </div>
+      <div class="rgb-swatch-area">
+        <div class="rgb-swatch" style="background: rgb(128,64,128);"></div>
+      </div>
+    </div>
+    <div class="rgb-values">
+      <div class="rgb-value-item"><span class="rgb-value-label">HEX</span><span class="rgb-value-val rgb-hex-val">#804080</span></div>
+      <div class="rgb-value-item"><span class="rgb-value-label">RGB</span><span class="rgb-value-val rgb-rgb-val">128, 64, 128</span></div>
+      <div class="rgb-value-item"><span class="rgb-value-label">HSV</span><span class="rgb-value-val rgb-hsv-val">300&deg;, 50%, 50%</span></div>
+      <div class="rgb-value-item"><span class="rgb-value-label">CMYK</span><span class="rgb-value-val rgb-cmyk-val">0%, 50%, 0%, 50%</span></div>
+    </div>
+    <div class="rgb-presets">
+      <span class="rgb-preset-label">Quick presets:</span>
+      <button class="rgb-preset-btn" data-r="255" data-g="0" data-b="0" style="background:#f00"></button>
+      <button class="rgb-preset-btn" data-r="0" data-g="255" data-b="0" style="background:#0f0"></button>
+      <button class="rgb-preset-btn" data-r="0" data-g="0" data-b="255" style="background:#00f"></button>
+      <button class="rgb-preset-btn" data-r="255" data-g="255" data-b="0" style="background:#ff0"></button>
+      <button class="rgb-preset-btn" data-r="0" data-g="255" data-b="255" style="background:#0ff"></button>
+      <button class="rgb-preset-btn" data-r="255" data-g="0" data-b="255" style="background:#f0f"></button>
+      <button class="rgb-preset-btn" data-r="255" data-g="255" data-b="255" style="background:#fff"></button>
+      <button class="rgb-preset-btn" data-r="0" data-g="0" data-b="0" style="background:#000"></button>
+      <button class="rgb-preset-btn" data-r="128" data-g="128" data-b="128" style="background:#888"></button>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Drag the R, G, B sliders to mix any color. RGB is additive: all primaries at full intensity gives white, zero intensity gives black.
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'RGB (additive) versus CMYK (subtractive) color models.';">
+<img src="/img/blog/color-and-color-spaces-in-computer-vision/rgb_cymk.png" alt="RGB (additive) versus CMYK (subtractive) color models." />
+</figure>
+
+<h2 id="cymk">CYMK</h2>
+
+<p>Unlike RGB, CYMK is a subtractive color model i.e. the different colors are represented by subtracting some color from <span class="color-white">white</span> e.g. <span class="color-cyan">cyan</span> is <span class="color-white">white</span> minus <span class="color-red">red</span>. <span class="color-cyan">Cyan</span>, <span class="color-magenta">magenta</span>, and <span class="color-yellow">yellow</span> are the complements of <span class="color-red">red</span>, <span class="color-green">green</span> and, <span class="color-blue">blue</span> respectively. The fourth <span class="color-black">black</span> color is added to yield CYMK for better reproduction of colors.</p>
+
+<p>Conversion from RGB to CMYK: C=1−R, M=1−G, Y=1−B.</p>
+
+<h2 id="yuv">YUV</h2>
+
+<p>These color spaces transform RGB into one <strong>brightness</strong> channel and two <strong>color</strong> channels:</p>
+
+<ul>
+  <li><strong>Y (luma)</strong>: how bright the pixel is. It’s a weighted average of R, G, B; notice <span class="color-green">green</span> gets the highest weight (0.587) since our eyes are most sensitive to <span class="color-green">green</span>.</li>
+  <li><strong>U and V (chroma)</strong>: encode the color information as difference signals (<span class="color-blue">blue</span> vs <span class="color-yellow">yellow</span>, <span class="color-red">red</span> vs <span class="color-cyan">cyan</span>).</li>
+</ul>
+
+<p>This design was originally for broadcast TV, black-and-white sets used only the Y channel and ignored U/V, while color TVs decoded all three.</p>
+
+\[\begin{aligned}
+Y &amp;= 0.299R + 0.587G + 0.114B \\
+U &amp;= -0.299R - 0.587G + 0.886B \\
+V &amp;= 0.701R - 0.587G - 0.114B
+\end{aligned}\]
+
+<h2 id="hsv-and-hsl">HSV and HSL</h2>
+
+<p>Both HSV (Hue, Saturation, Value) and HSL (Hue, Saturation, Lightness) are cylindrical color models built from RGB. They were designed to be more intuitive. Instead of mixing amounts of <span class="color-red">red</span>, <span class="color-green">green</span>, and <span class="color-blue">blue</span>, you pick a color (hue), decide how vivid it should be (saturation), and how bright (value/lightness).</p>
+
+<ul>
+  <li><strong>Hue</strong> (0°-360°): the color itself, starting and ending with <span class="color-red">red</span>.</li>
+  <li><strong>Saturation</strong> (0-1): how pure the color is. 0 is <span class="color-gray">gray</span>, 1 is fully vivid.</li>
+  <li><strong>Value / Lightness</strong> (0-1): how bright the color is. 0 is always <span class="color-black">black</span>. At 1 they both reach <span class="color-white">white</span>, but full saturation is reached at V=1 for HSV and at L=0.5 for HSL.</li>
+</ul>
+
+<figure class="mbimgstyle" style="--img-caption: 'HSL and HSV: cylindrical representations of color';">
+<img src="/img/blog/color-and-color-spaces-in-computer-vision/hsv_hsl.png" alt="HSL and HSV: cylindrical representations of color" />
+</figure>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/hsv_explorer.js"></script>
+
+<div id="hsv-explorer" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-hsv-explorer">Interactive: HSV vs HSL Explorer</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="hsv-layout">
+        <div class="hsv-controls">
+          <div class="hsv-mode-tabs">
+            <button class="hsv-mode-tab active" data-mode="hsv">HSV</button>
+            <button class="hsv-mode-tab" data-mode="hsl">HSL</button>
+          </div>
+          <div class="hsv-controls-row">
+            <div class="hsv-sliders">
+              <div class="dt-control-group">
+                <span class="dt-label-text">Hue</span>
+                <input type="range" class="dt-slider hsv-slider" data-channel="h" min="0" max="360" value="0" />
+                <span class="dt-label-value hsv-h-val">0&deg;</span>
+              </div>
+              <div class="dt-control-group">
+                <span class="dt-label-text">Saturation</span>
+                <input type="range" class="dt-slider hsv-slider" data-channel="s" min="0" max="100" value="100" />
+                <span class="dt-label-value hsv-s-val">100%</span>
+              </div>
+              <div class="dt-control-group">
+                <span class="dt-label-text hsv-third-label">Value</span>
+                <input type="range" class="dt-slider hsv-slider" data-channel="v" min="0" max="100" value="100" />
+                <span class="dt-label-value hsv-v-val">100%</span>
+              </div>
+              <div class="hsv-rgb-display">
+                <span>RGB: </span><span class="hsv-rgb-val">(255, 0, 0)</span>
+              </div>
+            </div>
+            <div class="hsv-swatch-area">
+              <div class="hsv-swatch" style="background: rgb(255,0,0);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hsv-shapes-row">
+      <div class="hsv-plane-container">
+        <canvas class="hsv-plane" width="260" height="260"></canvas>
+        <div class="hsv-plane-label">Side-view</div>
+      </div>
+      <div class="hsv-shape-container">
+        <canvas class="hsv-shape-canvas" width="260" height="260"></canvas>
+        <div class="hsv-shape-label"><span class="hsv-shape-name">Top-view V=100%</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    The cylinder shows the current hue's saturation×value/lightness range. The top-view shows all hues at the current V/L level.
+  </div>
+</div>
+
+<h2 id="chromaticity">Chromaticity</h2>
+
+<p>Imagine you’re looking at a <span class="color-red">red</span> apple in sunlight. Now imagine the same apple in shadow, it’s darker, but your brain still recognizes it as the same <span class="color-red">red</span>. You instinctively separate the apple’s <strong>intrinsic color</strong> from the amount of light hitting it. <strong>Chromaticity</strong> is the mathematical version of this separation: it describes the “color quality” of a pixel independently of its brightness.</p>
+
+<p>The simplest form is <strong>rg chromaticity</strong>, which normalizes RGB values by their total intensity:</p>
+
+\[r = \frac{R}{R + G + B}, \quad g = \frac{G}{R + G + B}, \quad b = \frac{B}{R + G + B}\]
+
+<p>Each channel tells you “what fraction of the total light is red (green / blue)?” Two pixels with the same underlying surface color but different illumination will have similar (r, g, b) ratios, the intensity cancels out.</p>
+
+<p>Since \(r + g + b = 1\), we only need two of the three values. Plotting every possible (r, g) pair produces a right triangle called the <strong>rg chromaticity diagram</strong>.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/chromaticity_explorer.js"></script>
+
+<div id="chroma-explorer" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-chromaticity-explorer">Interactive: Chromaticity Explorer</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="chroma-layout">
+      <div class="chroma-diagram-container">
+        <canvas class="chroma-canvas" width="300" height="300"></canvas>
+        <div class="chroma-axis-label chroma-x-label">r &rarr;</div>
+        <div class="chroma-axis-label chroma-y-label">g &rarr;</div>
+      </div>
+      <div class="chroma-controls">
+        <p style="font-size:0.85rem;color:var(--font-color,#666);margin:0 0 12px 0;">
+          The rg chromaticity diagram plots colors by their relative RGB values, independent of brightness. Hover over a point to see the corresponding color.
+        </p>
+        <div class="chroma-preview">
+          <div class="chroma-preview-swatch" style="background: rgb(255,0,0);"></div>
+          <div class="chroma-preview-values">
+            <div class="chroma-preview-row"><span class="chroma-preview-label">r:</span><span class="chroma-preview-val chroma-r-val">1.00</span></div>
+            <div class="chroma-preview-row"><span class="chroma-preview-label">g:</span><span class="chroma-preview-val chroma-g-val">0.00</span></div>
+            <div class="chroma-preview-row"><span class="chroma-preview-label">b:</span><span class="chroma-preview-val chroma-b-val">0.00</span></div>
+          </div>
+        </div>
+        <div class="dt-control-group">
+          <span class="dt-label-text">Brightness</span>
+          <input type="range" class="dt-slider chroma-brightness" min="1" max="255" value="128" />
+          <span class="dt-label-value chroma-brightness-val">128</span>
+        </div>
+        <div class="chroma-notes">
+          <span class="chroma-note">White point (r=0.33, g=0.33)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Chromaticity separates color from intensity. Notice how the white point sits at the center where r = g = b.
+  </div>
+</div>
+
+<p>Chromaticity is widely used in computer vision: discarding intensity lets algorithms segment objects by material color while staying robust to shadows and illumination gradients.</p>
+
+<h2 id="cie-color-space">CIE Color Space</h2>
+
+<p>Before understanding CIE Lab (L*a*b*) color space, let’s look at the problems with RGB and HSV. RGB is device-oriented: it describes how much <span class="color-red">red</span>, <span class="color-green">green</span>, and <span class="color-blue">blue</span> light a screen emits, not how a human perceives the resulting color. This causes these problems:</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070">
+    <p><strong>Non-uniform perceptual spacing</strong>
+equal numerical steps in RGB do not produce equal perceived color differences. For example, changing <span class="color-blue">blue</span> from (0, 0, 200) to (0, 0, 210) looks like a much smaller change than shifting <span class="color-red">red</span> from (200, 0, 0) to (210, 0, 0), even though the Euclidean distance is identical. Human eyes are simply more sensitive to some regions of color space than others.</p>
+  </div>
+  <div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070">
+    <p><strong>Conflation of luminance and chrominance</strong>
+RGB mixes lightness and color information in all three channels. The human visual system separates these: we are far more sensitive to changes in luminance than to changes in hue or saturation at the same luminance level. RGB gives no direct handle on this separation.</p>
+  </div>
+</div>
+
+<h3 id="xyz">XYZ</h3>
+
+<p>XYZ is derived from human visual perception experiments, its color matching functions were calibrated to how the average eye responds to light. Each channel is a linear transformation of RGB and carries color information.</p>
+
+<p>It has three channels:</p>
+<ul>
+  <li><strong>X</strong> roughly corresponds to <span class="color-red">red</span> sensation.</li>
+  <li><strong>Y</strong> corresponds to luminance (brightness).</li>
+  <li><strong>Z</strong> roughly corresponds to <span class="color-blue">blue</span> sensation.</li>
+</ul>
+
+<p>A convenient 2D slice of XYZ is the <strong>xy chromaticity</strong> diagram, which normalizes out luminance just like rg chromaticity does for RGB. Plotting x and y for all spectral colors produces the horseshoe-shaped locus.</p>
+
+\[x = \frac{X}{X + Y + Z}, \quad y = \frac{Y}{X + Y + Z}\]
+
+<p>But XYZ is <strong>linear</strong> so equal steps don’t feel equal to the eye. Lab and Luv fix this with <strong>non-linear</strong> transforms, creating perceptually uniform spaces where Euclidean distance ≈ perceived difference.</p>
+
+<h3 id="cie-lab">CIE Lab</h3>
+
+<p>CIE Lab was designed for <strong>reflected light</strong> e.g. surfaces, prints, and photographs. It addresses both RGB issues by mapping colors into a space calibrated to human perception, decoupling intensity (L*) from chromaticity (a*, b*), and spacing colors so that equal distances feel equally different.</p>
+
+<p>It has three channels:</p>
+<ul>
+  <li><strong>L*</strong> lightness, ranging from 0 (<span class="color-black">black</span>) to 100 (<span class="color-white">white</span>).</li>
+  <li><strong>a*</strong> <span class="color-green">green</span>-<span class="color-red">red</span> axis, ranging from <span class="color-green">green</span> (-) to <span class="color-red">red</span> (+).</li>
+  <li><strong>b*</strong> <span class="color-blue">blue</span>-<span class="color-yellow">yellow</span> axis, ranging from <span class="color-blue">blue</span> (-) to <span class="color-yellow">yellow</span> (+).</li>
+</ul>
+
+<h3 id="cie-luv">CIE Luv</h3>
+
+<p>CIE Luv (L*u*v*) was developed for <strong>emitted light</strong> e.g. computer screens, TV displays, and other self-luminous devices. It shares the same perceptual uniformity goals as Lab but uses a different chromaticity formulation better suited to additive color mixing.</p>
+
+<p>The three channels are:</p>
+<ul>
+  <li><strong>L*</strong> lightness, identical to Lab: 0 (<span class="color-black">black</span>) to 100 (<span class="color-white">white</span>).</li>
+  <li><strong>u*</strong> chromaticity coordinate, roughly <span class="color-red">red</span>-<span class="color-green">green</span> axis.</li>
+  <li><strong>v*</strong> chromaticity coordinate, roughly <span class="color-blue">blue</span>-<span class="color-yellow">yellow</span> axis.</li>
+</ul>
+
+<p>In practice, Lab is more common in image processing and computer vision, while Luv is often preferred for applications involving display calibration and video processing.</p>
+
+<h3 id="delta-e">Delta E</h3>
+
+<p>Delta E (<code class="language-plaintext highlighter-rouge">ΔE</code>) is a single number that quantifies the <strong>perceptual difference between two colors</strong>. It answers the question: <em>how different do two colors look to a human observer?</em></p>
+
+<p>Delta E is computed in the CIE Lab color space. The simplest version, <strong>ΔE*ab</strong> (CIE76), is just the Euclidean distance between two colors in Lab space:</p>
+
+\[\Delta E^{*}_{ab} = \sqrt{(L^{*}_2 - L^{*}_1)^2 + (a^{*}_2 - a^{*}_1)^2 + (b^{*}_2 - b^{*}_1)^2}\]
+
+<p>Delta E values can be interpreting as follows.</p>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>ΔE value</th>
+      <th>Perception</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>&lt; 1</td>
+      <td>Not perceptible by human eyes</td>
+    </tr>
+    <tr>
+      <td>1 – 2</td>
+      <td>Perceptible only on close observation</td>
+    </tr>
+    <tr>
+      <td>2 – 10</td>
+      <td>Perceptible at a glance</td>
+    </tr>
+    <tr>
+      <td>11 – 49</td>
+      <td>Colors are more similar than opposite</td>
+    </tr>
+    <tr>
+      <td>100</td>
+      <td>Colors are exact opposites</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The original CIE76 was further improved by following standards.</p>
+
+<ul>
+  <li><strong>ΔE*94</strong>: Adds weighting functions for chroma and hue to better match human perception.</li>
+  <li><strong>ΔE*00</strong>: The current industry standard. Introduces corrections for lightness, chroma, hue, and a rotation term for the <span class="color-blue">blue</span> region.</li>
+</ul>
+
+\[\Delta E_{00} = \sqrt{\left(\frac{\Delta L'}{k_L S_L}\right)^2 + \left(\frac{\Delta C'}{k_C S_C}\right)^2 + \left(\frac{\Delta H'}{k_H S_H}\right)^2 + R_T \frac{\Delta C'}{k_C S_C} \frac{\Delta H'}{k_H S_H}}\]
+
+<p>where \(S_L\), \(S_C\), \(S_H\) are weighting functions and \(R_T\) is the rotation term.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/delta_e.js"></script>
+
+<div id="de-compare" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-delta-e">Interactive: Delta E Color Comparator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="de-layout">
+      <div class="de-color-a">
+        <div class="de-side-header">Color A</div>
+        <div class="de-swatch de-swatch-a" style="background: rgb(255,0,0);"></div>
+        <div class="de-side-controls">
+          <div class="dt-control-group de-side-group">
+            <span class="dt-label-text">Red</span>
+            <input type="range" class="dt-slider de-slider" data-side="a" data-channel="r" min="0" max="255" value="255" />
+            <span class="dt-label-value de-ar-val">255</span>
+          </div>
+          <div class="dt-control-group de-side-group">
+            <span class="dt-label-text">Green</span>
+            <input type="range" class="dt-slider de-slider" data-side="a" data-channel="g" min="0" max="255" value="0" />
+            <span class="dt-label-value de-ag-val">0</span>
+          </div>
+          <div class="dt-control-group de-side-group">
+            <span class="dt-label-text">Blue</span>
+            <input type="range" class="dt-slider de-slider" data-side="a" data-channel="b" min="0" max="255" value="0" />
+            <span class="dt-label-value de-ab-val">0</span>
+          </div>
+          <div class="de-hex-label"><span class="de-ahex-val">#ff0000</span></div>
+        </div>
+      </div>
+      <div class="de-vs">
+        <div class="de-vs-text">vs</div>
+      </div>
+      <div class="de-color-b">
+        <div class="de-side-header">Color B</div>
+        <div class="de-swatch de-swatch-b" style="background: rgb(0,0,255);"></div>
+        <div class="de-side-controls">
+          <div class="dt-control-group de-side-group">
+            <span class="dt-label-text">Red</span>
+            <input type="range" class="dt-slider de-slider" data-side="b" data-channel="r" min="0" max="255" value="0" />
+            <span class="dt-label-value de-br-val">0</span>
+          </div>
+          <div class="dt-control-group de-side-group">
+            <span class="dt-label-text">Green</span>
+            <input type="range" class="dt-slider de-slider" data-side="b" data-channel="g" min="0" max="255" value="0" />
+            <span class="dt-label-value de-bg-val">0</span>
+          </div>
+          <div class="dt-control-group de-side-group">
+            <span class="dt-label-text">Blue</span>
+            <input type="range" class="dt-slider de-slider" data-side="b" data-channel="b" min="0" max="255" value="255" />
+            <span class="dt-label-value de-bb-val">255</span>
+          </div>
+          <div class="de-hex-label"><span class="de-bhex-val">#0000ff</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="de-results">
+      <div class="de-result-card">
+        <div class="de-result-label">CIE76 (&Delta;E*ab)</div>
+        <div class="de-result-value de-cie76-val">---</div>
+      </div>
+      <div class="de-result-card">
+        <div class="de-result-label">CIE94 (&Delta;E*94)</div>
+        <div class="de-result-value de-cie94-val">---</div>
+      </div>
+      <div class="de-result-card">
+        <div class="de-result-label">CIE00 (&Delta;E00)</div>
+        <div class="de-result-value de-cie00-val">---</div>
+      </div>
+      <div class="de-result-card de-result-perception">
+        <div class="de-result-label">Perception</div>
+        <div class="de-result-value de-perception-val">---</div>
+      </div>
+    </div>
+    <div class="de-presets">
+      <span class="de-preset-label">Preset pairs:</span>
+      <button class="de-preset-btn" data-a="255,0,0" data-b="0,0,255">Red vs Blue</button>
+      <button class="de-preset-btn" data-a="255,255,255" data-b="0,0,0">White vs Black</button>
+      <button class="de-preset-btn" data-a="255,0,0" data-b="255,100,100">Red vs Pink</button>
+      <button class="de-preset-btn" data-a="0,128,0" data-b="0,255,0">Dark vs Light Green</button>
+      <button class="de-preset-btn" data-a="0,0,200" data-b="0,0,210">Blue neighbors</button>
+      <button class="de-preset-btn" data-a="200,0,0" data-b="210,0,0">Red neighbors</button>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Delta E quantifies perceptual difference between colors.
+  </div>
+</div>
+
+<section>
+	<script>
+    var all_questions = [{
+      question_string: "What measures the purity or intensity of the color?",
+      choices: {
+        correct: "Saturation",
+        wrong: ["Hue", "Brightness", "None of these"]
+      }
+    }, {
+      question_string: "Which characteristic corresponds to the difference between black and white color?",
+      choices: {
+        correct: "Value",
+        wrong: ["Hue", "Saturation", "All of these"]
+      }
+    }, {
+      question_string: "Which of the following are additive models of color?",
+      choices: {
+        correct: "RGB",
+        wrong: ["CYMK", "Both of these", "None of these"]
+      }
+    }, {
+      question_string: "Which color model is closer to how human eye perceives color?",
+      choices: {
+        correct: "Delta E",
+        wrong: ["RGB", "CYMK", "HSV"]
+      }
+    }, {
+      question_string: "A Delta E (ΔE) value of less than 1 between two colors means:",
+      choices: {
+        correct: "The difference is not perceptible to the human eye",
+        wrong: ["The colors are identical in RGB space", "The colors are exact opposites", "The difference is clearly visible at a glance"]
+      }
+    }];
+</script>
+<link rel="stylesheet" href="/css/quiz.css" />
+<div id="quiz">
+  <div class="quiz-header">
+    <h2 class="quiz-title" id="test-your-knowledge">QUIZ: Test Your Knowledge</h2>
+    <div class="quiz-progress">
+      <span class="quiz-progress-text"></span>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="quiz-question-area">
+    <p class="quiz-question-text"></p>
+    <div class="quiz-options"></div>
+  </div>
+
+  <div class="quiz-footer">
+    <button class="quiz-btn quiz-btn-secondary" id="prev-btn">&#8592; Prev</button>
+    <div class="quiz-footer-right">
+      <button class="quiz-btn quiz-btn-outline" id="check-btn" style="display:none">Submit</button>
+      <button class="quiz-btn quiz-btn-primary" id="next-btn">Next &#8594;</button>
+      <button class="quiz-btn quiz-btn-primary" id="finish-btn" style="display:none">Finish</button>
+    </div>
+  </div>
+
+  <div class="quiz-results" style="display:none">
+    <div class="quiz-results-emoji"></div>
+    <p class="quiz-results-message"></p>
+    <p class="quiz-results-score"></p>
+    <button class="quiz-btn quiz-btn-secondary" id="retake-btn">&#8635; Retake Quiz</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/js/quiz/quiz.js"></script>
+</div>
+
+	 
+</section>
+
+<p><strong>References &amp; Further Readings:</strong></p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Color_space">Color space - Wikipedia</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Color_model">Color model - Wikipedia</a></li>
+  <li><a href="https://www.dcc.fc.up.pt/~mcoimbra/lectures/MAPI_1415/CV_1415_T1.pdf">Fundamental concepts of processing and image analysis</a></li>
+  <li><a href="http://sun.aei.polsl.pl/~mkawulok/stud/graph/instr.pdf">Introduction to computer vision</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Color_difference">Color difference - Wikipedia</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/CIELAB_color_space">CIELAB color space - Wikipedia</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/CIE_1931_color_space">CIE 1931 color space - Wikipedia</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/YUV">YUV - Wikipedia</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/CIELUV">CIE Luv color space - Wikipedia</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/CIE_1931_color_space#Chromaticity_diagram">CIE xy chromaticity diagram</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Visible_spectrum">Visible spectrum - Wikipedia</a></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2020-01-17-color-and-color-spaces-in-computer-vision.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2019/10/18/introduction-to-panoptic-segmentation-tutorial">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Introduction to Panoptic Segmentation: A Tutorial</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2021/12/03/pytorch-basics-tutorial">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">PyTorch Basic Tutorial</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

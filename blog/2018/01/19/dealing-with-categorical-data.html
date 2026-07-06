@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Techniques for encoding categorical variables in machine learning models, including dummy variables and one-hot encoding.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Dealing with categorical data | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Dealing with categorical data">
+        <meta property="og:description" content="Techniques for encoding categorical variables in machine learning models, including dummy variables and one-hot encoding.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2018/01/19/dealing-with-categorical-data">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/site/harshit_nu.jpeg">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Dealing with categorical data">
+        <meta name="twitter:description" content="Techniques for encoding categorical variables in machine learning models, including dummy variables and one-hot encoding.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/site/harshit_nu.jpeg">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2018/01/19/dealing-with-categorical-data">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Dealing with categorical data",
+          "datePublished": "2018-01-19T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Techniques for encoding categorical variables in machine learning models, including dummy variables and one-hot encoding.",
+          "url": "https://kharshit.github.io/blog/2018/01/19/dealing-with-categorical-data",
+          "image": "https://kHarshit.github.io/img/site/harshit_nu.jpeg"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Dealing with categorical data</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Jan 19, 2018</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/data-science/">Data Science</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>Often in our machine learning model, we encounter qualitative predictors.</p>
+
+<p>One of the ways to deal with these factors is to create a <em>dummy variable</em>. If a factor has two levels or possible values, then we simply create a dummy variable that takes two possible numerical values. For example, if <code class="language-plaintext highlighter-rouge">gender</code> variable takes two values – <code class="language-plaintext highlighter-rouge">Male</code> and <code class="language-plaintext highlighter-rouge">Female</code>.</p>
+
+\[x_{i} = 1\ if\ ith\ person\ is\ female\\
+0\ if\ ith\ person\ is\ male\]
+
+<p>and include this new variable in our model. This results in the model:</p>
+
+\[y_{i} = \beta_{0} + \beta_{1}x_{i} + \epsilon_{i}\]
+
+<p>If a qualitative predictor has more than two levels, we create additional dummy variables. For example, if <code class="language-plaintext highlighter-rouge">quality</code> has three possible values – <code class="language-plaintext highlighter-rouge">Bad</code>, <code class="language-plaintext highlighter-rouge">Medium</code>, and <code class="language-plaintext highlighter-rouge">Good</code>.</p>
+
+<p>We deal with these factors in the following ways:</p>
+
+<h2 id="one-hot-encoding-and-dummy-encoding">One Hot encoding and dummy encoding</h2>
+
+<p>One hot encoding is one of the widespread method used to deal with the categorical values. Another method is dummy encoding. There is a slight difference between the two.</p>
+
+<p>For example, if one categorical variable has n values. One-hot encoding converts it into n variables, while dummy encoding converts it into n-1 variables.</p>
+
+<h3 id="using-pandas">Using pandas</h3>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">PyDev</span> <span class="n">console</span><span class="p">:</span> <span class="n">using</span> <span class="n">IPython</span> <span class="mf">6.1</span><span class="p">.</span><span class="mi">0</span>
+<span class="n">Python</span> <span class="mf">3.6</span><span class="p">.</span><span class="mi">3</span> <span class="o">|</span><span class="n">Anaconda</span><span class="p">,</span> <span class="n">Inc</span><span class="p">.</span><span class="o">|</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Nov</span>  <span class="mi">3</span> <span class="mi">2017</span><span class="p">,</span> <span class="mi">19</span><span class="p">:</span><span class="mi">19</span><span class="p">:</span><span class="mi">16</span><span class="p">)</span> 
+<span class="p">[</span><span class="n">GCC</span> <span class="mf">7.2</span><span class="p">.</span><span class="mi">0</span><span class="p">]</span> <span class="n">on</span> <span class="n">linux</span>
+<span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span><span class="sh">'</span><span class="s">quality</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">bad</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">medium</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">good</span><span class="sh">'</span><span class="p">]})</span>
+<span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">df</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span> 
+  <span class="n">quality</span>
+<span class="mi">0</span>     <span class="n">bad</span>
+<span class="mi">1</span>  <span class="n">medium</span>
+<span class="mi">2</span>    <span class="n">good</span>
+<span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">df</span><span class="p">.</span><span class="nf">info</span><span class="p">()</span>
+<span class="o">&lt;</span><span class="n">class</span><span class="sh">'</span><span class="s">pandas.core.frame.DataFrame</span><span class="sh">'</span><span class="o">&gt;</span>
+<span class="n">RangeIndex</span><span class="p">:</span> <span class="mi">3</span> <span class="n">entries</span><span class="p">,</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">2</span>
+<span class="n">Data</span> <span class="nf">columns </span><span class="p">(</span><span class="n">total</span> <span class="mi">1</span> <span class="n">columns</span><span class="p">):</span>
+<span class="n">quality</span>    <span class="mi">3</span> <span class="n">non</span><span class="o">-</span><span class="n">null</span> <span class="nb">object</span>
+<span class="n">dtypes</span><span class="p">:</span> <span class="nf">object</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">memory</span> <span class="n">usage</span><span class="p">:</span> <span class="mf">104.0</span><span class="o">+</span> <span class="nb">bytes</span>
+<span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>  <span class="c1"># one hot encoding
+</span><span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">df</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span> 
+   <span class="n">quality_bad</span>  <span class="n">quality_good</span>  <span class="n">quality_medium</span>
+<span class="mi">0</span>            <span class="mi">1</span>             <span class="mi">0</span>               <span class="mi">0</span>
+<span class="mi">1</span>            <span class="mi">0</span>             <span class="mi">0</span>               <span class="mi">1</span>
+<span class="mi">2</span>            <span class="mi">0</span>             <span class="mi">1</span>               <span class="mi">0</span></code></pre></figure>
+
+<p>By default, python’s <code class="language-plaintext highlighter-rouge">get_dummies</code> doesn’t do dummy encoding but one-hot encoding. To produce dummy encoding, use <code class="language-plaintext highlighter-rouge">drop_first=True</code>.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># dummy encoding
+</span><span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="n">df</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> 
+   <span class="n">quality_good</span>  <span class="n">quality_medium</span>
+<span class="mi">0</span>             <span class="mi">0</span>               <span class="mi">0</span>
+<span class="mi">1</span>             <span class="mi">0</span>               <span class="mi">1</span>
+<span class="mi">2</span>             <span class="mi">1</span>               <span class="mi">0</span></code></pre></figure>
+
+<h3 id="using-scikit-learn">Using scikit-learn</h3>
+
+<p><code class="language-plaintext highlighter-rouge">scikit-learn</code> also provides methods to deal with categorical variables e.g. <code class="language-plaintext highlighter-rouge">sklearn.preprocessing.LabelEncoder()</code>. <code class="language-plaintext highlighter-rouge">LabelEncoder</code> is incremental encoding, such as 0,1,2,3,4,… We can also use scikit-learn’s <code class="language-plaintext highlighter-rouge">sklearn.preprocessing.OneHotEncoder()</code>. There is one more type of encoding, Frequency encoding, which maps categories to their frequencies.</p>
+
+<p>Label and Frequency encodings are often used for tree based methods while one hot encoding is used for non-tree-based models.</p>
+
+<p><strong>References:</strong></p>
+
+<ol>
+  <li><a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html">pandas.get_dummies</a></li>
+  <li><a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html">sklearn.preprocessing.OneHotEncoder</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2018-01-19-dealing-with-categorical-data.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2018/01/12/regularization">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Regularization</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2018/01/26/the-curse-of-dimensionality">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">The Curse of Dimensionality</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

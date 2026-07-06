@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Instance segmentation with Mask R-CNN: combining object detection and semantic segmentation to identify and segment each object instance separately.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Quick intro to Instance segmentation: Mask R-CNN | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Quick intro to Instance segmentation: Mask R-CNN">
+        <meta property="og:description" content="Instance segmentation with Mask R-CNN: combining object detection and semantic segmentation to identify and segment each object instance separately.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2019/08/23/quick-intro-to-instance-segmentation">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/quick-intro-to-instance-segmentation/ibrahim-rifath-D0x1GOoiPzw-unsplash_inst_seg.jpg">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Quick intro to Instance segmentation: Mask R-CNN">
+        <meta name="twitter:description" content="Instance segmentation with Mask R-CNN: combining object detection and semantic segmentation to identify and segment each object instance separately.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/quick-intro-to-instance-segmentation/ibrahim-rifath-D0x1GOoiPzw-unsplash_inst_seg.jpg">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2019/08/23/quick-intro-to-instance-segmentation">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Quick intro to Instance segmentation: Mask R-CNN",
+          "datePublished": "2019-08-23T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Instance segmentation with Mask R-CNN: combining object detection and semantic segmentation to identify and segment each object instance separately.",
+          "url": "https://kharshit.github.io/blog/2019/08/23/quick-intro-to-instance-segmentation",
+          "image": "https://kHarshit.github.io/img/blog/quick-intro-to-instance-segmentation/ibrahim-rifath-D0x1GOoiPzw-unsplash_inst_seg.jpg"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Quick intro to Instance segmentation: Mask R-CNN</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Aug 23, 2019</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      12 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+                    <li><a href="/categories/computer-vision/">Computer Vision</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p><em>This is the third post in the Quick intro series: <a href="/blog/2019/03/15/quick-intro-to-object-detection">object detection (I)</a>, <a href="/blog/2019/08/09/quick-intro-to-semantic-segmentation">semantic segmentation (II)</a></em>.</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/ibrahim-rifath-D0x1GOoiPzw-unsplash_inst_seg.jpg" style="display: block; margin: auto; width: 80%; max-width: 100%;" /></p>
+
+<blockquote>
+  <p>“Boxes are stupid anyway though, I’m probably a true believer in masks except I can’t get YOLO to learn them.”
+— <cite>Joseph Redmon, YOLOv3</cite></p>
+</blockquote>
+
+<p>The instance segmentation combines <em>object detection</em>, where the goal is to classify individual objects and localize them using a bounding box, and <em>semantic segmentation</em>, where the goal is to classify each pixel into the given classes. In instance segmentation, we care about detection and segmentation of the instances of objects separately.</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/segmentation.png" style="display: block; margin: auto; width: 90%; max-width: 100%;" /></p>
+
+<h2 id="mask-r-cnn">Mask R-CNN</h2>
+
+<p>Mask R-CNN is a state-of-the-art model for instance segmentation. It extends Faster R-CNN, the model used for object detection, by adding a parallel branch for predicting segmentation masks.</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/seg_mask_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>Before getting into Mask R-CNN, let’s take a look at Faster R-CNN.</p>
+
+<h2 id="faster-r-cnn">Faster R-CNN</h2>
+
+<p>Faster R-CNN consists of two stages.</p>
+
+<h3 id="stage-i">Stage I</h3>
+
+<p>The <em>first stage</em> is a deep convolutional network with <strong>Region Proposal Network (RPN)</strong>, which proposes regions of interest (ROI) from the feature maps output by the convolutional neural network i.e.</p>
+
+<p>The input image is fed into a CNN, often called <strong>backbone</strong>, which is usually a pretrained network such as ResNet101. The classification (fully connected) layers from the backbone network are removed so as to use it as a feature extractor. This also makes the network fully convolutional, thus it can take any input size image.</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/remove_fc_layers.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>The RPN uses a sliding window method to get <abbr title="boxes having high probability of containing object">relevant anchor boxes</abbr> <em>(the precalculated fixed sized bounding boxes having different sizes that are placed throughout the image that represent the approximate bbox predictions so as to save the time to search)</em> from the feature maps.</p>
+
+<p>It then does a binary classification that the anchor has object or not (into classes <abbr title="foreground">fg</abbr> or <abbr title="background">bg</abbr>), and bounding box regression to refine bounding boxes. The anchor is classified as positive label (fg class) if the anchor(s) has highest Intersection-over-Union (IoU) with the ground truth box, or, it has IoU overlap greater than 0.7 with the ground truth.</p>
+
+<blockquote>
+  <p>At each sliding window location, a number of proposals (max <code class="language-plaintext highlighter-rouge">k</code>) are predicted corresponding to anchor boxes. So the <code class="language-plaintext highlighter-rouge">reg</code> layer has <code class="language-plaintext highlighter-rouge">4k</code> outputs encoding the coordinates of <code class="language-plaintext highlighter-rouge">k</code> boxes, and the <code class="language-plaintext highlighter-rouge">cls</code> layer outputs <code class="language-plaintext highlighter-rouge">2k</code> scores that estimate probability of <em>object</em> or <em>not object</em> for each proposal.</p>
+</blockquote>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/rpn.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<blockquote>
+  <p>In Faster R-CNN, k=9 anchors representing 3 scales and 3 aspect ratios of anchor boxes are present at <em>each</em> sliding window position. Thus, for a convolutional feature map of a size <code class="language-plaintext highlighter-rouge">W×H</code> <em>(typically∼2,400)</em>, there are <code class="language-plaintext highlighter-rouge">WHk</code> anchors in total.</p>
+</blockquote>
+
+<p>Hence, at this stage, there are two losses i.e. bbox binary classification loss, \(L_{cls_1}\)  and bbox regression loss, \(L_{bbox_1}\).</p>
+
+<p>The top <em>(positive)</em> anchors output by the RPN, called proposals or Region of Interest (RoI) are fed to the next stage.</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/faster_rcnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<h3 id="stage-ii">Stage II</h3>
+
+<p>The <em>second stage</em> is essentially <strong>Fast R-CNN</strong>, which using RoI pooling layer, extracts feature maps from each RoI, and performs classification and bounding box regression. The RoI pooling layer converts the section of feature map corresponding to each <em>(variable sized)</em> RoI into fixed size to be fed into a fully connected layer.</p>
+
+<p>For example, say, for a 8x8 feature map, the RoI is 7x5 in the bottom left corner, and the RoI pooling layer outputs a fixed size 2x2 feature map. Then, the following operations would be performed:</p>
+
+<ul>
+  <li>Divide the RoI into 2x2.</li>
+  <li>Perform max-pooling i.e. take maximum value from each section.</li>
+</ul>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/roi_pooling.gif" style="display: block; margin: auto; width: 80%; max-width: 100%;" /></p>
+
+<p>The fc layer further performs softmax classification of objects into classes (e.g. car, person, bg),  and the same bounding box regression to refine bounding boxes.</p>
+
+<p>Thus, at the second stage as well, there are two losses i.e. object classification loss (into multiple classes), \(L_{cls_2}\), and bbox regression loss, \(L_{bbox_2}\).</p>
+
+<h2 id="mask-prediction">Mask prediction</h2>
+
+<p>Mask R-CNN has the identical first stage, and in second stage, it also predicts binary mask in addition to class score and bbox. The mask branch takes positive RoI and predicts mask using a fully convolutional network (FCN).</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/mask_head.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>In simple terms, Mask R-CNN = Faster R-CNN + FCN</p>
+
+<p>Finally, the loss function is</p>
+
+\[L = L_{cls} + L_{bbox} + L_{mask}\]
+
+<p>The \(L_{cls} (L_{cls_1} + L_{cls_2})\) is the classification loss, which tells how close the predictions are to the true class, and \(L_{bbox} (L_{bbox_1} + L_{bbox_2})\) is the bounding box loss, which tells how good the model is at localization, as discussed above. In addition, there is also \(L_{mask}\), loss for mask prediction, which is calculated by taking the binary cross-entropy between the predicted mask and the ground truth. This loss penalizes wrong per-pixel binary classifications (fg/bg w.r.t ground truth label).</p>
+
+<blockquote>
+  <p>Mask R-CNN encodes a binary mask per class for each of the RoIs, and the mask loss for a specific RoI is calculated based only on the mask corresponding to its true class, which prevents the mask loss from being affected by class predictions.</p>
+</blockquote>
+
+<blockquote>
+  <p>The mask branch has a \(Km^2\)-dimensional output for each RoI, which encodes <code class="language-plaintext highlighter-rouge">K</code> binary masks of resolution <code class="language-plaintext highlighter-rouge">m×m</code>, one for each of the <code class="language-plaintext highlighter-rouge">K</code> classes. To this we apply a per-pixel sigmoid, and define \(L_{mask}\) as the average binary cross-entropy loss.</p>
+</blockquote>
+
+<p>In total, there are five losses as follows:</p>
+
+<ul>
+  <li>rpn_class_loss, \(L_{cls_1}\): RPN (bbox) anchor binary classifier loss</li>
+  <li>rpn_bbox_loss, \(L_{bbox_1}\): RPN bbox regression loss</li>
+  <li>fastrcnn_class_loss, \(L_{cls_2}\): loss for the classifier head of Mask R-CNN</li>
+  <li>fastrcnn_bbox_loss, \(L_{bbox_2}\): loss for Mask R-CNN bounding box refinement</li>
+  <li>maskrcnn_mask_loss, \(L_{mask}\): mask binary cross-entropy loss for the mask head</li>
+</ul>
+
+<h2 id="other-improvements">Other improvements</h2>
+
+<h3 id="feature-pyramid-network">Feature Pyramid Network</h3>
+
+<p>Mask R-CNN also utilizes a more effective backbone network architecture called <strong>Feature Pyramid Network (FPN)</strong> along with ResNet, which results in better performance in terms of both accuracy and speed.</p>
+
+<blockquote>
+  <p>Faster R-CNN with an FPN backbone extracts RoI features from different levels of the feature  pyramid  according  to  their  scale,  but  otherwise  the rest of the approach is similar to vanilla ResNet.</p>
+</blockquote>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/fpn_0.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>In order to detect object at different scales, various techniques have been proposed. One of them (c) utilizes the fact that deep CNN build a multi-scale representation of the feature maps. The features computed by various layers of the CNN acts as a feature pyramid. Here, you can use your model to detect objects at different levels of the pyramid thus allowing your model to detect object across a large range of scales e.g. the model can detect small objects at <code class="language-plaintext highlighter-rouge">conv3</code> as it has higher spatial resolution thus allowing the model to extract better features for detection compared to detecting small objects at <code class="language-plaintext highlighter-rouge">conv5</code>, which has lower spatial resolution. But, an important thing to note here is that the quality of features at <code class="language-plaintext highlighter-rouge">conv3</code> won’t be as good for classification as features at <code class="language-plaintext highlighter-rouge">conv5</code>.</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/fpn_1.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>The above idea is fast as it utilizes the inherent working of CNN by using the features extracted at different conv layers for multi-scale detection, but compromises with the feature quality.</p>
+
+<p>FPN uses the inherent multi-scale representation in the network as above, and solves the problem of weak features at later layers for multi-scale detection.</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/fpn_2.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>The forward pass of the CNN gives the feature maps at different conv layers i.e. builds the multi-level representation at different scales. In FPN, lateral connections are added at each level of the pyramid. The idea is to take top-down strong features (from <code class="language-plaintext highlighter-rouge">conv5</code>) and propagate them to the high resolution feature maps (to <code class="language-plaintext highlighter-rouge">conv3</code>) thus having strong features across all levels.</p>
+
+<h3 id="roialign">RoiAlign</h3>
+
+<p>As discussed above, RoIPool layer extracts small feature maps from each RoI.  The problem with RoIPool is quantization. If the RoI doesn’t perfectly align with the grid in feature map as shown, the quantization breaks pixel-to-pixel alignment. It isn’t much of a problem in object detection, but in case of predicting masks, which require finer spatial localization, it matters.</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/roi_quantization.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p><strong>RoIAlign</strong> is an improvement over the RoIPool operation. What RoIAlign does is to smoothly transform features from the RoIs (which has different aspect sizes) into fixed size feature vectors without using <em>quantization</em>. It uses bilinear interpolation to do. A grid of sampling points are used within each bin of RoI, which are used to interpolate the features at its nearest neighbors as shown.</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/roialign.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>For example, in the above figure, you can’t apply the max-pooling directly due to the misalignment of RoI with the feature map grids, thus in case of RoIAlign, four points are sampled in each bin using bilinear interpolation from its nearest neighbors. Finally, the max value from these points is chosen to get the required 2x2 feature map.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>The following Mask R-CNN implementation is from <a href="https://github.com/facebookresearch/maskrcnn-benchmark"><code class="language-plaintext highlighter-rouge">facebookresearch/maskrcnn-benchmark</code></a> in PyTorch.</p>
+
+<p>Other famous implementations are:</p>
+
+<ul>
+  <li>matterport’s <a href="https://github.com/matterport/Mask_RCNN">Mask_RCNN</a> in Keras and Tensorflow</li>
+  <li>open-mmlab’s <a href="https://github.com/open-mmlab/mmdetection">mmdetection</a> in PyTorch</li>
+  <li>facebookresearch’s <a href="https://github.com/facebookresearch/Detectron">Detectron</a> in Caffe2, and <a href="https://github.com/facebookresearch/detectron2">Detectron2</a> in PyTorch</li>
+</ul>
+
+<p>First, install it as follows.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># install dependencies</span>
+pip <span class="nb">install </span>ninja yacs cython matplotlib tqdm opencv-python
+
+<span class="c"># install COCO API</span>
+git clone https://github.com/cocodataset/cocoapi.git
+<span class="nb">cd </span>cocoapi/PythonAPI
+python setup.py build_ext <span class="nb">install
+cd</span> ../../
+
+<span class="c"># install apex</span>
+<span class="nb">rm</span> <span class="nt">-rf</span> apex
+git clone https://github.com/NVIDIA/apex.git
+<span class="nb">cd </span>apex
+git pull
+<span class="c"># if no GPU available, try installing removing --cuda_ext</span>
+python setup.py <span class="nb">install</span> <span class="nt">--cuda_ext</span> <span class="nt">--cpp_ext</span>
+<span class="nb">cd</span> ../
+
+<span class="c"># install maskrcnn-benchmark </span>
+git clone https://github.com/facebookresearch/maskrcnn-benchmark.git
+<span class="nb">cd </span>maskrcnn-benchmark
+<span class="c"># the following will install the lib with symbolic links, so that you can modify</span>
+<span class="c"># the files if you want and won't need to re-build it</span>
+python setup.py build develop
+
+<span class="c"># download predictor.py, which contains necessary utility functions</span>
+wget https://raw.githubusercontent.com/facebookresearch/maskrcnn-benchmark/master/demo/predictor.py
+
+<span class="c"># download configuration file</span>
+wget https://raw.githubusercontent.com/facebookresearch/maskrcnn-benchmark/master/configs/caffe2/e2e_mask_rcnn_R_50_FPN_1x_caffe2.yaml</code></pre></figure>
+
+<p>Here, for inference, we’ll use Mask R-CNN model pretrained on MS COCO dataset.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">matplotlib.pylab</span> <span class="k">as</span> <span class="n">pylab</span>
+<span class="kn">import</span> <span class="n">requests</span>
+<span class="kn">from</span> <span class="n">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="kn">from</span> <span class="n">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="n">maskrcnn_benchmark.config</span> <span class="kn">import</span> <span class="n">cfg</span>
+<span class="kn">from</span> <span class="n">predictor</span> <span class="kn">import</span> <span class="n">COCODemo</span>
+
+<span class="n">config_file</span> <span class="o">=</span> <span class="sh">"</span><span class="s">e2e_mask_rcnn_R_50_FPN_1x_caffe2.yaml</span><span class="sh">"</span>
+
+<span class="c1"># update the config options with the config file
+</span><span class="n">cfg</span><span class="p">.</span><span class="nf">merge_from_file</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+
+<span class="c1"># a helper class `COCODemo`, which loads a model from the config file, and performs pre-processing, model prediction and post-processing for us
+</span><span class="n">coco_demo</span> <span class="o">=</span> <span class="nc">COCODemo</span><span class="p">(</span>
+    <span class="n">cfg</span><span class="p">,</span>
+    <span class="n">min_image_size</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+    <span class="n">confidence_threshold</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">pil_image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="sh">'</span><span class="s">cats.jpg</span><span class="sh">'</span><span class="p">).</span><span class="nf">convert</span><span class="p">(</span><span class="sh">"</span><span class="s">RGB</span><span class="sh">"</span><span class="p">)</span>
+<span class="c1"># convert to BGR format
+</span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">pil_image</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+
+<span class="c1"># compute predictions
+</span><span class="n">predictions</span> <span class="o">=</span> <span class="n">coco_demo</span><span class="p">.</span><span class="nf">run_on_opencv_image</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+<span class="c1"># plot
+</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">input image</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">axis</span><span class="p">(</span><span class="sh">'</span><span class="s">off</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">imshow</span><span class="p">(</span><span class="n">pil_image</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">segmented output</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">axis</span><span class="p">(</span><span class="sh">'</span><span class="s">off</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">imshow</span><span class="p">(</span><span class="n">predictions</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">segmented_output.png</span><span class="sh">"</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">'</span><span class="s">tight</span><span class="sh">'</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/segmentation_cat_output_instance.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>Notice that, here, both the instances of cats are segmented separately, unlike <a href="/blog/2019/08/09/quick-intro-to-semantic-segmentation">semantic segmentation</a>.</p>
+
+<h2 id="other-instance-segmentation-models">Other Instance segmentation models</h2>
+
+<h3 id="ms-r-cnn-mask-scoring-r-cnn">MS R-CNN (Mask Scoring R-CNN)</h3>
+
+<p>In Mask R-CNN, the instance classification score is used as the mask quality score. However, it’s possible that due to certain factors such as background clutter, occlusion, etc. the classification score is high, but the mask quality (IoU b/w instance mask and ground truth) is low. MS R-CNN uses a network that learns the quality of mask. The mask score is reevaluated by multiplying the predicted MaskIoU and classification score.</p>
+
+<blockquote>
+  <p>Within  the  Mask  R-CNN framework, we implement a MaskIoU prediction network named MaskIoU head.  It takes both the output of themask  head  and  RoI  feature  as  input,  and  is  trained  using a  simple regression  loss.</p>
+</blockquote>
+
+<p>i.e. MS R-CNN = Mask R-CNN + MaskIoU head module</p>
+
+<h3 id="yolact-you-only-look-at-coefficients">YOLACT (You Only Look At CoefficienTs)</h3>
+
+<p>YOLACT is the current fastest instance segmentation method. It can achieve real-time instance segmentation results i.e. 30fps.</p>
+
+<p><img src="/img/blog/quick-intro-to-instance-segmentation/yolact.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>It breaks the instance segmentation process into two parts i.e. it generates a set of prototype masks in parallel with predicting per-instance mask coefficients. Then the prototypes are linearly combined with the mask coefficients to produce the instance masks.</p>
+
+<p><strong>References &amp; Further Readings:</strong></p>
+<ol>
+  <li><a href="https://arxiv.org/abs/1703.06870">Mask R-CNN paper</a></li>
+  <li><a href="https://arxiv.org/pdf/1506.01497.pdf">Faster R-CNN paper</a></li>
+  <li><a href="https://arxiv.org/pdf/1612.03144.pdf">FPN paper</a></li>
+  <li><a href="https://arxiv.org/pdf/1903.00241.pdf">MS R-CNN paper</a></li>
+  <li><a href="https://arxiv.org/pdf/1904.02689.pdf">YOLACT paper</a></li>
+  <li><a href="https://cseweb.ucsd.edu/classes/sp18/cse252C-a/CSE252C_20180509.pdf">Mask R-CNN presented by Jiageng Zhang, Jingyao Zhan, Yunhan Ma</a></li>
+  <li><a href="https://youtu.be/jHv37mKAhV4">Tutorial: Deep Learning for Objects and Scenes - Part 1 - CVPR’17</a></li>
+  <li><a href="http://cs231n.stanford.edu/">CS231n: Convolutional Neural Networks for Visual Recognition (image source)</a></li>
+  <li><a href="http://lernapparat.de/static/artikel/pytorch-jit-android/thomas_viehmann.pytorch_jit_android_2018-12-11.pdf">Mask R-CNN image source</a></li>
+  <li><a href="https://deepsense.ai/region-of-interest-pooling-explained/">RoIPool image source</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2019-08-23-quick-intro-to-instance-segmentation.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2019/08/09/quick-intro-to-semantic-segmentation">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Quick intro to semantic segmentation: FCN, U-Net and DeepLab</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2019/09/20/evaluation-metrics-for-object-detection-and-segmentation">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Evaluation metrics for object detection and segmentation: mAP</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2021/12/03/pytorch-basics-tutorial">
+                
+                <span class="post-related-thumb"><img src="/img/blog/pytorch-basics-tutorial/graph_static_dynamic.png" alt="PyTorch Basic Tutorial" loading="lazy"></span>
+                
+                <span class="post-related-title">PyTorch Basic Tutorial</span>
+                <span class="post-related-date">Dec 2021</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/10/18/introduction-to-panoptic-segmentation-tutorial">
+                
+                <span class="post-related-thumb"><img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/college_semantic.png" alt="Introduction to Panoptic Segmentation: A Tutorial" loading="lazy"></span>
+                
+                <span class="post-related-title">Introduction to Panoptic Segmentation: A Tutorial</span>
+                <span class="post-related-date">Oct 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/09/20/evaluation-metrics-for-object-detection-and-segmentation">
+                
+                <span class="post-related-thumb"><img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/iou.png" alt="Evaluation metrics for object detection and segmentation: mAP" loading="lazy"></span>
+                
+                <span class="post-related-title">Evaluation metrics for object detection and segmentation: mAP</span>
+                <span class="post-related-date">Sep 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

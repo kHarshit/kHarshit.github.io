@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="How and why to replace fully connected layers with equivalent convolutional layers, enabling CNNs to accept arbitrary input sizes.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Converting FC layers to CONV layers | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Converting FC layers to CONV layers">
+        <meta property="og:description" content="How and why to replace fully connected layers with equivalent convolutional layers, enabling CNNs to accept arbitrary input sizes.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2019/08/02/converting-fc-layers-to-conv-layers">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/site/harshit_nu.jpeg">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Converting FC layers to CONV layers">
+        <meta name="twitter:description" content="How and why to replace fully connected layers with equivalent convolutional layers, enabling CNNs to accept arbitrary input sizes.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/site/harshit_nu.jpeg">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2019/08/02/converting-fc-layers-to-conv-layers">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Converting FC layers to CONV layers",
+          "datePublished": "2019-08-02T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "How and why to replace fully connected layers with equivalent convolutional layers, enabling CNNs to accept arbitrary input sizes.",
+          "url": "https://kharshit.github.io/blog/2019/08/02/converting-fc-layers-to-conv-layers",
+          "image": "https://kHarshit.github.io/img/site/harshit_nu.jpeg"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Converting FC layers to CONV layers</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Aug 2, 2019</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+                    <li><a href="/categories/computer-vision/">Computer Vision</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <blockquote>
+  <p>It is worth noting that the only difference between FC and CONV layers is that the neurons in the CONV layer are connected only to a local region in the input, and that many of the neurons in a CONV volume share parameters.</p>
+</blockquote>
+
+<p>Suppose, the 7x7x512 activation volume output of the conv layer is fed into a 4096 sized fc layer. This fc layer can be replaced with a conv layer having 4096 filters (kernel) of size 7x7x512, where each filter gives 1x1x1 output  which are concatenated to give output of 1x1x4096, which is equal to what we get in fc layer.</p>
+
+<p>As a general rule, replace <code class="language-plaintext highlighter-rouge">K</code> sized fc layer <em>with</em> a conv layer having <code class="language-plaintext highlighter-rouge">K</code> number of filters of the same size that is input to the fc layer.<br />
+For example, if a <code class="language-plaintext highlighter-rouge">conv1</code> layer outputs <code class="language-plaintext highlighter-rouge">HxWxC</code> volume, and it’s fed to a <code class="language-plaintext highlighter-rouge">K</code> sized <code class="language-plaintext highlighter-rouge">fc</code> layer. Then, the <code class="language-plaintext highlighter-rouge">fc</code> layer can be replaced with a <code class="language-plaintext highlighter-rouge">conv2</code> layer having <code class="language-plaintext highlighter-rouge">K HxW</code> filters. In PyTorch, it’d be</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="p">...)</span></code></pre></figure>
+
+<p>Before:<br />
+<em><code class="language-plaintext highlighter-rouge">nn.Conv2d(...)</code></em><br />
+image dim: 7x7x512<br />
+<em><code class="language-plaintext highlighter-rouge">nn.Linear(512 * 7 * 7, 4096)</code></em><br />
+<em><code class="language-plaintext highlighter-rouge">nn.Linear(4096, 1000)</code></em></p>
+
+<p>After:<br />
+<em><code class="language-plaintext highlighter-rouge">nn.Conv2d(...)</code></em><br />
+image dim: 7x7x512<br />
+<em><code class="language-plaintext highlighter-rouge">nn.Conv2d(512, 4096, 7)</code></em><br />
+image dim: 1x1x4096<br />
+<em><code class="language-plaintext highlighter-rouge">nn.Conv2d(4096, 1000, 1)</code></em><br />
+image dim: 1x1x1000</p>
+
+<p>Using the above reasoning, you’d notice that all the further fc layers, <em>except the first one</em>, will require <code class="language-plaintext highlighter-rouge">1x1</code> convolutions as shown in the above example, it’s because after the first conv layer, the feature maps are of size <code class="language-plaintext highlighter-rouge">1x1xC</code> where <code class="language-plaintext highlighter-rouge">C</code> is the number of channels.</p>
+
+<p><strong>References:</strong></p>
+<ol>
+  <li><a href="http://cs231n.github.io/convolutional-networks/#convert">CS231n</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2019-08-02-converting-fc-layers-to-conv-layers.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2019/07/19/two-years-of-technical-fridays">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Two Years of Technical Fridays</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2019/08/09/quick-intro-to-semantic-segmentation">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Quick intro to semantic segmentation: FCN, U-Net and DeepLab</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2021/12/03/pytorch-basics-tutorial">
+                
+                <span class="post-related-thumb"><img src="/img/blog/pytorch-basics-tutorial/graph_static_dynamic.png" alt="PyTorch Basic Tutorial" loading="lazy"></span>
+                
+                <span class="post-related-title">PyTorch Basic Tutorial</span>
+                <span class="post-related-date">Dec 2021</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/10/18/introduction-to-panoptic-segmentation-tutorial">
+                
+                <span class="post-related-thumb"><img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/college_semantic.png" alt="Introduction to Panoptic Segmentation: A Tutorial" loading="lazy"></span>
+                
+                <span class="post-related-title">Introduction to Panoptic Segmentation: A Tutorial</span>
+                <span class="post-related-date">Oct 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/09/20/evaluation-metrics-for-object-detection-and-segmentation">
+                
+                <span class="post-related-thumb"><img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/iou.png" alt="Evaluation metrics for object detection and segmentation: mAP" loading="lazy"></span>
+                
+                <span class="post-related-title">Evaluation metrics for object detection and segmentation: mAP</span>
+                <span class="post-related-date">Sep 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

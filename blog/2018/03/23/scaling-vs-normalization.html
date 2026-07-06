@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="The difference between feature scaling (min-max) and normalization (standardization), and when to apply each in machine learning pipelines.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Scaling vs Normalization | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Scaling vs Normalization">
+        <meta property="og:description" content="The difference between feature scaling (min-max) and normalization (standardization), and when to apply each in machine learning pipelines.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2018/03/23/scaling-vs-normalization">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/scaling-vs-normalization/scaling.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Scaling vs Normalization">
+        <meta name="twitter:description" content="The difference between feature scaling (min-max) and normalization (standardization), and when to apply each in machine learning pipelines.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/scaling-vs-normalization/scaling.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2018/03/23/scaling-vs-normalization">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Scaling vs Normalization",
+          "datePublished": "2018-03-23T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "The difference between feature scaling (min-max) and normalization (standardization), and when to apply each in machine learning pipelines.",
+          "url": "https://kharshit.github.io/blog/2018/03/23/scaling-vs-normalization",
+          "image": "https://kHarshit.github.io/img/blog/scaling-vs-normalization/scaling.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Scaling vs Normalization</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Mar 23, 2018</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/data-science/">Data Science</a></li>
+                
+                    <li><a href="/categories/machine-learning/">Machine Learning</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p><strong>Feature scaling</strong> (also known as <strong>data normalization</strong>) is the method used to standardize the range of features of data. Since, the range of values of data may vary widely, it becomes a necessary step in data preprocessing while using machine learning algorithms.</p>
+
+<h2 id="scaling">Scaling</h2>
+
+<p>In scaling <em>(also called <strong>min-max scaling</strong>)</em>, you transform the data such that the features are within a specific range e.g. [0, 1].</p>
+
+\[x' = \frac{x - x_{min}}{x_{max} - x_{min}}\]
+
+<p>where x’ is the normalized value.</p>
+
+<p>Scaling is important in the algorithms such as support vector machines (SVM) and k-nearest neighbors (KNN) where distance between the data points is important. For example, in the dataset containing prices of products; without scaling, SVM might treat 1 USD equivalent to 1 INR though 1 USD = 65 INR.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="n">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">minmax_scale</span><span class="p">,</span> <span class="n">scale</span>
+
+<span class="c1"># set seed for reproducibility
+</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># generate random data points from an exponential distribution
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">exponential</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># mix-max scaling
+</span><span class="n">scaled_data</span> <span class="o">=</span> <span class="nf">minmax_scale</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1"># scaled_data = (x-x.min())/(x.max()-x.min())
+</span>
+<span class="c1"># plot both together to compare
+</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">distplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">Original data</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">distplot</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">g</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">Scaled data</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span></code></pre></figure>
+
+<p><img src="/img/blog/scaling-vs-normalization/scaling.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<h2 id="normalization-and-standardization">Normalization and Standardization</h2>
+
+<p>The point of normalization is to change your observations so that they can be described as a normal distribution.</p>
+
+<p>Normal distribution (Gaussian distribution), also known as the <strong>bell curve</strong>, is a specific statistical distribution where a roughly equal observations fall above and below the mean, the mean and the median are the same, and there are more observations closer to the mean.</p>
+
+<p><a href="https://commons.wikimedia.org/wiki/File:The_Normal_Distribution.svg#/media/File:The_Normal_Distribution.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/2/25/The_Normal_Distribution.svg" alt="The Normal Distribution.svg" style="display:block; margin: auto; width:80%; max-width:100%" /></a></p>
+
+<p><em><strong>Note:</strong> The above definition is as per statistics. There are various types of normalization. In fact, min-max scaling can also be said to a type of normalization. In machine learning, the following are most commonly used.</em></p>
+
+<h2 id="1">#1</h2>
+
+<p><strong>Standardization</strong> <em>(also called <strong>z-score normalization</strong>)</em> transforms your data such that the resulting distribution has a mean of 0 and a standard deviation of 1. It’s the definition that we read in the last paragraph.</p>
+
+\[x' = \frac{x - x_{mean}}{\sigma}\]
+
+<p>where x is the original feature vector, \(x_{mean}\) is the mean of that feature vector, and σ is its standard deviation.</p>
+
+<p>The z-score comes from statistics, defined as</p>
+
+\[z = \frac{x - \mu}{\sigma}\]
+
+<p><img src="/img/blog/scaling-vs-normalization/standardization.gif" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>where \(\mu\) is the mean. By subtracting the mean from the distribution, we’re essentially shifting it towards left or right by amount equal to mean i.e. if we have a distribution of mean 100, and we subtract mean 100 from every value, then we shift the distribution left by 100 without changing its shape. Thus, the new mean will be 0. When we divide by standard deviation \(\sigma\), we’re changing the shape of distribution. The new standard deviation of this standardized distribution is 1 which you can get putting the new mean, \(\mu = 0\) in the z-score equation.</p>
+
+<p>It’s widely used in SVM, logistics regression and neural networks.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># standardization
+</span><span class="n">standardized_data</span> <span class="o">=</span> <span class="nf">scale</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># plot
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">distplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">Original data</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">distplot</span><span class="p">(</span><span class="n">standardized_data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">teal</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">Standardized data</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span></code></pre></figure>
+
+<p><img src="/img/blog/scaling-vs-normalization/standardization.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<h2 id="2">#2</h2>
+
+<p>Simply called <strong>normalization</strong>, it’s just another way of normalizing data. Note that, it’s a different from min-max scaling in numerator, and from z-score normalization in the denominator.</p>
+
+\[x' = \frac{x - x_{mean}}{x_{max} - x_{min}}\]
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># normalization
+</span><span class="n">normalized_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="nf">mean</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="nf">max</span><span class="p">()</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="nf">min</span><span class="p">())</span>
+
+<span class="c1"># plot
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">distplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">Original data</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">distplot</span><span class="p">(</span><span class="n">normalized_data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">Normalized data</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span></code></pre></figure>
+
+<p><img src="/img/blog/scaling-vs-normalization/normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>You need to normalize our data if you’re going use a machine learning or statistics technique that assumes that data is normally distributed e.g. t-tests, ANOVAs, linear regression, linear discriminant analysis (LDA) and Gaussian Naive Bayes.</p>
+
+<p><img src="/img/blog/scaling-vs-normalization/scaling_vs_normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<h2 id="applications">Applications</h2>
+
+<p>In stochastic gradient descent, feature scaling can sometimes improve the convergence speed of the algorithm. The reason is that unscaled features with vastly different ranges create an elongated, elliptical loss surface. Gradient descent oscillates back and forth across the narrow valleys, requiring many steps. Scaling features to a similar range makes the loss contours more spherical, allowing gradient descent to take a more direct path to the optimum and converge much faster. In support vector machines, scaling can reduce the time to find support vectors.</p>
+
+<p><strong>Further Readings:</strong></p>
+<ol>
+  <li><a href="https://en.wikipedia.org/wiki/Feature_scaling">Feature scaling - Wikipedia</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Normalization_(statistics)#Examples">Normalization</a></li>
+  <li><a href="https://stats.stackexchange.com/q/244507/194589">What algorithms need feature scaling, beside from SVM?</a></li>
+  <li><a href="https://www.kaggle.com/jfeng1023/data-cleaning-challenge-scale-and-normalize-data">Scaling and Normalize Data</a></li>
+  <li><a href="https://scikit-learn.org/stable/modules/preprocessing.html#standardization-or-mean-removal-and-variance-scaling">Standardization - scikit-learn</a></li>
+  <li><a href="https://scikit-learn.org/stable/auto_examples/preprocessing/plot_all_scaling.html#sphx-glr-auto-examples-preprocessing-plot-all-scaling-py">Compare the effect of different scalers on data with outliers - scikit-learn</a></li>
+  <li><a href="http://www.faqs.org/faqs/ai-faq/neural-nets/part2/section-16.html">Should I normalize/standardize/rescale the data?</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2018-03-23-scaling-vs-normalization.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2018/03/16/ensembling-is-the-key">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Ensembling is the key</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2018/04/06/smart-india-hackathon-2018-grand-finale">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Smart India Hackathon 2018 grand finale</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2018/08/24/loss-functions">
+                
+                <span class="post-related-thumb"><img src="/img/blog/loss-functions/log_loss.png" alt="Loss functions" loading="lazy"></span>
+                
+                <span class="post-related-title">Loss functions</span>
+                <span class="post-related-date">Aug 2018</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2018/08/03/methods-of-hyperparameter-optimization">
+                
+                <span class="post-related-thumb"><img src="/img/blog/methods-of-hyperparameter-optimization/gridsearchbad.jpeg" alt="Methods of Hyperparameter optimization" loading="lazy"></span>
+                
+                <span class="post-related-title">Methods of Hyperparameter optimization</span>
+                <span class="post-related-date">Aug 2018</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2018/03/16/ensembling-is-the-key">
+                
+                <span class="post-related-thumb"><img src="/img/blog/ensembling-is-the-key/ensemble.jpg" alt="Ensembling is the key" loading="lazy"></span>
+                
+                <span class="post-related-title">Ensembling is the key</span>
+                <span class="post-related-date">Mar 2018</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

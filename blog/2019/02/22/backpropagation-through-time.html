@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="A mathematical deep dive into how gradients are computed in RNNs via Backpropagation Through Time (BPTT), explaining vanishing gradient origins.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Backpropagation Through Time | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Backpropagation Through Time">
+        <meta property="og:description" content="A mathematical deep dive into how gradients are computed in RNNs via Backpropagation Through Time (BPTT), explaining vanishing gradient origins.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2019/02/22/backpropagation-through-time">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/backpropagation-through-time/rnn2.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Backpropagation Through Time">
+        <meta name="twitter:description" content="A mathematical deep dive into how gradients are computed in RNNs via Backpropagation Through Time (BPTT), explaining vanishing gradient origins.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/backpropagation-through-time/rnn2.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2019/02/22/backpropagation-through-time">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Backpropagation Through Time",
+          "datePublished": "2019-02-22T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "A mathematical deep dive into how gradients are computed in RNNs via Backpropagation Through Time (BPTT), explaining vanishing gradient origins.",
+          "url": "https://kharshit.github.io/blog/2019/02/22/backpropagation-through-time",
+          "image": "https://kHarshit.github.io/img/blog/backpropagation-through-time/rnn2.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Backpropagation Through Time</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Feb 22, 2019</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+                    <li><a href="/categories/natural-language-processing/">Natural Language Processing</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>In the earlier post <a href="/blog/2019/01/04/the-gradient-problem-in-rnn">The gradient problem in RNN</a>, you came to know that RNNs have exploding and vanishing gradient problems. This post discusses how exactly the gradients are calculated in RNNs. Let’s take a deep dive into the mathematics of RNNs.</p>
+
+<p>The equation</p>
+
+\[s_t = f_W(s_{t-1}, x_t)\]
+
+<p>defines the RNN structure. Here, \(s_t\) is the state vector at time <code class="language-plaintext highlighter-rouge">t</code>. It can be written as</p>
+
+\[s_t = \phi (W_s s_{t-1} + W_x x_t)\]
+
+<p>Here, \(\phi\) is the activation function say \(tanh\). The output vector can be written as</p>
+
+\[y_t = W_y s_t\]
+
+<p>The loss function or simply the output error at time <code class="language-plaintext highlighter-rouge">t</code> can be written as</p>
+
+\[E_t = (d_t - y_t)^2\]
+
+<div style="text-align:center">
+<img src="/img/blog/backpropagation-through-time/rnn2.png" style="margin: auto; width: auto; max-width: 100%;" />
+<img src="/img/blog/backpropagation-through-time/rnn1.png" style="margin: auto; width: auto; max-width: 100%;" />
+</div>
+
+<p>The unrolled representation of RNN is shown</p>
+
+<p><img src="/img/blog/backpropagation-through-time/bptt.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>Here, \(W_x\)​, \(W_y\) and \(W_s\) represent the weight matrices connecting the inputs to the state layer, connecting the state to the output and connecting the state from the previous timestep to the state in the following timestep respectively.</p>
+
+<p>The <a href="/blog/2018/03/09/computational-graphs-backpropagation">backpropagation</a> algorithm applied to this unrolled (unfolded) graph of RNN is called <strong>backpropagation through time (BPTT)</strong>. RNN takes into account its history i.e. the previous states as evident from its equation. The current state depends on the input as well as the previous states. Thus to update the weights, the gradient of loss function at particular time step <code class="language-plaintext highlighter-rouge">t</code> depends not only on the input but also on the gradients of previous states at all the previous time steps. The total loss for a given sequence of input values paired with a sequence of output values would be the sum of the losses over all the time steps.</p>
+
+<h3 id="gradient-calculations-to-update-w_y">Gradient calculations to update \(W_y\)</h3>
+
+<p>Using chain rule, the gradient of loss function w.r.t. \(W_y\) at 3rd timestep</p>
+
+\[\frac{\partial E_3}{\partial W_y} = \frac{\partial E_3}{\partial y_3} \frac{\partial y_3}{\partial W_y}\]
+
+<h3 id="gradient-calculations-to-update-w_s">Gradient calculations to update \(W_s\)</h3>
+
+<p>The partial derivate of loss function w.r.t. \(W_s\) depends on state \(s_3\), which depends on \(s_2\), which further depends on its predecessor \(s_1\), the first state. Hence, all these gradients are to be accumulated to update \(W_s\) i.e.</p>
+
+\[\frac{\partial E_3}{\partial W_s} = \text{gradient from} s_3 + \text{gradient from} s_2 + \text{gradient from} s_1\]
+
+\[\frac{\partial E_3}{\partial W_s} = \frac{\partial E_3}{\partial y_3} \frac{\partial y_3}{\partial s_3} \frac{\partial s_3}{\partial W_s}
+ + \frac{\partial E_3}{\partial y_3} \frac{\partial y_3}{\partial s_3} \frac{\partial s_3}{\partial s_2} \frac{\partial s_2}{\partial W_s}
+ +  \frac{\partial E_3}{\partial y_3} \frac{\partial y_3}{\partial s_3} \frac{\partial s_3}{\partial s_2} \frac{\partial s_2}{\partial s_1} \frac{\partial s_1}{\partial W_s}\]
+
+<p>In the same way, the gradient of loss w.r.t. \(W_x\) can be calculated. The general formula for gradient calculation is</p>
+
+\[\frac{\partial y}{\partial W} = \sum_{i=t+1}^{t+N} \frac{\partial y}{\partial s_{t+N}} \frac{\partial s_{t+N}}{\partial s_i} \frac{\partial s_i}{\partial W}\]
+
+<h2 id="truncated-backpropagation-through-time-tbptt">Truncated Backpropagation through time (TBPTT)</h2>
+
+<p>The problem with BPTT is that the update in weights require forward through entire sequence to compute loss, then backward through entire sequence to compute gradient. The slight variant of this algorithm called Truncated Backpropagation through time (TBPTT), where forward and backward pass are run through chunks of sequences instead of the whole sequence. It’s similar to using mini-batches in gradient descent i.e. the gradients are calculated for each step, but the weights get updated in batches periodically (as opposed to once every inputs sample). This helps reduce the complexity of the training process and helps remove noise from the weight updates. But the problem with TBPTT is that the network can’t learn long dependencies as in BPTT because of limit on flow of gradient due to truncation.</p>
+
+<p>Note that backpropagating for large number of steps leads to <a href="/blog/2019/01/04/the-gradient-problem-in-rnn">the gradient problems</a>.</p>
+
+<!-- ## Teacher Forcing -->
+
+<p><strong>References:</strong></p>
+<ol>
+  <li><a href="https://in.udacity.com/course/deep-learning-nanodegree--nd101">PyTorch Deep Learning Nanodegree - Udacity (also image source)</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2019-02-22-backpropagation-through-time.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2019/02/15/autoencoder-downsampling-and-upsampling">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Autoencoder: Downsampling and Upsampling</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2019/03/08/attention">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Attention</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/03/08/attention">
+                
+                <span class="post-related-thumb"><img src="/img/blog/attention/encoder_decoder_arch.png" alt="Attention" loading="lazy"></span>
+                
+                <span class="post-related-title">Attention</span>
+                <span class="post-related-date">Mar 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/01/11/image-captioning-using-encoder-decoder">
+                
+                <span class="post-related-thumb"><img src="/img/blog/image-captioning-using-encoder-decoder/image_captioner_structure.png" alt="Image captioning using encoder-decoder" loading="lazy"></span>
+                
+                <span class="post-related-title">Image captioning using encoder-decoder</span>
+                <span class="post-related-date">Jan 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/01/04/the-gradient-problem-in-rnn">
+                
+                <span class="post-related-thumb"><img src="/img/blog/the-gradient-problem-in-rnn/gradient_flow_rnn.png" alt="The gradient problem in RNN" loading="lazy"></span>
+                
+                <span class="post-related-title">The gradient problem in RNN</span>
+                <span class="post-related-date">Jan 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

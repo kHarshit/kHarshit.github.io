@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="An introduction to semantic segmentation, pixel-level classification using Fully Convolutional Networks, U-Net, and DeepLab architectures.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Quick intro to semantic segmentation: FCN, U-Net and DeepLab | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Quick intro to semantic segmentation: FCN, U-Net and DeepLab">
+        <meta property="og:description" content="An introduction to semantic segmentation, pixel-level classification using Fully Convolutional Networks, U-Net, and DeepLab architectures.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2019/08/09/quick-intro-to-semantic-segmentation">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/quick-intro-to-semantic-segmentation/segmentation_fcn.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Quick intro to semantic segmentation: FCN, U-Net and DeepLab">
+        <meta name="twitter:description" content="An introduction to semantic segmentation, pixel-level classification using Fully Convolutional Networks, U-Net, and DeepLab architectures.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/quick-intro-to-semantic-segmentation/segmentation_fcn.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2019/08/09/quick-intro-to-semantic-segmentation">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Quick intro to semantic segmentation: FCN, U-Net and DeepLab",
+          "datePublished": "2019-08-09T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "An introduction to semantic segmentation, pixel-level classification using Fully Convolutional Networks, U-Net, and DeepLab architectures.",
+          "url": "https://kharshit.github.io/blog/2019/08/09/quick-intro-to-semantic-segmentation",
+          "image": "https://kHarshit.github.io/img/blog/quick-intro-to-semantic-segmentation/segmentation_fcn.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Quick intro to semantic segmentation: FCN, U-Net and DeepLab</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Aug 9, 2019</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+                    <li><a href="/categories/computer-vision/">Computer Vision</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>Suppose you’ve an image, consisting of cats. You want to classify every pixel of the image as cat or background. This process is called semantic segmentation.</p>
+
+<p>One of the ways to do so is to use a <strong>Fully Convolutional Network (FCN)</strong> i.e. you stack a bunch of convolutional layers in a encoder-decoder fashion. The encoder downsamples the image using strided convolution giving a compressed feature representation of the image, and the decoder upsamples the image using methods like transpose convolution to give the segmented output <em>(<a href="/blog/2019/02/15/autoencoder-downsampling-and-upsampling">Read more about downsampling and upsampling</a>)</em>.</p>
+
+<p><img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_fcn.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>The fully connected (fc) layers of a convolutional neural network requires a fixed size input. Thus, if your model is trained on an image size of <code class="language-plaintext highlighter-rouge">224x224</code>, the input image of size <code class="language-plaintext highlighter-rouge">227x227</code> will throw an error. The solution, as adapted in FCN, is to <a href="/blog/2019/08/02/converting-fc-layers-to-conv-layers">replace fc layers with <code class="language-plaintext highlighter-rouge">1x1</code> conv layers</a>. Thus, FCN can perform semantic segmentation for any input size image.</p>
+
+<p>In FCN, the <em>skip connections</em> from the earlier layers are also utilized to reconstruct accurate segmentation boundaries by learning back relevant features, which are lost during downsampling.</p>
+
+<blockquote>
+  <p>Semantic segmentation faces an inherent tension between semantics and location: global information resolves <em>what</em> while local information resolves <em>where</em>… Combining fine layers and coarse layers <em>(by using skip connections)</em> lets the model make local predictions that respect global structure.</p>
+</blockquote>
+
+<h2 id="u-net">U-Net</h2>
+
+<p>The U-Net build upon the concept of FCN. Its architecture, similar to the above encoder-decoder architecture, can be divided into three parts:</p>
+
+<ul>
+  <li>The <strong>contracting or downsampling path</strong> consists of 4 blocks where each block applies two <code class="language-plaintext highlighter-rouge">3x3</code> convolution (<code class="language-plaintext highlighter-rouge">+</code>batch norm) followed by <code class="language-plaintext highlighter-rouge">2x2</code> max-pooling. The number of features maps are doubled at each pooling layer (after each block) as <code class="language-plaintext highlighter-rouge">64 -&gt; 128 -&gt; 256</code> and so on.</li>
+  <li>The horizontal <strong>bottleneck</strong> consists of two <code class="language-plaintext highlighter-rouge">3x3</code> convolution followed by <code class="language-plaintext highlighter-rouge">2x2</code> up-convolution.</li>
+  <li>The <strong>expanding or upsampling path</strong>, complimentary to the contracting path, also consists of 4 blocks, where each block consists of two <code class="language-plaintext highlighter-rouge">3x3</code> conv followed by <code class="language-plaintext highlighter-rouge">2x2</code> upsampling (transpose convolution). The number of features maps here are halved after every block.</li>
+</ul>
+
+<p>The pretrained models such as resnet18 can be used as the left part of the model.</p>
+
+<p><img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_unet.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>U-Net also has skip connections in order to localize, as shown in white. The upsampled output is concatenated with the corresponding cropped <em>(cropped due to the loss of border pixels in every convolution)</em> feature maps from the contracting path <em>(the features learned during downsampling are used during upsampling)</em>.</p>
+
+<p>Finally, the resultant output passes through 3x3 conv layer to provide the segmented output, where number of feature maps is equal to number segments desired.</p>
+
+<h2 id="deeplab">DeepLab</h2>
+
+<p>DeepLab is a state-of-the-art semantic segmentation model having encoder-decoder architecture. The encoder consisting of pretrained CNN model is used to get encoded feature maps of the input image, and the decoder reconstructs output, from the essential information extracted by encoder, using upsampling.</p>
+
+<p>To understand the DeepLab architecture, let’s go through its fundamental building blocks one by one.</p>
+
+<h3 id="spatial-pyramid-pooling">Spatial Pyramid Pooling</h3>
+
+<p>In order to deal with the different input image sizes, fc layers can be replaced by <code class="language-plaintext highlighter-rouge">1x1</code> conv layers as in case of FCN. But we want our model to be robust to different size of input images. The solution to deal with variable sized images is to train the model on various scales of the input image to capture multi-scale contextual information.</p>
+
+<p><img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_spp.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>Usually, a single pooling layer is used between the last conv layer and fc layer. DeepLab, instead, utilizes a technique of using multiple pooling layer called Spatial Pyramid Pooling (SPP) to deal with multi-scale images. SPP divides the feature maps from the last conv layer into a fixed number of spatial bins having size proportional to the image size. Each bin gives a different scaled image as shown in the figure. The output of the SPP is a fixed size vector <code class="language-plaintext highlighter-rouge">FxB</code>, where <code class="language-plaintext highlighter-rouge">F</code> is the number of filters (feature maps) in the last conv layer, and <code class="language-plaintext highlighter-rouge">B</code> is the fixed number of bins. The different output vectors (<code class="language-plaintext highlighter-rouge">16x256-d, 4x256-d, 1x256-d</code>) are concatenated to form a fixed <code class="language-plaintext highlighter-rouge">(4x4+2x2+1)x256=5376</code> dimension vector, which is fed into the fc layer.</p>
+
+<p>There is a drawback to SPP that it leads to an increase in the computational complexity of the model, the solution to which is atrous convolution.</p>
+
+<h3 id="dilated-or-atrous-convolutions">Dilated or atrous convolutions</h3>
+
+<p>Unlike the normal convolution, dilation or atrous convolution has one more parameter called dilation or atrous rate, r, which defines the spacing between the values in a kernel. The dilation rate of 1 corresponds to the normal convolution. DeepLab uses atrous rates of 6, 12 and 18.</p>
+
+<div style="text-align:center">
+<img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_conv.gif" style="margin: auto; width: auto; max-width: 100%;" />
+<img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_dilation_conv.gif" style="margin: auto; width: auto; max-width: 100%;" />
+</div>
+
+<p>The benefit of this type of convolution is that it enlarges field of view of filters to incorporate larger context without increasing the number of parameters.</p>
+
+<p>Deeplab uses atrous convolution with SPP called <strong>Atrous Spatial Pyramid Pooling (ASPP)</strong>. In DeepLabv3+, depthwise separable convolutions are applied to both ASPP and decoder modules.</p>
+
+<h3 id="depthwise-separable-convolutions">Depthwise separable convolutions</h3>
+
+<p>Suppose you’ve an input RGB image of size <code class="language-plaintext highlighter-rouge">12x12x3</code>, the normal convolution operation using <code class="language-plaintext highlighter-rouge">5x5x3</code> filter without padding and stride of <code class="language-plaintext highlighter-rouge">1</code> gives the output of size <code class="language-plaintext highlighter-rouge">8x8x1</code>. In order to increase the number of channels (e.g. to get output of <code class="language-plaintext highlighter-rouge">8x8x256</code>), you’ll have to use <code class="language-plaintext highlighter-rouge">256</code> filters to create <code class="language-plaintext highlighter-rouge">256 8x8x1</code> outputs and stack them together to get <code class="language-plaintext highlighter-rouge">8x8x256</code> output i.e. <code class="language-plaintext highlighter-rouge">12x12x3 — (5x5x3x256) —&gt; 12x12x256</code>. This whole operations costs <code class="language-plaintext highlighter-rouge">256x5x5x3x8x8=1,228,800</code> multiplications.</p>
+
+<p>The depthwise separable convolution dissolves the above into two steps:</p>
+
+<ul>
+  <li>In <strong>depthwise convolution</strong>, the convolution operation is perfomed separately for each channel using three <code class="language-plaintext highlighter-rouge">5x5x1</code> filter, stacking whose outputs gives <code class="language-plaintext highlighter-rouge">8x8x3</code> image.</li>
+  <li>The <strong>pointwise convolution</strong> is used to increase the depth, number of channels, by taking convolution of <code class="language-plaintext highlighter-rouge">256 1x1x3</code> filters with the <code class="language-plaintext highlighter-rouge">8x8x3</code> image, where each filter gives <code class="language-plaintext highlighter-rouge">8x8x1</code> image which are stacked together to get <code class="language-plaintext highlighter-rouge">8x8x256</code> desired output image.</li>
+</ul>
+
+<p>The process can be described as <code class="language-plaintext highlighter-rouge">12x12x3 — (5x5x1x1) —&gt; (1x1x3x256) —&gt; 12x12x256</code>. This whole operation took <code class="language-plaintext highlighter-rouge">3x5x5x8x8 + 256x1x1x3x8x8 = 53,952</code> multiplication, which is far less compared to that of normal convolution.</p>
+
+<p><img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_deeplab.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>DeepLabv3+ uses xception (pointwise conv is followed by depthwise conv) as the feature extractor in the encoder portion. The depthwise separable convolutions are applied in place of max-pooling. The encoder uses output stride of 16, while in decoder, the encoded features by the encoder are first upsampled by 4, then concatenated with corresponding features from the encoder, then upsampled again to give output segmentation map.</p>
+
+<p>Let’s test the DeepLabv3 model, which uses resnet101 as its backbone, pretrained on MS COCO dataset, in PyTorch.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">from</span> <span class="n">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
+<span class="kn">import</span> <span class="n">PIL.Image</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># load deeplab
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">hub</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">'</span><span class="s">pytorch/vision</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">deeplabv3_resnet101</span><span class="sh">'</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
+
+<span class="c1"># load the input image and preprocess
+</span><span class="n">input_image</span> <span class="o">=</span> <span class="n">PIL</span><span class="p">.</span><span class="n">Image</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="sh">'</span><span class="s">image.png</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">preprocess</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">(),</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="nc">Normalize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]),</span>
+<span class="p">])</span>
+
+<span class="n">input_tensor</span> <span class="o">=</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">input_image</span><span class="p">)</span>
+<span class="n">input_batch</span> <span class="o">=</span> <span class="n">input_tensor</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> 
+
+<span class="c1"># move the input and model to GPU if available
+</span><span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">():</span>
+    <span class="n">input_batch</span> <span class="o">=</span> <span class="n">input_batch</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">input_batch</span><span class="p">)[</span><span class="sh">'</span><span class="s">out</span><span class="sh">'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">output_predictions</span> <span class="o">=</span> <span class="n">output</span><span class="p">.</span><span class="nf">argmax</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># create a color pallette, selecting a color for each class
+</span><span class="n">palette</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">([</span><span class="mi">2</span> <span class="o">**</span> <span class="mi">25</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">15</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">21</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">as_tensor</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">21</span><span class="p">)])[:,</span> <span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">palette</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">(</span><span class="n">colors</span> <span class="o">%</span> <span class="mi">255</span><span class="p">).</span><span class="nf">numpy</span><span class="p">().</span><span class="nf">astype</span><span class="p">(</span><span class="sh">"</span><span class="s">uint8</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># plot the semantic segmentation predictions
+</span><span class="n">r</span> <span class="o">=</span> <span class="n">PIL</span><span class="p">.</span><span class="n">Image</span><span class="p">.</span><span class="nf">fromarray</span><span class="p">(</span><span class="n">output_predictions</span><span class="p">.</span><span class="nf">byte</span><span class="p">().</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()).</span><span class="nf">resize</span><span class="p">(</span><span class="n">input_image</span><span class="p">.</span><span class="n">size</span><span class="p">)</span>
+<span class="n">r</span><span class="p">.</span><span class="nf">putpalette</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">input image</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">axis</span><span class="p">(</span><span class="sh">'</span><span class="s">off</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">imshow</span><span class="p">(</span><span class="n">input_image</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">segmented output</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">axis</span><span class="p">(</span><span class="sh">'</span><span class="s">off</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">imshow</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">"</span><span class="s">segmented_output.png</span><span class="sh">"</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">'</span><span class="s">tight</span><span class="sh">'</span><span class="p">)</span>
+<span class="c1"># plt.show()</span></code></pre></figure>
+
+<p><img src="/img/blog/quick-intro-to-semantic-segmentation/segmentation_cat_output.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p><strong>References:</strong></p>
+
+<ol>
+  <li><a href="https://arxiv.org/abs/1411.4038">Fully Convolutional Networks for Semantic Segmentation</a></li>
+  <li><a href="https://arxiv.org/abs/1505.04597.pdf">U-Net: Convolutional Networks for BiomedicalImage Segmentation</a></li>
+  <li><a href="https://github.com/vdumoulin/conv_arithmetic">Convolution arithmetic</a></li>
+  <li><a href="https://arxiv.org/abs/1406.4729">Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition</a></li>
+  <li><a href="https://github.com/tensorflow/models/tree/master/research/deeplab">DeepLab: Deep Labelling for Semantic Image Segmentation</a></li>
+  <li><a href="https://towardsdatascience.com/a-basic-introduction-to-separable-convolutions-b99ec3102728">A Basic Introduction to Separable Convolutions</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2019-08-09-quick-intro-to-semantic-segmentation.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2019/08/02/converting-fc-layers-to-conv-layers">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Converting FC layers to CONV layers</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2019/08/23/quick-intro-to-instance-segmentation">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Quick intro to Instance segmentation: Mask R-CNN</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2021/12/03/pytorch-basics-tutorial">
+                
+                <span class="post-related-thumb"><img src="/img/blog/pytorch-basics-tutorial/graph_static_dynamic.png" alt="PyTorch Basic Tutorial" loading="lazy"></span>
+                
+                <span class="post-related-title">PyTorch Basic Tutorial</span>
+                <span class="post-related-date">Dec 2021</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/10/18/introduction-to-panoptic-segmentation-tutorial">
+                
+                <span class="post-related-thumb"><img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/college_semantic.png" alt="Introduction to Panoptic Segmentation: A Tutorial" loading="lazy"></span>
+                
+                <span class="post-related-title">Introduction to Panoptic Segmentation: A Tutorial</span>
+                <span class="post-related-date">Oct 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/09/20/evaluation-metrics-for-object-detection-and-segmentation">
+                
+                <span class="post-related-thumb"><img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/iou.png" alt="Evaluation metrics for object detection and segmentation: mAP" loading="lazy"></span>
+                
+                <span class="post-related-title">Evaluation metrics for object detection and segmentation: mAP</span>
+                <span class="post-related-date">Sep 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

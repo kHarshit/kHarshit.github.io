@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="How Oakland A's used linear regression in R to identify undervalued players and compete despite limited budget.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Moneyball: How linear regression changed baseball | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Moneyball: How linear regression changed baseball">
+        <meta property="og:description" content="How Oakland A's used linear regression in R to identify undervalued players and compete despite limited budget.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2017/07/28/moneyball-how-linear-regression-changed-baseball">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/moneyball:-how-linear-regression-changed-baseball/Rplot.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Moneyball: How linear regression changed baseball">
+        <meta name="twitter:description" content="How Oakland A's used linear regression in R to identify undervalued players and compete despite limited budget.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/moneyball:-how-linear-regression-changed-baseball/Rplot.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2017/07/28/moneyball-how-linear-regression-changed-baseball">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Moneyball: How linear regression changed baseball",
+          "datePublished": "2017-07-28T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "How Oakland A's used linear regression in R to identify undervalued players and compete despite limited budget.",
+          "url": "https://kharshit.github.io/blog/2017/07/28/moneyball-how-linear-regression-changed-baseball",
+          "image": "https://kHarshit.github.io/img/blog/moneyball:-how-linear-regression-changed-baseball/Rplot.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Moneyball: How linear regression changed baseball</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Jul 28, 2017</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      17 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/data-science/">Data Science</a></li>
+                
+                    <li><a href="/categories/machine-learning/">Machine Learning</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <blockquote>
+  <p>It’s unbelievable how much you don’t know about the game you’ve been playing all your life. — <cite>Mickey Mantle</cite></p>
+</blockquote>
+
+<p><em>Moneyball</em> tells the story of Oakland A’s in 2002<sup id="a1"><a href="#myfootnote1">1</a></sup>. It was one of the poorest teams in baseball. Billy Beane became its General Manager in 1997. The team’s performance started to improve. But, in the beginning of 2002, Oakland A’s lost three key players. Could they continue improving?</p>
+
+<p>Billy Beane, with his colleague Paul DePodesta, followed an analytical, <abbr title="the statistical analysis of baseball">sabermetric</abbr> approach to assembling a competitive baseball team, despite Oakland’s disadvantaged revenue situation. Their analysis suggested that some skills were undervalued and some skills were overvalued. If they could detect the undervalued skills, they could find players at a bargain.</p>
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>They analyzed that a team needs to win atleast 95 games to make to the playoffs. Based on this, the A’s calculated that they must score 135 more runs than they allow during the regular season to expect to win 95 games. We can verify this using <em>linear regression</em>. I’m going to use R. The dataset<sup id="a2"><a href="#myfootnote2">2</a></sup> <em title="click to download"><a href="/assets/baseball.csv">baseball.csv</a></em> consists of 15 variables, whose description is given in <a href="/assets/moneyball_codebook.pdf">codebook</a>.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># read in data</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">baseball</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"baseball.csv"</span><span class="p">)</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">str</span><span class="p">(</span><span class="n">baseball</span><span class="p">)</span><span class="w">
+</span><span class="s1">'data.frame'</span><span class="o">:</span><span class="w">	</span><span class="m">1232</span><span class="w"> </span><span class="n">obs.</span><span class="w"> </span><span class="n">of</span><span class="w">  </span><span class="m">15</span><span class="w"> </span><span class="n">variables</span><span class="o">:</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">Team</span><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">Factor</span><span class="w"> </span><span class="n">w</span><span class="o">/</span><span class="w"> </span><span class="m">39</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="s2">"ANA"</span><span class="p">,</span><span class="s2">"ARI"</span><span class="p">,</span><span class="s2">"ATL"</span><span class="p">,</span><span class="n">..</span><span class="o">:</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="m">9</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">League</span><span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="n">Factor</span><span class="w"> </span><span class="n">w</span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="s2">"AL"</span><span class="p">,</span><span class="s2">"NL"</span><span class="o">:</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">Year</span><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w">  </span><span class="m">2012</span><span class="w"> </span><span class="m">2012</span><span class="w"> </span><span class="m">2012</span><span class="w"> </span><span class="m">2012</span><span class="w"> </span><span class="m">2012</span><span class="w"> </span><span class="m">2012</span><span class="w"> </span><span class="m">2012</span><span class="w"> </span><span class="m">2012</span><span class="w"> </span><span class="m">2012</span><span class="w"> </span><span class="m">2012</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">RS</span><span class="w">          </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w">  </span><span class="m">734</span><span class="w"> </span><span class="m">700</span><span class="w"> </span><span class="m">712</span><span class="w"> </span><span class="m">734</span><span class="w"> </span><span class="m">613</span><span class="w"> </span><span class="m">748</span><span class="w"> </span><span class="m">669</span><span class="w"> </span><span class="m">667</span><span class="w"> </span><span class="m">758</span><span class="w"> </span><span class="m">726</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">RA</span><span class="w">          </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w">  </span><span class="m">688</span><span class="w"> </span><span class="m">600</span><span class="w"> </span><span class="m">705</span><span class="w"> </span><span class="m">806</span><span class="w"> </span><span class="m">759</span><span class="w"> </span><span class="m">676</span><span class="w"> </span><span class="m">588</span><span class="w"> </span><span class="m">845</span><span class="w"> </span><span class="m">890</span><span class="w"> </span><span class="m">670</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">W</span><span class="w">           </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w">  </span><span class="m">81</span><span class="w"> </span><span class="m">94</span><span class="w"> </span><span class="m">93</span><span class="w"> </span><span class="m">69</span><span class="w"> </span><span class="m">61</span><span class="w"> </span><span class="m">85</span><span class="w"> </span><span class="m">97</span><span class="w"> </span><span class="m">68</span><span class="w"> </span><span class="m">64</span><span class="w"> </span><span class="m">88</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">OBP</span><span class="w">         </span><span class="o">:</span><span class="w"> </span><span class="n">num</span><span class="w">  </span><span class="m">0.328</span><span class="w"> </span><span class="m">0.32</span><span class="w"> </span><span class="m">0.311</span><span class="w"> </span><span class="m">0.315</span><span class="w"> </span><span class="m">0.302</span><span class="w"> </span><span class="m">0.318</span><span class="w"> </span><span class="m">0.315</span><span class="w"> </span><span class="m">0.324</span><span class="w"> </span><span class="m">0.33</span><span class="w"> </span><span class="m">0.335</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">SLG</span><span class="w">         </span><span class="o">:</span><span class="w"> </span><span class="n">num</span><span class="w">  </span><span class="m">0.418</span><span class="w"> </span><span class="m">0.389</span><span class="w"> </span><span class="m">0.417</span><span class="w"> </span><span class="m">0.415</span><span class="w"> </span><span class="m">0.378</span><span class="w"> </span><span class="m">0.422</span><span class="w"> </span><span class="m">0.411</span><span class="w"> </span><span class="m">0.381</span><span class="w"> </span><span class="m">0.436</span><span class="w"> </span><span class="m">0.422</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">BA</span><span class="w">          </span><span class="o">:</span><span class="w"> </span><span class="n">num</span><span class="w">  </span><span class="m">0.259</span><span class="w"> </span><span class="m">0.247</span><span class="w"> </span><span class="m">0.247</span><span class="w"> </span><span class="m">0.26</span><span class="w"> </span><span class="m">0.24</span><span class="w"> </span><span class="m">0.255</span><span class="w"> </span><span class="m">0.251</span><span class="w"> </span><span class="m">0.251</span><span class="w"> </span><span class="m">0.274</span><span class="w"> </span><span class="m">0.268</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">Playoffs</span><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">RankSeason</span><span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w">  </span><span class="kc">NA</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="kc">NA</span><span class="w"> </span><span class="kc">NA</span><span class="w"> </span><span class="kc">NA</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="kc">NA</span><span class="w"> </span><span class="kc">NA</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">RankPlayoffs</span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w">  </span><span class="kc">NA</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="kc">NA</span><span class="w"> </span><span class="kc">NA</span><span class="w"> </span><span class="kc">NA</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="kc">NA</span><span class="w"> </span><span class="kc">NA</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">G</span><span class="w">           </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w">  </span><span class="m">162</span><span class="w"> </span><span class="m">162</span><span class="w"> </span><span class="m">162</span><span class="w"> </span><span class="m">162</span><span class="w"> </span><span class="m">162</span><span class="w"> </span><span class="m">162</span><span class="w"> </span><span class="m">162</span><span class="w"> </span><span class="m">162</span><span class="w"> </span><span class="m">162</span><span class="w"> </span><span class="m">162</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">OOBP</span><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">num</span><span class="w">  </span><span class="m">0.317</span><span class="w"> </span><span class="m">0.306</span><span class="w"> </span><span class="m">0.315</span><span class="w"> </span><span class="m">0.331</span><span class="w"> </span><span class="m">0.335</span><span class="w"> </span><span class="m">0.319</span><span class="w"> </span><span class="m">0.305</span><span class="w"> </span><span class="m">0.336</span><span class="w"> </span><span class="m">0.357</span><span class="w"> </span><span class="m">0.314</span><span class="w"> </span><span class="n">...</span><span class="w">
+ </span><span class="o">$</span><span class="w"> </span><span class="n">OSLG</span><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">num</span><span class="w">  </span><span class="m">0.415</span><span class="w"> </span><span class="m">0.378</span><span class="w"> </span><span class="m">0.403</span><span class="w"> </span><span class="m">0.428</span><span class="w"> </span><span class="m">0.424</span><span class="w"> </span><span class="m">0.405</span><span class="w"> </span><span class="m">0.39</span><span class="w"> </span><span class="m">0.43</span><span class="w"> </span><span class="m">0.47</span><span class="w"> </span><span class="m">0.402</span><span class="w"> </span><span class="n">...</span><span class="w">
+</span><span class="c1"># we're interested only in years before moneyball (2002)</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">moneyball</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subset</span><span class="p">(</span><span class="n">baseball</span><span class="p">,</span><span class="w"> </span><span class="n">Year</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">2002</span><span class="p">)</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">table</span><span class="p">(</span><span class="n">moneyball</span><span class="o">$</span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">moneyball</span><span class="o">$</span><span class="n">Playoffs</span><span class="p">)</span><span class="w">
+     
+       </span><span class="m">0</span><span class="w">  </span><span class="m">1</span><span class="w">
+  </span><span class="m">40</span><span class="w">   </span><span class="m">1</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">50</span><span class="w">   </span><span class="m">1</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">51</span><span class="w">   </span><span class="m">1</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">52</span><span class="w">   </span><span class="m">2</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">53</span><span class="w">   </span><span class="m">3</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">54</span><span class="w">   </span><span class="m">5</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">55</span><span class="w">   </span><span class="m">1</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">56</span><span class="w">   </span><span class="m">3</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">57</span><span class="w">   </span><span class="m">5</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">59</span><span class="w">   </span><span class="m">7</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">60</span><span class="w">   </span><span class="m">7</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">61</span><span class="w">   </span><span class="m">6</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">62</span><span class="w">   </span><span class="m">8</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">63</span><span class="w">  </span><span class="m">10</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">64</span><span class="w">  </span><span class="m">13</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">65</span><span class="w">  </span><span class="m">17</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">66</span><span class="w">  </span><span class="m">11</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">67</span><span class="w">  </span><span class="m">19</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">68</span><span class="w">  </span><span class="m">15</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">69</span><span class="w">  </span><span class="m">18</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">70</span><span class="w">  </span><span class="m">17</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">71</span><span class="w">  </span><span class="m">20</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">72</span><span class="w">  </span><span class="m">20</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">73</span><span class="w">  </span><span class="m">22</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">74</span><span class="w">  </span><span class="m">27</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">75</span><span class="w">  </span><span class="m">27</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">76</span><span class="w">  </span><span class="m">36</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">77</span><span class="w">  </span><span class="m">31</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">78</span><span class="w">  </span><span class="m">17</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">79</span><span class="w">  </span><span class="m">32</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">80</span><span class="w">  </span><span class="m">26</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">81</span><span class="w">  </span><span class="m">28</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">82</span><span class="w">  </span><span class="m">20</span><span class="w">  </span><span class="m">1</span><span class="w">
+  </span><span class="m">83</span><span class="w">  </span><span class="m">35</span><span class="w">  </span><span class="m">0</span><span class="w">
+  </span><span class="m">84</span><span class="w">  </span><span class="m">28</span><span class="w">  </span><span class="m">2</span><span class="w">
+  </span><span class="m">85</span><span class="w">  </span><span class="m">30</span><span class="w">  </span><span class="m">1</span><span class="w">
+  </span><span class="m">86</span><span class="w">  </span><span class="m">31</span><span class="w">  </span><span class="m">1</span><span class="w">
+  </span><span class="m">87</span><span class="w">  </span><span class="m">27</span><span class="w">  </span><span class="m">1</span><span class="w">
+  </span><span class="m">88</span><span class="w">  </span><span class="m">23</span><span class="w">  </span><span class="m">7</span><span class="w">
+  </span><span class="m">89</span><span class="w">  </span><span class="m">22</span><span class="w">  </span><span class="m">5</span><span class="w">
+  </span><span class="m">90</span><span class="w">  </span><span class="m">17</span><span class="w"> </span><span class="m">12</span><span class="w">
+  </span><span class="m">91</span><span class="w">  </span><span class="m">15</span><span class="w"> </span><span class="m">10</span><span class="w">
+  </span><span class="m">92</span><span class="w">  </span><span class="m">12</span><span class="w"> </span><span class="m">11</span><span class="w">
+  </span><span class="m">93</span><span class="w">   </span><span class="m">6</span><span class="w">  </span><span class="m">7</span><span class="w">
+  </span><span class="m">94</span><span class="w">   </span><span class="m">6</span><span class="w">  </span><span class="m">6</span><span class="w">
+  </span><span class="m">95</span><span class="w">   </span><span class="m">5</span><span class="w"> </span><span class="m">15</span><span class="w">
+  </span><span class="m">96</span><span class="w">   </span><span class="m">3</span><span class="w">  </span><span class="m">8</span><span class="w">
+  </span><span class="m">97</span><span class="w">   </span><span class="m">4</span><span class="w"> </span><span class="m">13</span><span class="w">
+  </span><span class="m">98</span><span class="w">   </span><span class="m">4</span><span class="w"> </span><span class="m">11</span><span class="w">
+  </span><span class="m">99</span><span class="w">   </span><span class="m">1</span><span class="w">  </span><span class="m">7</span><span class="w">
+  </span><span class="m">100</span><span class="w">  </span><span class="m">1</span><span class="w">  </span><span class="m">5</span><span class="w">
+  </span><span class="m">101</span><span class="w">  </span><span class="m">0</span><span class="w">  </span><span class="m">7</span><span class="w">
+  </span><span class="m">102</span><span class="w">  </span><span class="m">1</span><span class="w">  </span><span class="m">8</span><span class="w">
+  </span><span class="m">103</span><span class="w">  </span><span class="m">1</span><span class="w">  </span><span class="m">5</span><span class="w">
+  </span><span class="m">104</span><span class="w">  </span><span class="m">0</span><span class="w">  </span><span class="m">4</span><span class="w">
+  </span><span class="m">106</span><span class="w">  </span><span class="m">0</span><span class="w">  </span><span class="m">1</span><span class="w">
+  </span><span class="m">108</span><span class="w">  </span><span class="m">0</span><span class="w">  </span><span class="m">3</span><span class="w">
+  </span><span class="m">109</span><span class="w">  </span><span class="m">0</span><span class="w">  </span><span class="m">1</span><span class="w">
+  </span><span class="m">114</span><span class="w">  </span><span class="m">0</span><span class="w">  </span><span class="m">1</span><span class="w">
+  </span><span class="m">116</span><span class="w">  </span><span class="m">0</span><span class="w">  </span><span class="m">1</span></code></pre></figure>
+
+<p>Thus, A team having atleast 95 wins has almost always got into the playoffs, which is in accordance of what DePosta predicted.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Compute Run Difference (RD) add it to dataframe</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">moneyball</span><span class="o">$</span><span class="n">RD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moneyball</span><span class="o">$</span><span class="n">RS</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">moneyball</span><span class="o">$</span><span class="n">RA</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">moneyball</span><span class="p">)</span><span class="w">  </span><span class="c1"># Note that moneyball now has a new variable 'RD'</span><span class="w">
+ </span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="s2">"Team"</span><span class="w">         </span><span class="s2">"League"</span><span class="w">       </span><span class="s2">"Year"</span><span class="w">         </span><span class="s2">"RS"</span><span class="w">           </span><span class="s2">"RA"</span><span class="w">          
+ </span><span class="p">[</span><span class="m">6</span><span class="p">]</span><span class="w"> </span><span class="s2">"W"</span><span class="w">            </span><span class="s2">"OBP"</span><span class="w">          </span><span class="s2">"SLG"</span><span class="w">          </span><span class="s2">"BA"</span><span class="w">           </span><span class="s2">"Playoffs"</span><span class="w">    
+</span><span class="p">[</span><span class="m">11</span><span class="p">]</span><span class="w"> </span><span class="s2">"RankSeason"</span><span class="w">   </span><span class="s2">"RankPlayoffs"</span><span class="w"> </span><span class="s2">"G"</span><span class="w">            </span><span class="s2">"OOBP"</span><span class="w">         </span><span class="s2">"OSLG"</span><span class="w">        
+</span><span class="p">[</span><span class="m">16</span><span class="p">]</span><span class="w"> </span><span class="s2">"RD"</span><span class="w">
+</span><span class="c1"># Scatterplot to check for linear relationship</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">moneyball</span><span class="o">$</span><span class="n">RD</span><span class="p">,</span><span class="w"> </span><span class="n">moneyball</span><span class="o">$</span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Run Difference"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Wins"</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">(</span><span class="s2">"Moneyball: Relationship b/w Wins and RD"</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/img/blog/moneyball:-how-linear-regression-changed-baseball/Rplot.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /><br />
+The above plot shows linear relationship b/w Wins and Run Difference.
+Now, let’s build our regression model.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Regression model to predict wins:</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Wins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">W</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">RD</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">moneyball</span><span class="p">)</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">summary</span><span class="p">(</span><span class="n">Wins</span><span class="p">)</span><span class="w">
+
+</span><span class="n">Call</span><span class="o">:</span><span class="w">
+</span><span class="n">lm</span><span class="p">(</span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">RD</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moneyball</span><span class="p">)</span><span class="w">
+
+</span><span class="n">Residuals</span><span class="o">:</span><span class="w">
+     </span><span class="n">Min</span><span class="w">       </span><span class="m">1</span><span class="n">Q</span><span class="w">   </span><span class="n">Median</span><span class="w">       </span><span class="m">3</span><span class="n">Q</span><span class="w">      </span><span class="n">Max</span><span class="w"> 
+</span><span class="m">-14.2662</span><span class="w">  </span><span class="m">-2.6509</span><span class="w">   </span><span class="m">0.1234</span><span class="w">   </span><span class="m">2.9364</span><span class="w">  </span><span class="m">11.6570</span><span class="w"> 
+
+</span><span class="n">Coefficients</span><span class="o">:</span><span class="w">
+             </span><span class="n">Estimate</span><span class="w"> </span><span class="n">Std.</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">Pr</span><span class="p">(</span><span class="o">&gt;|</span><span class="n">t</span><span class="o">|</span><span class="p">)</span><span class="w">    
+</span><span class="p">(</span><span class="n">Intercept</span><span class="p">)</span><span class="w"> </span><span class="m">80.881375</span><span class="w">   </span><span class="m">0.131157</span><span class="w">  </span><span class="m">616.67</span><span class="w">   </span><span class="o">&lt;</span><span class="m">2e-16</span><span class="w"> </span><span class="o">***</span><span class="w">
+</span><span class="n">RD</span><span class="w">           </span><span class="m">0.105766</span><span class="w">   </span><span class="m">0.001297</span><span class="w">   </span><span class="m">81.55</span><span class="w">   </span><span class="o">&lt;</span><span class="m">2e-16</span><span class="w"> </span><span class="o">***</span><span class="w">
+</span><span class="o">---</span><span class="w">
+</span><span class="n">Signif.</span><span class="w"> </span><span class="n">codes</span><span class="o">:</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="err">‘</span><span class="o">***</span><span class="err">’</span><span class="w"> </span><span class="m">0.001</span><span class="w"> </span><span class="err">‘</span><span class="o">**</span><span class="err">’</span><span class="w"> </span><span class="m">0.01</span><span class="w"> </span><span class="err">‘</span><span class="o">*</span><span class="err">’</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="err">‘</span><span class="n">.</span><span class="err">’</span><span class="w"> </span><span class="m">0.1</span><span class="w"> </span><span class="err">‘</span><span class="w"> </span><span class="err">’</span><span class="w"> </span><span class="m">1</span><span class="w">
+
+</span><span class="n">Residual</span><span class="w"> </span><span class="n">standard</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="w"> </span><span class="m">3.939</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="m">900</span><span class="w"> </span><span class="n">degrees</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">freedom</span><span class="w">
+</span><span class="n">Multiple</span><span class="w"> </span><span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="o">:</span><span class="w">  </span><span class="m">0.8808</span><span class="p">,</span><span class="w">	</span><span class="n">Adjusted</span><span class="w"> </span><span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="o">:</span><span class="w">  </span><span class="m">0.8807</span><span class="w"> 
+</span><span class="nb">F</span><span class="o">-</span><span class="n">statistic</span><span class="o">:</span><span class="w">  </span><span class="m">6651</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="m">900</span><span class="w"> </span><span class="n">DF</span><span class="p">,</span><span class="w">  </span><span class="n">p</span><span class="o">-</span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">2.2e-16</span></code></pre></figure>
+
+<p>The regression output includes several important statistics.</p>
+
+<p>The <strong>t-statistic</strong> for each coefficient is calculated as the ratio of the estimated coefficient to its standard error (e.g., for RD: 0.105766 / 0.001297 = 81.55). It tests the null hypothesis that the specific coefficient is zero, that the predictor has no real effect. A large absolute t-value produces a very small p-value (&lt; 2e-16), which means we reject the null and conclude that Run Difference is significantly associated with Wins.</p>
+
+<p>The <strong>F-statistic</strong> (6651 on 1 and 900 degrees of freedom) tests the broader null hypothesis that <em>all</em> model coefficients (except the intercept) are simultaneously zero:</p>
+
+\[F = \frac{\text{variation explained by the model}}{\text{variation not explained by the model}}\]
+
+<p>A large F-statistic with a tiny p-value (&lt; 2.2e-16) confirms the model as a whole is statistically significant.</p>
+
+<p>Our regression equation for <em id="eq">wins</em> is:<br />
+ W = 80.8814 + 0.105766 × RD and W &gt;= 95<br />
+⇒ 95 &gt;= 80.8814 + 0.105766 × RD<br />
+⇒ RD = 133.4<br />
+Thus, a team need to score almost 135 more pts than allowed to get into the playoffs.</p>
+
+<h2 id="predicting-runs-scored">Predicting Runs Scored</h2>
+
+<p>Now, how does the A’s score more runs?<br />
+The A’s discovered that two baseball statistics were significantly more important than others:</p>
+<ul>
+  <li>On-Base percentage (OBP): Percentage of time a player gets on base (including walks) and</li>
+  <li>Slugging percentage (SLG): How far a player gets around the bases on his turn (measures power).</li>
+</ul>
+
+<p>And, Batting Average was overvalued. Let’s verify this:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Regression model to predict runs scored:</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">RunsScored</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">RS</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">OBP</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SLG</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">moneyball</span><span class="p">)</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">summary</span><span class="p">(</span><span class="n">RunsScored</span><span class="p">)</span><span class="w">
+
+</span><span class="n">Call</span><span class="o">:</span><span class="w">
+</span><span class="n">lm</span><span class="p">(</span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RS</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">OBP</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SLG</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moneyball</span><span class="p">)</span><span class="w">
+
+</span><span class="n">Residuals</span><span class="o">:</span><span class="w">
+    </span><span class="n">Min</span><span class="w">      </span><span class="m">1</span><span class="n">Q</span><span class="w">  </span><span class="n">Median</span><span class="w">      </span><span class="m">3</span><span class="n">Q</span><span class="w">     </span><span class="n">Max</span><span class="w"> 
+</span><span class="m">-70.838</span><span class="w"> </span><span class="m">-17.174</span><span class="w">  </span><span class="m">-1.108</span><span class="w">  </span><span class="m">16.770</span><span class="w">  </span><span class="m">90.036</span><span class="w"> 
+
+</span><span class="n">Coefficients</span><span class="o">:</span><span class="w">
+            </span><span class="n">Estimate</span><span class="w"> </span><span class="n">Std.</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">Pr</span><span class="p">(</span><span class="o">&gt;|</span><span class="n">t</span><span class="o">|</span><span class="p">)</span><span class="w">    
+</span><span class="p">(</span><span class="n">Intercept</span><span class="p">)</span><span class="w">  </span><span class="m">-804.63</span><span class="w">      </span><span class="m">18.92</span><span class="w">  </span><span class="m">-42.53</span><span class="w">   </span><span class="o">&lt;</span><span class="m">2e-16</span><span class="w"> </span><span class="o">***</span><span class="w">
+</span><span class="n">OBP</span><span class="w">          </span><span class="m">2737.77</span><span class="w">      </span><span class="m">90.68</span><span class="w">   </span><span class="m">30.19</span><span class="w">   </span><span class="o">&lt;</span><span class="m">2e-16</span><span class="w"> </span><span class="o">***</span><span class="w">
+</span><span class="n">SLG</span><span class="w">          </span><span class="m">1584.91</span><span class="w">      </span><span class="m">42.16</span><span class="w">   </span><span class="m">37.60</span><span class="w">   </span><span class="o">&lt;</span><span class="m">2e-16</span><span class="w"> </span><span class="o">***</span><span class="w">
+</span><span class="o">---</span><span class="w">
+</span><span class="n">Signif.</span><span class="w"> </span><span class="n">codes</span><span class="o">:</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="err">‘</span><span class="o">***</span><span class="err">’</span><span class="w"> </span><span class="m">0.001</span><span class="w"> </span><span class="err">‘</span><span class="o">**</span><span class="err">’</span><span class="w"> </span><span class="m">0.01</span><span class="w"> </span><span class="err">‘</span><span class="o">*</span><span class="err">’</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="err">‘</span><span class="n">.</span><span class="err">’</span><span class="w"> </span><span class="m">0.1</span><span class="w"> </span><span class="err">‘</span><span class="w"> </span><span class="err">’</span><span class="w"> </span><span class="m">1</span><span class="w">
+
+</span><span class="n">Residual</span><span class="w"> </span><span class="n">standard</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="w"> </span><span class="m">24.79</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="m">899</span><span class="w"> </span><span class="n">degrees</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">freedom</span><span class="w">
+</span><span class="n">Multiple</span><span class="w"> </span><span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="o">:</span><span class="w">  </span><span class="m">0.9296</span><span class="p">,</span><span class="w">	</span><span class="n">Adjusted</span><span class="w"> </span><span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="o">:</span><span class="w">  </span><span class="m">0.9294</span><span class="w"> 
+</span><span class="nb">F</span><span class="o">-</span><span class="n">statistic</span><span class="o">:</span><span class="w">  </span><span class="m">5934</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="m">899</span><span class="w"> </span><span class="n">DF</span><span class="p">,</span><span class="w">  </span><span class="n">p</span><span class="o">-</span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">2.2e-16</span></code></pre></figure>
+
+<p>In this multiple regression model, the F-statistic of 5934 (p &lt; 2.2e-16) tests whether at least one of the predictors (OBP or SLG) has a non-zero coefficient. The individual t-statistics for OBP (30.19) and SLG (37.60) are both very large with tiny p-values, confirming both On-Base Percentage and Slugging Percentage are significant predictors of runs scored. The linear regression yields a R-squared value of 0.92, thus our model is a good fit; and both variables are significant.  <br />
+Runs Scored (RS) = -804.63 + 2737.77(OBP) + 1584.91(SLG)  …<em id="eq1">(i)</em></p>
+
+<h2 id="predicting-runs-allowed">Predicting Runs Allowed</h2>
+
+<p>We can use pitching statistics to predict runs allowed:</p>
+<ul>
+  <li>Opponents On-Base percentage (OOBP)</li>
+  <li>Opponents Slugging percentage (OSLG)</li>
+</ul>
+
+<p>We get the linear regression model as:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Regression model to predict runs allowed:</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">RunsAllowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">RA</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">OOBP</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">OSLG</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">moneyball</span><span class="p">)</span><span class="w">
+</span><span class="o">&gt;</span><span class="w"> </span><span class="n">summary</span><span class="p">(</span><span class="n">RunsAllowed</span><span class="p">)</span><span class="w">
+
+</span><span class="n">Call</span><span class="o">:</span><span class="w">
+</span><span class="n">lm</span><span class="p">(</span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RA</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">OOBP</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">OSLG</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moneyball</span><span class="p">)</span><span class="w">
+
+</span><span class="n">Residuals</span><span class="o">:</span><span class="w">
+    </span><span class="n">Min</span><span class="w">      </span><span class="m">1</span><span class="n">Q</span><span class="w">  </span><span class="n">Median</span><span class="w">      </span><span class="m">3</span><span class="n">Q</span><span class="w">     </span><span class="n">Max</span><span class="w"> 
+</span><span class="m">-82.397</span><span class="w"> </span><span class="m">-15.178</span><span class="w">  </span><span class="m">-0.129</span><span class="w">  </span><span class="m">17.679</span><span class="w">  </span><span class="m">60.955</span><span class="w"> 
+
+</span><span class="n">Coefficients</span><span class="o">:</span><span class="w">
+            </span><span class="n">Estimate</span><span class="w"> </span><span class="n">Std.</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">Pr</span><span class="p">(</span><span class="o">&gt;|</span><span class="n">t</span><span class="o">|</span><span class="p">)</span><span class="w">    
+</span><span class="p">(</span><span class="n">Intercept</span><span class="p">)</span><span class="w">  </span><span class="m">-837.38</span><span class="w">      </span><span class="m">60.26</span><span class="w"> </span><span class="m">-13.897</span><span class="w">  </span><span class="o">&lt;</span><span class="w"> </span><span class="m">2e-16</span><span class="w"> </span><span class="o">***</span><span class="w">
+</span><span class="n">OOBP</span><span class="w">         </span><span class="m">2913.60</span><span class="w">     </span><span class="m">291.97</span><span class="w">   </span><span class="m">9.979</span><span class="w"> </span><span class="m">4.46e-16</span><span class="w"> </span><span class="o">***</span><span class="w">
+</span><span class="n">OSLG</span><span class="w">         </span><span class="m">1514.29</span><span class="w">     </span><span class="m">175.43</span><span class="w">   </span><span class="m">8.632</span><span class="w"> </span><span class="m">2.55e-13</span><span class="w"> </span><span class="o">***</span><span class="w">
+</span><span class="o">---</span><span class="w">
+</span><span class="n">Signif.</span><span class="w"> </span><span class="n">codes</span><span class="o">:</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="err">‘</span><span class="o">***</span><span class="err">’</span><span class="w"> </span><span class="m">0.001</span><span class="w"> </span><span class="err">‘</span><span class="o">**</span><span class="err">’</span><span class="w"> </span><span class="m">0.01</span><span class="w"> </span><span class="err">‘</span><span class="o">*</span><span class="err">’</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="err">‘</span><span class="n">.</span><span class="err">’</span><span class="w"> </span><span class="m">0.1</span><span class="w"> </span><span class="err">‘</span><span class="w"> </span><span class="err">’</span><span class="w"> </span><span class="m">1</span><span class="w">
+
+</span><span class="n">Residual</span><span class="w"> </span><span class="n">standard</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="w"> </span><span class="m">25.67</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="m">87</span><span class="w"> </span><span class="n">degrees</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">freedom</span><span class="w">
+  </span><span class="p">(</span><span class="m">812</span><span class="w"> </span><span class="n">observations</span><span class="w"> </span><span class="n">deleted</span><span class="w"> </span><span class="n">due</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">missingness</span><span class="p">)</span><span class="w">
+</span><span class="n">Multiple</span><span class="w"> </span><span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="o">:</span><span class="w">  </span><span class="m">0.9073</span><span class="p">,</span><span class="w">	</span><span class="n">Adjusted</span><span class="w"> </span><span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="o">:</span><span class="w">  </span><span class="m">0.9052</span><span class="w"> 
+</span><span class="nb">F</span><span class="o">-</span><span class="n">statistic</span><span class="o">:</span><span class="w"> </span><span class="m">425.8</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="m">87</span><span class="w"> </span><span class="n">DF</span><span class="p">,</span><span class="w">  </span><span class="n">p</span><span class="o">-</span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">2.2e-16</span></code></pre></figure>
+
+<p>Runs Allowed (RA) = -837.38 + 2913.60(OOBP) + 1514.29(OSLG)  …<em id="eq2">(ii)</em></p>
+
+<h2 id="results">Results</h2>
+
+<p>We can predict how many games the 2002 A’s will win using our models. Using 2001 regular season statistics,</p>
+<ul>
+  <li>Team OBP is 0.339 and</li>
+  <li>Team SLG is 0.430.</li>
+</ul>
+
+<p>Thus putting these values in the equation <a href="#eq1">(i)</a>, we get Runs Scored (RS) = 805.<br />
+In the same way, Runs Allowed (RA) = 622 using equation <a href="#eq2">(ii)</a> as in 2001,</p>
+<ul>
+  <li>Team OOBP was 0.307 and</li>
+  <li>Team OSLG was 0.373.</li>
+</ul>
+
+<p>Now, our regression <a href="#eq">equation</a> to predict wins was: W = 80.8814 + 0.1058 × RD  where RD = RS - RA.<br />
+Our prediction for wins in 2002 is: W = 80.8814 + 0.1058(805 – 622) = 100</p>
+
+<p>Paul DePosta used a similar approach to make predictions.</p>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th> </th>
+      <th style="text-align: center">Our prediction</th>
+      <th style="text-align: center">Paul’s prediction</th>
+      <th style="text-align: center">Actual</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Runs Scored</strong></td>
+      <td style="text-align: center">805</td>
+      <td style="text-align: center">800-820</td>
+      <td style="text-align: center">653</td>
+    </tr>
+    <tr>
+      <td><strong>Runs Allowed</strong></td>
+      <td style="text-align: center">622</td>
+      <td style="text-align: center">650-670</td>
+      <td style="text-align: center">653</td>
+    </tr>
+    <tr>
+      <td><strong>Wins</strong></td>
+      <td style="text-align: center">100</td>
+      <td style="text-align: center">93-97</td>
+      <td style="text-align: center">103</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Our prediction closely match actual performace. The A’s set a League record by winning 20 games in a row and made it to the playoffs. Their 2002 record of 103-59 was joint best in Major League Baseball.</p>
+
+<p>Although they didn’t win the World Series, Paul and Billy revolutinised the game through their data-driven approach. 
+Neverthless, Moneyball changed the way many major league front offices do business.</p>
+
+<p><strong>Footnotes:</strong><br />
+<a name="myfootnote1"></a>1: <a href="https://en.wikipedia.org/wiki/Moneyball">Moneyball</a> <a href="#a1">↩</a><br />
+<a name="myfootnote2"></a>2: <a href="https://www.baseball-reference.com/">Baseball-Reference</a> <a href="#a2">↩</a><br />
+3: <a href="https://cran.r-project.org">R (programming language)</a></p>
+
+<p><strong>Resources:</strong><br />
+The case study is an extract of chapter 2 Linear Regression from the Course <a href="https://www.edx.org/course/analytics-edge-mitx-15-071x-2">The Analytics Edge</a>.</p>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2017-07-28-moneyball:-how-linear-regression-changed-baseball.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2017/07/21/technical-fridays">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Technical Fridays</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2017/08/04/moneyball-why-no-prediction-can't-be-made-for-baseball-champion">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Moneyball: Why no prediction can't be made for baseball champion</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2018/08/24/loss-functions">
+                
+                <span class="post-related-thumb"><img src="/img/blog/loss-functions/log_loss.png" alt="Loss functions" loading="lazy"></span>
+                
+                <span class="post-related-title">Loss functions</span>
+                <span class="post-related-date">Aug 2018</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2018/08/03/methods-of-hyperparameter-optimization">
+                
+                <span class="post-related-thumb"><img src="/img/blog/methods-of-hyperparameter-optimization/gridsearchbad.jpeg" alt="Methods of Hyperparameter optimization" loading="lazy"></span>
+                
+                <span class="post-related-title">Methods of Hyperparameter optimization</span>
+                <span class="post-related-date">Aug 2018</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2018/03/23/scaling-vs-normalization">
+                
+                <span class="post-related-thumb"><img src="/img/blog/scaling-vs-normalization/scaling.png" alt="Scaling vs Normalization" loading="lazy"></span>
+                
+                <span class="post-related-title">Scaling vs Normalization</span>
+                <span class="post-related-date">Mar 2018</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

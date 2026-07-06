@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="How word2vec represents words as dense vectors by learning from context, solving the limitations of one-hot encoding for NLP tasks.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>word2vec: The foundation of NLP | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="word2vec: The foundation of NLP">
+        <meta property="og:description" content="How word2vec represents words as dense vectors by learning from context, solving the limitations of one-hot encoding for NLP tasks.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2018/07/27/word2vec-the-basic-of-nlp">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/word2vec-the-basic-of-nlp/word_prob.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="word2vec: The foundation of NLP">
+        <meta name="twitter:description" content="How word2vec represents words as dense vectors by learning from context, solving the limitations of one-hot encoding for NLP tasks.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/word2vec-the-basic-of-nlp/word_prob.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2018/07/27/word2vec-the-basic-of-nlp">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "word2vec: The foundation of NLP",
+          "datePublished": "2018-07-27T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "How word2vec represents words as dense vectors by learning from context, solving the limitations of one-hot encoding for NLP tasks.",
+          "url": "https://kharshit.github.io/blog/2018/07/27/word2vec-the-basic-of-nlp",
+          "image": "https://kHarshit.github.io/img/blog/word2vec-the-basic-of-nlp/word_prob.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">word2vec: The foundation of NLP</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Jul 27, 2018</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+                    <li><a href="/categories/natural-language-processing/">Natural Language Processing</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p><strong>Natural Language Processing</strong> deals with the task of making computer understand the human language. The computer understands only 0s and 1s. A language consists of words. So, the first task is to convert word into a combination of 0s and 1s. This is easy. But, a word is nothing without its meaning. Hence, the task we need to solve is to represent the meaning of a word.</p>
+
+<h2 id="representing-words-as-discrete-symbols">Representing words as discrete symbols</h2>
+
+<p>One solution to this problem is to use <em>one-hot vector</em>. For example, in the sentence, “<em>I love machine learning</em>”, the word <em>machine</em> can be represented as [0, 0, 1, 0] <em>where</em> 1 corresponds to <em>machine</em>. In the same way, we can represent other words such as <em>learning</em>, [0, 0, 0, 1].</p>
+
+<p>The problem with this approach is that the combination of words has no meaning i.e. to match “machine learning” in a given document. we have got two separate vectors of <em>machine</em> and <em>learning</em>, which unfortunately are orthogonal. Thus, such a search will not yield any result. That is, there is no notion of similarity for one-hot vectors.</p>
+
+<h2 id="representing-words-by-their-contexts">Representing words by their contexts</h2>
+
+<p>The core idea in this approach is that the words are represented by the context they have i.e. a word’s meaning is given by the words that frequently surrounds it.</p>
+
+<p>word2vec<sup id="a1"><a href="#myfootnote1">1</a></sup> is a model for learning word vectors.</p>
+
+<p>While talking about word2vec, we focus on two model variants:</p>
+
+<ul>
+  <li><strong>Skip-grams (SG):</strong> Predict context words (position independent) given center word</li>
+  <li><strong>Continuous Bag of Words (CBOW):</strong> Predict center word from (bag of) context words</li>
+</ul>
+
+<p>Every word in vocabulary is represented by a vector. In Skip-gram model, we use the similarity of word vectors to calculate the probability of a word being context word. The word vectors are adjusted to maximize this probability.</p>
+
+<p>The below figure demonstrates example windows and process for computing \(P(w_{t+2} \mid w_t)\).</p>
+
+<p><img src="/img/blog/word2vec-the-basic-of-nlp/word_prob.png" style="display: block; margin: auto; width: 80%; max-width: 100%;" /></p>
+
+<p>We can implement word2vec model in <code class="language-plaintext highlighter-rouge">python</code>:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">genism.model</span> <span class="kn">import</span> <span class="n">Word2Vec</span></code></pre></figure>
+
+<h2 id="word-embeddings">Word embeddings</h2>
+
+<p>The word vectors, discussed above, are called embeddings (encoding words to numbers) and are learnt in the same way as other hyperparameters in a neural network.</p>
+
+<blockquote>
+  <p>word embeddings are a representation of the <em>semantics</em> of a word, efficiently encoding semantic information that might be relevant to the task at hand.</p>
+</blockquote>
+
+<p>While designing neural networks, an embedding layer is used. The word2vec model such as CBOW is used to learn word embeddings. Instead of learning the embeddings every time in a network, these pretrained embeddings <em>(already learnt using word2vec)</em> can be used to initialize the embeddings of the network.</p>
+
+<p>This embedding layer is just like a hidden layer, which behaves as a <em>lookup table</em> i.e. instead of doing matrix multiplication, the embedding of a particular word can be extracted from the weight matrix of embeddings using an index. For example “heart” is encoded as 958. Then to get embedding for “heart”, you just take the 958th row of the embedding matrix. It’s possible because the multiplication of a one-hot encoded vector with a matrix returns the row of the matrix corresponding the index of the “on” input unit.</p>
+
+<p><img src="/img/blog/word2vec-the-basic-of-nlp/lookup.png" style="display: block; margin: auto; width: 50%; max-width: 100%;" /></p>
+
+<p>The embeddings are stored as a \(\|V\| \times D\) matrix, where <code class="language-plaintext highlighter-rouge">V</code> is our vocabulary, and <code class="language-plaintext highlighter-rouge">D</code> is the dimensionality of the embeddings, such that the word assigned index <code class="language-plaintext highlighter-rouge">i</code> has its embedding stored in the <code class="language-plaintext highlighter-rouge">i</code>‘th row of the matrix. For hidden dimensions <em>(for most of the problems)</em>, <code class="language-plaintext highlighter-rouge">D</code>, any number between 200-500 should work. It’s kind of a hyperparameter. There’s no precise number.</p>
+
+<blockquote>
+  <p>The embedding vector dimension should be the 4th root of the number of categories i.e. 4th root of the vocab size. <em>You can choose it as a rule of thumb.</em>
+— <cite>Google Developer’s blog<sup id="a2"><a href="#myfootnote2">2</a></sup></cite></p>
+</blockquote>
+
+<h2 id="beyond-word2vec-contextualized-word-vectors">Beyond word2vec: Contextualized Word Vectors</h2>
+
+<p>The two big ideas in the evolution of word representations:</p>
+
+<ol>
+  <li><strong>What is encoded:</strong> from individual words to words-in-context (transition from Word2Vec/GloVe to CoVe/ELMo)</li>
+  <li><strong>Usage for downstream tasks:</strong> from replacing only word embeddings in task-specific models to replacing entire task-specific models (transition from CoVe/ELMo to GPT/BERT)</li>
+</ol>
+
+<h3 id="glovecove">GloVe/CoVe</h3>
+
+<p><strong>GloVe</strong> (Global Vectors for Word Representation) learns word vectors by aggregating global word-word co-occurrence statistics from a corpus, rather than just local context windows.</p>
+
+<p><strong>CoVe</strong> (Contextualized Word Vectors Learned in Translation) goes a step further. The authors train a Seq2Seq model with attention for Neural Machine Translation and use its encoder (two-layer bi-directional LSTM) to produce context-aware vectors. Since the encoder is bidirectional, each output contains information about both left and right contexts of a token. For downstream tasks, the concatenation of GloVe (token-level) and CoVe (contextualized) vectors is used, they encode different kinds of information, and their combination proves useful.</p>
+
+<h3 id="elmo">ELMo</h3>
+
+<p>ELMo (Embeddings from Language Models) differs from CoVe by using representations from a language model rather than an NMT model. Just by replacing word embeddings (GloVe) with ELMo embeddings, significant improvements were seen across tasks like question answering and sentiment analysis.</p>
+
+<p>The model consists of a two-layer bi-LSTM language model (forward and backward). Each layer encodes different information: layer 0 captures word-level features, layers 1 and 2 capture words in context. Since different downstream tasks need different kinds of information, ELMo uses task-specific learned scalars to weight and combine representations from all three layers.</p>
+
+<h3 id="training-options-for-embeddings">Training Options for Embeddings</h3>
+
+<p>You have three options for getting embeddings for your model:</p>
+
+<ol>
+  <li><strong>Train from scratch</strong> as part of your model, the model will only “know” the classification data, which may not be enough to learn word relationships well.</li>
+  <li><strong>Use pretrained embeddings</strong> (Word2Vec, GloVe, etc.) and freeze them, the model leverages knowledge from a huge corpus.</li>
+  <li><strong>Initialize with pretrained embeddings and fine-tune</strong> them with the network, adapts the embeddings to your task-specific data, bringing modest performance gains.</li>
+</ol>
+
+<h2 id="bag-of-words">Bag of Words</h2>
+
+<p>The Bag of Words model treats each document (text units) as a bag (collection) of words. A set of documents is called a corpus. First, collect all unique words from your corpus to form vocabulary and arrange them into a matrix of vectors by number of occurrences of each word. This matrix is called Document-Term-Matrix where each document is a row and unique words are columns. Each element is called a term frequency, which denotes how many times that term occur in the corresponding document. To calculate the similarity of words, the term-frequency can be compared using cosine-similarity, given by dot product of two vectors and divided by their magnitudes.</p>
+
+<p><strong>References:</strong><br />
+<a name="myfootnote1"></a>1: <a href="https://arxiv.org/abs/1301.3781">word2vec:  Efficient Estimation of Word Representations in Vector Space</a> <a href="#a1">↩</a><br />
+<a name="myfootnote2"></a>2: <a href="https://developers.googleblog.com/2017/11/introducing-tensorflow-feature-columns.html">Google Developer’s blog</a> <a href="#a2">↩</a><br />
+<a name="myfootnote3"></a>3: <a href="https://www.analyticsvidhya.com/blog/2017/06/word-embeddings-count-word2veec/">An Intuitive Understanding of Word Embeddings: From Count Vectors to Word2Vec</a><br />
+<a name="myfootnote4"></a>4: <a href="https://arxiv.org/abs/1708.00107">CoVe: Learned in Translation: Contextualized Word Vectors</a><br />
+<a name="myfootnote5"></a>5: <a href="https://arxiv.org/abs/1802.05365">ELMo: Deep contextualized word representations</a></p>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2018-07-27-word2vec-the-basic-of-nlp.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2018/07/20/a-year-of-fridays">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">A Year of Fridays</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2018/08/03/methods-of-hyperparameter-optimization">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Methods of Hyperparameter optimization</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/03/08/attention">
+                
+                <span class="post-related-thumb"><img src="/img/blog/attention/encoder_decoder_arch.png" alt="Attention" loading="lazy"></span>
+                
+                <span class="post-related-title">Attention</span>
+                <span class="post-related-date">Mar 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/02/22/backpropagation-through-time">
+                
+                <span class="post-related-thumb"><img src="/img/blog/backpropagation-through-time/rnn2.png" alt="Backpropagation Through Time" loading="lazy"></span>
+                
+                <span class="post-related-title">Backpropagation Through Time</span>
+                <span class="post-related-date">Feb 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/01/11/image-captioning-using-encoder-decoder">
+                
+                <span class="post-related-thumb"><img src="/img/blog/image-captioning-using-encoder-decoder/image_captioner_structure.png" alt="Image captioning using encoder-decoder" loading="lazy"></span>
+                
+                <span class="post-related-title">Image captioning using encoder-decoder</span>
+                <span class="post-related-date">Jan 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

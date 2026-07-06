@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="The attention mechanism in sequence-to-sequence models, how it allows the decoder to focus on relevant parts of the input at each step.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Attention | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Attention">
+        <meta property="og:description" content="The attention mechanism in sequence-to-sequence models, how it allows the decoder to focus on relevant parts of the input at each step.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2019/03/08/attention">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/attention/encoder_decoder_arch.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Attention">
+        <meta name="twitter:description" content="The attention mechanism in sequence-to-sequence models, how it allows the decoder to focus on relevant parts of the input at each step.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/attention/encoder_decoder_arch.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2019/03/08/attention">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Attention",
+          "datePublished": "2019-03-08T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "The attention mechanism in sequence-to-sequence models, how it allows the decoder to focus on relevant parts of the input at each step.",
+          "url": "https://kharshit.github.io/blog/2019/03/08/attention",
+          "image": "https://kHarshit.github.io/img/blog/attention/encoder_decoder_arch.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Attention</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Mar 8, 2019</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+                    <li><a href="/categories/computer-vision/">Computer Vision</a></li>
+                
+                    <li><a href="/categories/natural-language-processing/">Natural Language Processing</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>Attention is the technique through which the model focuses itself on a certain region of the image or on certain words in a sentence just like the same way the humans do. For example, when looking at an image, humans shifts their attention to different parts of the image one at a time rather than focusing on all parts in equal amount at the same time.</p>
+
+<h2 id="encoder-decoder-architecture">Encoder-Decoder architecture</h2>
+
+<p>A Recurrent Neural Network (RNN) can be used to map a varied-length input sequence to the varied-length output sequence e.g. machine translation. The simplest sequence-to-sequence architecture that makes it possible consists of two models, Encoder, and Decoder. In Encoder-Decoder architecture, the idea is to learn a fixed-size context vector that contains the essential information of the inputs.</p>
+
+<ul>
+  <li>The <strong>Encoder</strong> processes the input sequence \((x_1, x_2, x_3, ..., x_n)\) and gives a context vector, <code class="language-plaintext highlighter-rouge">C</code> that summarizes the input sequence.</li>
+  <li>The <strong>Decoder</strong> uses <code class="language-plaintext highlighter-rouge">C</code> to generate the output sequence \((y_1, y_2, y_3, ..., y_m)\), where <code class="language-plaintext highlighter-rouge">n</code> and <code class="language-plaintext highlighter-rouge">m</code> may not be equal.</li>
+</ul>
+
+<p><img src="/img/blog/attention/encoder_decoder_arch.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>The final hidden state of the hidden state of encoder RNN is used to compute <code class="language-plaintext highlighter-rouge">C</code>, which is further provided as an input to the decoder.</p>
+
+<p>The problem with encoder-decoder approach is that all the input information needs to be compressed in a fixed length context vector, <code class="language-plaintext highlighter-rouge">C</code>. It makes it difficult for the network to cope up with large amount of input information <em>(e.g. in text, large sentences)</em> and produce good results with only that context vector. With <strong>attention mechanism</strong>, the encoder RNN instead of producing a single context vector to summarize the input image or sequence, produces a grid of vectors. That is, attention makes <code class="language-plaintext highlighter-rouge">C</code> a variable-length sequence rather than a fixed-size vector.</p>
+
+<p>Every step in the decoder (only) requires calculation of attention vector in seq2seq model. The Attention decoder uses a scoring function to score each hidden state. These scores when fed into a softmax function gives the weight of each vector in the attention vector. Now, these weights are multiplied by corresponding hidden state vector, whose sum gives the attention context vector. The decoder at each step looks at input sequence as well as attention context vector, which focuses its attention at appropriate place in input sequence, and produces the hidden state.</p>
+
+<p><img src="/img/blog/attention/attention_decoder.png" style="display: block; margin: auto; width: 620px; max-width: 100%;" /></p>
+
+<blockquote>
+  <p>The important part is that each decoder output \(y_t\) now depends on a weighted combination of all the input states, not just the last state.</p>
+</blockquote>
+
+<p>The decoder has hidden state \(s_t=f(s_{t−1},y_{t−1},c_t)\) for the output word at position t, where t=1,…,m, where the context vector \(c_t\) is a sum of hidden states of the input sequence, weighted by alignment scores</p>
+
+\[% &lt;![CDATA[
+\begin{aligned}
+\mathbf{c}_t &amp;= \sum_{i=1}^n \alpha_{t,i} \boldsymbol{h}_i &amp; \small{\text{; Context vector for output }y_t}\\
+\alpha_{t,i} &amp;= \text{align}(y_t, x_i) &amp; \small{\text{; How well two words }y_t\text{ and }x_i\text{ are aligned.}}\\
+&amp;= \frac{\exp(\text{score}(\boldsymbol{s}_{t-1}, \boldsymbol{h}_i))}{\sum_{i'=1}^n \exp(\text{score}(\boldsymbol{s}_{t-1}, \boldsymbol{h}_{i'}))} &amp; \small{\text{; Softmax of some predefined alignment score.}}.
+\end{aligned} %]]&gt;\]
+
+<p>The alignment model assigns a score \(α_{t,i}\) to the pair of input at position i and output at position t, \((y_t,x_i)\), based on how well they match. The set of scores \(\{\alpha_{t, i}\}\) are weights defining how much of each source hidden state should be considered for each output.</p>
+
+<h2 id="attention-types">Attention Types</h2>
+
+<p>Attention mechanisms differ in how they compute the alignment score between the query (decoder hidden state) and keys (encoder hidden states).</p>
+
+<h3 id="dot-product-scaled-dot-product-attention">Dot-product (Scaled Dot-Product Attention)</h3>
+
+<p>The simplest method. Computes the attention score as the dot product of the query and key vectors, scaled by the square root of the key dimension to stabilize gradients:</p>
+
+\[\text{score}(\boldsymbol{s}_{t-1}, \boldsymbol{h}_i) = \frac{\boldsymbol{s}_{t-1}^T \boldsymbol{h}_i}{\sqrt{d_k}}\]
+
+<p>This is the attention mechanism used in the Transformer architecture, where it’s computed efficiently in matrix form:</p>
+
+\[\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V\]
+
+<h3 id="bilinear-function-luong-attention">Bilinear Function (Luong Attention)</h3>
+
+<p>Introduces a learnable weight matrix \(W_a\) to capture more complex interactions between query and key vectors:</p>
+
+\[\text{score}(\boldsymbol{s}_{t-1}, \boldsymbol{h}_i) = \boldsymbol{s}_{t-1}^T W_a \boldsymbol{h}_i\]
+
+<h3 id="multi-layer-perceptron-bahdanau--additive-attention">Multi-Layer Perceptron (Bahdanau / Additive Attention)</h3>
+
+<p>Uses a feedforward network with a \(\tanh\) activation to compute attention scores, allowing for non-linear interactions:</p>
+
+\[\text{score}(\boldsymbol{s}_{t-1}, \boldsymbol{h}_i) = \boldsymbol{v}_a^T \tanh(W_a [\boldsymbol{s}_{t-1}; \boldsymbol{h}_i])\]
+
+<p>This was the original attention mechanism proposed by Bahdanau et al. for neural machine translation.</p>
+
+<h2 id="transformer-architecture">Transformer Architecture</h2>
+
+<p>The Transformer extends the attention mechanism into a full encoder-decoder architecture without recurrence. The encoder consists of N=6 identical layers, each with:</p>
+
+<ol>
+  <li><strong>Multi-head Self-Attention</strong>: Allows each position to attend to all positions in the input sequence. The mechanism runs multiple attention heads in parallel with different learned projections of Q, K, V, capturing different aspects and dependencies.</li>
+  <li><strong>Position-wise Feedforward Networks</strong>: Applied independently to each position. Includes a residual connection around each sub-layer, followed by layer normalization.</li>
+</ol>
+
+<p>The decoder also has N=6 identical layers, each with three sub-layers:</p>
+
+<ol>
+  <li><strong>Masked Multi-head Self-Attention</strong>: Prevents positions from attending to subsequent positions (preserving auto-regressive property). Future positions are masked (set to \(-\infty\)) before the softmax step.</li>
+  <li><strong>Encoder-Decoder Attention (Cross-Attention)</strong>: Queries come from the decoder, keys and values from the encoder output, allowing the decoder to focus on relevant parts of the input.</li>
+  <li><strong>Position-wise Feedforward Networks</strong>: Same as the encoder.</li>
+</ol>
+
+<h3 id="self-attention-walkthrough">Self-Attention Walkthrough</h3>
+
+<p>For a sentence like “The cat sat on the mat.”, self-attention for the word “sat” works as follows:</p>
+
+<ol>
+  <li>Create Query, Key, Value vectors for each word by multiplying embeddings with learned weight matrices \(W_q, W_k, W_v\).</li>
+  <li>Compute attention scores by taking the dot product of “sat”’s query with every word’s key. “sat” will have the highest score with itself (0.82), but also attends to “the” (0.31), “cat” (0.61), “on” (0.52), etc.</li>
+  <li>Scale scores (divide by \(\sqrt{d_k}\)), apply softmax to get attention weights.</li>
+  <li>Multiply each value vector by its attention weight and sum, producing a context-aware representation for “sat”.</li>
+</ol>
+
+<h3 id="positional-encoding">Positional Encoding</h3>
+
+<p>Since Transformers process the entire sequence in parallel (no recurrence), positional information is injected via positional encodings. The original Transformer uses sinusoidal functions:</p>
+
+<p>\(PE_{(pos, 2i)} = \sin(pos / 10000^{2i/d_{model}})\)
+\(PE_{(pos, 2i+1)} = \cos(pos / 10000^{2i/d_{model}})\)</p>
+
+<p>Unlike learned embeddings, sinusoidal encodings can extrapolate to sequence lengths unseen during training. The cyclic nature of sine/cosine functions naturally mirrors the intuition that nearby words tend to have stronger relationships than distant ones.</p>
+
+<h3 id="transformers-vs-rnnslstms">Transformers vs RNNs/LSTMs</h3>
+
+<ul>
+  <li><strong>Parallelization</strong>: Self-attention allows parallel computation across the entire input sequence.</li>
+  <li><strong>Long-range dependencies</strong>: Self-attention provides direct connections between any two positions, enabling gradient flow across longer distances compared to the compressed context vector of RNNs.</li>
+  <li><strong>Vanishing gradients</strong>: The residual connections in Transformers mitigate the vanishing gradient problem common in RNNs.</li>
+</ul>
+
+<p><strong>Further Readings:</strong></p>
+<ol>
+  <li><a href="http://www.wildml.com/2016/01/attention-and-memory-in-deep-learning-and-nlp/">Attention and Memory in Deep Learning and NLP</a></li>
+  <li><a href="https://machinelearningmastery.com/how-does-attention-work-in-encoder-decoder-recurrent-neural-networks/">How Does Attention Work in Encoder-Decoder Recurrent Neural Networks</a></li>
+  <li><a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">Attention? Attention!</a></li>
+  <li><a href="https://in.udacity.com/course/deep-learning-nanodegree--nd101">PyTorch Deep Learning Nanodegree - Udacity (also image source)</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2019-03-08-attention.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2019/02/22/backpropagation-through-time">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Backpropagation Through Time</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2019/03/15/quick-intro-to-object-detection">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Quick intro to Object detection: R-CNN, YOLO, and SSD</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2021/12/03/pytorch-basics-tutorial">
+                
+                <span class="post-related-thumb"><img src="/img/blog/pytorch-basics-tutorial/graph_static_dynamic.png" alt="PyTorch Basic Tutorial" loading="lazy"></span>
+                
+                <span class="post-related-title">PyTorch Basic Tutorial</span>
+                <span class="post-related-date">Dec 2021</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/10/18/introduction-to-panoptic-segmentation-tutorial">
+                
+                <span class="post-related-thumb"><img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/college_semantic.png" alt="Introduction to Panoptic Segmentation: A Tutorial" loading="lazy"></span>
+                
+                <span class="post-related-title">Introduction to Panoptic Segmentation: A Tutorial</span>
+                <span class="post-related-date">Oct 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/09/20/evaluation-metrics-for-object-detection-and-segmentation">
+                
+                <span class="post-related-thumb"><img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/iou.png" alt="Evaluation metrics for object detection and segmentation: mAP" loading="lazy"></span>
+                
+                <span class="post-related-title">Evaluation metrics for object detection and segmentation: mAP</span>
+                <span class="post-related-date">Sep 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

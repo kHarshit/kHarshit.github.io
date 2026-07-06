@@ -1,0 +1,434 @@
+/* ── Individual poem page ─────────────────────────────────── */
+.poetry {
+    max-width: 680px;
+    margin: 2rem auto 3rem;
+    padding: 2rem 2.5rem 2.5rem;
+    font-size: var(--text-lg);
+    line-height: 1.75;
+    background: #fafafa;
+    border: 1px solid #ebebeb;
+    border-radius: 16px;
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .poetry {
+    background: #303030;
+    border-color: #3a3a3a;
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Back link */
+.poem-back-link {
+    display: inline-block;
+    font-size: var(--text-md);
+    font-weight: 500;
+    color: var(--accent-color) !important;
+    text-decoration: none !important;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    transition: opacity 0.15s;
+}
+.poem-back-link:hover { opacity: 1 !important; }
+
+/* Header: title + meta */
+.poem-header {
+    margin-bottom: 1.25rem;
+}
+
+.poem-header .tag-cloud {
+    margin-bottom: 0;
+}
+
+.poem-title {
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 0.45em 0;
+    color: var(--font-color);
+}
+
+.poem-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.poem-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.poem-author {
+    font-style: italic;
+    color: #888;
+    font-size: var(--text-md);
+}
+
+[data-theme="dark"] .poem-author { color: #999; }
+
+/* Hero image — consistent crop regardless of aspect ratio */
+.poem-body img {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 300px;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 14px;
+    margin: 0 0 2.25rem 0 !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+}
+
+[data-theme="dark"] .poem-body img {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Remove paragraph margin around the image if kramdown wraps it */
+.poem-body p:has(> img) {
+    margin: 0;
+}
+
+/* Source attribution */
+.poem-source {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e8e8e8;
+    font-size: var(--text-sm);
+    color: #999;
+}
+
+[data-theme="dark"] .poem-source {
+    border-top-color: #3a3a3a;
+    color: #777;
+}
+
+/* Poem lines rendered as a list */
+.poetry ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5em 0;
+}
+
+.poetry ul li {
+    padding: 0;
+    margin: 0;
+}
+
+/* Kramdown wraps the last <li> before a blank line in a <p> tag (loose-list
+   behaviour). Strip all margin from that <p> so it doesn't add space inside
+   the stanza, then use :has() to add the stanza gap via margin-bottom on the
+   <li> itself — which is always the last line before a stanza break. */
+.poetry ul li p {
+    margin: 0;
+}
+
+.poetry ul li:has(> p) {
+    margin-bottom: 1.5em;
+}
+
+/* Indentation utility classes (from Ed. theme) */
+.indent-1  { padding-left: 1em; }
+.indent-2  { padding-left: 2em; }
+.indent-3  { padding-left: 3em; }
+.indent-4  { padding-left: 4em; }
+.indent-5  { padding-left: 5em; }
+.indent-6  { padding-left: 6em; }
+.indent-7  { padding-left: 7em; }
+.indent-8  { padding-left: 8em; }
+.indent-9  { padding-left: 9em; }
+.indent-10 { padding-left: 10em; }
+
+/* ── Comments ────────────────────────────────────────────── */
+.poem-notecomments {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+}
+
+/* ── Similar poems ───────────────────────────────────────── */
+.poem-related {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+    padding: 0 0.5rem;
+}
+
+.poem-related-heading {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--font-color);
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+[data-theme="dark"] .poem-related-heading {
+    border-bottom-color: #3a3a3a;
+}
+
+.poem-related-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.poem-related-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #ebebeb;
+    background: var(--card-bg);
+    text-decoration: none !important;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+[data-theme="dark"] .poem-related-card {
+    border-color: #3a3a3a;
+}
+
+.poem-related-card:hover {
+    border-color: var(--accent-color);
+    background: rgba(32, 178, 170, 0.04);
+}
+
+.poem-related-thumb {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--card-bg-alt);
+}
+
+.poem-related-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.poem-related-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+    font-size: 1.2rem;
+}
+
+.poem-related-body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.poem-related-title {
+    font-size: var(--text-md);
+    font-weight: 500;
+    color: var(--font-color);
+}
+
+.poem-related-author {
+    font-size: var(--text-sm);
+    color: #888;
+    font-style: italic;
+}
+
+[data-theme="dark"] .poem-related-author { color: #999; }
+
+/* ── Poems index: category filter pills ──────────────────── */
+.poem-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.poem-filters .filter-btn {
+    border: 1.5px solid #e0e0e0;
+    background: transparent;
+    color: var(--font-color, #282828);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: var(--text-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    outline: none;
+}
+
+[data-theme="dark"] .poem-filters .filter-btn {
+    border-color: #444;
+    color: #ddd;
+}
+
+.poem-filters .filter-btn:hover {
+    border-color: var(--accent-color, #20B2AA);
+    color: var(--accent-color, #20B2AA);
+    background: transparent;
+}
+
+.poem-filters .filter-btn.active {
+    background: var(--accent-color, #20B2AA);
+    border-color: var(--accent-color, #20B2AA);
+    color: #fff;
+}
+
+/* ── Links inside a poem ─────────────────────────────────── */
+.poetry a {
+    color: var(--accent-color, #20B2AA);
+    text-decoration: none;
+}
+
+.poetry a:hover {
+    color: var(--accent-hover, #178f8c);
+    text-decoration: underline;
+}
+
+/* ── Poems index: list items ─────────────────────────────── */
+.text-category-title {
+    display: none;
+}
+
+.text-category-title.show {
+    display: block;
+}
+
+/* Neutralise the first-child padding reset from main.css so all items
+   have identical padding regardless of which ones are hidden by filtering. */
+.blog-list .blog-list-item:first-child {
+    padding-top: 22px;
+}
+
+/* ── Explain toggle button ───────────────────────────────── */
+.poem-explain-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1.5px solid #e0e0e0;
+    background: transparent;
+    color: #888;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    line-height: 1.6;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+[data-theme="dark"] .poem-explain-toggle {
+    border-color: #444;
+    color: #999;
+}
+
+.poem-explain-toggle:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+
+
+/* ── Stanza layout: poem left, card right ────────────────── */
+.poem-explain-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+/* Suppress old stanza-break margin — gap on the grid handles spacing */
+.poem-explain-grid ul li:has(> p) {
+    margin-bottom: 0;
+}
+
+.stanza-block {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.stanza-block ul,
+.stanza-block > div {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.stanza-block > div p {
+    margin: 0 0 1em 0;
+}
+
+.stanza-block > div p:last-child {
+    margin-bottom: 0;
+}
+
+/* Paragraph-based layout — explanation below content, full width */
+.stanza-block-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stanza-block-column > div p {
+    margin: 0 0 1em 0;
+}
+
+.stanza-block-column > div p:last-child {
+    margin-bottom: 0;
+}
+
+.stanza-block-column .stanza-explain-card {
+    width: auto;
+}
+
+/* Explanation card — collapsed until .open */
+.stanza-explain-card {
+    width: 260px;
+    flex-shrink: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.stanza-explain-card.open {
+    max-height: 500px;
+    opacity: 1;
+}
+
+.stanza-explain-card-inner {
+    padding: 10px 14px;
+    background: var(--chip-bg);
+    border-radius: 8px;
+    font-size: var(--text-sm);
+    line-height: 1.65;
+    color: #777;
+}
+
+[data-theme="dark"] .stanza-explain-card-inner {
+    background: #333;
+    color: #999;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stanza-explain-card { transition: none; }
+}
+
+@media (max-width: 768px) {
+    .poetry {
+        padding: 1.5rem 1.25rem 2rem;
+    }
+
+    .stanza-block {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .stanza-explain-card {
+        width: auto;
+    }
+
+}

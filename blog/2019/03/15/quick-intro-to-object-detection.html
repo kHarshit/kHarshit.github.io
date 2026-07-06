@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="A concise introduction to object detection methods, classification with localization, R-CNN family, YOLO, and SSD.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Quick intro to Object detection: R-CNN, YOLO, and SSD | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Quick intro to Object detection: R-CNN, YOLO, and SSD">
+        <meta property="og:description" content="A concise introduction to object detection methods, classification with localization, R-CNN family, YOLO, and SSD.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2019/03/15/quick-intro-to-object-detection">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/quick-intro-to-object-detection/ibrahim-rifath-D0x1GOoiPzw-unsplash_obj_det.jpg">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Quick intro to Object detection: R-CNN, YOLO, and SSD">
+        <meta name="twitter:description" content="A concise introduction to object detection methods, classification with localization, R-CNN family, YOLO, and SSD.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/quick-intro-to-object-detection/ibrahim-rifath-D0x1GOoiPzw-unsplash_obj_det.jpg">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2019/03/15/quick-intro-to-object-detection">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Quick intro to Object detection: R-CNN, YOLO, and SSD",
+          "datePublished": "2019-03-15T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "A concise introduction to object detection methods, classification with localization, R-CNN family, YOLO, and SSD.",
+          "url": "https://kharshit.github.io/blog/2019/03/15/quick-intro-to-object-detection",
+          "image": "https://kHarshit.github.io/img/blog/quick-intro-to-object-detection/ibrahim-rifath-D0x1GOoiPzw-unsplash_obj_det.jpg"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Quick intro to Object detection: R-CNN, YOLO, and SSD</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Mar 15, 2019</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+                    <li><a href="/categories/computer-vision/">Computer Vision</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>Object detection deals with the detection of object instances in an image. There are a number of methods to accomplish it. The following post summarizes few important object detection methods.</p>
+
+<p><img src="/img/blog/quick-intro-to-object-detection/ibrahim-rifath-D0x1GOoiPzw-unsplash_obj_det.jpg" style="display: block; margin: auto; width: 80%; max-width: 100%;" /></p>
+
+<h2 id="classification-and-localization">Classification and Localization</h2>
+
+<p>This method treats object detection as a regression problem. Given an object in an image, localization deals with by drawing a bounding box around the object by finding its location in the image. The classification refers to categorizing the object into the class labels such as cat, dog, etc. The object detection problem refers to the same scenario in multi-object context i.e. Given a number of objects in an image, object detection is defined as the classification as well as localization of all the objects in the image.</p>
+
+<p>With the help of a fully connected layer, <code class="language-plaintext highlighter-rouge">fc</code>, a model can be used to classify an object into categories such as cat, dog, …, and background <em>(if none of the object detected)</em>. In order to do localization, the model can be modified to give the bounding box coordinates, \(b_x, b_y, b_h, b_w\) representing the x and y coordinate of the center of object, and height and width respectively. This model can be trained in order to perform object detection such that the target label <code class="language-plaintext highlighter-rouge">y</code> can be defined as</p>
+
+\[\begin{align}
+    y &amp;= \begin{bmatrix}
+           p_{c} \\
+           b_{x} \\
+           b_y \\
+           b_h \\
+           b_w \\
+           c_1 \\
+           c_2 \\
+           \vdots \\
+           c_{m}
+         \end{bmatrix}
+  \end{align}\]
+
+<p>where \(p_c\) is the probability of the object <em>(0 if background, no object)</em>, and \(c_1, c_2, ..., c_m\) are the class probabilities.</p>
+
+<p><img src="/img/blog/quick-intro-to-object-detection/obj_detect.png" style="display: block; margin: auto; width: 90%; max-width: 100%;" /></p>
+
+<p>The loss may consists of softmax loss for classification and L2 regression loss for bounding box. The problem with this approach is that an image may contain different number of objects thus each image need different number of outputs, which creates a problem.</p>
+
+<h2 id="sliding-window">Sliding window</h2>
+
+<p>This method treats object detection as a classification problem. The sliding window deals with sliding the window through the image and passing the cropped image to a convolutional neural network and classifying it as object or background.</p>
+
+<p>The problem with this approach is that it’s needed to apply CNN to a huge number of windows of diverse scale and aspect ratio.</p>
+
+<h2 id="region-proposals">Region proposals</h2>
+
+<p>The region proposal methods deals with using selective search to propose regions (boxes) that likely contain objects thus avoiding the computationally expensive method of appplying CNN to every possible window in the image.</p>
+
+<p>The various region based methods i.e. region-proposals are:</p>
+
+<ul>
+  <li><strong>R-CNN:</strong> First, the Region of Interest (ROI) is suggested by a region proposal method. These regions are then fed into CNN and support vector machines is used to classify them.</li>
+</ul>
+
+<p><img src="/img/blog/quick-intro-to-object-detection/rcnn.png" style="display: block; margin: auto; max-width: 100%;" /></p>
+
+<ul>
+  <li><strong>Fast R-CNN:</strong> Instead of passing each region through CNN, in Fast R-CNN the entire image is passed once generating convolutional feature maps, using which the regions are proposed. The ROI pooling layer is then used to convert these regions into a fixed size, finally feeding it into a fully connected network.</li>
+  <li><strong>Faster R-CNN:</strong> Unlike Fast R-CNN which uses selective search for ROI, Faster R-CNN uses Region Proposal Network (RPN) to predict proposals from features.</li>
+  <li><strong>Mask R-CNN:</strong> It extends Faster R-CNN. Mask R-CNN is used for instance segmentation which not only does object detection but also predicts object masks.</li>
+</ul>
+
+<p><em>Read more about how Faster R-CNN and Mask R-CNN work in the <a href="/blog/2019/08/23/quick-intro-to-instance-segmentation">instance segmentation post</a>.</em></p>
+
+<h2 id="detection-without-proposals">Detection without proposals</h2>
+
+<p>There are other object detection methods that use detection without proposals. The following methods are faster though not as good in terms of accuracy compared to R-CNN family.</p>
+
+<h3 id="yolo-you-only-look-once">YOLO (You Only Look Once)</h3>
+
+<p>What YOLO does is to divide the input image into a grid, and apply the classification and localization to each of these grids. Here, each grid predicts one object defined by the same label <code class="language-plaintext highlighter-rouge">y</code> discussed above. An object is said to belong to a particular grid cell if its center lies in it. Hence, for each of the SxS grid cells, there is a 5+C dimension <code class="language-plaintext highlighter-rouge">y</code> label, where <code class="language-plaintext highlighter-rouge">C</code> is the number of classes.</p>
+
+<p>But in YOLO, each grid cell predicts a number of bboxes <em>(not one)</em>, <code class="language-plaintext highlighter-rouge">B</code>, for the single object it detects. Hence, the YOLO prediction is of the form <code class="language-plaintext highlighter-rouge">SxSx(B*5+C)</code>. Suppose, an image is divided into a grid of 3x3, and B=4, and number of class labels is 2, then the YOLO prediction volume will be of shape (3, 3, 22).</p>
+
+<h4 id="iou-intersection-over-union">IoU (Intersection over Union)</h4>
+
+<p>To decide whether a prediction is correct w.r.t to an object or not, IoU or Jaccard Index is used. It is defines as the intersection b/w the predicted bbox and actual bbox divided by their union. A prediction is considered to be True Positive if <code class="language-plaintext highlighter-rouge">IoU &gt; threshold</code>.</p>
+
+<p><img src="/img/blog/quick-intro-to-object-detection/iou.png" style="display: block; margin: auto; width: 35%; max-width: 100%;" /></p>
+
+<h4 id="non-max-suppression">Non-max suppression</h4>
+
+<p>It might happen that more than one grid cell may predict the same object such that there are multiple bbox detections for the same object. The NMS (Non-max suppression) enables to get a single detection per object. This is how it works.</p>
+
+<ol>
+  <li>Discard all bbox where \(p_c &lt; \text{threshold}\).</li>
+  <li>For each remaining bbox:<br />
+2.1 Pick bbox with the highest \(p_c\), and output it as a prediction.<br />
+2.2 Discard any remaining bbox with high overlap, <code class="language-plaintext highlighter-rouge">IoU &gt; 0.5</code>, with the output in the previous step.</li>
+</ol>
+
+<p>Note that this greedy approach suffers from certain problems such as the assumption that the best scoring \(p_c\) is the best fit for the object.</p>
+
+<p><img src="/img/blog/quick-intro-to-object-detection/nms.png" style="display: block; margin: auto; width: 90%; max-width: 100%;" /></p>
+
+<h4 id="anchors">Anchors</h4>
+
+<p>Since we discussed that each grid cell may predict only a single object, it won’t be able to detect two different objects such as car and person, even if their centers lie in that grid cell thus ignoring one of the object. This is not what we want. The anchor boxes or priors allow multiple detections per grid cell. These are precalculated fixed bbox representing the approximate bbox prediction. Now, each object is assigned to a grid cell that contains its midpoint, and anchor box of the grid cell with hightest IoU.</p>
+
+<p><img src="/img/blog/quick-intro-to-object-detection/anchors.png" style="display: block; margin: auto; width: 35%; max-width: 100%;" /></p>
+
+<p>Hence, the <code class="language-plaintext highlighter-rouge">y</code> label now has multiple predictions w.r.t. anchor box.</p>
+
+\[\begin{align}
+    y &amp;= \begin{bmatrix}
+           p_{c1} \\
+           b_{x1} \\
+           b_{y1} \\
+           b_{h1}\\
+           b_{w1} \\
+           c_{1_1} \\
+           c_{1_2} \\
+           p_{c2} \\
+           b_{x2} \\
+           b_{y2} \\
+           b_{h2} \\
+           b_{w2} \\
+           c_{2_1} \\
+           c_{2_2} \\
+           \vdots \\
+         \end{bmatrix}
+  \end{align}\]
+
+<p>Not only anchor boxes allows multiple detections per grid cell, but they also allow the model to learn quickly by providing it the starting coordinates to finetune.</p>
+
+<h3 id="ssd-single-shot-multibox-detector">SSD (Single Shot Multibox Detector)</h3>
+
+<p>The SSD also performs the localization and classification in a single forward pass similar to YOLO. The multibox is the technique that treats the bbox prediction as a regression problem by taking anchors (priors) as the starting point for bbox prediction and regressing them to the ground truth bbox’s coordinates.</p>
+
+<p>SSD takes the VGG network, called base network, and converts its fc layers to conv layers, and further add more convolutional layers, called auxiliary convolutions, to create a powerful feature extractor. It allows predictions at different scales from the feature maps of different scales produced by these layers as they decrease in size progressively. It also applies the NMS to produce the final detections.</p>
+
+<p><img src="/img/blog/quick-intro-to-object-detection/ssd.png" style="display: block; margin: auto; max-width: 100%;" /></p>
+
+<p>The multibox loss is weighted sum of localization loss, \(L_{\text{loc}}\), for bbox, and classification confidence loss, \(L_{\text{conf}}\) for object classes.</p>
+
+\[L = L_{\text{loc}} + \alpha * L_{\text{conf}}\]
+
+<p>where the localization loss is the averaged smooth L1 loss b/w the predicted bbox coordinates and its ground truths.</p>
+
+\[L_{\text{loc}} = \frac{1}{n_{\text{postives}}}\sum_{positives}{\text{smooth $L_1$ loss}}\]
+
+<h4 id="hard-negative-mining">Hard Negative Mining</h4>
+
+<p>Most of the bbox predictions would be negative as only a handful of predictions would contain an object. It’d result in the imbalance of positive to negative examples, which is not good for training the model.</p>
+
+<p>The solution, called Hard Negative Mining, is to limit the number of negatives and only use those predictions where the model find it hardest to predict the object.</p>
+
+<blockquote>
+  <p>Instead of using all the negative examples, we sort them using the highest confidence loss for each default box and pick the top ones so that the ratio between the negatives and positives is at most 3:1. We found that this leads to faster optimization and a more stable training.</p>
+</blockquote>
+
+<p>Thus, the confidence loss is the sum of cross entropy losses in positive and negative matches.</p>
+
+\[L_{\text{conf}} = \frac{1}{n_{\text{postives}}}\left(\sum_{positives}{\text{cross-entropy loss}} + \sum_{\text{hard negatives}}{\text{cross-entropy loss}}\right)\]
+
+<p><strong>References &amp; Further Readings:</strong></p>
+<ol>
+  <li><a href="http://cs231n.stanford.edu/">CS231n: Convolutional Neural Networks for Visual Recognition</a></li>
+  <li><a href="https://www.analyticsvidhya.com/blog/2018/10/a-step-by-step-introduction-to-the-basic-object-detection-algorithms-part-1/">A Step-by-Step Introduction to the Basic Object Detection Algorithms</a></li>
+  <li><a href="https://www.hackerearth.com/blog/machine-learning/introduction-to-object-detection/">Introduction to Object Detection</a></li>
+  <li><a href="https://pjreddie.com/darknet/yolo/">YOLO paper</a></li>
+  <li><a href="https://youtu.be/NM6lrxy0bxs">YOLO - CVPR’16</a></li>
+  <li><a href="https://arxiv.org/pdf/1512.02325.pdf">SSD paper</a></li>
+  <li><a href="https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection">a PyTorch Tutorial to Object Detection</a></li>
+  <li><a href="https://unsplash.com/photos/D0x1GOoiPzw">Photo from Unsplash</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2019-03-15-quick-intro-to-object-detection.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2019/03/08/attention">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Attention</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2019/03/22/layer-specific-learning-rates">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Layer-specific learning rates</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2021/12/03/pytorch-basics-tutorial">
+                
+                <span class="post-related-thumb"><img src="/img/blog/pytorch-basics-tutorial/graph_static_dynamic.png" alt="PyTorch Basic Tutorial" loading="lazy"></span>
+                
+                <span class="post-related-title">PyTorch Basic Tutorial</span>
+                <span class="post-related-date">Dec 2021</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/10/18/introduction-to-panoptic-segmentation-tutorial">
+                
+                <span class="post-related-thumb"><img src="/img/blog/introduction-to-panoptic-segmentation-tutorial/college_semantic.png" alt="Introduction to Panoptic Segmentation: A Tutorial" loading="lazy"></span>
+                
+                <span class="post-related-title">Introduction to Panoptic Segmentation: A Tutorial</span>
+                <span class="post-related-date">Oct 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/09/20/evaluation-metrics-for-object-detection-and-segmentation">
+                
+                <span class="post-related-thumb"><img src="/img/blog/evaluation-metrics-for-object-detection-and-segmentation/iou.png" alt="Evaluation metrics for object detection and segmentation: mAP" loading="lazy"></span>
+                
+                <span class="post-related-title">Evaluation metrics for object detection and segmentation: mAP</span>
+                <span class="post-related-date">Sep 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

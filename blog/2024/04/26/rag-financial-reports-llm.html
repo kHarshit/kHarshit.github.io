@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Building a RAG-based chatbot for 10Q financial reports to reduce LLM hallucinations by grounding answers in retrieved document context.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports">
+        <meta property="og:description" content="Building a RAG-based chatbot for 10Q financial reports to reduce LLM hallucinations by grounding answers in retrieved document context.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2024/04/26/rag-financial-reports-llm">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/rag/llm_hallucination.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports">
+        <meta name="twitter:description" content="Building a RAG-based chatbot for 10Q financial reports to reduce LLM hallucinations by grounding answers in retrieved document context.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/rag/llm_hallucination.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2024/04/26/rag-financial-reports-llm">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports",
+          "datePublished": "2024-04-26T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Building a RAG-based chatbot for 10Q financial reports to reduce LLM hallucinations by grounding answers in retrieved document context.",
+          "url": "https://kharshit.github.io/blog/2024/04/26/rag-financial-reports-llm",
+          "image": "https://kHarshit.github.io/img/blog/rag/llm_hallucination.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Apr 26, 2024</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      12 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/llm/">LLM</a></li>
+                
+                    <li><a href="/categories/generative-ai/">Generative AI</a></li>
+                
+                    <li><a href="/categories/natural-language-processing/">Natural Language Processing</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>While Large Language Models (LLMs) are revolutionary, they sometimes get it wrong like citing varying figures for something as critical as Tesla’s total assets on a given date. In the accompanying figure, you can see ChatGPT4 giving different results when asked the same question multiple times. This problem is called LLM hallucinations. And that’s where Retrival Augmented Generation (RAG) comes in. In this blog post, I’ll describe how to create a Chabot for 10Q Financial Reports that leverages RAG.</p>
+
+<figure class="mbimgstyle" style="--img-caption: 'LLM hallucination';">
+<img src="/img/blog/rag/llm_hallucination.png" alt="LLM hallucination" />
+</figure>
+
+<h2 id="what-is-retrival-augmented-generation-rag">What is Retrival Augmented Generation (RAG)?</h2>
+
+<p>It’s a framework that combines the strengths of information retrieval and generative language modeling to enhance the capabilities of machine learning systems, particularly in tasks that involve natural language understanding and generation. It involves two main components.</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Retrieval Component</strong>
+responsible for accessing an external knowledge source, such as a database or a document collection, to retrieve relevant information based on the input query.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Generation Component</strong>
+leverages LLMs to generate response based on the context provided by the retrieval component.</p>
+  </div>
+</div>
+
+<h2 id="rag-vs-fine-tuning">RAG vs Fine Tuning</h2>
+
+<p><strong>Fine tuning</strong> updates the model’s weights by training further on domain-specific data, baking knowledge into the parameters. This works well when you need the model to adopt a specific tone or domain expertise. However, fine-tuning is expensive, and it can’t incorporate new information without another training run, and offers no attribution i.e. the model can’t show which document it used.</p>
+
+<p><strong>RAG</strong>, by contrast, keeps the LLM’s weights frozen. Knowledge lives in an external vector database that can be updated instantly: add new documents or remove outdated ones without touching the model. Every answer is grounded in retrieved context, providing transparent attribution and lowering hallucination risk.</p>
+
+<p>For quarterly financial reports, RAG is the natural choice, data changes every 90 days, users need answers backed by specific filings, and retraining each quarter would be impractical.</p>
+
+<h2 id="vector-database">Vector Database</h2>
+
+<p>Think of a traditional database as a spreadsheet, it stores rows and columns of structured data like names, dates, and numbers, and you query it with exact matches (e.g., “find the row where <code class="language-plaintext highlighter-rouge">company = 'Tesla'</code>”). A vector database is fundamentally different: instead of rows and columns, it stores data as points in a high-dimensional <em>vector space</em>, where similar items cluster closer together.</p>
+
+<p>Imagine a map of a city. On a regular map, nearby locations are physically close. A vector database works the same way, except the “locations” are mathematical vectors (lists of numbers) that represent the <em>meaning</em> of your data. Documents about “Tesla’s revenue” end up near each other, while documents about “Apple’s iPhone sales” cluster elsewhere. When you ask a question, the database converts your query into a vector and finds the points nearest to it on the map, returning the most semantically relevant results.</p>
+
+<p>This approach excels at handling unstructured data like text, images, and audio, where exact keyword matching falls short.</p>
+
+<p><strong>Creating a Vector Database:</strong> A large document is split into smaller chunks. Each chunk is passed through an embedding model (like Sentence Transformers) that converts it into a high-dimensional vector, essentially a semantic “address” in the vector space. These vectors are stored in the database.</p>
+
+<p><strong>Indexing:</strong> Storing millions of vectors means finding neighbors by brute force (comparing against every single one) would be too slow. Before querying, the database builds an index, a data structure that organizes the vectors so similar ones can be found in milliseconds.</p>
+
+<p><strong>Querying a Vector Database:</strong> When a user asks a question:</p>
+<ol>
+  <li>The query is embedded into a vector using the same embedding model.</li>
+  <li>The database searches its index for <em>n</em> closest vectors using distance metrics like cosine similarity.</li>
+  <li>The original text chunks corresponding to those nearest vectors are retrieved as context for LLM.</li>
+</ol>
+
+<p>The full lifecycle looks like this:</p>
+
+<ol>
+  <li>The embedding model creates vector embeddings for each text chunk we want to index.</li>
+  <li>Each vector embedding is stored in the database alongside a reference to its original content.</li>
+  <li>When the application issues a query, the same embedding model converts the query into a vector.</li>
+  <li>The database finds stored vectors closest to the query vector and returns their associated content.</li>
+</ol>
+
+<h2 id="rag-architecture">RAG Architecture</h2>
+
+<p>The full RAG pipeline connects four components: ingestion, storage, retrieval, and generation, into a single flow:</p>
+
+<figure class="mbimgstyle" style="--img-width: 80%; --img-caption: 'RAG Architecture Ingestion and Query Pipelines';">
+<img src="/img/blog/rag/rag_architecture.svg" alt="RAG Architecture Ingestion and Query Pipelines" />
+</figure>
+
+<p>The <strong>ingestion pipeline</strong> runs offline: documents are loaded, split into chunks, embedded, and stored in the vector database. The <strong>query pipeline</strong> runs at inference time: a user question is embedded with the same model, the vector DB retrieves the nearest chunks, and the LLM generates a grounded answer using the prompt template.</p>
+
+<h2 id="building-rag-chatbot">Building RAG Chatbot</h2>
+
+<h3 id="dataset">Dataset</h3>
+
+<p>The dataset primarily consists of financial documents, specifically 10-Q and 10-K filings from major publicly traded companies, such as Tesla, NVIDIA, and Apple. These documents are obtained from the U.S. Securities and Exchange Commission’s (SEC) <a href="https://www.sec.gov/edgar/searchedgar/companysearch">EDGAR database</a>, which is a reliable source for such financial reports. Each 10-Q and 10-K filing within the dataset contains a comprehensive overview of a company’s financial performance.</p>
+
+<figure class="mbimgstyle" style="--img-width: 80%; --img-caption: 'Tesla 10Q';">
+<img src="/img/blog/rag/tsla_10q.png" alt="Tesla 10Q" />
+</figure>
+
+<h3 id="steps">Steps</h3>
+
+<p>We need to following the following steps to build a RAG Chatbot.</p>
+
+<ul>
+  <li><strong>Problem statement:</strong> Given a PDF document and a query, retrieve the relevant details and information from the document as per the query, and synthesize this information to generate accurate answers.</li>
+  <li><strong>Data Ingestion and Processing:</strong> Reading PDFs of financial reports and split the documents for efficient text chunking of long documents.</li>
+  <li><strong>Retrieval-Augmented Generation (RAG):</strong> Combination of document retrieval with the generative capabilities of the chosen language models.</li>
+  <li><strong>Large Language Models:</strong> Evaluation of various models, including GPT-3.5-turbo, LLama 2, Gemma 1.1, etc.</li>
+  <li><strong>Conversation Chain and Prompt Design:</strong> Crafting of a prompt template designed for concise two-sentence financial summaries.</li>
+  <li><strong>User interface:</strong> Designing Chatbot like user interface.</li>
+</ul>
+
+<p>First, we load the 10-Q PDF using PyPDFLoader.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">langchain.document_loaders</span> <span class="kn">import</span> <span class="n">PyPDFLoader</span>
+<span class="c1"># create a loader
+</span><span class="n">loader</span> <span class="o">=</span> <span class="nc">PyPDFLoader</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">data/tsla-20230930.pdf</span><span class="sh">"</span><span class="p">)</span></code></pre></figure>
+
+<p>We then split data in chunks using a recursive character text splitter to handle large documents.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">langchain.text_splitter</span> <span class="kn">import</span> <span class="n">RecursiveCharacterTextSplitter</span>
+
+<span class="n">text_splitter</span> <span class="o">=</span> <span class="nc">RecursiveCharacterTextSplitter</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chunk_overlap</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">all_splits</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="p">.</span><span class="nf">split_documents</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code></pre></figure>
+
+<h4 id="chunking-strategy-tradeoffs">Chunking Strategy Tradeoffs</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">chunk_size=500</code> and <code class="language-plaintext highlighter-rouge">chunk_overlap=300</code> parameters control how the document is sliced. Choosing these values involves tradeoffs:</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Smaller chunks</strong> (e.g., 200 tokens) keep each chunk focused on a single topic, which improves retrieval precision, the query is more likely to match a tightly relevant snippet. However, the LLM may lack surrounding context to understand financial tables or multi-sentence figures. The risk is retrieving fragments that are individually relevant but miss the bigger picture (e.g., getting “total assets: $87B” without the reporting period).</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Larger chunks</strong> (e.g., 1000+ tokens) provide richer context, helping the LLM interpret numbers, tables, and cross-references within a single chunk. But they dilute relevance, a chunk covering an entire “Liquidity” section might be retrieved for a query about “cash equivalents” even if only one sentence is relevant, introducing noise into the LLM’s context window.</p>
+  </div>
+</div>
+
+<p>The optimal chunking balances context preservation with retrieval precision. A chunk overlap of 300 ensures that sentences or table rows split across chunk boundaries appear in at least two chunks, preventing information loss at cut points. This is especially important for financial documents where a table’s header row might end up in chunk N while its data rows fall in chunk N+1.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/chunk_explorer.js"></script>
+
+<div id="chunk-explorer" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-chunk-explorer">Interactive: Chunking Strategy Explorer</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="dt-control-group">
+      <span class="dt-label-text" style="flex:0 0 100px;">Chunk Size</span>
+      <input type="range" class="dt-slider chunk-size-slider" min="100" max="1000" value="500" step="50" />
+      <span class="dt-label-value chunk-size-display" style="min-width:36px;">500</span>
+    </div>
+    <div class="dt-control-group">
+      <span class="dt-label-text" style="flex:0 0 100px;">Chunk Overlap</span>
+      <input type="range" class="dt-slider chunk-overlap-slider" min="0" max="500" value="300" step="25" />
+      <span class="dt-label-value chunk-overlap-display" style="min-width:36px;">300</span>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;">
+        <div class="chunk-text-display" style="font-family:'Courier New',monospace;font-size:0.82rem;line-height:1.6;padding:14px;background:var(--bg-color,#f8fafc);border:1px solid #e2e8f0;border-radius:8px;word-wrap:break-word;height:320px;overflow-y:auto;box-sizing:border-box;">
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px;display:flex;flex-direction:column;">
+        <div class="chunk-stats"></div>
+        <div class="chunk-bars" style="flex:1;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Each color represents one chunk; hatched regions in the bar map show where chunks overlap. 
+  </div>
+</div>
+
+<p>We now create the embeddings using Sentence Transformer and HuggingFace embeddings. In order to create vector embeddings, we use the open-source Chroma vector database.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">langchain.embeddings</span> <span class="kn">import</span> <span class="n">HuggingFaceEmbeddings</span>
+<span class="kn">from</span> <span class="n">langchain.vectorstores</span> <span class="kn">import</span> <span class="n">Chroma</span>
+
+<span class="n">model_name</span> <span class="o">=</span> <span class="sh">"</span><span class="s">sentence-transformers/all-mpnet-base-v2</span><span class="sh">"</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="nc">HuggingFaceEmbeddings</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span> <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">device</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span><span class="p">})</span>
+
+<span class="n">vectordb</span> <span class="o">=</span> <span class="n">Chroma</span><span class="p">.</span><span class="nf">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="o">=</span><span class="n">all_splits</span><span class="p">,</span> <span class="n">embedding</span><span class="o">=</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">persist_directory</span><span class="o">=</span><span class="sh">"</span><span class="s">chroma_db</span><span class="sh">"</span><span class="p">)</span></code></pre></figure>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/vecsearch_sim.js"></script>
+
+<div id="vecsearch-sim" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-vecsearch-sim">Interactive: Vector Search Simulator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap;">
+      <input type="text" class="vecsearch-query" placeholder="e.g. total assets, gross margin, vehicle deliveries..." style="flex:1;min-width:160px;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;background:var(--bg-color,#fff);color:var(--font-color,#333);outline:none;transition:border-color 0.15s;" />
+      <button class="vecsearch-btn" style="padding:9px 20px;background:#20B2AA;color:#fff;border:none;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:background 0.15s;">Search</button>
+      <button class="vecsearch-random-btn" style="padding:9px 16px;background:transparent;border:1.5px solid #e2e8f0;color:var(--font-color,#666);border-radius:8px;font-size:0.85rem;cursor:pointer;transition:border-color 0.15s;">Random</button>
+    </div>
+    <div class="dt-control-group" style="margin-bottom:14px;">
+      <span class="dt-label-text" style="flex:0 0 80px;">Results (k)</span>
+      <input type="range" class="dt-slider vecsearch-k-slider" min="1" max="15" value="5" step="1" />
+      <span class="dt-label-value vecsearch-k-display" style="min-width:24px;">5</span>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <div class="vecsearch-plot-container" style="flex:2;min-width:280px;position:relative;">
+        <svg class="vecsearch-plot" width="100%" viewBox="0 0 480 400" style="background:var(--bg-color,#f8fafc);border:1px solid #e2e8f0;border-radius:8px;display:block;"></svg>
+      </div>
+      <div class="vecsearch-results" style="flex:1;min-width:180px;max-height:400px;overflow-y:auto;font-size:0.82rem;"></div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Each dot is a text chunk encoded as a 2D embedding (dimensionality reduced for visualization). Type a query to find the semantically closest chunks. The closer a point is to your query marker, the more similar it is.
+  </div>
+</div>
+
+<p>We use HuggingFace to load LLama 2 model and create a HuggingFace pipeline. Since, we’re going to use LangChain, we use <code class="language-plaintext highlighter-rouge">HugggingFacePipeline</code> wrapper from LangChain to create LangChain llm object, which we’re going to use to do further processing.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="n">transformers</span>
+<span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">LlamaForCausalLM</span><span class="p">,</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoConfig</span>
+<span class="kn">from</span> <span class="n">langchain.llms</span> <span class="kn">import</span> <span class="n">HuggingFacePipeline</span>
+
+<span class="n">model_config</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">meta-llama/Llama-2-7b-chat-hf</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LlamaForCausalLM</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">meta-llama/Llama-2-7b-chat-hf</span><span class="sh">"</span><span class="p">,</span>
+                                            <span class="n">trust_remote_code</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="n">model_config</span><span class="p">,</span> <span class="n">device_map</span> <span class="o">=</span> <span class="sh">'</span><span class="s">auto</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">meta-llama/Llama-2-7b-chat-hf</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Creating Pipeline
+</span><span class="n">query_pipeline</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">.</span><span class="nf">pipeline</span><span class="p">(</span>
+        <span class="sh">"</span><span class="s">text-generation</span><span class="sh">"</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+        <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">float16</span><span class="p">,</span>
+        <span class="n">device_map</span><span class="o">=</span><span class="sh">"</span><span class="s">auto</span><span class="sh">"</span><span class="p">,)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="nc">HuggingFacePipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="n">query_pipeline</span><span class="p">)</span></code></pre></figure>
+
+<p>If we want to use GPT models from OpenAI, we can diretly use <code class="language-plaintext highlighter-rouge">openai</code> API.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">openai</span>
+<span class="kn">from</span> <span class="n">langchain.chat_models</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
+
+<span class="c1"># Set your OpenAI API key
+</span><span class="n">openai</span><span class="p">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="nf">getenv</span><span class="p">(</span><span class="sh">"</span><span class="s">OPENAI_API_KEY</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Define LLM
+</span><span class="n">llm</span> <span class="o">=</span> <span class="nc">ChatOpenAI</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="sh">"</span><span class="s">gpt-3.5-turbo</span><span class="sh">"</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code></pre></figure>
+
+<p>Finally, we create a LangChain chain for our RAG system. We also pass a task-specific prompt to guide LLM for question answering wrt RAG for financial reports.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">langchain.prompts</span> <span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
+<span class="kn">from</span> <span class="n">langchain.schema.runnable</span> <span class="kn">import</span> <span class="n">RunnablePassthrough</span>
+<span class="kn">from</span> <span class="n">langchain.schema.output_parser</span> <span class="kn">import</span> <span class="n">StrOutputParser</span>
+
+<span class="c1"># Define prompt template
+</span><span class="n">template</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">You are an assistant for question-answering tasks for Retrieval Augmented Generation system for the financial reports such as 10Q and 10K.
+Use the following pieces of retrieved context to answer the question. 
+If you don</span><span class="sh">'</span><span class="s">t know the answer, just say that you don</span><span class="sh">'</span><span class="s">t know. 
+Use two sentences maximum and keep the answer concise.
+Question: {question} 
+Context: {context} 
+Answer:
+</span><span class="sh">"""</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="p">.</span><span class="nf">from_template</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="n">retriever</span> <span class="o">=</span> <span class="n">vectordb</span><span class="p">.</span><span class="nf">as_retriever</span><span class="p">()</span>
+
+<span class="c1"># Setup RAG pipeline
+</span><span class="n">conversation_chain</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">{</span><span class="sh">"</span><span class="s">context</span><span class="sh">"</span><span class="p">:</span> <span class="n">retriever</span><span class="p">,</span>  <span class="sh">"</span><span class="s">question</span><span class="sh">"</span><span class="p">:</span> <span class="nc">RunnablePassthrough</span><span class="p">()}</span> 
+    <span class="o">|</span> <span class="n">prompt</span> 
+    <span class="o">|</span> <span class="n">llm</span>
+    <span class="o">|</span> <span class="nc">StrOutputParser</span><span class="p">()</span> 
+<span class="p">)</span></code></pre></figure>
+
+<p>Finally, we invoke our conversation chain on user input.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">user_input</span> <span class="o">=</span> <span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s the total assets of Tesla?</span><span class="sh">"</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">conversation_chain</span><span class="p">.</span><span class="nf">invoke</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span></code></pre></figure>
+
+<p>We can integrate our code with some frontend e.g. with Dash to have chatbot like interface.</p>
+
+<div style="text-align: center">
+<figure>
+<img src="/img/blog/rag/rag_chatbot_10q.png" style="display: block; margin: auto;  max-width: 80%;" />
+<figcaption>RAG Chatbot</figcaption>
+</figure>
+</div>
+
+<p>The full code is availble at <a href="https://github.com/kHarshit/Financial_Document_Summarization_through_RAG">https://github.com/kHarshit/Financial_Document_Summarization_through_RAG</a></p>
+
+<h2 id="evaluation-metrics">Evaluation Metrics</h2>
+
+<p>A RAG pipeline requires evaluation at both the retrieval and generation steps.</p>
+
+<h3 id="retrieval-metrics">Retrieval Metrics</h3>
+
+<p>The first part of a RAG pipeline is retrieval where the system needs to fetch relevant information from vector database.</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Context Recall</strong>
+checks whether the system retrieved all the important information needed to answer the question. It measures how much the retrieved context aligns with the annotated answer which is treated as ground truth.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Context Precision</strong>
+measures whether the retrieved context is actually relevant i.e. Out of all the chunks retrieved, how many are actually relevant to the question?</p>
+  </div>
+</div>
+
+<h3 id="generation-metrics">Generation Metrics</h3>
+
+<p>After retrieval, the language model generates the final response.</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Answer Relevancy</strong>
+measures how relevant answer is wrt question. A technically correct answer can still be poor if it doesn’t answer the question.</p>
+
+    <p>For example, if the user asks “What was Apple’s net income?”. A relevant answer should provide the figure, the reporting period, and source context, not a long summary of Apple’s entire financial performance.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Faithfulness</strong>
+measures whether the generated answer is supported by the provided context. It checks that every claim in the answer can be traced back to the retrieved context i.e., the model stayed grounded.</p>
+
+    <p>For example, the model might say “revenue increased due to higher product deliveries” when the retrieved context only says revenue increased, without mentioning deliveries. The extra causal claim is unfaithful.</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-caption: 'RAG Evaluation';">
+<img src="/img/blog/rag/metrics.jpg" alt="RAG Evaluation" />
+</figure>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2024-04-26-rag-financial-reports-llm.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/mixed-precision-and-quantization/">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Mixed Precision and Quantization: Accelerating Deep Learning Training and Inference</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2024/06/07/matrix-multiplication-cuda">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Matrix Multiplication in CUDA</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/frontier-ai-models-evaluation-benchmarks/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/llm-benchmarks/benchmark_timeline.svg" alt="Frontier AI Models Evaluation Benchmarks" loading="lazy"></span>
+                
+                <span class="post-related-title">Frontier AI Models Evaluation Benchmarks</span>
+                <span class="post-related-date">Jun 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/introduction-to-model-context-protocol-mcp/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg" alt="Introduction to Model Context Protocol (MCP)" loading="lazy"></span>
+                
+                <span class="post-related-title">Introduction to Model Context Protocol (MCP)</span>
+                <span class="post-related-date">Feb 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/evaluation-metrics-for-large-language-models/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg" alt="Evaluation Metrics for Large Language Models" loading="lazy"></span>
+                
+                <span class="post-related-title">Evaluation Metrics for Large Language Models</span>
+                <span class="post-related-date">Dec 2025</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

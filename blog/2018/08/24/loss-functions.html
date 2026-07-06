@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="A survey of common loss functions MSE, cross-entropy, hinge loss, with background on entropy, KL divergence, and the MLE connection.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Loss functions | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Loss functions">
+        <meta property="og:description" content="A survey of common loss functions MSE, cross-entropy, hinge loss, with background on entropy, KL divergence, and the MLE connection.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2018/08/24/loss-functions">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/loss-functions/log_loss.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Loss functions">
+        <meta name="twitter:description" content="A survey of common loss functions MSE, cross-entropy, hinge loss, with background on entropy, KL divergence, and the MLE connection.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/loss-functions/log_loss.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2018/08/24/loss-functions">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Loss functions",
+          "datePublished": "2018-08-24T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "A survey of common loss functions MSE, cross-entropy, hinge loss, with background on entropy, KL divergence, and the MLE connection.",
+          "url": "https://kharshit.github.io/blog/2018/08/24/loss-functions",
+          "image": "https://kHarshit.github.io/img/blog/loss-functions/log_loss.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Loss functions</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Aug 24, 2018</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/data-science/">Data Science</a></li>
+                
+                    <li><a href="/categories/machine-learning/">Machine Learning</a></li>
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>In machine learning, the difference between the predicted output and the actual output is used to tune the parameters of the algorithm. This error in prediction, so called loss, is a crucial part of designing a good model as it evaluates the performance of our model. For accurate predictions, one needs to minimize this loss. In neural networks, it is done using the <a href="/blog/2018/03/02/gradient-descent-the-core-of-neural-networks">gradient descent</a>. There are many types loss functions. Some of them are:</p>
+
+<h2 id="l2-loss-mean-squared-error">L2 loss (Mean-squared error)</h2>
+
+<p>Mean squared error is the most common used loss function for regression loss. It minimizes the squared difference between the predicted value and the actual value. The residual sum of squares is defined as:</p>
+
+\[RSS = \sum_{i=1}^n(y_{i} - \hat{y_i})^2\]
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="k">def</span> <span class="nf">l2_loss</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">((</span><span class="n">yhat</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span></code></pre></figure>
+
+<h2 id="l1-loss-mean-absolute-error">L1 loss (Mean-absolute error)</h2>
+
+<p>L1 loss minimized the sum of absolute error between the predicted value and the actual value.</p>
+
+\[L(y, \hat{y}) = \sum_{i=1}^n \left| y_{i} - \hat{y_i} \right|\]
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">l1_loss</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">absolute</span><span class="p">(</span><span class="n">yhat</span> <span class="o">-</span> <span class="n">y</span><span class="p">))</span></code></pre></figure>
+
+<p><em>Note:</em> L1 and L2 are also used in <a href="/blog/2018/01/12/regularization">regularization</a>. Don’t get confused.</p>
+
+<h2 id="hinge-loss">Hinge loss</h2>
+
+<p>The hinge loss is used for classification problems e.g. in case of suppport vector machines. It is defined as:</p>
+
+\[L(y, \hat{y}) = max(0, 1-\hat{y} * y)\]
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">hinge</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">yhat</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span></code></pre></figure>
+
+<h2 id="cross-entropy-log-loss">Cross-entropy (log loss)</h2>
+
+<h3 id="background-entropy">Background: Entropy</h3>
+
+<p>Before understanding cross-entropy, it helps to understand <strong>entropy</strong>, a concept from information theory introduced by Claude Shannon. Entropy measures the amount of uncertainty or surprise in a probability distribution. For a discrete random variable X with probability distribution p(x), it is defined as:</p>
+
+\[H(X) = -\sum_{x} p(x) \log p(x)\]
+
+<p>The term \(-\log p(x)\) represents the “surprise” of observing event x — the less likely an event, the more surprising it is. Entropy is the expected value of this surprise. It is high when probabilities are nearly uniform (high uncertainty) and low when the distribution is skewed (low uncertainty). For example, a fair coin has entropy of 1 bit, while a biased coin that always lands heads has zero entropy.</p>
+
+<p>Cross-entropy extends this concept to measure the difference between two distributions.</p>
+
+<h3 id="definition">Definition</h3>
+
+<p>The cross-entropy loss is used in case of classification problems for estimating the accuracy of model whose output is a probability, <code class="language-plaintext highlighter-rouge">p</code>, which lies between 0 and 1. In case of binary classification, it can be written as:</p>
+
+\[L(y) = -{(y\log(p) + (1 - y)\log(1 - p))}\]
+
+<p>For multi-class classification problems, it is:</p>
+
+\[L(y) = -\sum_{c=1}^n y_{o,c}\log(p_{o,c})\]
+
+<p>Here, <code class="language-plaintext highlighter-rouge">y</code> is a binary indicator (0 or 1) if class label <code class="language-plaintext highlighter-rouge">c</code> is the correct classification for observation <code class="language-plaintext highlighter-rouge">o</code> and <code class="language-plaintext highlighter-rouge">p</code> is predicted probability observation s.t. <code class="language-plaintext highlighter-rouge">o</code> is of class <code class="language-plaintext highlighter-rouge">c</code>.</p>
+
+<p><img src="/img/blog/loss-functions/log_loss.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">multiply</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="n">p</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="nf">multiply</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">y</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)))</span></code></pre></figure>
+
+<h3 id="relationship-to-kl-divergence">Relationship to KL Divergence</h3>
+
+<p>Cross-entropy is closely related to the <strong>Kullback-Leibler (KL) divergence</strong>, which quantifies the information lost when distribution Q is used to approximate another distribution P:</p>
+
+\[D_{KL}(P \parallel Q) = H(P, Q) - H(P)\]
+
+<p>where \(H(P, Q)\) is the cross-entropy and \(H(P)\) is the entropy of the true distribution. Since \(H(P)\) is constant for a fixed dataset, <strong>minimizing cross-entropy is equivalent to minimizing the KL divergence</strong> between the true and predicted distributions. KL divergence is non-negative and non-symmetric; it equals zero only when \(P = Q\).</p>
+
+<h3 id="connection-to-maximum-likelihood-estimation">Connection to Maximum Likelihood Estimation</h3>
+
+<p>Minimizing cross-entropy is equivalent to maximizing the log-likelihood of the data under a Bernoulli (binary) or multinomial (multi-class) model. The negative log-likelihood for a Bernoulli distribution is exactly the binary cross-entropy loss:</p>
+
+\[\theta_{MLE} = \arg\max_{\theta} \log L(\theta \mid x) \equiv \arg\min_{\theta} \text{CE Loss}\]
+
+<p>This gives cross-entropy a solid statistical foundation. It is the loss function that yields the <strong>Maximum Likelihood Estimate</strong> of the model parameters.</p>
+
+<p>For a detailed example using <em>log loss</em>, check logistic regression implementation on GitHub: <a href="https://github.com/kHarshit/ML-py/blob/master/logistic_regression.ipynb">kHarshit/ML-py</a>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The choice of loss function depends on the class of problem (regression / classification) as well as is sometimes specific to the problem.</p>
+
+<p><strong>References:</strong></p>
+
+<ol>
+  <li><a href="https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html">Loss functions - ML cheatsheet</a></li>
+  <li><a href="http://www.chioka.in/differences-between-l1-and-l2-as-loss-function-and-regularization/">Differences between L1 and L2 as Loss Function and Regularization</a></li>
+  <li><a href="http://neuralnetworksanddeeplearning.com/chap3.html#the_cross-entropy_cost_function">Neural Networks and Deep Learning</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2018-08-24-loss-functions.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2018/08/17/optimizers">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Optimizers</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2018/09/07/skip-connections-and-residual-blocks">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Skip connections and Residual blocks</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2018/12/07/loss-vs-accuracy">
+                
+                <span class="post-related-thumb"><img src="/img/blog/loss-vs-accuracy/lossVsAccuracy.png" alt="Loss vs Accuracy" loading="lazy"></span>
+                
+                <span class="post-related-title">Loss vs Accuracy</span>
+                <span class="post-related-date">Dec 2018</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2018/08/17/optimizers">
+                
+                <span class="post-related-thumb"><img src="/img/blog/optimizers/local_minima.png" alt="Optimizers" loading="lazy"></span>
+                
+                <span class="post-related-title">Optimizers</span>
+                <span class="post-related-date">Aug 2018</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2018/08/03/methods-of-hyperparameter-optimization">
+                
+                <span class="post-related-thumb"><img src="/img/blog/methods-of-hyperparameter-optimization/gridsearchbad.jpeg" alt="Methods of Hyperparameter optimization" loading="lazy"></span>
+                
+                <span class="post-related-title">Methods of Hyperparameter optimization</span>
+                <span class="post-related-date">Aug 2018</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

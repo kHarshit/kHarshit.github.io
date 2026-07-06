@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Implementing matrix multiplication in CUDA from a naive CPU baseline to GPU-accelerated versions using tiled shared memory for deep learning workloads.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Matrix Multiplication in CUDA | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Matrix Multiplication in CUDA">
+        <meta property="og:description" content="Implementing matrix multiplication in CUDA from a naive CPU baseline to GPU-accelerated versions using tiled shared memory for deep learning workloads.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2024/06/07/matrix-multiplication-cuda">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/matrix-multiplication-cuda/cuda_matmul_naive.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Matrix Multiplication in CUDA">
+        <meta name="twitter:description" content="Implementing matrix multiplication in CUDA from a naive CPU baseline to GPU-accelerated versions using tiled shared memory for deep learning workloads.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/matrix-multiplication-cuda/cuda_matmul_naive.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2024/06/07/matrix-multiplication-cuda">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Matrix Multiplication in CUDA",
+          "datePublished": "2024-06-07T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Implementing matrix multiplication in CUDA from a naive CPU baseline to GPU-accelerated versions using tiled shared memory for deep learning workloads.",
+          "url": "https://kharshit.github.io/blog/2024/06/07/matrix-multiplication-cuda",
+          "image": "https://kHarshit.github.io/img/blog/matrix-multiplication-cuda/cuda_matmul_naive.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Matrix Multiplication in CUDA</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Jun 7, 2024</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      21 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/cuda/">CUDA</a></li>
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+                    <li><a href="/categories/generative-ai/">Generative AI</a></li>
+                
+                    <li><a href="/categories/llm/">LLM</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>Matrix multiplication is at the heart of deep learning. In this evolving world of LLMs, the need for fast and efficient matrix multiplications is paramount. Nvidia CUDA allows you to perform matrix operations on GPU in a faster way.</p>
+
+<p>CUDA (Compute Unified Device Architecture) is a parallel computing platform and application programming interface (API) model. CUDA programming model provides an abstraction of GPU architecture (API for GPUs).</p>
+
+<p>In this blog post, we will explore how to implement matrix multiplication using CUDA. We will start with a naive implementation on the CPU and then demonstrate how to significantly speed up the process using CUDA.</p>
+
+<h2 id="naive-c-implementation-on-cpu">Naive C++ Implementation on CPU</h2>
+
+<p>Since in most hardwares, matrices are stored in row-major format, let’s define our 2d matrices as row-major 1d arrays.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Matrix</span> 
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">height</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">width</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">elements</span><span class="p">;</span> <span class="c1">// height x width</span>
+    <span class="c1">// you can also use std::vector&lt;float&gt; elements for automatic memory management</span>
+<span class="p">};</span></code></pre></figure>
+
+<p>Matrix multiplication for computing each element of matrix <code class="language-plaintext highlighter-rouge">C</code> from matrices <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">B</code> can be written as follows:</p>
+
+\[C_{i,j} = \sum_{k=0}^{K-1} A_{i,k} \times B_{k,j}\]
+
+<p>where <code class="language-plaintext highlighter-rouge">i</code> and <code class="language-plaintext highlighter-rouge">j</code> are the row and column indices of the resulting matrix <code class="language-plaintext highlighter-rouge">C</code> and <code class="language-plaintext highlighter-rouge">k</code> is the index used for the summation over the common dimension.</p>
+
+<div style="text-align: center">
+<figure>
+<img src="/img/blog/matrix-multiplication-cuda/cuda_matmul_naive.png" style="display: block; margin: auto;  max-width: 55%;" />
+<figcaption>Naive matmul (source: Nvidia CUDA docs)</figcaption>
+</figure>
+</div>
+
+<p>Our naive matrix multplication in C++ on CPU is:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">matMulCPU</span><span class="p">(</span><span class="k">const</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">A</span><span class="p">,</span> <span class="k">const</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">B</span><span class="p">,</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">C</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">height</span><span class="p">;</span> <span class="o">++</span><span class="n">row</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">B</span><span class="p">.</span><span class="n">width</span><span class="p">;</span> <span class="o">++</span><span class="n">col</span><span class="p">)</span> 
+        <span class="p">{</span>
+            <span class="kt">float</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="c1">// C[i][j] = sum_k A[i][k] * B[k][j]</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">width</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> 
+                <span class="n">cValue</span> <span class="o">+=</span> <span class="n">A</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">row</span> <span class="o">*</span> <span class="n">A</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">k</span> <span class="o">*</span> <span class="n">B</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">col</span><span class="p">];</span>
+            <span class="n">C</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">row</span> <span class="o">*</span> <span class="n">C</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">cValue</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We can use the below <code class="language-plaintext highlighter-rouge">main()</code> function to call our <code class="language-plaintext highlighter-rouge">matMulCPU()</code> and measure its performance.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="c1">// Function to initialize a matrix with random values</span>
+<span class="kt">void</span> <span class="nf">initializeMatrix</span><span class="p">(</span><span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">mat</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">mat</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">mat</span><span class="p">.</span><span class="n">width</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> 
+        <span class="n">mat</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="mi">100</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> 
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">M</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span> <span class="c1">// Rows of A and C</span>
+    <span class="kt">int</span> <span class="n">K</span> <span class="o">=</span> <span class="mi">768</span><span class="p">;</span> <span class="c1">// Columns of A and rows of B</span>
+    <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span> <span class="c1">// Columns of B and C </span>
+
+    <span class="c1">// Allocate matrices A, B, and C</span>
+    <span class="n">Matrix</span> <span class="n">A</span> <span class="o">=</span> <span class="p">{</span><span class="n">M</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="k">new</span> <span class="kt">float</span><span class="p">[</span><span class="n">M</span> <span class="o">*</span> <span class="n">K</span><span class="p">]};</span> <span class="c1">// 1024x768</span>
+    <span class="n">Matrix</span> <span class="n">B</span> <span class="o">=</span> <span class="p">{</span><span class="n">K</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="k">new</span> <span class="kt">float</span><span class="p">[</span><span class="n">K</span> <span class="o">*</span> <span class="n">N</span><span class="p">]};</span> <span class="c1">// 768x1024 </span>
+    <span class="n">Matrix</span> <span class="n">C</span> <span class="o">=</span> <span class="p">{</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="k">new</span> <span class="kt">float</span><span class="p">[</span><span class="n">M</span> <span class="o">*</span> <span class="n">N</span><span class="p">]};</span> <span class="c1">// 1024x1024</span>
+
+    <span class="c1">// Initialize matrices A and B with random values</span>
+    <span class="n">initializeMatrix</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
+    <span class="n">initializeMatrix</span><span class="p">(</span><span class="n">B</span><span class="p">);</span>
+
+    <span class="c1">// Measure the time taken for matrix multiplication on the CPU</span>
+    <span class="k">auto</span> <span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+    <span class="n">matMulCPU</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"CPU matrix multiplication time: "</span> <span class="o">&lt;&lt;</span> <span class="n">duration</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1000.0f</span> <span class="o">&lt;&lt;</span> <span class="s">" ms"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+    <span class="c1">// Clean up memory</span>
+    <span class="k">delete</span><span class="p">[]</span> <span class="n">A</span><span class="p">.</span><span class="n">elements</span><span class="p">;</span>
+    <span class="k">delete</span><span class="p">[]</span> <span class="n">B</span><span class="p">.</span><span class="n">elements</span><span class="p">;</span>
+    <span class="k">delete</span><span class="p">[]</span> <span class="n">C</span><span class="p">.</span><span class="n">elements</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="naive-cuda-kernel">Naive CUDA Kernel</h2>
+
+<p>In CUDA, we define a CUDA kernel, which is a function (e.g. C++ function) executed by CUDA.</p>
+
+<p>In CUDA programming model, there is a three-level hierarchy. The threads are the smallest unit of execution. These threads are grouped into a CUDA thread block. CUDA blocks are grouped into arrays called grids. The kernel is written from the perspective of a single thread in CUDA. Thus, a kernel is executed as a grid of blocks of threads.</p>
+
+<div style="text-align: center">
+<figure>
+<img src="/img/blog/matrix-multiplication-cuda/cuda_thread_grid.png" style="display: block; margin: auto;  max-width: 55%;" />
+<figcaption>CUDA grid of thread blocks (source: Nvidia CUDA docs)</figcaption>
+</figure>
+</div>
+
+<p>On a CPU, matrix multiplication is typically performed sequentially, where each element of the output matrix is computed one after another. This process can be slow for large matrices due to the limited number of CPU cores available for parallel execution. In contrast, the GPU excels at parallel processing. A CUDA kernel is executed by many threads running simultaneously, allowing for significant speedup in computations like matrix multiplication. The GPU’s architecture enables it to handle thousands of threads concurrently, making it well-suited for tasks with high levels of parallelism.</p>
+
+<p>Let’s re-write the above matrix multiplication code in CUDA. We use <code class="language-plaintext highlighter-rouge">__global__</code> keyword to define a CUDA kernel.  Here, we assign a thread for calculation of each element of output matrix C. And, multiple such threads are run in parallel. Each thread reads one row of A and one column of B to compute one element of C.</p>
+
+<p>Threads and blocks are indexed using the built-in 3D variable <code class="language-plaintext highlighter-rouge">threadIdx</code> and <code class="language-plaintext highlighter-rouge">blockIdx</code>. The <code class="language-plaintext highlighter-rouge">blockDim</code> gives the dimension of thread block. We can access index using dot attribute e.g. <code class="language-plaintext highlighter-rouge">threadIdx.x, threadIdx.y, and threadIdx.z</code>. Thus, for 2d thread block, we can access particular element of C using a combination of these as shown in below code.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">matMulNaiveKernel</span><span class="p">(</span><span class="n">Matrix</span> <span class="n">A</span><span class="p">,</span> <span class="n">Matrix</span> <span class="n">B</span><span class="p">,</span> <span class="n">Matrix</span> <span class="n">C</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+    <span class="c1">// Each thread accumulates one element of C by accumulating results into cValue</span>
+    <span class="kt">float</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// C[i][j] = sum_k A[i][k] * B[k][j]</span>
+    <span class="c1">// Iterates over common dimensions of A and B (k = A.width = B.height)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">row</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">height</span> <span class="o">&amp;&amp;</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">B</span><span class="p">.</span><span class="n">width</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">width</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">cValue</span> <span class="o">+=</span> <span class="n">A</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">row</span> <span class="o">*</span> <span class="n">A</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">k</span> <span class="o">*</span> <span class="n">B</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">col</span><span class="p">];</span>
+        <span class="n">C</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">row</span> <span class="o">*</span> <span class="n">C</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">cValue</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We create a 16x16 thread block (256 threads with 16 each in x and y-direction). We define <code class="language-plaintext highlighter-rouge">(B.width/BLOCK_SIZE, A.height/BLOCK_SIZE)</code> blocks per grid. Extra operations below is to take care of the last tile if size isn’t perfectly divisible.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#define BLOCK_SIZE 16
+</span><span class="n">dim3</span> <span class="nf">threadsPerBlock</span><span class="p">(</span><span class="n">BLOCK_SIZE</span><span class="p">,</span> <span class="n">BLOCK_SIZE</span><span class="p">);</span>
+<span class="n">dim3</span> <span class="nf">blocksPerGrid</span><span class="p">((</span><span class="n">B</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">threadsPerBlock</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">threadsPerBlock</span><span class="p">.</span><span class="n">x</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">threadsPerBlock</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">threadsPerBlock</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+<span class="n">runKernel</span><span class="p">(</span><span class="n">matMulNaiveKernel</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">blocksPerGrid</span><span class="p">,</span> <span class="n">threadsPerBlock</span><span class="p">);</span></code></pre></figure>
+
+<p>This kernel is called with device (gpu) matrices <code class="language-plaintext highlighter-rouge">A</code>, <code class="language-plaintext highlighter-rouge">B</code>, and <code class="language-plaintext highlighter-rouge">C</code> as follows:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">blocksPerGrid</span><span class="p">,</span> <span class="n">threadsPerBlock</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">d_A</span><span class="p">,</span> <span class="n">d_B</span><span class="p">,</span> <span class="n">d_C</span><span class="p">);</span></code></pre></figure>
+
+<p>This setup ensures that the CUDA kernel efficiently processes the entire matrix by dividing the workload among the available threads and blocks.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/cuda_block_mapper.js"></script>
+
+<div id="cuda-block-mapper" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-cuda-block-mapper">Interactive: Thread Block Mapper</h3>
+  </div>
+  <div class="dt-widget-body">
+    <p style="font-size:0.85rem;color:var(--font-color,#666);margin-bottom:14px;">
+      Each thread computes one output element. The index formula: <code>row = blockIdx.y × blockDim.y + threadIdx.y</code>, <code>col = blockIdx.x × blockDim.x + threadIdx.x</code>.
+    </p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center;">
+      <div class="dt-control-group" style="flex:0 0 180px;margin:0;">
+        <span class="dt-label-text" style="flex:0 0 50px;">Block X</span>
+        <select class="cbm-block-x" style="flex:1;padding:5px 6px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:0.8rem;background:var(--bg-color,#fff);color:var(--font-color,#333);">
+          <option value="4">4</option>
+          <option value="8" selected="">8</option>
+          <option value="16">16</option>
+          <option value="32">32</option>
+        </select>
+      </div>
+      <div class="dt-control-group" style="flex:0 0 180px;margin:0;">
+        <span class="dt-label-text" style="flex:0 0 50px;">Block Y</span>
+        <select class="cbm-block-y" style="flex:1;padding:5px 6px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:0.8rem;background:var(--bg-color,#fff);color:var(--font-color,#333);">
+          <option value="4">4</option>
+          <option value="8" selected="">8</option>
+          <option value="16">16</option>
+          <option value="32">32</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:280px;overflow-x:auto;">
+        <svg class="cbm-grid-svg" width="100%" style="display:block;margin:0 auto;"></svg>
+      </div>
+      <div style="flex:0 0 180px;">
+        <div style="font-size:0.82rem;font-weight:600;color:var(--font-color,#555);margin-bottom:8px;">Thread Info</div>
+        <div class="cbm-thread-info" style="font-size:0.82rem;color:var(--font-color,#555);padding:10px;background:var(--bg-color,#f8fafc);border:1px solid #e2e8f0;border-radius:8px;min-height:100px;">
+          Click a cell to see thread details.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    A 16×16 block of threads maps to a contiguous 16×16 tile of C. <code>blockIdx</code> indexes which tile. Changing block dimensions changes how the grid of blocks covers the output matrix.
+  </div>
+</div>
+
+<p>The visualization below shows the same block-and-thread hierarchy in 3D; each block is a cluster of thread spheres, and you can explore the full <code class="language-plaintext highlighter-rouge">gridDim × blockDim</code> structure interactively.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<style>
+#cg-container {
+  width: 100%;
+  height: 520px;
+  position: relative;
+  background: var(--bg-color, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: grab;
+}
+#cg-container:active { cursor: grabbing; }
+#cg-container canvas { display: block; }
+.cg-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 12px;
+  flex-wrap: wrap;
+}
+.cg-control-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.cg-control-group label {
+  font-size: 12px;
+  color: var(--font-color, #888);
+}
+.cg-control-group input[type=range] {
+  width: 80px;
+  accent-color: #20B2AA;
+  height: 4px;
+}
+.cg-info {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  display: none;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+  font-family: sans-serif;
+}
+.cg-info .cg-tt-label {
+  font-weight: 600;
+  font-size: 14px;
+}
+.cg-info .cg-tt-detail {
+  opacity: 0.8;
+  font-size: 12px;
+}
+.cg-legend {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  flex-wrap: wrap;
+  font-size: 11px;
+}
+.cg-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+</style>
+
+<script>
+(function() {
+  if (document.querySelector('script[type="importmap"]')) return;
+  var im = document.createElement('script');
+  im.type = 'importmap';
+  im.textContent = JSON.stringify({
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  });
+  document.head.appendChild(im);
+})();
+</script>
+
+<script type="module" src="/js/interactive/3d_cuda_grid.js"></script>
+
+<div id="widget-cuda-grid" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-3d-cuda-grid">Interactive: 3D CUDA Thread Grid</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div id="cg-container">
+      <div id="cg-info" class="cg-info"></div>
+    </div>
+    <div class="cg-controls">
+      <div class="cg-control-group">
+        <label for="cg-slider-gx">Grid X</label>
+        <input type="range" id="cg-slider-gx" min="1" max="4" value="3" step="1" />
+        <span id="cg-slider-gx-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">3</span>
+      </div>
+      <div class="cg-control-group">
+        <label for="cg-slider-gy">Grid Y</label>
+        <input type="range" id="cg-slider-gy" min="1" max="4" value="2" step="1" />
+        <span id="cg-slider-gy-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">2</span>
+      </div>
+      <div class="cg-control-group">
+        <label for="cg-slider-gz">Grid Z</label>
+        <input type="range" id="cg-slider-gz" min="1" max="2" value="2" step="1" />
+        <span id="cg-slider-gz-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">2</span>
+      </div>
+      <div class="cg-control-group">
+        <label for="cg-slider-bx">Block X</label>
+        <input type="range" id="cg-slider-bx" min="1" max="6" value="4" step="1" />
+        <span id="cg-slider-bx-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">4</span>
+      </div>
+      <div class="cg-control-group">
+        <label for="cg-slider-by">Block Y</label>
+        <input type="range" id="cg-slider-by" min="1" max="6" value="3" step="1" />
+        <span id="cg-slider-by-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">3</span>
+      </div>
+      <div class="cg-control-group">
+        <label for="cg-slider-bz">Block Z</label>
+        <input type="range" id="cg-slider-bz" min="1" max="2" value="2" step="1" />
+        <span id="cg-slider-bz-val" style="color:#20B2AA;font-weight:600;min-width:18px;font-size:13px;">2</span>
+      </div>
+    </div>
+    <div id="cg-legend" class="cg-legend"></div>
+    <div style="text-align:center;color:#888;font-size:12px;padding:4px 12px 8px;">
+      Drag to orbit &bull; Click a thread to see its indices &bull; Adjust sliders to change dimensions
+    </div>
+  </div>
+</div>
+
+<p>To execute CUDA program:</p>
+
+<div class="mbsteps">
+  <div class="mbstep">
+    <p>Copy the input data from host (cpu) memory to device (gpu) memory. This is called host-to-device (H2D) transfer.</p>
+  </div>
+  <div class="mbstep">
+    <p>Run CUDA kernel on data.</p>
+  </div>
+  <div class="mbstep">
+    <p>Copy the results from device memory to host memory, also called device-to-host (D2H) transfer.</p>
+  </div>
+</div>
+
+<p>We pass our kernel to the <code class="language-plaintext highlighter-rouge">runKernel()</code> function that also takes CPU matrices A and B. It copies the data from CPU to GPU, runs kernel, copy result from GPU to CPU, and return the result matrix C.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">runKernel</span><span class="p">(</span><span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="n">kernel</span><span class="p">)(</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">),</span>
+               <span class="k">const</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">A</span><span class="p">,</span> <span class="k">const</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">B</span><span class="p">,</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">C</span><span class="p">,</span>
+               <span class="n">dim3</span> <span class="n">gridDim</span><span class="p">,</span> <span class="n">dim3</span> <span class="n">blockDim</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Load matrices to device memory</span>
+    <span class="n">Matrix</span> <span class="n">d_A</span><span class="p">,</span> <span class="n">d_B</span><span class="p">,</span> <span class="n">d_C</span><span class="p">;</span>
+    <span class="kt">size_t</span> <span class="n">size_A</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">A</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>
+    <span class="kt">size_t</span> <span class="n">size_B</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">B</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>
+    <span class="kt">size_t</span> <span class="n">size_C</span> <span class="o">=</span> <span class="n">C</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">C</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>
+    <span class="n">d_A</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">width</span><span class="p">;</span> <span class="n">d_A</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+    <span class="n">d_B</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">width</span><span class="p">;</span> <span class="n">d_B</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+    <span class="n">d_C</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">C</span><span class="p">.</span><span class="n">width</span><span class="p">;</span> <span class="n">d_C</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">C</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+
+    <span class="c1">// Allocate device memory</span>
+    <span class="n">CUDA_CHECK_ERROR</span><span class="p">(</span><span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d_A</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">size_A</span><span class="p">));</span>
+    <span class="n">CUDA_CHECK_ERROR</span><span class="p">(</span><span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d_B</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">size_B</span><span class="p">));</span>
+    <span class="n">CUDA_CHECK_ERROR</span><span class="p">(</span><span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d_C</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">size_C</span><span class="p">));</span>
+
+    <span class="c1">// Copy A, B to device memory</span>
+    <span class="n">CUDA_CHECK_ERROR</span><span class="p">(</span><span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">d_A</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">A</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">size_A</span><span class="p">,</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">));</span>
+    <span class="n">CUDA_CHECK_ERROR</span><span class="p">(</span><span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">d_B</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">size_B</span><span class="p">,</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">));</span>
+
+    <span class="k">auto</span> <span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+
+    <span class="c1">// Launch kernel</span>
+    <span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">gridDim</span><span class="p">,</span> <span class="n">blockDim</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">d_A</span><span class="p">,</span> <span class="n">d_B</span><span class="p">,</span> <span class="n">d_C</span><span class="p">);</span>
+
+    <span class="c1">// Synchronize device memory</span>
+    <span class="n">CUDA_CHECK_ERROR</span><span class="p">(</span><span class="n">cudaDeviceSynchronize</span><span class="p">());</span>
+
+    <span class="k">auto</span> <span class="n">end</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Kernel execution time: "</span> <span class="o">&lt;&lt;</span> <span class="n">duration</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1000.0f</span> <span class="o">&lt;&lt;</span> <span class="s">" ms"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+    <span class="c1">// Copy C from device memory to host memory</span>
+    <span class="n">CUDA_CHECK_ERROR</span><span class="p">(</span><span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">d_C</span><span class="p">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">size_C</span><span class="p">,</span> <span class="n">cudaMemcpyDeviceToHost</span><span class="p">));</span>
+
+    <span class="c1">// Free device memory</span>
+    <span class="n">CUDA_CHECK_ERROR</span><span class="p">(</span><span class="n">cudaFree</span><span class="p">(</span><span class="n">d_A</span><span class="p">.</span><span class="n">elements</span><span class="p">));</span>
+    <span class="n">CUDA_CHECK_ERROR</span><span class="p">(</span><span class="n">cudaFree</span><span class="p">(</span><span class="n">d_B</span><span class="p">.</span><span class="n">elements</span><span class="p">));</span>
+    <span class="n">CUDA_CHECK_ERROR</span><span class="p">(</span><span class="n">cudaFree</span><span class="p">(</span><span class="n">d_C</span><span class="p">.</span><span class="n">elements</span><span class="p">));</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>And, we call <code class="language-plaintext highlighter-rouge">runKernel()</code> function in above defined <code class="language-plaintext highlighter-rouge">main()</code> function.</p>
+
+<h2 id="cuda-shared-memory-kernel">CUDA Shared Memory Kernel</h2>
+
+<p>The previous CUDA kernel uses DRAM, but we can optimize performance by leveraging the GPU’s shared memory. Shared memory is faster but has limited capacity, so we cannot load entire matrices at once. Instead, we divide the matrices into smaller sub-matrices, or tiles, that fit into shared memory.</p>
+
+<div style="text-align: center">
+<figure>
+<img src="/img/blog/matrix-multiplication-cuda/cuda_matmul_sharedmem.png" style="display: block; margin: auto;  max-width: 55%;" />
+<figcaption>Shared memory matmul (source: Nvidia CUDA docs)</figcaption>
+</figure>
+</div>
+
+<p>Shared memory is allocated per thread block, allowing threads within the same block to communicate efficiently. Each thread block is responsible for computing one square sub-matrix \(C_{sub}\) of <code class="language-plaintext highlighter-rouge">C</code> by loading tiles of input matrices <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">B</code> from global memory to shared memory. Each thread within the block computes a single element of \(C_{sub}\) by iterating over the corresponding elements in the shared memory tiles, accumulating the results of the products. Finally, each thread writes its computed value to the appropriate position in global memory.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#define TILE_SIZE 16
+</span>
+<span class="c1">// Kernel for matrix multiplication using tiling and shared memory</span>
+<span class="n">__global__</span> <span class="kt">void</span> <span class="nf">matMulSharedMemoryKernel</span><span class="p">(</span><span class="n">Matrix</span> <span class="n">A</span><span class="p">,</span> <span class="n">Matrix</span> <span class="n">B</span><span class="p">,</span> <span class="n">Matrix</span> <span class="n">C</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Shared memory for tiles of A and B</span>
+    <span class="n">__shared__</span> <span class="kt">float</span> <span class="n">shared_A</span><span class="p">[</span><span class="n">TILE_SIZE</span><span class="p">][</span><span class="n">TILE_SIZE</span><span class="p">];</span>
+    <span class="n">__shared__</span> <span class="kt">float</span> <span class="n">shared_B</span><span class="p">[</span><span class="n">TILE_SIZE</span><span class="p">][</span><span class="n">TILE_SIZE</span><span class="p">];</span>
+
+    <span class="c1">// Calculate the global row and column index of the element</span>
+    <span class="kt">int</span> <span class="n">globalRow</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">globalCol</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+    <span class="kt">float</span> <span class="n">Cvalue</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+
+    <span class="c1">// Thread row and column within Csub</span>
+    <span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+    <span class="c1">// Loop over the tiles of the input matrices</span>
+    <span class="c1">// A.width/TILE_SIZE and B.height/TILE_SIZE; take care of the last tile</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="o">++</span><span class="n">m</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Load elements of A into shared memory</span>
+        <span class="c1">// if shared memory defined using 1d array, we'd have used shared_A[row * TILE_SIZE + col]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">row</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">height</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">col</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">width</span><span class="p">)</span> 
+        <span class="p">{</span>
+            <span class="n">shared_A</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">globalRow</span> <span class="o">*</span> <span class="n">A</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">col</span><span class="p">];</span>
+        <span class="p">}</span> <span class="k">else</span> 
+        <span class="p">{</span>
+            <span class="c1">// When matrix dimensions are not exact multiples of the tile size,</span>
+            <span class="c1">// some threads in the last blocks might access elements outside</span>
+            <span class="c1">// the matrix boundaries. By setting out-of-bounds elements to zero,</span>
+            <span class="c1">// we ensure that these threads do not contribute invalid values to final result.</span>
+            <span class="c1">// e.g. Matrix A = [100x100] and TILE_SIZE = 16</span>
+            <span class="n">shared_A</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">// Load elements of B into shared memory</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">col</span> <span class="o">&lt;</span> <span class="n">B</span><span class="p">.</span><span class="n">width</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">row</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">B</span><span class="p">.</span><span class="n">height</span><span class="p">)</span> 
+        <span class="p">{</span>
+            <span class="n">shared_B</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">elements</span><span class="p">[(</span><span class="n">m</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">row</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">globalCol</span><span class="p">];</span>
+        <span class="p">}</span> <span class="k">else</span> 
+        <span class="p">{</span>
+            <span class="n">shared_B</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">// Synchronize to ensure all threads have loaded their elements</span>
+        <span class="n">__syncthreads</span><span class="p">();</span>
+
+        <span class="c1">// Compute the partial result</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">TILE_SIZE</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">Cvalue</span> <span class="o">+=</span> <span class="n">shared_A</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">shared_B</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">col</span><span class="p">];</span>
+
+        <span class="c1">// Synchronize to ensure all threads have completed the computation</span>
+        <span class="n">__syncthreads</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Write the result to global memory</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">globalRow</span> <span class="o">&lt;</span> <span class="n">C</span><span class="p">.</span><span class="n">height</span> <span class="o">&amp;&amp;</span> <span class="n">globalCol</span> <span class="o">&lt;</span> <span class="n">C</span><span class="p">.</span><span class="n">width</span><span class="p">)</span>
+        <span class="n">C</span><span class="p">.</span><span class="n">elements</span><span class="p">[</span><span class="n">globalRow</span> <span class="o">*</span> <span class="n">C</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">globalCol</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cvalue</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The animation below demonstrates the tiled matmul process: tiles of A and B are cooperatively loaded into shared memory, threads compute partial products, then the next tile is loaded.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/cuda_tiled_anim.js"></script>
+
+<div id="cuda-tiled-anim" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-cuda-tiled-anim">Interactive: Tiled Matmul Animator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div style="display:flex;gap:16px;flex-direction:column;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <span class="cta-phase" style="font-size:0.9rem;font-weight:700;color:var(--font-color,#333);padding:6px 14px;background:var(--bg-color,#f0faf9);border:1.5px solid #20B2AA;border-radius:6px;"></span>
+        <span class="cta-step" style="font-size:0.82rem;color:#888;"></span>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+        <div style="text-align:center;">
+          <div style="font-size:0.78rem;font-weight:600;color:var(--font-color,#555);margin-bottom:4px;">A (global)</div>
+          <svg class="cta-matrix-a" width="180" height="180" style="display:block;"></svg>
+        </div>
+        <div style="display:flex;align-items:center;font-size:1.2rem;color:#888;font-weight:700;">×</div>
+        <div style="text-align:center;">
+          <div style="font-size:0.78rem;font-weight:600;color:var(--font-color,#555);margin-bottom:4px;">B (global)</div>
+          <svg class="cta-matrix-b" width="180" height="180" style="display:block;"></svg>
+        </div>
+        <div style="display:flex;align-items:center;font-size:1.2rem;color:#888;font-weight:700;">=</div>
+        <div style="text-align:center;">
+          <div style="font-size:0.78rem;font-weight:600;color:var(--font-color,#555);margin-bottom:4px;">C (global)</div>
+          <svg class="cta-matrix-c" width="180" height="180" style="display:block;"></svg>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+        <div style="text-align:center;">
+          <div style="font-size:0.78rem;font-weight:600;color:var(--font-color,#555);margin-bottom:4px;">A_tile (shared)</div>
+          <svg class="cta-shared-a" width="120" height="120" style="display:block;margin:0 auto;"></svg>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:0.78rem;font-weight:600;color:var(--font-color,#555);margin-bottom:4px;">B_tile (shared)</div>
+          <svg class="cta-shared-b" width="120" height="120" style="display:block;margin:0 auto;"></svg>
+        </div>
+      </div>
+      <div class="cta-step-bar" style="display:flex;justify-content:center;gap:6px;margin:10px 0 8px;"></div>
+      <div class="ar-controls">
+        <button class="ar-btn ar-btn-secondary cta-back-btn" disabled="">Back</button>
+        <button class="ar-btn ar-btn-primary cta-next-btn">Next</button>
+        <button class="ar-btn ar-btn-secondary cta-reset-btn">Reset</button>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Tiled matmul: each thread block loads a tile of A and B into shared memory, computes partial products (Csub += A_tile × B_tile), then loads the next tile. <code>__syncthreads()</code> ensures all threads finish loading before computing.
+  </div>
+</div>
+
+<p>We can call our kernel as follows:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">dim3</span> <span class="nf">blockDim</span><span class="p">(</span><span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">);</span>
+<span class="n">dim3</span> <span class="nf">gridDim</span><span class="p">((</span><span class="n">C</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">TILE_SIZE</span><span class="p">);</span>
+<span class="n">runKernel</span><span class="p">(</span><span class="n">matMulSharedMemoryKernel</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">gridDim</span><span class="p">,</span> <span class="n">blockDim</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="cuda-matrix-multiplication-comparison">CUDA Matrix Multiplication Comparison</h2>
+
+<p>The kernel execution time of above kernels on Tesla T4 on google colab is as follows.</p>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th style="text-align: center">Execution Time (ms)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C++ CPU matrix multiplication</td>
+      <td style="text-align: center">8554.51</td>
+    </tr>
+    <tr>
+      <td>Naive CUDA kernel</td>
+      <td style="text-align: center">7.08397</td>
+    </tr>
+    <tr>
+      <td>Shared memory CUDA kernel</td>
+      <td style="text-align: center">4.42471</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The CUDA parallelism significantly improves the CPU computation time. The shared memory kernel achieves the fastest execution time.</p>
+
+<p>The full code is availble at <a href="https://github.com/kHarshit/cuda-programming">https://github.com/kHarshit/cuda-programming</a></p>
+
+<h2 id="further-optimization">Further Optimization</h2>
+
+<p>There are other ways to optimize the CUDA matrix multplication kernel further, such as:</p>
+
+<ol>
+  <li><strong>Using Register Blocking:</strong> This technique involves utilizing the register file to hold smaller sub-blocks of the matrices, reducing the number of accesses to shared memory.</li>
+  <li><strong>Loop Unrolling:</strong> By unrolling loops, you can decrease the overhead of loop control instructions and increase the efficiency of the computation.</li>
+  <li><strong>Occupancy Optimization:</strong> Tuning the number of threads per block and the size of the blocks to achieve the highest possible occupancy on the GPU.</li>
+  <li><strong>Prefetching:</strong> Loading data into shared memory or registers ahead of time to hide memory latency.</li>
+  <li><strong>Asynchronous Memory Operations:</strong> Using CUDA streams and <code class="language-plaintext highlighter-rouge">cudaMemcpyAsync</code> to overlap computation and data transfer, further reducing idle times.</li>
+  <li><strong>Low Precision:</strong> Using half-precision (FP16) or mixed-precision (FP16/FP32) arithmetic can improve performance on supported GPUs.</li>
+</ol>
+
+<p>By combining these advanced optimization techniques with shared memory, you can achieve even greater performance gains for matrix multiplication on CUDA-enabled GPUs.</p>
+
+<section>
+	<script>
+    var all_questions = [{
+      question_string: "In the context of CUDA programming, what is a kernel?",
+      choices: {
+        correct: "A function executed on the GPU",
+        wrong: ["A small piece of hardware in the GPU", "A type of memory in the GPU", "A special type of thread"]
+      }
+    }, {
+      question_string: "In our CUDA matrix multiplication, what does each thread compute?",
+      choices: {
+        correct: "A single element of the resulting matrix C",
+        wrong: ["A row of the resulting matrix C", "A column of the resulting matrix C", "The entire resulting matrix C"]
+      }
+    }, {
+      question_string: "How are threads organized in CUDA?",
+      choices: {
+        correct: "Threads are organized into blocks, which are further organized into grids.",
+        wrong: ["Threads are organized directly into grids.", "Threads are organized into matrices.", "Threads are organized into lists."]
+      }
+    }, {
+      question_string: "What does the cudaDeviceSynchronize() function do?",
+      choices: {
+        correct: "It blocks the CPU until all previous CUDA calls are complete.",
+        wrong: ["It allocates shared memory.", "It synchronizes threads within a block.", "It frees device memory."]
+      }
+    }];
+</script>
+<link rel="stylesheet" href="/css/quiz.css" />
+<div id="quiz">
+  <div class="quiz-header">
+    <h2 class="quiz-title" id="test-your-knowledge">QUIZ: Test Your Knowledge</h2>
+    <div class="quiz-progress">
+      <span class="quiz-progress-text"></span>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="quiz-question-area">
+    <p class="quiz-question-text"></p>
+    <div class="quiz-options"></div>
+  </div>
+
+  <div class="quiz-footer">
+    <button class="quiz-btn quiz-btn-secondary" id="prev-btn">&#8592; Prev</button>
+    <div class="quiz-footer-right">
+      <button class="quiz-btn quiz-btn-outline" id="check-btn" style="display:none">Submit</button>
+      <button class="quiz-btn quiz-btn-primary" id="next-btn">Next &#8594;</button>
+      <button class="quiz-btn quiz-btn-primary" id="finish-btn" style="display:none">Finish</button>
+    </div>
+  </div>
+
+  <div class="quiz-results" style="display:none">
+    <div class="quiz-results-emoji"></div>
+    <p class="quiz-results-message"></p>
+    <p class="quiz-results-score"></p>
+    <button class="quiz-btn quiz-btn-secondary" id="retake-btn">&#8635; Retake Quiz</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/js/quiz/quiz.js"></script>
+</div>
+
+	 
+</section>
+
+<p><strong>References</strong></p>
+<ul>
+  <li><a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/#compute-capability">Nvidia CUDA Docs (also image source)</a></li>
+  <li><a href="https://siboehm.com/articles/22/CUDA-MMM">Really good blog post on CUDA matrix multiplication</a></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2024-06-07-matrix-multiplication-cuda.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2024/04/26/rag-financial-reports-llm">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/vision-language-models/">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Vision Language Models (VLM)</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/frontier-ai-models-evaluation-benchmarks/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/llm-benchmarks/benchmark_timeline.svg" alt="Frontier AI Models Evaluation Benchmarks" loading="lazy"></span>
+                
+                <span class="post-related-title">Frontier AI Models Evaluation Benchmarks</span>
+                <span class="post-related-date">Jun 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/introduction-to-model-context-protocol-mcp/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg" alt="Introduction to Model Context Protocol (MCP)" loading="lazy"></span>
+                
+                <span class="post-related-title">Introduction to Model Context Protocol (MCP)</span>
+                <span class="post-related-date">Feb 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/evaluation-metrics-for-large-language-models/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg" alt="Evaluation Metrics for Large Language Models" loading="lazy"></span>
+                
+                <span class="post-related-title">Evaluation Metrics for Large Language Models</span>
+                <span class="post-related-date">Dec 2025</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

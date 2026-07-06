@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="The fundamentals of Automatic Speech Recognition (ASR), acoustic models, Hidden Markov Models, and how Bayes' rule drives decoding.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Introduction to Automatic Speech Recognition | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Introduction to Automatic Speech Recognition">
+        <meta property="og:description" content="The fundamentals of Automatic Speech Recognition (ASR), acoustic models, Hidden Markov Models, and how Bayes' rule drives decoding.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2019/04/19/introduction-to-automatic-speech-recognition">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/introduction-to-automatic-speech-recognition/asr.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Introduction to Automatic Speech Recognition">
+        <meta name="twitter:description" content="The fundamentals of Automatic Speech Recognition (ASR), acoustic models, Hidden Markov Models, and how Bayes' rule drives decoding.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/introduction-to-automatic-speech-recognition/asr.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2019/04/19/introduction-to-automatic-speech-recognition">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Introduction to Automatic Speech Recognition",
+          "datePublished": "2019-04-19T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "The fundamentals of Automatic Speech Recognition (ASR), acoustic models, Hidden Markov Models, and how Bayes' rule drives decoding.",
+          "url": "https://kharshit.github.io/blog/2019/04/19/introduction-to-automatic-speech-recognition",
+          "image": "https://kHarshit.github.io/img/blog/introduction-to-automatic-speech-recognition/asr.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Introduction to Automatic Speech Recognition</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Apr 19, 2019</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/speech-recognition/">Speech Recognition</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>The Automatic Speech Recognition (ASR) systems are widely used nowadays. Some of the most notable uses include Siri, Alexa Google Assistant, Cortana, etc. Let’s understand the fundamentals of ASR.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Hidden Markov Models (HMM) can be used for ASR. The HMM based recognizer consists of two key components, feature extractor, and decoder.</p>
+
+<ul>
+  <li>First, in <em>feature extraction</em>, the input audio signal is converted into a sequence of fixed size acoustic vectors \(Y = y_1, \dots, y_t\).</li>
+  <li>The <em>decoder</em> then finds the sequence of words \(w = w_1, \dots, w_l\) corresponding to <code class="language-plaintext highlighter-rouge">Y</code> i.e. the decoder calculates</li>
+</ul>
+
+\[\hat{\boldsymbol{w}}=\underset{\boldsymbol{w}}{\arg \max }\{P(\boldsymbol{w} | \boldsymbol{Y})\}\]
+
+<p>However, it’s difficult to model \(P(w \mid Y)\), the <a href="/blog/2018/06/08/the-bayesian-thinking-i">Bayes rule</a>  is used to transform the above equation into an equivalent one as follow:</p>
+
+\[\hat{\boldsymbol{w}}=\underset{\boldsymbol{w}}{\arg \max }\{p(\boldsymbol{Y} | \boldsymbol{w}) P(\boldsymbol{w})\}\]
+
+<p>The model that determines \(P(Y \mid w)\) is called <em>acoustic model</em> and the one that models \(P(w)\) is called a <em>language model</em>.</p>
+
+<p><img src="/img/blog/introduction-to-automatic-speech-recognition/asr.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<h2 id="feature-extraction">Feature extraction</h2>
+
+<p>The feature extraction phase deals with the representation of input signal. The Mel-frequency cepstral coefficients (MFCC) or Linear Predictive Coding (LPC) vectors can be used as acoustic vectors, <code class="language-plaintext highlighter-rouge">Y</code>.</p>
+
+<h2 id="acoustic-model">Acoustic model</h2>
+
+<p>A HMM is used to model \(P(Y \mid w)\). The extracted feature vectors from the unknown input audio signal is scored against acoustic model, the output of the model with max score is choosen as the recognized word. The Gaussian Mixture Model (GMM) can be used as the acoustic model.</p>
+
+<p>The basic unit of sound that acoustic model represents is called <em>phoneme</em> e.g. the word “bat” has three phonemes \(/ \mathrm{b} / / \mathrm{ae} / / \mathrm{t} /\). The concatenation of these phonemes, called <em>pronunciation</em>, can be used to represent any word in the English language. Thus, in order to recognize a given word, the task is to extract phonemes from input signal.</p>
+
+<p>Remember that HMM is a finite state machine that changes its state every time step. In HMM based speech recognition, it is assumed that the sequence of observed speech vectors
+corresponding to each word is generated by a Markov model. Each phoneme (basic unit) is assigned a unique HMM, with transition probability parameters \(a_{ij}\) and output observation distributions \(b()\).</p>
+
+<p><img src="/img/blog/introduction-to-automatic-speech-recognition/asr_hmm.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>For a isolated (single) word recognition, the whole process can be described as follows:</p>
+
+<p>Each word in the vocabulary has a distinct HMM, which is trained using a number of examples of that word. To recognize an unknown word, <code class="language-plaintext highlighter-rouge">O</code>, it is scored against all HMM models, \(M_{1,2,3}\) and the HMM model with the highest likelihood score is considered as corresponding model that identifies the word.</p>
+
+<p><img src="/img/blog/introduction-to-automatic-speech-recognition/asr_recognition.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>Now, we got the HMM model hence the corresponding sequence of phonemes that represent the unknown word. By looking at the <em>pronunciation dictionary</em> in a reverse way, i.e. phoneme to word, we can find the corresponding word.</p>
+
+<h2 id="language-model">Language model</h2>
+
+<p>The language model, that computes the prior probability \(P(w)\) for \(w = w_1, \ldots, w_k\), is represented as a n-gram model that models the probability i.e.</p>
+
+\[P(\boldsymbol{w})=\prod_{k=1}^{K} P\left(w_{k} | w_{k-1}, \ldots, w_{1}\right)\]
+
+<p>The n-gram probabilities are estimated from the training texts by counting n-gram occurrences. For simplicity, a bi-gram model can be used, in which the probability of a certain word depends only on its previous word i.e. \(P(w_n \mid w_{n-1})\).</p>
+
+<p>The acoustic model, decoder, and language model works together to recognize an unknown audio word or sentence.</p>
+
+<!-- ## Neural networks -->
+
+<p><strong>References:</strong></p>
+<ol>
+  <li><a href="">The Application of Hidden Markov Models in Speech Recognition</a></li>
+  <li><a href="https://www.cse.iitb.ac.in/~nirav06/i/HMM_Report.pdf">Hidden Markov Model and Speech Recognition</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2019-04-19-introduction-to-automatic-speech-recognition.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2019/04/12/data-augmentation">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Data augmentation</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2019/07/19/two-years-of-technical-fridays">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Two Years of Technical Fridays</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

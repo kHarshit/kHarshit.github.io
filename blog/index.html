@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Machine Learning Engineer specializing in deep learning, computer vision, and NLP. Technical blog and portfolio by Harshit Kumar.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Technical Fridays | Blog | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Technical Fridays | Blog | Harshit Kumar">
+        <meta property="og:description" content="Machine Learning Engineer specializing in deep learning, computer vision, and NLP. Technical blog and portfolio by Harshit Kumar.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://kharshit.github.io/blog/">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/site/harshit_nu.jpeg">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Technical Fridays | Blog | Harshit Kumar">
+        <meta name="twitter:description" content="Machine Learning Engineer specializing in deep learning, computer vision, and NLP. Technical blog and portfolio by Harshit Kumar.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/site/harshit_nu.jpeg">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/">
+
+        
+        
+
+        
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+  <div class="container">
+    <div id="branding">
+      <h1><a href="https://kHarshit.github.io">Harshit Kumar</a></h1>
+    </div>
+    <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+
+    <div class="blog-page-header">
+      <h1 class="blog-page-title">Technical Fridays | Blog</h1>
+    </div>
+
+    <p class="blog-page-desc">
+      Personal notes on machine learning, deep learning, and software engineering —
+      <a href="https://kHarshit.github.io/blog/2017/07/21/technical-fridays">what's Technical Fridays?</a>
+    </p>
+
+    <div id="post">
+      <ul class="tag-cloud" id="tag-cloud">
+        
+          <li data-count="5">
+            <a href="/categories/personal/">Personal</a>
+          </li>
+        
+          <li data-count="33">
+            <a href="/categories/data-science/">Data Science</a>
+          </li>
+        
+          <li data-count="15">
+            <a href="/categories/machine-learning/">Machine Learning</a>
+          </li>
+        
+          <li data-count="5">
+            <a href="/categories/algorithms/">Algorithms</a>
+          </li>
+        
+          <li data-count="2">
+            <a href="/categories/cryptography/">Cryptography</a>
+          </li>
+        
+          <li data-count="9">
+            <a href="/categories/mathematics/">Mathematics</a>
+          </li>
+        
+          <li data-count="1">
+            <a href="/categories/visualization/">Visualization</a>
+          </li>
+        
+          <li data-count="37">
+            <a href="/categories/deep-learning/">Deep Learning</a>
+          </li>
+        
+          <li data-count="18">
+            <a href="/categories/computer-vision/">Computer Vision</a>
+          </li>
+        
+          <li data-count="6">
+            <a href="/categories/natural-language-processing/">Natural Language Processing</a>
+          </li>
+        
+          <li data-count="10">
+            <a href="/categories/generative-ai/">Generative AI</a>
+          </li>
+        
+          <li data-count="1">
+            <a href="/categories/speech-recognition/">Speech Recognition</a>
+          </li>
+        
+          <li data-count="2">
+            <a href="/categories/cuda/">CUDA</a>
+          </li>
+        
+          <li data-count="8">
+            <a href="/categories/llm/">LLM</a>
+          </li>
+        
+          <li data-count="3">
+            <a href="/categories/agentic-ai/">Agentic AI</a>
+          </li>
+        
+      </ul>
+      <script>
+        (function() {
+          var ul = document.getElementById('tag-cloud');
+          Array.from(ul.querySelectorAll('li'))
+            .sort(function(a, b) { return b.dataset.count - a.dataset.count; })
+            .forEach(function(li) { ul.appendChild(li); });
+        })();
+      </script>
+      <hr class="tag-cloud-divider">
+    </div>
+
+    <div id="post">
+      <ul class="blog-list">
+
+        
+          
+          
+          
+          
+          
+
+          <li class="blog-list-item">
+            <a href="/blog/frontier-ai-models-evaluation-benchmarks/" title="Frontier AI Models Evaluation Benchmarks">
+              <div class="blog-list-thumb">
+                
+                  <img src="/img/blog/llm-benchmarks/benchmark_timeline.svg" alt="Frontier AI Models Evaluation Benchmarks" loading="lazy">
+                
+              </div>
+              <div class="blog-list-body">
+                
+                  <span class="blog-list-category">LLM</span>
+                
+                <h3 class="blog-list-title">Frontier AI Models Evaluation Benchmarks</h3>
+                <p class="blog-list-excerpt">A guide to frontier AI model benchmarks in 2026, covering MMLU, GPQA Diamond, HLE, SWE-bench, ARC-AGI-2, MMMU, Arena Elo, etc. What each benchmark measures, which models lead, why...</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> Jun 26, 2026</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> 27 min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+
+          <li class="blog-list-item">
+            <a href="/blog/introduction-to-model-context-protocol-mcp/" title="Introduction to Model Context Protocol (MCP)">
+              <div class="blog-list-thumb">
+                
+                  <img src="/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg" alt="Introduction to Model Context Protocol (MCP)" loading="lazy">
+                
+              </div>
+              <div class="blog-list-body">
+                
+                  <span class="blog-list-category">Agentic AI</span>
+                
+                <h3 class="blog-list-title">Introduction to Model Context Protocol (MCP)</h3>
+                <p class="blog-list-excerpt">MCP is an open-source protocol that standardizes how LLMs connect to external tools and data sources, replacing fragile custom integrations with a common interface.</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> Feb 20, 2026</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> 14 min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+
+          <li class="blog-list-item">
+            <a href="/blog/evaluation-metrics-for-large-language-models/" title="Evaluation Metrics for Large Language Models">
+              <div class="blog-list-thumb">
+                
+                  <img src="/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg" alt="Evaluation Metrics for Large Language Models" loading="lazy">
+                
+              </div>
+              <div class="blog-list-body">
+                
+                  <span class="blog-list-category">LLM</span>
+                
+                <h3 class="blog-list-title">Evaluation Metrics for Large Language Models</h3>
+                <p class="blog-list-excerpt">Walkthrough of evaluation metrics for large language models: perplexity, cross-entropy, BLEU, ROUGE, METEOR, CIDEr, BERTScore, RAG metrics, safety metrics, and LLM-as-a-judge, with equations and visualizations.</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> Dec 12, 2025</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> 17 min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+
+          <li class="blog-list-item">
+            <a href="/blog/prompt-engineering-techniques/" title="Prompt Engineering Techniques: How to Write Effective Prompts">
+              <div class="blog-list-thumb">
+                
+                  <img src="/img/blog/prompt-engineering-techniques/prompt_react_loop.svg" alt="Prompt Engineering Techniques: How to Write Effective Prompts" loading="lazy">
+                
+              </div>
+              <div class="blog-list-body">
+                
+                  <span class="blog-list-category">LLM</span>
+                
+                <h3 class="blog-list-title">Prompt Engineering Techniques: How to Write Effective Prompts</h3>
+                <p class="blog-list-excerpt">A deep-dive into prompt engineering techniques from few-shot prompting and chain-of-thought, ReAct, and prompt injections with examples.</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> Oct 10, 2025</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> 14 min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+
+          <li class="blog-list-item">
+            <a href="/blog/distributed-training/" title="Distributed Training: How to train Large Language Models (LLM)">
+              <div class="blog-list-thumb">
+                
+                  <img src="/img/blog/distributed-training/communication_primitives_point_to_point.jpg" alt="Distributed Training: How to train Large Language Models (LLM)" loading="lazy">
+                
+              </div>
+              <div class="blog-list-body">
+                
+                  <span class="blog-list-category">LLM</span>
+                
+                <h3 class="blog-list-title">Distributed Training: How to train Large Language Models (LLM)</h3>
+                <p class="blog-list-excerpt">Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, 3D parallelism, DeepSpeed with interactive visualization, code examples.</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> Mar 21, 2025</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> 29 min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+
+          <li class="blog-list-item">
+            <a href="/blog/vision-language-models/" title="Vision Language Models (VLM)">
+              <div class="blog-list-thumb">
+                
+                  <img src="/img/blog/vision-language-models/vlm_paradigms.jpg" alt="Vision Language Models (VLM)" loading="lazy">
+                
+              </div>
+              <div class="blog-list-body">
+                
+                  <span class="blog-list-category">LLM</span>
+                
+                <h3 class="blog-list-title">Vision Language Models (VLM)</h3>
+                <p class="blog-list-excerpt">Overview of Vision Language Models (VLMs) and their training paradigms: contrastive learning (CLIP), masking (FLAVA), generative approaches (CoCa, Chameleon), and pretrained backbone methods (Frozen, LLaVA, BLIP-2).</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> Jul 12, 2024</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> 22 min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+
+          <li class="blog-list-item">
+            <a href="/blog/2024/06/07/matrix-multiplication-cuda" title="Matrix Multiplication in CUDA">
+              <div class="blog-list-thumb">
+                
+                  <img src="/img/blog/matrix-multiplication-cuda/cuda_matmul_naive.png" alt="Matrix Multiplication in CUDA" loading="lazy">
+                
+              </div>
+              <div class="blog-list-body">
+                
+                  <span class="blog-list-category">CUDA</span>
+                
+                <h3 class="blog-list-title">Matrix Multiplication in CUDA</h3>
+                <p class="blog-list-excerpt">Implementing matrix multiplication in CUDA from a naive CPU baseline to GPU-accelerated versions using tiled shared memory for deep learning workloads.</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> Jun 7, 2024</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> 21 min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+
+          <li class="blog-list-item">
+            <a href="/blog/2024/04/26/rag-financial-reports-llm" title="Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports">
+              <div class="blog-list-thumb">
+                
+                  <img src="/img/blog/rag/llm_hallucination.png" alt="Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports" loading="lazy">
+                
+              </div>
+              <div class="blog-list-body">
+                
+                  <span class="blog-list-category">LLM</span>
+                
+                <h3 class="blog-list-title">Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports</h3>
+                <p class="blog-list-excerpt">Building a RAG-based chatbot for 10Q financial reports to reduce LLM hallucinations by grounding answers in retrieved document context.</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> Apr 26, 2024</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> 12 min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+
+          <li class="blog-list-item">
+            <a href="/blog/mixed-precision-and-quantization/" title="Mixed Precision and Quantization: Accelerating Deep Learning Training and Inference">
+              <div class="blog-list-thumb">
+                
+                  <img src="/img/blog/mixed_precision_quantization/precision_numbers.jpg" alt="Mixed Precision and Quantization: Accelerating Deep Learning Training and Inference" loading="lazy">
+                
+              </div>
+              <div class="blog-list-body">
+                
+                  <span class="blog-list-category">Deep Learning</span>
+                
+                <h3 class="blog-list-title">Mixed Precision and Quantization: Accelerating Deep Learning Training and Inference</h3>
+                <p class="blog-list-excerpt">Comprehensive guide to mixed precision training (FP16/FP32) and INT8 quantization, covering GPU architecture, Tensor Cores, loss scaling, AMP, PTQ, QAT, and layer fusion with practical code examples.</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> May 22, 2022</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> 30 min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+
+          <li class="blog-list-item">
+            <a href="/blog/2021/12/03/pytorch-basics-tutorial" title="PyTorch Basic Tutorial">
+              <div class="blog-list-thumb">
+                
+                  <img src="/img/blog/pytorch-basics-tutorial/graph_static_dynamic.png" alt="PyTorch Basic Tutorial" loading="lazy">
+                
+              </div>
+              <div class="blog-list-body">
+                
+                  <span class="blog-list-category">Computer Vision</span>
+                
+                <h3 class="blog-list-title">PyTorch Basic Tutorial</h3>
+                <p class="blog-list-excerpt">A practical introduction to PyTorch covering tensors, autograd, neural network modules, and key libraries like torchvision and torchaudio.</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> Dec 3, 2021</span>
+                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> 36 min read</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+
+      </ul>
+
+      
+      <div class="pagination">
+        
+          <span>&laquo; Prev</span>
+        
+
+        
+          
+            <em>1</em>
+          
+        
+          
+            <a href="/blog/page2/">2</a>
+          
+        
+          
+            <a href="/blog/page3/">3</a>
+          
+        
+          
+            <a href="/blog/page4/">4</a>
+          
+        
+          
+            <a href="/blog/page5/">5</a>
+          
+        
+          
+            <a href="/blog/page6/">6</a>
+          
+        
+          
+            <a href="/blog/page7/">7</a>
+          
+        
+          
+            <a href="/blog/page8/">8</a>
+          
+        
+          
+            <a href="/blog/page9/">9</a>
+          
+        
+
+        
+          <a href="/blog/page2/">Next &raquo;</a>
+        
+      </div>
+      
+
+    </div>
+
+  </div>
+
+</main>
+
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

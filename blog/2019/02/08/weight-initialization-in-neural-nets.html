@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Why proper weight initialization matters in deep learning: comparing zero, random, Xavier, and He initialization strategies.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Weight initialization in neural nets | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Weight initialization in neural nets">
+        <meta property="og:description" content="Why proper weight initialization matters in deep learning: comparing zero, random, Xavier, and He initialization strategies.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2019/02/08/weight-initialization-in-neural-nets">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/weight-initialization-in-neural-nets/weight_init0.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Weight initialization in neural nets">
+        <meta name="twitter:description" content="Why proper weight initialization matters in deep learning: comparing zero, random, Xavier, and He initialization strategies.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/weight-initialization-in-neural-nets/weight_init0.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2019/02/08/weight-initialization-in-neural-nets">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Weight initialization in neural nets",
+          "datePublished": "2019-02-08T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Why proper weight initialization matters in deep learning: comparing zero, random, Xavier, and He initialization strategies.",
+          "url": "https://kharshit.github.io/blog/2019/02/08/weight-initialization-in-neural-nets",
+          "image": "https://kHarshit.github.io/img/blog/weight-initialization-in-neural-nets/weight_init0.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Weight initialization in neural nets</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Feb 8, 2019</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>In deep learning, the goal is to find the optimum weights of the model to get the desired output. In transfer learning, the network is initialized using the best pre-trained weights. The question is how do you initialize the weights for a non-pretrained model?</p>
+
+<blockquote>
+  <p>Training algorithms for deep learning models are usually iterative in nature and thus require the user to specify some initial point from which to begin the iterations. Moreover, training deep models is a sufficiently difficult task that most algorithms are strongly affected by the choice of initialization.
+— <cite>Deep Learning (book)</cite></p>
+</blockquote>
+
+<p>There are numerous weight initialization methods:</p>
+
+<h2 id="all-0s-or-all-1s">All 0s or All 1s</h2>
+
+<p>One of the ways is to initialize all weights to 0s. As all the weights are same, the activations in all hidden units are also the same. This makes the gradient w.r.t to each weight be same. Thus, the problem arises as to which weight the network should update and by how much i.e. backpropagation finds it difficult to minimize the loss. The same problem occurs if all weights are initialized as 1s.</p>
+
+<p>In PyTorch, <code class="language-plaintext highlighter-rouge">nn.init</code> is used to initialize weights of layers e.g. to change <code class="language-plaintext highlighter-rouge">Linear</code> layers’s initialization method:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">init_weights</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">constant_weight</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">initialize weight of Linear layer as constant_weight</span><span class="sh">"""</span>
+    <span class="k">if</span> <span class="nf">type</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">:</span>
+        <span class="n">nn</span><span class="p">.</span><span class="n">init</span><span class="p">.</span><span class="nf">constant_</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">constant_weight</span><span class="p">)</span>
+        <span class="n">m</span><span class="p">.</span><span class="n">bias</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nf">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/blog/weight-initialization-in-neural-nets/weight_init0.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<h2 id="uniform-distribution">Uniform distribution</h2>
+
+<p>The other way is to initialize weights randomly from a uniform distribution. Every number in uniform distribution has equal probability to be picked.</p>
+
+<p>In PyTorch, the <code class="language-plaintext highlighter-rouge">Linear</code> layer is initialized with He uniform initialization, <code class="language-plaintext highlighter-rouge">nn.init.kaiming_uniform_</code>, by default.</p>
+
+<h2 id="general-rule">General rule</h2>
+
+<p>Choosing high values of weights is not the best for the model as it brings problems of exploding and vanishing gradients. The general way to initialize weights is to select small random values, which are close to 0.</p>
+
+<blockquote>
+  <p>Good practice is to start your weights in the range of \([-y, y]\) where \(y=1/\sqrt{n}\)<br />
+(\(n\) is the number of inputs to a given neuron).</p>
+</blockquote>
+
+<p><img src="/img/blog/weight-initialization-in-neural-nets/weight_init1.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<h2 id="normal-distribution">Normal distribution</h2>
+
+<p>Another way is to initialize weights randomly from a normal distribution. As most values are concentrated towards the mean, most of the random values selected have higher probability to be closer to mean (say \(\mu=0\)).</p>
+
+<p><img src="/img/blog/weight-initialization-in-neural-nets/weight_init2.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>There are many other ways for weight initialization such as Xavier initialization. It’s an active area of research.</p>
+
+<p><strong>References:</strong></p>
+<ol>
+  <li><a href="https://in.udacity.com/course/deep-learning-nanodegree--nd101">PyTorch Deep Learning Nanodegree - Udacity</a></li>
+  <li><a href="https://pytorch.org/docs/stable/nn.html#torch-nn-init">PyTorch’s nn.init</a></li>
+  <li><a href="https://pytorch.org/docs/stable/_modules/torch/nn/modules/linear.html">PyTorch Linear layer source code</a></li>
+  <li><a href="https://arxiv.org/pdf/1502.01852v1.pdf">(He initialization) Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification</a></li>
+  <li><a href="http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf">(Xavier initialization) Understanding the difficulty of training deep feedforward neural networks</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2019-02-08-weight-initialization-in-neural-nets.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2019/01/11/image-captioning-using-encoder-decoder">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Image captioning using encoder-decoder</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2019/02/15/autoencoder-downsampling-and-upsampling">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Autoencoder: Downsampling and Upsampling</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

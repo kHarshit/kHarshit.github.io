@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Comprehensive guide to mixed precision training (FP16/FP32) and INT8 quantization, covering GPU architecture, Tensor Cores, loss scaling, AMP, PTQ, QAT, and ...">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Mixed Precision and Quantization: Accelerating Deep Learning Training and Inference | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Mixed Precision and Quantization: Accelerating Deep Learning Training and Inference">
+        <meta property="og:description" content="Comprehensive guide to mixed precision training (FP16/FP32) and INT8 quantization, covering GPU architecture, Tensor Cores, loss scaling, AMP, PTQ, QAT, and ...">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/mixed-precision-and-quantization/">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/mixed_precision_quantization/precision_numbers.jpg">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Mixed Precision and Quantization: Accelerating Deep Learning Training and Inference">
+        <meta name="twitter:description" content="Comprehensive guide to mixed precision training (FP16/FP32) and INT8 quantization, covering GPU architecture, Tensor Cores, loss scaling, AMP, PTQ, QAT, and ...">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/mixed_precision_quantization/precision_numbers.jpg">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/mixed-precision-and-quantization/">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Mixed Precision and Quantization: Accelerating Deep Learning Training and Inference",
+          "datePublished": "2022-05-22T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Comprehensive guide to mixed precision training (FP16/FP32) and INT8 quantization, covering GPU architecture, Tensor Cores, loss scaling, AMP, PTQ, QAT, and ...",
+          "url": "https://kharshit.github.io/blog/mixed-precision-and-quantization/",
+          "image": "https://kHarshit.github.io/img/blog/mixed_precision_quantization/precision_numbers.jpg"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Mixed Precision and Quantization: Accelerating Deep Learning Training and Inference</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> May 22, 2022</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      30 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+                    <li><a href="/categories/cuda/">CUDA</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>In modern deep learning, getting models to train faster and run efficiently in production is a constant challenge. Two key techniques have emerged to address this: <strong>Mixed Precision Training</strong> (using FP16 alongside FP32 to speed up training) and <strong>Quantization</strong> (converting FP32 models to INT8 for faster inference). This post walks through the fundamental concepts, practical implementations, and best practices for both.</p>
+
+<h2 id="part-1-gpus-and-performance">Part 1: GPUs and Performance</h2>
+
+<p>Before diving into mixed precision, it’s essential to understand the hardware and the bottlenecks.</p>
+
+<h3 id="floating-point-numbers">Floating Point Numbers</h3>
+
+<p>A floating-point number has three parts:</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>Sign bit (1 bit)</strong>
+0 for positive, 1 for negative.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Exponent bits</strong>
+Control the <em>range</em> (magnitude).</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Mantissa bits</strong>
+Control the <em>precision</em>.</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Floating point number formats: FP32, FP16, and their components';">
+<img src="/img/blog/mixed_precision_quantization/precision_numbers.jpg" alt="Floating point number formats: FP32, FP16, and their components" />
+</figure>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Total Bits</th>
+      <th>Exponent Bits</th>
+      <th>Mantissa Bits</th>
+      <th>Bias</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>FP32</td>
+      <td>32</td>
+      <td>8</td>
+      <td>23</td>
+      <td>127</td>
+      <td>Default in C++, PyTorch, TensorFlow</td>
+    </tr>
+    <tr>
+      <td>FP64</td>
+      <td>64</td>
+      <td>11</td>
+      <td>52</td>
+      <td>1023</td>
+      <td>Python <code class="language-plaintext highlighter-rouge">float</code></td>
+    </tr>
+    <tr>
+      <td>FP16</td>
+      <td>16</td>
+      <td>5</td>
+      <td>10</td>
+      <td>15</td>
+      <td>Mixed precision</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The sign bit determines the sign. The 8 exponent bits go from 0 to 255, split into two ranges: 0–126 are negative exponents, 127 represents 0, and 128–255 are positive. The actual exponent value = <code class="language-plaintext highlighter-rouge">(exp − 127)</code> for FP32 (bias = 127; for FP64, bias = 1023). The 23 mantissa bits represent decreasing negative powers of 2.</p>
+
+\[\begin{aligned}
+\text{Largest FP32: } &amp;0.1111\ldots1111 \times 2^{11111111} \\
+&amp;= (2^{-1} + \cdots + 2^{-23}) \times 2^{255-127} \\
+&amp;\approx 3.4 \times 10^{38} \\[6pt]
+\text{Smallest FP32: } &amp;0.1000\ldots0000 \times 2^{-127} \\
+&amp;\approx 0.293 \times 10^{-38}
+\end{aligned}\]
+
+<h3 id="gpu-architecture">GPU Architecture</h3>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Compute</strong>
+Streaming Multiprocessors (SMs): the GPU-equivalent of a CPU core (108 SMs on an A100).</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Memory</strong>
+On-chip L2 cache, and high-bandwidth DRAM (global memory: 40 GB on A100).</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-caption: 'GPU architecture: SMs, memory hierarchy, and compute units';">
+<img src="/img/blog/mixed_precision_quantization/gpu_architecture.jpg" alt="GPU architecture: SMs, memory hierarchy, and compute units" />
+</figure>
+
+<p>Each SM has a number of <strong>CUDA Cores</strong> (also called streaming processors, SPs). A single SM can do a certain number of multiply-add (MAC) operations per clock. The MAC operations can be done on either CUDA cores or Tensor Cores. The GPU clock speed indicates how fast the cores run. A 1 GHz processor can do 10⁹ cycles/second. In each cycle, an SM can perform a number of MAC operations.</p>
+
+<p><strong>Peak throughput formula</strong>:</p>
+
+\[\text{Peak FP16 throughput} = (\text{# MAC ops/clock/SM} \times \text{# SM} \times \text{SM clock rate}) \times 2\]
+
+<p>For NVIDIA A100 (108 SMs, 1.41 GHz clock, 1024 FP16 MAC ops/clock/SM):</p>
+
+\[(1024 \times 2) \times 108 \times (1.41 \times 10^9) \approx 312 \text{ TFLOPS}\]
+
+<h3 id="cuda-programming-model">CUDA Programming Model</h3>
+
+<p>The CUDA programming model provides an abstraction of GPU architecture (API for GPUs).</p>
+
+<p>A <strong>CUDA kernel</strong> is a function executed by the GPU in parallel. A parallel code (e.g. matmul) is executed <code class="language-plaintext highlighter-rouge">n</code> times in parallel by <code class="language-plaintext highlighter-rouge">n</code> different CUDA threads.</p>
+
+<ul>
+  <li>Threads are grouped into a <strong>CUDA block</strong>; CUDA blocks are grouped into a <strong>grid</strong>.</li>
+  <li><strong>Warps</strong> (groups of 32 threads) execute simultaneously.</li>
+  <li>A kernel is executed as a grid of blocks of threads.</li>
+  <li>One SM can run several concurrent CUDA blocks.</li>
+  <li>A GPU consists of multiple SMs.</li>
+</ul>
+
+<p>A GPU’s specification (features) is given by its <strong>Compute capability</strong> (<code class="language-plaintext highlighter-rouge">Major.Minor</code>), e.g. NVIDIA A2 has compute capability 8.6.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'CUDA execution model: grid of blocks, each block has threads';">
+<img src="/img/blog/mixed_precision_quantization/cuda_execution.jpg" alt="CUDA execution model: grid of blocks, each block has threads" />
+</figure>
+
+<h3 id="tensor-cores">Tensor Cores</h3>
+
+<p>Tensor Cores are programmable <strong>matrix multiply-and-accumulate (MAC)</strong> units that perform fused matrix-multiply-add (FMA) at much higher throughput than CUDA cores, with reduced precisions like FP16, and INT8.</p>
+
+<blockquote>
+  <p>“Tensor Cores are so fast that computation is no longer a bottleneck. The only bottleneck is getting data to the Tensor Cores.”</p>
+</blockquote>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Tensor Cores vs CUDA Cores: matrix MAC vs scalar MAC';">
+<img src="/img/blog/mixed_precision_quantization/tensor_cores_cuda_cores.jpg" alt="Tensor Cores vs CUDA Cores: matrix MAC vs scalar MAC" />
+</figure>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Tensor Core 4x4 matrix multiply-and-accumulate operation';">
+<img src="/img/blog/mixed_precision_quantization/tensor_cores.jpg" alt="Tensor Core 4x4 matrix multiply-and-accumulate operation" />
+</figure>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>CUDA Cores</strong>
+Perform scalar instructions: multiplication of an element of A with an element of B; one MAC operation per GPU clock.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Tensor Cores</strong>
+Perform matrix instructions: multiplication between vectors/matrix of elements at a time; matrix MAC (<code class="language-plaintext highlighter-rouge">4×4</code> in Volta) per GPU clock.</p>
+  </div>
+</div>
+
+<p>During training with FP16 inputs, Tensor Cores compute products without loss of precision and accumulate in FP32. Note that the operations like element-wise addition of two fp16 tensors, that can’t be formulated in terms of matrix blocks, still use CUDA cores.</p>
+
+<h3 id="tf32-mode">TF32 Mode</h3>
+
+<p>TF32 is a <strong>Tensor Core operation mode</strong> (not a storage format). It uses the exponent range of FP32 but the mantissa precision of FP16.</p>
+
+<ul>
+  <li>Storage and all other operations remain in FP32.</li>
+  <li>Only <code class="language-plaintext highlighter-rouge">conv</code> and <code class="language-plaintext highlighter-rouge">matmul</code> convert inputs to TF32.</li>
+  <li>It is the <strong>default</strong> 32-bit format in cuDNN, PyTorch, and TensorFlow on Ampere GPUs.</li>
+</ul>
+
+<figure class="mbimgstyle" style="--img-caption: 'TF32: FP32 exponent range with FP16 mantissa precision';">
+<img src="/img/blog/mixed_precision_quantization/tf32.jpg" alt="TF32: FP32 exponent range with FP16 mantissa precision" />
+</figure>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'TF32 training performance compared to FP32 across models';">
+<img src="/img/blog/mixed_precision_quantization/tf32_training.jpg" alt="TF32 training performance compared to FP32 across models" />
+</figure>
+
+<h3 id="tf32-vs-fp32-in-pytorch">TF32 vs FP32 in PyTorch</h3>
+
+<p>Benchmark on NVIDIA RTX A4000 with 10240×10240 matrix multiplication:</p>
+
+<p><strong>TF32 benchmark (default)</strong>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># using tf32 by default for matmul on NVIDIA A4000
+</span><span class="n">avg</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">10240</span><span class="p">,</span> <span class="mi">10240</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># fp32
+</span>    <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">10240</span><span class="p">,</span> <span class="mi">10240</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># fp32
+</span>    <span class="n">start</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="nf">default_timer</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">a</span> <span class="o">@</span> <span class="n">b</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="nf">default_timer</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="sh">"</span><span class="s">: </span><span class="sh">"</span><span class="p">,</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">:</span>
+        <span class="n">avg</span> <span class="o">+=</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">avg[2:] is </span><span class="sh">'</span><span class="p">,</span> <span class="n">avg</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 :  0.4807837880216539
+1 :  4.059402272105217e-05
+2 :  0.00015917990822345018
+3 :  1.3931072317063808e-05
+4 :  1.3400916941463947e-05
+5 :  1.5689991414546967e-05
+6 :  1.3425946235656738e-05
+7 :  1.3030949048697948e-05
+8 :  1.3077049516141415e-05
+9 :  1.2170989066362381e-05
+avg[2:] is  1.3532416362847601e-05
+</code></pre></div></div>
+
+<p><strong>FP32 benchmark (TF32 disabled)</strong>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># disable tf32: use fp32 on NVIDIA A4000
+</span><span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">matmul</span><span class="p">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">avg</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">10240</span><span class="p">,</span> <span class="mi">10240</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># fp32
+</span>    <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">10240</span><span class="p">,</span> <span class="mi">10240</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># fp32
+</span>    <span class="n">start</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="nf">default_timer</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">a</span> <span class="o">@</span> <span class="n">b</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="nf">default_timer</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="sh">"</span><span class="s">: </span><span class="sh">"</span><span class="p">,</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">:</span>
+        <span class="n">avg</span> <span class="o">+=</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">avg[2:] is </span><span class="sh">'</span><span class="p">,</span> <span class="n">avg</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 :  9.770691394805908e-05
+1 :  4.72670653834939e-05
+2 :  2.1450920030474663e-05
+3 :  2.470705658197403e-05
+4 :  2.0278035663068295e-05
+5 :  1.9971979781985283e-05
+6 :  1.930294092744589e-05
+7 :  2.001994289457798e-05
+8 :  1.9033905118703842e-05
+9 :  1.9156024791300297e-05
+avg[2:] is  2.035284082272223e-05
+</code></pre></div></div>
+
+<p><strong>Accuracy comparison</strong>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># compare accuracy of tf32 vs fp32 on NVIDIA A4000
+</span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">10240</span><span class="p">,</span> <span class="mi">10240</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># fp32
+</span><span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">10240</span><span class="p">,</span> <span class="mi">10240</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># fp32
+</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">matmul</span><span class="p">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">mean_tf32</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">@</span> <span class="n">b</span><span class="p">).</span><span class="nf">abs</span><span class="p">().</span><span class="nf">mean</span><span class="p">()</span>  <span class="c1"># tf32 matmul
+</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">matmul</span><span class="p">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">mean_fp32</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">@</span> <span class="n">b</span><span class="p">).</span><span class="nf">abs</span><span class="p">().</span><span class="nf">mean</span><span class="p">()</span>  <span class="c1"># fp32 matmul
+</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="s">mean: tf32: </span><span class="si">{</span><span class="n">mean_tf32</span><span class="si">}</span><span class="s">, fp32: </span><span class="si">{</span><span class="n">mean_fp32</span><span class="si">}</span><span class="s">, diff:</span><span class="si">{</span><span class="nf">abs</span><span class="p">(</span><span class="n">mean_tf32</span><span class="o">-</span><span class="n">mean_fp32</span><span class="p">)</span><span class="si">}</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mean: tf32: 80.71688079833984, fp32: 80.71910095214844, diff:0.00222015380859375
+</code></pre></div></div>
+
+<p>TF32 delivers <strong>~1.5× speedup</strong> (13.5 µs vs 20.4 µs warm) with a mean absolute difference of only <strong>0.0022</strong>, negligible accuracy loss for deep learning workloads.</p>
+
+<h3 id="gpu-sharing--mig">GPU Sharing &amp; MIG</h3>
+
+<p>When individual workloads don’t saturate the GPU (e.g. inference with low batch size, visualization workload), sharing becomes useful. However, different jobs running on the same GPU compete for the same resources; a job consuming larger memory bandwidth starves others.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'GPU sharing techniques: MIG partitions a GPU into isolated instances';">
+<img src="/img/blog/mixed_precision_quantization/gpu_sharing.jpg" alt="GPU sharing techniques: MIG partitions a GPU into isolated instances" />
+</figure>
+
+<p><strong>Multi-Instance GPU (MIG)</strong> solves this by partitioning a single GPU into separate GPU Instances for CUDA applications, providing multiple users with dedicated GPU resources:</p>
+
+<div class="mbgrid mbgrid-4" style="--mbcard-border:1.5px solid #8fc8a0;--mbcard-title-color:#2e8b57;">
+  <div class="mbcard">
+    <p><strong>True hardware isolation</strong></p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Guaranteed QoS</strong></p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Dedicated resource allocation</strong></p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Max GPU utilization</strong></p>
+  </div>
+</div>
+
+<p>A <strong>GPU Instance (GI)</strong> is a combination of GPU slices and GPU engines (DMAs, NVDECs, etc.). Everything within a GI shares all GPU memory slices and other GPU engines, but its SM slices can be further subdivided into <strong>compute instances (CI)</strong>.</p>
+
+<p>An A100 (40 GB) can be thought of as having <strong>8 × 5 GB memory slices</strong> and <strong>7 SM (compute) slices</strong>. The number of slices a GI can be created with is not arbitrary, the NVIDIA driver provides <strong>GPU Instance Profiles</strong> (e.g. MIG 1g.5gb, MIG 2g.10gb).</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'MIG: multiple isolated GPU instances with dedicated resources';">
+<img src="/img/blog/mixed_precision_quantization/gpu_mig.jpg" alt="MIG: multiple isolated GPU instances with dedicated resources" />
+</figure>
+
+<figure class="mbimgstyle" style="--img-width: 60%; --img-caption: 'MIG instance profiles on A100';">
+<img src="/img/blog/mixed_precision_quantization/gpu_mig_instances.jpg" alt="MIG instance profiles on A100" />
+</figure>
+
+<h3 id="performance-analysis">Performance Analysis</h3>
+
+<p>A kernel’s execution time is determined by three factors: math (\(T_{\text{math}}\)), memory (\(T_{\text{mem}}\)), and latency:</p>
+
+\[T_{\text{math}} = \frac{\text{# operations}}{BW_{\text{math}}}, \qquad
+T_{\text{mem}} = \frac{\text{# bytes accessed}}{BW_{\text{mem}}}\]
+
+<p>A kernel is <strong>math-limited</strong> if \(T_{\text{math}} &gt; T_{\text{mem}}\), i.e.:</p>
+
+\[\frac{\text{# ops}}{\text{# bytes}} &gt; \frac{BW_{\text{math}}}{BW_{\text{mem}}}\]
+
+<p>where:</p>
+<ul>
+  <li>LHS = <strong>arithmetic intensity</strong> = # FLOPS / # bytes accessed</li>
+  <li>RHS = processor’s <strong>ops:byte</strong> ratio</li>
+</ul>
+
+<p>The most likely performance limiter is:</p>
+
+<ol>
+  <li><strong>Latency</strong> if there is not sufficient parallelism</li>
+  <li><strong>Math-bound</strong>: arithmetic intensity &gt; GPU <code class="language-plaintext highlighter-rouge">ops:byte</code> ratio (e.g. dot-product operations like matrix-matrix and matrix-vector multiplications in large linear/conv layers with large batch size).</li>
+  <li><strong>Memory-bound</strong>: arithmetic intensity &lt; GPU <code class="language-plaintext highlighter-rouge">ops:byte</code> ratio (e.g. element-wise ops like ReLU where few operations per byte are accessed, element-wise addition; reduction ops like pooling, normalization, softmax).</li>
+</ol>
+
+<p><strong>Example</strong>: V100 has a peak math rate of 125 FP16 Tensor TFLOPS, an off-chip memory bandwidth of ~900 GB/s, and an on-chip L2 bandwidth of 3.1 TB/s, giving it an ops:byte ratio between <strong>40 and 139</strong>, depending on the source of an operation’s data (on-chip or off-chip memory).</p>
+
+<figure class="mbimgstyle" style="--img-caption: 'GPU kernel performance: math-bound vs memory-bound regions';">
+<img src="/img/blog/mixed_precision_quantization/gpu_performance_example.jpg" alt="GPU kernel performance: math-bound vs memory-bound regions" />
+</figure>
+
+<h3 id="performance-gemms">Performance: GEMMs</h3>
+
+<p>General Matrix Multiplications (GEMMs) are the building blocks of fully connected, convolutional, and LSTM layers:</p>
+
+\[C = \alpha AB + \beta C\]
+
+<p>GEMMs are done in parallel by the GPU by dividing the output matrix into tiles, which are assigned to thread blocks. Each thread block loads values from \(A\) and \(B\), computes the output tile, and accumulates it in the output matrix.</p>
+
+<p>To compute the product, \(M \times N \times K\) fused multiply-adds (FMAs) are needed. Each FMA consists of 2 operations (a multiply and an add):</p>
+
+\[\text{arithmetic intensity} = \frac{2 \times M \times N \times K}{2 \times (M \times K + N \times K + M \times N)}\]
+
+<figure class="mbimgstyle" style="--img-caption: 'GEMM tile-based parallel computation on GPU';">
+<img src="/img/blog/mixed_precision_quantization/gemm_product.jpg" alt="GEMM tile-based parallel computation on GPU" />
+</figure>
+
+<h3 id="gpu-specifications">GPU Specifications</h3>
+
+<ul>
+  <li><strong>TFLOPS</strong>: Tera Floating point Operations Per Second (\(10^{12}\) single-precision floating point operations per second).</li>
+  <li><strong>TOPS</strong>: Tera Operations (integer, float, etc.) Per Second = # MAC units × frequency of MAC operations × 2.</li>
+</ul>
+
+<figure class="mbimgstyle" style="--img-width: 45%; --img-caption: 'NVIDIA A2 (Ampere architecture)';">
+<img src="/img/blog/mixed_precision_quantization/nvidia_a2_gpu.jpg" alt="NVIDIA A2 (Ampere architecture)" />
+</figure>
+
+<h2 id="part-2-mixed-precision">Part 2: Mixed Precision</h2>
+
+<h3 id="what-is-mixed-precision">What is Mixed Precision?</h3>
+
+<p>Mixed precision combines FP32 and FP16 to get the best of both worlds:</p>
+
+<ul>
+  <li><strong>FP32</strong>: wide range, higher precision, used where accuracy is critical.</li>
+  <li><strong>FP16</strong>: smaller range, lower precision, used where speed is critical.</li>
+</ul>
+
+<p><strong>Advantages</strong>:</p>
+
+<div class="mbgrid mbgrid-3" style="--mbcard-border:1.5px solid #8fc8a0;--mbcard-title-color:#2e8b57;">
+  <div class="mbcard">
+    <p><strong>Math-Intensive Ops</strong>
+Speeds up via FP16 Tensor Cores.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Memory-Limited Ops</strong>
+Speeds up by halving the bytes accessed.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Memory Reduction</strong>
+Enables larger models or batch sizes.</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Mixed precision overview: FP16 for compute, FP32 for critical operations';">
+<img src="/img/blog/mixed_precision_quantization/amp.jpg" alt="Mixed precision overview: FP16 for compute, FP32 for critical operations" />
+</figure>
+
+<h3 id="why-not-use-fp16-exclusively">Why Not Use FP16 Exclusively?</h3>
+
+<p><strong>Problem 1: Underflow in weight updates</strong>:<br />
+When <code class="language-plaintext highlighter-rouge">update / param &lt; 2⁻¹¹ ≈ 0.00049</code>, the update has no effect.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Imprecise weight update
+</span><span class="n">p</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="mf">0.0001</span><span class="p">)</span>  <span class="c1"># weight += lr*gradient
+</span><span class="n">p</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">HalfTensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="sh">'</span><span class="s">-&gt; underflow</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>torch.float32 tensor([1.0001])
+torch.float16 tensor([1.], dtype=torch.float16) -&gt; underflow
+</code></pre></div></div>
+
+<p><strong>Problem 2 — Overflow in reductions</strong>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">(</span><span class="mi">4096</span><span class="p">).</span><span class="nf">fill_</span><span class="p">(</span><span class="mf">16.0</span><span class="p">)</span>  <span class="c1"># a 4096x1 tensor having each value 16.0
+</span><span class="nf">print</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="nf">sum</span><span class="p">())</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">HalfTensor</span><span class="p">(</span><span class="mi">4096</span><span class="p">).</span><span class="nf">fill_</span><span class="p">(</span><span class="mf">16.0</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="nf">sum</span><span class="p">(),</span> <span class="sh">'</span><span class="s">-&gt; overflow</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>torch.float32 tensor(65536.)
+torch.float16 tensor(inf, dtype=torch.float16) -&gt; overflow
+</code></pre></div></div>
+
+<p><strong>Solution</strong>: Use FP32 wherever underflow/overflow might happen.</p>
+
+<h3 id="loss-scaling">Loss Scaling</h3>
+
+<p>In FP16, many activation gradient values become zero because the FP16 range is sufficient but much of it is left unused.</p>
+
+<figure class="mbimgstyle" style="--img-caption: 'FP32 vs FP16 range: FP16 limited range causes underflow and overflow';">
+<img src="/img/blog/mixed_precision_quantization/fp32_activation_range.jpg" alt="FP32 vs FP16 range: FP16 limited range causes underflow and overflow" />
+</figure>
+
+<p><strong>Solution</strong>: Scale the gradients to the right to keep them from becoming 0s in FP16 e.g. shift by 15 (multiply by 32k) exponent values in above case. During training, we can multiply the loss by a scaling factor <strong>S</strong> before backpropagation, then unscale the gradients before the weight update.</p>
+
+<h3 id="mixed-precision-training-procedure">Mixed Precision Training Procedure</h3>
+
+<ol>
+  <li>Maintain a primary copy of weights in FP32.</li>
+  <li>Initialize loss scaling factor <strong>S</strong> to a large value.</li>
+  <li>For each iteration:
+    <ol>
+      <li>Make an FP16 copy of weights.</li>
+      <li><strong>Forward propagation</strong> <em>(FP16 weights and activations)</em>.</li>
+      <li>Multiply loss by scaling factor <strong>S</strong>.</li>
+      <li><strong>Backward propagation</strong> <em>(FP16 weights, activations, and their gradients)</em>.</li>
+      <li>If Inf/NaN in gradients (overflow due to large <strong>S</strong>) → reduce <strong>S</strong>, skip update and move to next iteration.</li>
+      <li>Unscale gradients (× 1/S).</li>
+      <li><strong>Weight update</strong> in FP32 <em>(including gradient clipping, weight decay etc.)</em>.</li>
+      <li>If no Inf/NaN for N iterations → increase <strong>S</strong>.</li>
+    </ol>
+  </li>
+</ol>
+
+<figure class="mbimgstyle" style="--img-caption: 'Mixed precision training procedure with loss scaling';">
+<img src="/img/blog/mixed_precision_quantization/mixed_precision_procedure.jpg" alt="Mixed precision training procedure with loss scaling" />
+</figure>
+
+<h3 id="automatic-mixed-precision-amp">Automatic Mixed Precision (AMP)</h3>
+
+<p>AMP automates three tasks:</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>Automatic casting</strong> between FP16 and FP32.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Automatic loss scaling</strong> to preserve small gradient values.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>FP32 Master weight management</strong> in the optimizer to accumulate per-iteration weight updates.</p>
+  </div>
+</div>
+
+<p><strong>Operation casting rules</strong>:</p>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Operation Type</th>
+      <th>Examples</th>
+      <th>Limiter</th>
+      <th>Precision</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Dot-product ops</td>
+      <td>matmul, conv, linear</td>
+      <td>Math-bound</td>
+      <td>computation in FP16, accumulate partial product in FP32</td>
+    </tr>
+    <tr>
+      <td>Element-wise ops</td>
+      <td>ReLU, addition</td>
+      <td>Memory-bound</td>
+      <td>FP32</td>
+    </tr>
+    <tr>
+      <td>Reduction ops</td>
+      <td>pooling, softmax, norm</td>
+      <td>Memory-bound</td>
+      <td>FP32</td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Autocasting Behaviour</th>
+      <th>Ops</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ops autocast to fp16</td>
+      <td>matmul, linear, conv2d, LSTMCell, etc.</td>
+    </tr>
+    <tr>
+      <td>Ops autocast to fp32</td>
+      <td>pow, sum, normalize, softmax, etc.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="amp-in-pytorch">AMP in PyTorch</h3>
+
+<p>AMP can be used in PyTorch as follows.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">,</span> <span class="n">loaders</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">use_amp</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">scaler</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">amp</span><span class="p">.</span><span class="nc">GradScaler</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="n">use_amp</span><span class="p">)</span>  <span class="c1">#1 initialize gradient scaler
+</span>    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">train_loss</span><span class="p">,</span> <span class="n">valid_loss</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
+        <span class="n">model</span><span class="p">.</span><span class="nf">train</span><span class="p">()</span>  <span class="c1"># set model to training mode
+</span>        <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">synchronize</span><span class="p">()</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="nf">time</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">loaders</span><span class="p">[</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">]):</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">target</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">amp</span><span class="p">.</span><span class="nf">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="n">use_amp</span><span class="p">):</span>  <span class="c1">#2 use AMP context
+</span>                <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># forward pass
+</span>                <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+            <span class="n">scaler</span><span class="p">.</span><span class="nf">scale</span><span class="p">(</span><span class="n">loss</span><span class="p">).</span><span class="nf">backward</span><span class="p">()</span>  <span class="c1">#3 call backward pass on scaled loss
+</span>            <span class="n">scaler</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span>  <span class="c1">#4 unscale gradients, do weight update if not Infs or NaNs
+</span>            <span class="n">scaler</span><span class="p">.</span><span class="nf">update</span><span class="p">()</span>  <span class="c1">#5 update scale factor for next iteration
+</span>            <span class="n">train_loss</span> <span class="o">+=</span> <span class="p">((</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">batch_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">loss</span><span class="p">.</span><span class="nf">item</span><span class="p">()</span> <span class="o">-</span> <span class="n">train_loss</span><span class="p">))</span>
+
+        <span class="n">model</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">loaders</span><span class="p">[</span><span class="sh">'</span><span class="s">valid</span><span class="sh">'</span><span class="p">]):</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">target</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+                <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">amp</span><span class="p">.</span><span class="nf">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="n">use_amp</span><span class="p">):</span>  <span class="c1"># AMP
+</span>                    <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+                <span class="n">valid_loss</span> <span class="o">+=</span> <span class="p">((</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">batch_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">loss</span><span class="p">.</span><span class="nf">item</span><span class="p">()</span> <span class="o">-</span> <span class="n">valid_loss</span><span class="p">))</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">synchronize</span><span class="p">()</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="nf">time</span><span class="p">()</span>
+        <span class="n">total_time</span> <span class="o">=</span> <span class="nf">round</span><span class="p">((</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="s">Epoch: </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s"> </span><span class="se">\t</span><span class="s">Training Loss: </span><span class="si">{</span><span class="n">train_loss</span><span class="si">:</span><span class="p">.</span><span class="mi">3</span><span class="n">f</span><span class="si">}</span><span class="s"> </span><span class="se">\t</span><span class="s">Validation Loss: </span><span class="si">{</span><span class="n">valid_loss</span><span class="si">:</span><span class="p">.</span><span class="mi">3</span><span class="n">f</span><span class="si">}</span><span class="s"> </span><span class="se">\t</span><span class="s">Time: </span><span class="si">{</span><span class="n">total_time</span><span class="si">}</span><span class="s">min</span><span class="sh">'</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">model</span>
+</code></pre></div></div>
+
+<p><strong>FP32 training</strong> (NVIDIA GeForce RTX 2060 SUPER, Turing, trainable layers: fc of resnet101, 4 params):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">FP32 training</span><span class="sh">'</span><span class="p">)</span>
+<span class="nf">start_timer</span><span class="p">()</span>
+<span class="n">model_fp32</span> <span class="o">=</span> <span class="nf">train</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">loaders</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">use_amp</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">fp32_time</span><span class="p">,</span> <span class="n">fp32_mem</span> <span class="o">=</span> <span class="nf">end_timer_and_print</span><span class="p">()</span>
+<span class="n">fp32_accuracy</span> <span class="o">=</span> <span class="nf">test</span><span class="p">(</span><span class="n">loaders</span><span class="p">[</span><span class="sh">'</span><span class="s">test</span><span class="sh">'</span><span class="p">],</span> <span class="n">model_fp32</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FP32 training
+Epoch: 1 	Training Loss: 3.759 	Validation Loss: 1.997 	Time: 0.55min
+Epoch: 2 	Training Loss: 1.859 	Validation Loss: 0.936 	Time: 0.58min
+Epoch: 3 	Training Loss: 1.309 	Validation Loss: 0.676 	Time: 0.55min
+Epoch: 4 	Training Loss: 1.127 	Validation Loss: 0.595 	Time: 0.55min
+Epoch: 5 	Training Loss: 1.079 	Validation Loss: 0.501 	Time: 0.57min
+Total execution time: 2.81 min
+Max memory: 2876.02 MiB
+Test Accuracy: 84% (710/836)
+</code></pre></div></div>
+
+<p><strong>AMP training</strong> (same setup):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">AMP training</span><span class="sh">'</span><span class="p">)</span>
+<span class="nf">start_timer</span><span class="p">()</span>
+<span class="n">model_amp</span> <span class="o">=</span> <span class="nf">train</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">loaders</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">use_amp</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">amp_time</span><span class="p">,</span> <span class="n">amp_mem</span> <span class="o">=</span> <span class="nf">end_timer_and_print</span><span class="p">()</span>
+<span class="n">amp_accuracy</span> <span class="o">=</span> <span class="nf">test</span><span class="p">(</span><span class="n">loaders</span><span class="p">[</span><span class="sh">'</span><span class="s">test</span><span class="sh">'</span><span class="p">],</span> <span class="n">model_amp</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AMP training
+Epoch: 1 	Training Loss: 3.771 	Validation Loss: 1.993 	Time: 0.5min
+Epoch: 2 	Training Loss: 1.858 	Validation Loss: 0.910 	Time: 0.48min
+Epoch: 3 	Training Loss: 1.312 	Validation Loss: 0.673 	Time: 0.5min
+Epoch: 4 	Training Loss: 1.124 	Validation Loss: 0.558 	Time: 0.48min
+Epoch: 5 	Training Loss: 1.049 	Validation Loss: 0.484 	Time: 0.5min
+Total execution time: 2.45 min
+Max memory: 1798.03 MiB
+Test Accuracy: 84% (709/836)
+</code></pre></div></div>
+
+<figure class="mbimgstyle" style="--img-caption: 'FP32 vs AMP training, 4 params';">
+<img src="/img/blog/mixed_precision_quantization/fp32_vs_amp_4params.jpg" alt="FP32 vs AMP training, 4 params" />
+</figure>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>FP32</th>
+      <th>AMP</th>
+      <th>Improvement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Total Time</td>
+      <td>2.81 min</td>
+      <td>2.45 min</td>
+      <td><strong>13% faster</strong></td>
+    </tr>
+    <tr>
+      <td>Peak Memory</td>
+      <td>2876 MB</td>
+      <td>1798 MB</td>
+      <td><strong>37% less</strong></td>
+    </tr>
+    <tr>
+      <td>Test Accuracy</td>
+      <td>84%</td>
+      <td>84%</td>
+      <td><em>Same accuracy</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In above example, we only trained 4 params, if we increase the number of params, we’d see more improvement in time and memory saving.</p>
+
+<figure class="mbimgstyle" style="--img-caption: 'FP32 vs AMP training, 32 params';">
+<img src="/img/blog/mixed_precision_quantization/fp32_vs_amp_32params.jpg" alt="FP32 vs AMP training, 32 params" />
+</figure>
+
+<h3 id="amp-in-tensorflow">AMP in TensorFlow</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1. set mixed precision policy
+</span><span class="n">policy</span> <span class="o">=</span> <span class="n">mixed_precision</span><span class="p">.</span><span class="nc">Policy</span><span class="p">(</span><span class="sh">'</span><span class="s">mixed_float16</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">mixed_precision</span><span class="p">.</span><span class="nf">set_global_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+
+<span class="c1"># Computations are done in float16 for performance, but variables must be kept in float32 for numeric stability
+</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="s">Compute dtype: </span><span class="si">{</span><span class="n">policy</span><span class="p">.</span><span class="n">compute_dtype</span><span class="si">}</span><span class="sh">'</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="s">Variable dtype: </span><span class="si">{</span><span class="n">policy</span><span class="p">.</span><span class="n">variable_dtype</span><span class="si">}</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 2. initialize loss scaler
+</span><span class="n">loss_object</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">keras</span><span class="p">.</span><span class="n">losses</span><span class="p">.</span><span class="nc">SparseCategoricalCrossentropy</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">optimizers</span><span class="p">.</span><span class="nc">RMSprop</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">mixed_precision</span><span class="p">.</span><span class="nc">LossScaleOptimizer</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span>
+
+<span class="nd">@tf.function</span>
+<span class="k">def</span> <span class="nf">train_step</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="nc">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># forward pass
+</span>        <span class="n">loss</span> <span class="o">=</span> <span class="nf">loss_object</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+        <span class="n">scaled_loss</span> <span class="o">=</span> <span class="n">optimizer</span><span class="p">.</span><span class="nf">get_scaled_loss</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>  <span class="c1"># 3. scale loss
+</span>    <span class="n">scaled_gradients</span> <span class="o">=</span> <span class="n">tape</span><span class="p">.</span><span class="nf">gradient</span><span class="p">(</span><span class="n">scaled_loss</span><span class="p">,</span> <span class="n">model</span><span class="p">.</span><span class="n">trainable_variables</span><span class="p">)</span>  <span class="c1"># 4. get scaled gradients
+</span>    <span class="n">gradients</span> <span class="o">=</span> <span class="n">optimizer</span><span class="p">.</span><span class="nf">get_unscaled_gradients</span><span class="p">(</span><span class="n">scaled_gradients</span><span class="p">)</span>  <span class="c1"># 5. unscale gradients
+</span>    <span class="n">optimizer</span><span class="p">.</span><span class="nf">apply_gradients</span><span class="p">(</span><span class="nf">zip</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span> <span class="n">model</span><span class="p">.</span><span class="n">trainable_variables</span><span class="p">))</span>  <span class="c1"># 6. weight update
+</span>    <span class="c1"># also updates the loss scale, halving it if gradients had Infs or NaNs
+</span>    <span class="k">return</span> <span class="n">loss</span>
+
+<span class="nd">@tf.function</span>
+<span class="k">def</span> <span class="nf">test_step</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nf">model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="conclusion-on-mixed-precision">Conclusion on Mixed Precision</h3>
+
+<p><strong>Use AMP.</strong> It delivers:</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>1.5-3× Speedup</strong> on Tensor Core GPUs</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Up to 2× Memory Savings</strong></p>
+  </div>
+  <div class="mbcard">
+    <p><strong>No Loss in Accuracy</strong> for most models</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-caption: 'Memory and speed benefits of AMP across models';">
+<img src="/img/blog/mixed_precision_quantization/amp_benefit.jpg" alt="Memory and speed benefits of AMP across models" />
+</figure>
+
+<h2 id="part-3-quantization">Part 3: Quantization</h2>
+
+<p>Quantization converts continuous floating-point numbers to discrete integer representations, enabling faster inference on integer-only hardware.</p>
+
+<h3 id="what-is-quantization">What is Quantization?</h3>
+
+<p><strong>Formal definition</strong>:</p>
+
+\[\begin{aligned}
+r_q &amp;= \text{round}\!\left(\frac{\text{clip}(r, [\alpha, \beta])}{s} + z\right) \\[6pt]
+s   &amp;= \frac{\beta - \alpha}{\beta_q - \alpha_q} \quad (\text{scale}) \\[6pt]
+z   &amp;= \text{zero-point (shift)} \\[6pt]
+r_{dq} &amp;= (r_q - z) \times s \quad (\text{dequantization}) \\[6pt]
+\text{Quantization error} &amp;= r - r_{dq}
+\end{aligned}\]
+
+<p>where \(r \in \mathbb{R}\) is the floating-point input, \(r_q\) is the quantized integer value, \(s\) (scale) and \(z\) (zero point) are <strong>q-params</strong>.<br />
+\([\alpha, \beta]\) is the input clipping range, \([\alpha_q, \beta_q]\) is the output integer range, and \(r_{dq}\) is the dequantized value.</p>
+
+<p><strong>Example</strong> (unsigned [0, 255]):</p>
+
+\[\begin{bmatrix}
+0.34 &amp; 3.75 \\
+-4.7 &amp; 0.68
+\end{bmatrix}_{\text{FP32 (pre-quant)}}
+\xrightarrow[]{\text{unsigned [0,255] quantize}}
+\begin{bmatrix}
+155 &amp; 255 \\
+0 &amp; 163
+\end{bmatrix}_{\text{INT8 (quant)}}
+\xrightarrow[]{\text{dequantize}}
+\begin{bmatrix}
+0.33 &amp; 3.74 \\
+-4.70 &amp; 0.69
+\end{bmatrix}_{\text{FP32 (dequant)}}\]
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/quant_sim.js"></script>
+
+<div id="quant-sim" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-quant-sim">Interactive: Quantization Simulator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+      <div class="dt-control-group" style="gap:4px;margin:0;">
+        <span class="dt-label-text" style="flex:0 0 45px;">Input</span>
+        <input type="text" class="quant-input" value="0.34, 3.75, -4.7, 0.68" style="flex:1;padding:5px 6px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:0.8rem;background:var(--bg-color,#fff);color:var(--font-color,#333);" />
+      </div>
+      <div class="dt-control-group" style="gap:4px;margin:0;">
+        <span class="dt-label-text" style="flex:0 0 45px;">Mode</span>
+        <select class="quant-mode" style="flex:1;padding:5px 6px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:0.8rem;background:var(--bg-color,#fff);color:var(--font-color,#333);">
+          <option value="asymmetric">Asymmetric [0,255]</option>
+          <option value="symmetric-unsigned">Sym-unsigned [0,255]</option>
+          <option value="symmetric-signed">Sym-signed [-128,127]</option>
+          <option value="restricted">Restricted [-127,127]</option>
+        </select>
+      </div>
+      <div class="dt-control-group" style="gap:4px;margin:0;">
+        <span class="dt-label-text" style="flex:0 0 45px;">Bits</span>
+        <input type="range" class="dt-slider quant-bits-slider" min="4" max="16" value="8" step="1" style="flex:1;margin:0;" />
+        <span class="dt-label-value quant-bits-display" style="min-width:28px;font-size:0.8rem;">8</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div style="overflow-x:auto;overflow-y:auto;max-height:165px;flex:1;min-width:280px;">
+        <table class="quant-table" style="width:100%;border-collapse:collapse;font-size:0.78rem;">
+          <thead><tr>
+            <th style="padding:3px 5px;border-bottom:2px solid #e2e8f0;text-align:right;color:var(--font-color,#555);">FP32</th>
+            <th style="padding:3px 5px;border-bottom:2px solid #e2e8f0;text-align:right;color:var(--font-color,#555);">÷s + z</th>
+            <th style="padding:3px 5px;border-bottom:2px solid #e2e8f0;text-align:right;color:var(--font-color,#555);">Quant</th>
+            <th style="padding:3px 5px;border-bottom:2px solid #e2e8f0;text-align:right;color:var(--font-color,#555);">Dequant</th>
+            <th style="padding:3px 5px;border-bottom:2px solid #e2e8f0;text-align:right;color:var(--font-color,#555);">Error</th>
+          </tr></thead>
+          <tbody class="quant-tbody"></tbody>
+        </table>
+      </div>
+      <div style="flex:0 0 200px;display:grid;grid-template-columns:1fr 1fr;gap:4px;align-content:start;">
+        <div class="ppl-stat-item"><div class="ppl-stat-value quant-scale-info" style="font-size:0.9rem;">—</div><div class="ppl-stat-label" style="font-size:0.7rem;font-family:monospace;">Scale (s)</div></div>
+        <div class="ppl-stat-item"><div class="ppl-stat-value quant-zp-info" style="font-size:0.9rem;">—</div><div class="ppl-stat-label" style="font-size:0.7rem;font-family:monospace;">Zero-point (z)</div></div>
+        <div class="ppl-stat-item"><div class="ppl-stat-value quant-avg-error" style="font-size:0.9rem;">—</div><div class="ppl-stat-label" style="font-size:0.7rem;">Avg Error</div></div>
+        <div class="ppl-stat-item"><div class="ppl-stat-value quant-max-error" style="font-size:0.9rem;">—</div><div class="ppl-stat-label" style="font-size:0.7rem;">Max Error</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Quantization converts FP32 values to integers using scale (s) and zero-point (z). Lower bit-width = more error.
+  </div>
+</div>
+
+<h3 id="symmetric-scale-quantization">Symmetric (Scale) Quantization</h3>
+
+<ul>
+  <li>Quantize 0-symmetric dynamic range of floating-point values, i.e. <code class="language-plaintext highlighter-rouge">z = 0</code> (real 0.0 maps to quantized 0), e.g. [-4.2, 4.2] → [-10, 10].</li>
+  <li>Clipping range is symmetric: <code class="language-plaintext highlighter-rouge">[−c, c]</code>.</li>
+  <li>Used primarily for <strong>weights</strong>.</li>
+</ul>
+
+\[r_q = \text{round}\!\left(\frac{\text{clip}(r, [-c, c])}{s}\right)\]
+
+<p>where \(s\) is the scale factor, \(c\) is the clipping threshold, and \(c = \beta = -\alpha\). The scale is computed as:</p>
+
+\[s = \frac{\beta - \alpha}{\beta_q - \alpha_q} = \frac{2.0 - (-2.0)}{7 - (-7)} = 0.285\]
+
+<figure class="mbimgstyle" style="--img-caption: 'Symmetric quantization with zero-point = 0';">
+<img src="/img/blog/mixed_precision_quantization/symmetric_quantization.jpg" alt="Symmetric quantization with zero-point = 0" />
+</figure>
+
+<h3 id="symmetric-quantization-full-range-vs-restricted-range">Symmetric Quantization: Full-range vs Restricted-range</h3>
+
+\[\text{scale, } s = \frac{\text{input fp32 clip range}}{\text{output int8 range}} = \frac{\beta - \alpha}{\beta_q - \alpha_q}\]
+
+<ul>
+  <li><strong>Full-range</strong> int8 symmetric quantization: range [-128, 127], \(s = \frac{\beta - \alpha}{2^8 - 1}\)</li>
+  <li><strong>Restricted-range</strong> int8 symmetric quantization: range [-127, 127], \(s = \frac{\beta - \alpha}{2^8 - 1 - 1}\)</li>
+</ul>
+
+<p><strong>Quantization bias in full-range quantization</strong>:</p>
+
+\[A = [-2.2, -1.1, 1.1, 2.2], \; B = [0.5, 0.3, 0.3, 0.5]^T, \; AB = 0\]
+
+<p><em>Full quantization:</em> \(A_q = [-128, -64, 64, 127], \; B_q = [127, 77, 77, 127]^T, \; AB_q = -127 \rightarrow AB_{dq} = -0.00853\), bias introduced</p>
+
+<p><em>Restricted quantization:</em> \(A_q = [-127, -64, 64, 127], \; B_q = [127, 76, 76, 127]^T, \; AB_q = 0 \rightarrow AB_{dq} = 0\), no bias</p>
+
+<h3 id="asymmetric-affine--scaleshift-quantization">Asymmetric (Affine / Scale+Shift) Quantization</h3>
+
+<ul>
+  <li>Quantize arbitrary range of fp32 values, e.g. [-4.0, 8.3] → [0, 10].</li>
+  <li>Zero-point <code class="language-plaintext highlighter-rouge">z ≠ 0</code> (real 0.0 maps to quantized <code class="language-plaintext highlighter-rouge">z</code>). The shift by <code class="language-plaintext highlighter-rouge">z</code> ensures <code class="language-plaintext highlighter-rouge">float(0.0) == int(0)</code> because 0 occurs frequently otherwise errors may accumulate.</li>
+  <li>Clipping range is arbitrary: <code class="language-plaintext highlighter-rouge">[α, β]</code>.</li>
+  <li>Used primarily for <strong>activations</strong>.</li>
+  <li>Slightly more accurate but requires more compute.</li>
+</ul>
+
+\[r_q = \text{round}\!\left(\frac{\text{clip}(r, [\alpha, \beta])}{s} + z\right)\]
+
+<p>where \(s\) is the scale factor, \(z\) is the zero-point (shift), and \([\alpha, \beta]\) are the clipping thresholds.</p>
+
+<figure class="mbimgstyle" style="--img-caption: 'Asymmetric quantization with non-zero zero-point';">
+<img src="/img/blog/mixed_precision_quantization/asymmetric_quantization.jpg" alt="Asymmetric quantization with non-zero zero-point" />
+</figure>
+
+<figure class="mbimgstyle" style="--img-caption: 'Symmetric vs asymmetric quantization comparison';">
+<img src="/img/blog/mixed_precision_quantization/symmetric_vs_asymmetric_quantization.jpg" alt="Symmetric vs asymmetric quantization comparison" />
+</figure>
+
+<h3 id="range-calibration-static-vs-dynamic">Range Calibration: Static vs Dynamic</h3>
+
+<p>Calibration is the process of choosing the clipping range \([\alpha, \beta]\) of input fp32 values thus computing q-params.</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Static Quantization</strong>
+Clipping range is pre-calculated once before inference (faster).</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Dynamic Quantization</strong>
+Clipping Range is computed at runtime (more accurate but slower).</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-caption: 'Static vs dynamic range calibration for quantization';">
+<img src="/img/blog/mixed_precision_quantization/range_calibration.jpg" alt="Static vs dynamic range calibration for quantization" />
+</figure>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Entity</th>
+      <th>Preferred Method</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Weights</td>
+      <td>Static (fixed)</td>
+    </tr>
+    <tr>
+      <td>Activations</td>
+      <td>Static (faster) or Dynamic (more accurate)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="layer-wise-vs-channel-wise-quantization">Layer-wise vs Channel-wise Quantization</h3>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Layer-wise (Per-Tensor)</strong>
+One scale/zero-point for the entire weight tensor, used for activations.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Channel-wise (Per-Channel/Per-Axis)</strong>
+Separate q-params per output channel, used for convolutional filters.</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-caption: 'Layer-wise vs channel-wise quantization granularity';">
+<img src="/img/blog/mixed_precision_quantization/layerwise_quantization.jpg" alt="Layer-wise vs channel-wise quantization granularity" />
+</figure>
+
+<h3 id="post-training-quantization-ptq-static">Post-Training Quantization (PTQ): Static</h3>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>Weights Quantized</strong>
+prior to inference.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Activations Quantized</strong>
+using q-params computed from a calibration dataset (unlabeled).</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>No Fine-Tuning Required</strong>
+Ready for deployment immediately.</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-caption: 'Post-Training Quantization (PTQ) workflow';">
+<img src="/img/blog/mixed_precision_quantization/ptq.jpg" alt="Post-Training Quantization (PTQ) workflow" />
+</figure>
+
+<h3 id="quantization-aware-training-qat-static">Quantization-Aware Training (QAT): Static</h3>
+
+<p>In QAT, the q-params are learned during fine-tuning.</p>
+
+<div class="mbsteps">
+  <div class="mbstep">
+    <p><strong>FakeQuantization</strong>
+Q/DQ nodes inserted during training; quantize then immediately dequantize to simulate quantization errors.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Forward Pass</strong>
+<code class="language-plaintext highlighter-rouge">r_out = DeQuant(Quant(r))</code>.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Backward Pass</strong>
+Gradients pass through unchanged as usual.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Training loss accounts for quantization errors</strong>
+Training produces FP32 weights such that INT8 conversion can maintain accuracy.</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-caption: 'Quantization-Aware Training (QAT) workflow';">
+<img src="/img/blog/mixed_precision_quantization/qat.jpg" alt="Quantization-Aware Training (QAT) workflow" />
+</figure>
+
+<figure class="mbimgstyle" style="--img-caption: 'FakeQuantization nodes simulate quantization during QAT training';">
+<img src="/img/blog/mixed_precision_quantization/qat_fakequant.jpg" alt="FakeQuantization nodes simulate quantization during QAT training" />
+</figure>
+
+<h3 id="layer-fusion">Layer Fusion</h3>
+
+<p>Fused layers execute in a single kernel call, reducing launch overhead, compared to separate kernel calls for separate layers.</p>
+
+<ul>
+  <li>
+    <p>Conv + BatchNorm</p>
+
+\[\begin{align}
+Y &amp;= W * X + b \tag{Conv} \\
+Z &amp;= \gamma \frac{Y - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta \tag{BatchNorm} \\
+  &amp;= \Big( \frac{\gamma}{\sqrt{\sigma^2 + \epsilon}} W \Big) * X +
+     \bigg( \beta + \frac{\gamma}{\sqrt{\sigma^2 + \epsilon}} (b - \mu) \bigg) \\
+  &amp;= W' * X + b' \tag{Fused}
+\end{align}\]
+  </li>
+  <li>Conv + ReLU</li>
+  <li>ReLU + ReLU</li>
+  <li>Conv + Pooling, etc.</li>
+</ul>
+
+<h3 id="fp8-format">FP8 Format</h3>
+
+<p>FP8 is a newer 8-bit floating-point format supported on NVIDIA H100 (Hopper) GPUs, available in two variants:</p>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Format</th>
+      <th style="text-align: center">Exponent Bits</th>
+      <th style="text-align: center">Mantissa Bits</th>
+      <th style="text-align: center">Range</th>
+      <th style="text-align: left">Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>E4M3</strong></td>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">-448 to 448</td>
+      <td style="text-align: left">Weights and activations</td>
+    </tr>
+    <tr>
+      <td><strong>E5M2</strong></td>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">-57344 to 57344</td>
+      <td style="text-align: left">Gradients</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>E5M2 has the same exponent range as FP16 (offering similar dynamic range) but with much less precision. E4M3 trades one exponent bit for an extra mantissa bit, increasing precision at the expense of range. The recommended use is E4M3 for weight and activation tensors, and E5M2 for gradient tensors (which need wider range to prevent overflow).</p>
+
+<h3 id="model-optimization-beyond-quantization">Model Optimization Beyond Quantization</h3>
+
+<p><strong>Pruning</strong>: Removes model weights that don’t contribute much to model accuracy, reducing model size and improving inference speed.</p>
+
+<p><strong>Distillation</strong>: Transfers knowledge from a larger teacher model to a smaller student model. The student is trained to mimic the teacher’s output, allowing it to approach the teacher’s accuracy with fewer parameters. For example, DistilBERT retains 97% of BERT’s language understanding while being 40% smaller and 60% faster.</p>
+
+<p><strong>Model Compilation</strong>: ML compilers apply techniques like operator fusion (combining multiple operations into a single kernel), memory planning (efficient allocation of intermediate tensors), and graph optimizations to improve inference throughput. Libraries like TensorRT, FasterTransformer, and ONNX Runtime provide optimized implementations for GPU inference.</p>
+
+<h3 id="quantization-summary">Quantization Summary</h3>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Quantization Mode</th>
+      <th>Q-params Calculation</th>
+      <th>Data Requirements</th>
+      <th>Speed</th>
+      <th>Accuracy Loss</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PTQ (Dynamic)</td>
+      <td>Weights: pre-calculated<br />Activations: runtime</td>
+      <td>None</td>
+      <td>++</td>
+      <td>– –</td>
+      <td>Dynamic models (LSTM)</td>
+    </tr>
+    <tr>
+      <td>PTQ (Static)</td>
+      <td>Both pre-calculated</td>
+      <td>Unlabeled calibration</td>
+      <td>+++</td>
+      <td>– –</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>QAT (Static)</td>
+      <td>Both pre-calculated</td>
+      <td>Labeled fine-tuning</td>
+      <td>+++</td>
+      <td>–</td>
+      <td>All</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>When to Use</th>
+      <th>Key Benefit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Automatic Mixed Precision (AMP)</strong></td>
+      <td>Training</td>
+      <td>Up to 2× faster, up to 2× memory savings, no accuracy loss</td>
+    </tr>
+    <tr>
+      <td><strong>Post-Training Quantization (PTQ)</strong></td>
+      <td>Inference without fine-tuning</td>
+      <td>2–4× smaller, 2–4× faster</td>
+    </tr>
+    <tr>
+      <td><strong>Quantization-Aware Training (QAT)</strong></td>
+      <td>Inference with highest accuracy</td>
+      <td>Near-lossless INT8 inference</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+    var all_questions = [{
+      question_string: "What is the primary benefit of using FP16 over FP32 in mixed precision training?",
+      choices: {
+        correct: "Reduced memory usage and faster computation due to smaller data size",
+        wrong: ["Higher numerical precision for gradient updates", "Eliminates the need for loss scaling entirely", "Allows training without any weight updates"]
+      }
+    }, {
+      question_string: "What is the purpose of loss scaling in mixed precision training?",
+      choices: {
+        correct: "To prevent FP16 gradients from underflowing to zero by scaling them up before backpropagation",
+        wrong: ["To increase model accuracy by scaling the loss function", "To convert FP32 weights to FP16 format", "To reduce the learning rate during training"]
+      }
+    }, {
+      question_string: "How do Tensor Cores differ from standard CUDA cores?",
+      choices: {
+        correct: "Tensor Cores perform fused multiply-add on 4x4 matrices in one cycle, specialized for mixed precision",
+        wrong: ["Tensor Cores are software libraries while CUDA cores are hardware", "Tensor Cores only work with INT32 data types", "Tensor Cores are slower but more accurate than CUDA cores"]
+      }
+    }, {
+      question_string: "What is the key difference between Post-Training Quantization (PTQ) and Quantization-Aware Training (QAT)?",
+      choices: {
+        correct: "QAT simulates quantization during training to adapt weights, while PTQ quantizes a pre-trained model without retraining",
+        wrong: ["PTQ requires labeled data for training, while QAT does not", "QAT uses FP32 exclusively, while PTQ uses FP16", "PTQ always produces higher accuracy than QAT"]
+      }
+    }, {
+      question_string: "In INT8 quantization, what does the scale parameter represent?",
+      choices: {
+        correct: "The ratio between the FP32 value range and the INT8 integer range for a given tensor",
+        wrong: ["The number of bits used for exponent representation", "The precision of the mantissa in floating-point format", "The learning rate used during quantization-aware training"]
+      }
+    }, {
+      question_string: "What is the master copy of weights used for in mixed precision training?",
+      choices: {
+        correct: "An FP32 copy maintained alongside FP16 weights to accumulate gradient updates with full precision",
+        wrong: ["A separate FP16 copy stored on the CPU for inference", "A backup copy used only when FP16 weights overflow", "The original untrained weights saved before training begins"]
+      }
+    }];
+</script>
+
+<link rel="stylesheet" href="/css/quiz.css" />
+
+<div id="quiz">
+  <div class="quiz-header">
+    <h2 class="quiz-title" id="test-your-knowledge">QUIZ: Test Your Knowledge</h2>
+    <div class="quiz-progress">
+      <span class="quiz-progress-text"></span>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="quiz-question-area">
+    <p class="quiz-question-text"></p>
+    <div class="quiz-options"></div>
+  </div>
+
+  <div class="quiz-footer">
+    <button class="quiz-btn quiz-btn-secondary" id="prev-btn">&#8592; Prev</button>
+    <div class="quiz-footer-right">
+      <button class="quiz-btn quiz-btn-outline" id="check-btn" style="display:none">Submit</button>
+      <button class="quiz-btn quiz-btn-primary" id="next-btn">Next &#8594;</button>
+      <button class="quiz-btn quiz-btn-primary" id="finish-btn" style="display:none">Finish</button>
+    </div>
+  </div>
+
+  <div class="quiz-results" style="display:none">
+    <div class="quiz-results-emoji"></div>
+    <p class="quiz-results-message"></p>
+    <p class="quiz-results-score"></p>
+    <button class="quiz-btn quiz-btn-secondary" id="retake-btn">&#8635; Retake Quiz</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/js/quiz/quiz.js"></script>
+</div>
+
+<p><strong>References:</strong></p>
+
+<ul>
+  <li>Nvidia Blog and docs</li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2022-05-22-mixed-precision-and-quantization.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2021/12/03/pytorch-basics-tutorial">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">PyTorch Basic Tutorial</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2024/04/26/rag-financial-reports-llm">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2024/06/07/matrix-multiplication-cuda">
+                
+                <span class="post-related-thumb"><img src="/img/blog/matrix-multiplication-cuda/cuda_matmul_naive.png" alt="Matrix Multiplication in CUDA" loading="lazy"></span>
+                
+                <span class="post-related-title">Matrix Multiplication in CUDA</span>
+                <span class="post-related-date">Jun 2024</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

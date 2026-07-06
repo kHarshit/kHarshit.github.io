@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Why vanilla RNNs suffer from vanishing and exploding gradients, and how this limits their ability to capture long-range dependencies.">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>The gradient problem in RNN | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="The gradient problem in RNN">
+        <meta property="og:description" content="Why vanilla RNNs suffer from vanishing and exploding gradients, and how this limits their ability to capture long-range dependencies.">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/2019/01/04/the-gradient-problem-in-rnn">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/the-gradient-problem-in-rnn/gradient_flow_rnn.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="The gradient problem in RNN">
+        <meta name="twitter:description" content="Why vanilla RNNs suffer from vanishing and exploding gradients, and how this limits their ability to capture long-range dependencies.">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/the-gradient-problem-in-rnn/gradient_flow_rnn.png">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/2019/01/04/the-gradient-problem-in-rnn">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "The gradient problem in RNN",
+          "datePublished": "2019-01-04T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Why vanilla RNNs suffer from vanishing and exploding gradients, and how this limits their ability to capture long-range dependencies.",
+          "url": "https://kharshit.github.io/blog/2019/01/04/the-gradient-problem-in-rnn",
+          "image": "https://kHarshit.github.io/img/blog/the-gradient-problem-in-rnn/gradient_flow_rnn.png"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">The gradient problem in RNN</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Jan 4, 2019</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+                    <li><a href="/categories/natural-language-processing/">Natural Language Processing</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>Much as Convolutional Neural Networks are used to deal with images, the Recurrent Neural Networks are used to process sequential data. The key idea in recurrent neural networks is <em>parameter sharing</em> across different parts of the model i.e. a RNN shares same weights across several time steps. As feedforward neural network can model any function, a recurrent neural network can model any function involving recurrence.</p>
+
+<h2 id="rnn">RNN</h2>
+
+<p>The vanilla Recurrent Neural Network (RNN) has the following structure:</p>
+
+\[h_t = f_W(h_{t-1}, x_t)\]
+
+<p>Here, the same function and same set of parameters are used at every time step. The \(h_t\) denotes the <em>state</em>, which is a kind of summary of past sequence of inputs \((x_t, x_{t-1}, x_{t-2}, ..., x_1)\) upto \(t\) mapped to fixed length vector \(h_t\).</p>
+
+<p>But, the gradient flow in RNNs often lead to the following problems:</p>
+
+<ul>
+  <li>Exploding gradients</li>
+  <li>Vanishing gradients</li>
+</ul>
+
+<p><img src="/img/blog/the-gradient-problem-in-rnn/gradient_flow_rnn.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<p>The gradient computation involves recurrent multiplication of \(W\). This multiplying by \(W\) to each cell has a bad effect. <em>Think like this:</em> If you a scalar (number) and you multiply gradients by it over and over again for say 100 times, if that number &gt; 1, it’ll explode the gradient and if &lt; 1, it’ll vanish towards 0.</p>
+
+<blockquote>
+  <p>In the backpropagation process, we adjust our weight matrices with the use of a gradient. In the process, gradients are calculated by continuous multiplications of derivatives. The value of these derivatives may be so small, that these continuous multiplications may cause the gradient to practically “vanish”.</p>
+</blockquote>
+
+<p>The problem of exploding gradients can be solved by <em>gradient clipping</em> i.e. if gradient is larger than the threshold, scale it by dividing. LSTM solves the problem of vanishing gradients.</p>
+
+<h2 id="lstm">LSTM</h2>
+
+<p>A Long Short Term Memory (LSTM) utilizes four gates that perform a specific function.</p>
+
+<p><img src="/img/blog/the-gradient-problem-in-rnn/lstm.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<ul>
+  <li>Input gate (\(i\)): controls what to write to the LSTM cell</li>
+  <li>Forget gate (\(f\)): controls whether to erase the cell</li>
+  <li>Output gate (\(o\)): controls how much to reveal cell</li>
+  <li>The fourth gate (\(g\)) controls how much to write to the cell</li>
+</ul>
+
+<p>Inside the cell state, we can either remember or forget our previous state, and we can either increment or decrement each element of that cell state by up to 1 in each time step. These cell states can be interpreted as counters (counting by 1 or -1 at each time step). We want to squash that counter value in [0, 1] range using tanh. Then, we use our updated cell state to calculate our hidden state, which we’ll reveal to outside world.</p>
+
+<blockquote>
+  <p>The first step in our LSTM is to decide what information we’re going to throw away from the cell state. This decision is made by a sigmoid layer called the “forget gate layer.” It looks at \(h_{t-1}\) and \(x_t\), and outputs a number between 0 and 1 for each number in the cell state \(c_{t−1}\). A 1 represents “completely keep this” while a 0 represents “completely get rid of this.”</p>
+</blockquote>
+
+<p><img src="/img/blog/the-gradient-problem-in-rnn/gradient_flow_lstm.png" style="display: block; margin: auto; width: auto; max-width: 100%;" /></p>
+
+<blockquote>
+  <p>The next step is to decide what new information we’re going to store in the cell state. This has two parts. First, a sigmoid layer called the “input gate layer” decides which values we’ll update. Next, a tanh layer creates a vector of new candidate values, \(c_t\), that could be added to the state. In the next step, we’ll combine these two to create an update to the state.</p>
+</blockquote>
+
+<blockquote>
+  <p>Finally, we need to decide what we’re going to output. This output will be based on our cell state, but will be a filtered version. First, we run a sigmoid layer which decides what parts of the cell state we’re going to output. Then, we put the cell state through tanh (to push the values to be between −1 and 1) and multiply it by the output of the sigmoid gate, so that we only output the parts we decided to.</p>
+</blockquote>
+
+<p>In LSTM, the backpropagation only involves element-wise multiplication by \(f\), and no matrix multiplication by \(W\) i.e. the cell state gradient is multiplied only by the forget gate element-wise (better than full matrix multiplication). Also, in vanilla RNN, we’re multiplying by same \(W\) over and over again leading to exploding or vanishing gradient problems. But, here this forget gate will vary at each time-step (e.g. values sometimes &gt; 1 or &lt; 1) thus avoiding these problems.</p>
+
+<h3 id="peephole-connections">Peephole Connections</h3>
+
+<p>Peephole connections are a variation where the gates also “peek” at the cell state, giving them more contextual information. In standard LSTMs, the gates only have access to the previous hidden state and current input. Peephole connections allow the input, forget, and output gates to also see the cell state, enhancing the LSTM’s ability to learn precise timing of outputs.</p>
+
+<h2 id="gru">GRU</h2>
+
+<p>The Gated Recurrent Unit (GRU) simplifies the LSTM by combining the forget and input gates into a single <strong>update gate</strong> (\(z\)), and merging the cell state and hidden state.</p>
+
+<ul>
+  <li><strong>Update Gate (\(z\))</strong>: Decides how much of the past information to pass along to the future.</li>
+  <li><strong>Reset Gate (\(r\))</strong>: Decides how much of the past information to forget, making the model more adaptable to new information.</li>
+</ul>
+
+<p>LSTMs may outperform GRUs, especially when the sequence length is very large, due to their more complex gating mechanisms.</p>
+
+<h2 id="teacher-forcing">Teacher Forcing</h2>
+
+<p>Teacher forcing is a training strategy for seq2seq generation models (RNNs, LSTMs, GRUs) in tasks like machine translation and text generation. During training, instead of feeding the model’s own prediction from the previous time step as input, the model is given the actual ground-truth output from the training corpus. This leads to faster convergence and improved stability by guiding the model with the correct sequence of outputs.</p>
+
+<p><strong>References:</strong></p>
+<ol>
+  <li><a href="http://cs231n.stanford.edu/">CS231n: Convolutional Neural Networks for Visual Recognition (also image source)</a></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2019-01-04-the-gradient-problem-in-rnn.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2018/12/28/why-batch-normalization">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Why Batch Normalization?</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/2019/01/11/image-captioning-using-encoder-decoder">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Image captioning using encoder-decoder</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/03/08/attention">
+                
+                <span class="post-related-thumb"><img src="/img/blog/attention/encoder_decoder_arch.png" alt="Attention" loading="lazy"></span>
+                
+                <span class="post-related-title">Attention</span>
+                <span class="post-related-date">Mar 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/02/22/backpropagation-through-time">
+                
+                <span class="post-related-thumb"><img src="/img/blog/backpropagation-through-time/rnn2.png" alt="Backpropagation Through Time" loading="lazy"></span>
+                
+                <span class="post-related-title">Backpropagation Through Time</span>
+                <span class="post-related-date">Feb 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/2019/01/11/image-captioning-using-encoder-decoder">
+                
+                <span class="post-related-thumb"><img src="/img/blog/image-captioning-using-encoder-decoder/image_captioner_structure.png" alt="Image captioning using encoder-decoder" loading="lazy"></span>
+                
+                <span class="post-related-title">Image captioning using encoder-decoder</span>
+                <span class="post-related-date">Jan 2019</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Overview of Vision Language Models (VLMs) and their training paradigms: contrastive learning (CLIP), masking (FLAVA), generative approaches (CoCa, Chameleon)...">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Vision Language Models (VLM) | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Vision Language Models (VLM)">
+        <meta property="og:description" content="Overview of Vision Language Models (VLMs) and their training paradigms: contrastive learning (CLIP), masking (FLAVA), generative approaches (CoCa, Chameleon)...">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/vision-language-models/">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/vision-language-models/vlm_paradigms.jpg">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Vision Language Models (VLM)">
+        <meta name="twitter:description" content="Overview of Vision Language Models (VLMs) and their training paradigms: contrastive learning (CLIP), masking (FLAVA), generative approaches (CoCa, Chameleon)...">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/vision-language-models/vlm_paradigms.jpg">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/vision-language-models/">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Vision Language Models (VLM)",
+          "datePublished": "2024-07-12T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Overview of Vision Language Models (VLMs) and their training paradigms: contrastive learning (CLIP), masking (FLAVA), generative approaches (CoCa, Chameleon)...",
+          "url": "https://kharshit.github.io/blog/vision-language-models/",
+          "image": "https://kHarshit.github.io/img/blog/vision-language-models/vlm_paradigms.jpg"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Vision Language Models (VLM)</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Jul 12, 2024</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      22 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/llm/">LLM</a></li>
+                
+                    <li><a href="/categories/generative-ai/">Generative AI</a></li>
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>The multimodal models that can learn from both image and text are called Vision Language Models (VLM). The Vision Language Modeling can be divided into the following non-mutually exclusive paradigms.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Vision Language Models training paradigms';">
+<img src="/img/blog/vision-language-models/vlm_paradigms.jpg" alt="Vision Language Models training paradigms" />
+</figure>
+
+<h2 id="1-contrastive-training">1. Contrastive training</h2>
+
+<p>In contrastive training, we train models using a dataset that contains pairs of positive and negative examples. The VLM’s job is to learn the representation: similarity between positive pairs and dissimilarity between negative pairs. The models like CLIP come in this category.</p>
+
+<h3 id="11-clip-contrastive-languageimage-pre-training">1.1. CLIP: Contrastive Language–Image Pre-Training</h3>
+
+<p>Trained on 400m image-text pairs, CLIP (Contrastive Language–Image Pre-Training) is a model, released by OpenAI in Jan 2021, that learns visual concepts from natural language supervision.</p>
+
+<p>While standard image models jointly train an image feature extractor and a linear classifier to predict some label, CLIP jointly trains an image encoder and a text encoder to predict the correct pairings of a batch of (image, text) training examples. At test time the learned text encoder synthesizes a zero-shot linear classifier by embedding the names or descriptions of the target dataset’s classes.</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>Shared Representation Space</strong>
+CLIP learns to represent both images and text in a common embedding space, allowing for direct comparison and retrieval.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Contrastive Learning</strong>
+The model uses a contrastive learning objective to align text and image embeddings. This means it learns to bring together the embeddings of matching text-image pairs and push apart those of non-matching pairs.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Zero-Shot Learning</strong>
+CLIP can perform tasks without task-specific training by leveraging its understanding of the relationships between text and images.</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-width: 60%; --img-caption: 'CLIP architecture (source: CLIP paper)';">
+<img src="/img/blog/vision-language-models/clip.jpg" alt="CLIP architecture (source: CLIP paper)" />
+</figure>
+
+<h4 id="architecture">Architecture</h4>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Image Encoder</strong>
+Typically a Vision Transformer (ViT) or a convolutional neural network (e.g., ResNet) that converts images into fixed-size embeddings.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Text Encoder</strong>
+Usually a transformer-based model (e.g., a modified GPT) that converts text descriptions into fixed-size embeddings.</p>
+  </div>
+</div>
+
+<h4 id="training-vs-inference">Training vs Inference</h4>
+
+<ul>
+  <li>During training, it tries to maximize the cosine similarity between correct image-caption vector pairs, and minimize the similarity scores between all incorrect pairs.</li>
+  <li>During inference, it calculates the similarity scores between the vector of a single image with a bunch of possible caption vectors, and picks the caption with the highest similarity. Note that CLIP is not a caption generation model, it can only tell you if some existing text caption fits well with an existing image or not.</li>
+</ul>
+
+<h4 id="working">Working</h4>
+
+<div class="mbsteps">
+  <div class="mbstep">
+    <p><strong>Image Embeddings</strong>
+For every image in the batch, the Image Encoder computes an image vector (<code class="language-plaintext highlighter-rouge">I1</code>, <code class="language-plaintext highlighter-rouge">I2</code>, …). Each vector is of size <code class="language-plaintext highlighter-rouge">de</code> (latent dimension). Output: <code class="language-plaintext highlighter-rouge">N×de</code> matrix.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Text Embeddings</strong>
+Textual descriptions are squashed into text embeddings <code class="language-plaintext highlighter-rouge">[‘T1’,’T2’,...,’TN’]</code>, producing a <code class="language-plaintext highlighter-rouge">N×de</code> matrix.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Pairwise Similarities</strong>
+Multiply the two matrices to calculate pairwise cosine similarities between every image and text description. Output: <code class="language-plaintext highlighter-rouge">N×N</code> matrix.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Contrastive Objective</strong>
+Maximize cosine similarity along the diagonal (correct pairs). Off-diagonal similarities are minimized — <code class="language-plaintext highlighter-rouge">I1</code> matches <code class="language-plaintext highlighter-rouge">T1</code>, not <code class="language-plaintext highlighter-rouge">T2</code>, <code class="language-plaintext highlighter-rouge">T3</code>, etc.</p>
+  </div>
+</div>
+
+<h4 id="contrastive-loss">Contrastive Loss</h4>
+
+<p>CLIP employs a <strong>symmetric cross-entropy</strong> loss over the similarity scores computed for each pair within a batch. The contrastive loss is computed using the cross-entropy loss for both the image-to-text and text-to-image directions. This ensures that the correct image-text pairs have high similarity while incorrect pairs have low similarity. Apply the softmax function to the similarity scores to convert them into probabilities. This is done separately for the rows and columns of the similarity matrix to handle both image-to-text and text-to-image matching.</p>
+
+<ul>
+  <li><strong>Image-to-text similarity (row-wise):</strong> \(P_{ij} = \frac{\exp(S_{ij}/\tau)}{\sum_{k=1}^{N} \exp(S_{ik}/\tau)}\) The image-to-text direction measures how well the model can predict the correct text given an image.</li>
+  <li><strong>Text-to-image similarity (column-wise):</strong> \(Q_{ij} = \frac{\exp(S_{ij}/\tau)}{\sum_{k=1}^{N} \exp(S_{kj}/\tau)}\) The text-to-image direction measures how well the model can predict the correct image given a text.</li>
+</ul>
+
+<p><em>where τ is a temperature parameter that controls the sharpness of the softmax distribution.</em></p>
+
+<p>The total loss is the average of the two cross-entropy losses:</p>
+
+\[L_{contrastive} = \frac{1}{2N} \sum_{i=1}^{N} [-\log P_{ii}] + \frac{1}{2N} \sum_{j=1}^{N} [-\log Q_{jj}]\]
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># CLIP code
+# image_encoder - ResNet or Vision Transformer
+# text_encoder - CBOW or Text Transformer
+# I[n, h, w, c] - minibatch of aligned images
+# T[n, l] - minibatch of aligned texts
+# W_i[d_i, d_e] - learned proj of image to embed
+# W_t[d_t, d_e] - learned proj of text to embed
+# t - learned temperature parameter
+# extract feature representations of each modality
+</span><span class="n">I_f</span> <span class="o">=</span> <span class="nf">image_encoder</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="c1">#[n, d_i]
+</span><span class="n">T_f</span> <span class="o">=</span> <span class="nf">text_encoder</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="c1">#[n, d_t]
+# joint multimodal embedding [n, d_e]
+</span><span class="n">I_e</span> <span class="o">=</span> <span class="nf">l2_normalize</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">dot</span><span class="p">(</span><span class="n">I_f</span><span class="p">,</span> <span class="n">W_i</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">T_e</span> <span class="o">=</span> <span class="nf">l2_normalize</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">dot</span><span class="p">(</span><span class="n">T_f</span><span class="p">,</span> <span class="n">W_t</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># scaled pairwise cosine similarities [n, n]
+</span><span class="n">logits</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">dot</span><span class="p">(</span><span class="n">I_e</span><span class="p">,</span> <span class="n">T_e</span><span class="p">.</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="c1"># symmetric loss function
+</span><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">loss_i</span> <span class="o">=</span> <span class="nf">cross_entropy_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">loss_t</span> <span class="o">=</span> <span class="nf">cross_entropy_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">loss_i</span> <span class="o">+</span> <span class="n">loss_t</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span></code></pre></figure>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/clip_matrix.js"></script>
+
+<div id="clip-matrix" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-clip-matrix">Interactive: CLIP Contrastive Similarity Matrix</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="dt-control-group" style="margin-bottom:4px;">
+      <span class="dt-label-text" style="flex:0 0 100px;">Temperature τ</span>
+      <input type="range" class="dt-slider clip-temp-slider" min="1" max="100" value="20" step="1" />
+      <span class="dt-label-value clip-temp-display" style="min-width:36px;">0.20</span>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <div style="flex:2;min-width:280px;">
+        <div class="clip-matrix-container" style="overflow-x:auto;">
+          <svg class="clip-matrix-svg" width="100%" viewBox="0 0 400 420" style="display:block;"></svg>
+        </div>
+      </div>
+      <div style="flex:1;min-width:160px;">
+        <div style="font-size:0.82rem;font-weight:600;color:var(--font-color,#555);margin-bottom:8px;">Pair Details</div>
+        <div class="clip-details" style="font-size:0.82rem;color:var(--font-color,#555);padding:12px;background:var(--bg-color,#f8fafc);border:1px solid #e2e8f0;border-radius:8px;min-height:120px;">
+          Hover over a cell to see details.
+        </div>
+        <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div class="ppl-stat-item"><div class="ppl-stat-value clip-img-loss">—</div><div class="ppl-stat-label">Image→Text Loss</div></div>
+          <div class="ppl-stat-item"><div class="ppl-stat-value clip-txt-loss">—</div><div class="ppl-stat-label">Text→Image Loss</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Temperature τ scales logits before softmax. Lower τ = sharper distribution (correct pairs dominate). Higher τ = flatter distribution (all pairs get similar probability). The symmetric cross-entropy loss averages image-to-text and text-to-image directions. Matrix values change with τ because they show softmax probabilities, not raw similarities.
+  </div>
+</div>
+
+<p>The interactive 3D visualization below shows CLIP’s contrastive learning in action: image and text embeddings begin randomly scattered, and over training steps, matching pairs attract while non-matching pairs repel, showing how CLIP learns its joint embedding space.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<style>
+#ce-container {
+  width: 100%;
+  height: 370px;
+  position: relative;
+  background: var(--bg-color, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: grab;
+}
+#ce-container:active { cursor: grabbing; }
+#ce-container canvas { display: block; }
+.ce-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.ce-controls label {
+  font-size: 12px;
+  color: var(--font-color, #333);
+}
+.ce-controls input[type=range] {
+  width: 80px;
+  accent-color: #20B2AA;
+}
+.ce-controls .ar-btn {
+  font-family: inherit;
+}
+.ce-status {
+  text-align: center;
+  color: var(--font-color, #333);
+  font-size: 13px;
+  padding: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.ce-status span {
+  font-weight: 600;
+  color: #20B2AA;
+}
+.ce-info {
+  text-align: center;
+  color: var(--font-color, #333);
+  font-size: 12px;
+  padding: 2px 12px 10px;
+  opacity: 0.8;
+}
+.ce-detail {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  display: none;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+.ce-detail .ce-dd-label {
+  font-weight: 600;
+  font-size: 14px;
+}
+.ce-detail .ce-dd-caption {
+  opacity: 0.8;
+  font-size: 12px;
+}
+</style>
+
+<script>
+(function() {
+  if (document.querySelector('script[type="importmap"]')) return;
+  var im = document.createElement('script');
+  im.type = 'importmap';
+  im.textContent = JSON.stringify({
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  });
+  document.head.appendChild(im);
+})();
+</script>
+
+<script type="module" src="/js/interactive/3d_clip_embedding.js"></script>
+
+<div id="ce-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-3d-clip-embedding">Interactive: 3D CLIP Embedding Space</h3>
+  </div>
+  <div class="dt-widget-body" style="position:relative">
+    <div id="ce-container">
+      <div id="ce-detail" class="ce-detail">
+        <div class="ce-dd-label" id="ce-dd-label"></div>
+        <div class="ce-dd-caption" id="ce-dd-caption"></div>
+      </div>
+    </div>
+    <div class="ce-controls">
+      <button id="ce-play" class="ar-btn ar-btn-primary">&#9654; Play</button>
+      <button id="ce-reset" class="ar-btn ar-btn-secondary">Reset</button>
+      <label for="ce-speed">Speed:</label>
+      <input type="range" id="ce-speed" min="1" max="10" value="5" step="1" />
+      <span id="ce-speed-val" style="font-size:12px;color:var(--font-color,#333);min-width:32px;">1.0x</span>
+    </div>
+    <div class="ce-status">
+      Step: <span id="ce-step">0</span>/300 &nbsp;&nbsp;|&nbsp;&nbsp; Loss: <span id="ce-loss">0.000</span>
+    </div>
+    <div class="ce-info">Drag to orbit &bull; Watch matching pairs attract, non-matching repel</div>
+  </div>
+</div>
+
+<h4 id="zero-shot-image-classification">Zero-Shot Image Classification</h4>
+
+<p>CLIP can classify images into categories it was not explicitly trained on. By providing text descriptions of categories, CLIP can match the image to the appropriate category based on its learned representations.</p>
+
+<p>CLIP can be used to retrieve relevant images given a text query and vice versa. This is useful for search engines and content-based image retrieval systems.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'CLIP Zero-Shot Classifier(source: CLIP paper)';">
+<img src="/img/blog/vision-language-models/clip_zero_shot.jpg" alt="CLIP Zero-Shot Classifier(source: CLIP paper)" />
+</figure>
+
+<p>Across a 27 dataset eval suite, a zero-shot CLIP classifier outperforms a fully supervised linear classifier fitted on ResNet-50 features on 16 datasets, including ImageNet.</p>
+
+<p>Linear probe means that only a linear classifier (last layer) is trained while keeping the pre-trained features of layers constant.</p>
+
+<h4 id="prompt-engineering">Prompt Engineering</h4>
+
+<p>Prompt engineering in the context of CLIP refers to the careful design of textual inputs (prompts) used during the zero-shot classification task, which improves CLIP performance.</p>
+
+<p>Contextual Prompts: Instead of using simple class names, more descriptive and context-rich sentences are used. For example, instead of just “dog”, the prompt might be “a photo of a dog” or “an image of a dog in the park”.</p>
+
+<p>Compared to the baseline of using contextless class names, prompt engineering and ensembling boost zero-shot classification performance by almost 5 points on average across 36 datasets. This improvement is similar to the gain from using 4 times more compute with the baseline zero-shot method but is “free” when amortized over many predictions.</p>
+
+<h4 id="cons">Cons</h4>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070">
+    <p><strong>Polysemy</strong>
+CLIP cannot differentiate between two words due to lack of context. For example, the word ‘boxer’ can appear as a dog breed or an athlete. Perhaps a better set of data could help here.</p>
+  </div>
+  <div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070">
+    <p><strong>Handwriting detection</strong>
+While CLIP is excellent at understanding complex images, it still struggles with tasks such as handwriting detection (especially handwritten digits). This can be due to lack of sufficient data during training.</p>
+  </div>
+</div>
+
+<h2 id="2-masking">2. Masking</h2>
+
+<p>In masking, as the name suggests, we mask (hide) the portion of image or text during training.</p>
+
+<ul>
+  <li>In Masked Language Modeling (MLM) as used in BERT, the tokens are masked to train the model.</li>
+  <li>In Masked Image Modeling (MIM), the image patches are masked to train the model.</li>
+</ul>
+
+<p>Wrt VLMs, we can either</p>
+
+<ol>
+  <li>Mask image patches and keep the text captions unmasked, or</li>
+  <li>Mask text and keep the image unmasked, or</li>
+  <li>Mask both image and text.</li>
+</ol>
+
+<p>Implementing masking is straightforward for transformer based models, since the input is tokenized, we can easily drop the tokens to be masked during training.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/masking_viz.js"></script>
+
+<div id="masking-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-masking-viz">Interactive: Masking Strategy Visualizer</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div style="display:flex;gap:4px;margin-bottom:16px;background:#f1f5f9;border-radius:8px;padding:3px;">
+      <button class="masking-tab" data-mode="mlm" style="flex:1;padding:8px 12px;border:none;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;background:transparent;color:#888;transition:all 0.2s;">MLM (Text Only)</button>
+      <button class="masking-tab" data-mode="mim" style="flex:1;padding:8px 12px;border:none;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;background:transparent;color:#888;transition:all 0.2s;">MIM (Image Only)</button>
+      <button class="masking-tab" data-mode="mmm" style="flex:1;padding:8px 12px;border:none;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;background:transparent;color:#888;transition:all 0.2s;">MMM (Both)</button>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;">
+        <div style="font-size:0.78rem;font-weight:600;color:var(--font-color,#555);margin-bottom:6px;text-align:center;">Image Patches</div>
+        <div class="masking-image-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-width:280px;margin:0 auto;"></div>
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <div style="font-size:0.78rem;font-weight:600;color:var(--font-color,#555);margin-bottom:6px;text-align:center;">Text Tokens</div>
+        <div class="masking-text-tokens" style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;padding:10px;background:var(--bg-color,#f8fafc);border:1px solid #e2e8f0;border-radius:8px;"></div>
+      </div>
+    </div>
+    <div class="masking-description" style="margin-top:14px;padding:10px 14px;background:var(--bg-color,#f8fafc);border:1px solid #e2e8f0;border-radius:8px;font-size:0.85rem;color:var(--font-color,#555);text-align:center;"></div>
+  </div>
+  <div class="dt-widget-footer">
+    Masking trains the model to predict missing content.
+  </div>
+</div>
+
+<h3 id="21-flava-foundational-language-and-vision-alignment-model">2.1. FLAVA (Foundational Language And Vision Alignment Model)</h3>
+
+<p>FLAVA uses masking for both image and text encoders. It tries to be a universal model that targets all combination of image and text modalities to solve vision tasks, language tasks, and cross- and multi-modal vision and language tasks.</p>
+
+<h4 id="architecture-1">Architecture</h4>
+
+<figure class="mbimgstyle" style="--img-caption: 'FLAVA (source: FLAVA paper)';">
+<img src="/img/blog/vision-language-models/flava.jpg" alt="FLAVA (source: FLAVA paper)" />
+</figure>
+
+<p>Its architecture consists of</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>Vision Transformer (ViT)</strong>
+Encodes images into patches for linear embedding, along with a classification token (<code class="language-plaintext highlighter-rouge">CLS_I</code>).</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Transformer-based text encoder</strong>
+Gives vector embeddings for tokenized text input and also output hidden state vectors along with a classification token (<code class="language-plaintext highlighter-rouge">CLS_T</code>).</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Multimodal encoder</strong>
+Combines visual and textual information. It fuses hidden states from both image and text encoders, utilizing cross-attention mechanisms within transformer to integrate visual and textual information, and gives additional multimodal classification token (<code class="language-plaintext highlighter-rouge">CLS_M</code>).</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'FLAVA architecture (source: FLAVA paper)';">
+<img src="/img/blog/vision-language-models/flava_architecture.jpg" alt="FLAVA architecture (source: FLAVA paper)" />
+</figure>
+
+<p>During pretraining, masked image modeling (MIM) and mask language modeling (MLM) losses are applied onto the image and text encoders over a single image or a text piece, respectively, while contrastive, masked multimodal modeling (MMM), and image-text matching (ITM) loss are used over paired image-text data. For downstream tasks, classification heads are applied on the outputs from the image, text, and multimodal encoders respectively for visual recognition, language understanding, and multimodal reasoning tasks.</p>
+
+<h2 id="3-generative-vlms">3. Generative VLMs</h2>
+
+<p>Unlike the previous approaches that can do partial reconstructions, generative VLMs can generate entire images or
+long captions. They are also more expensive to train.</p>
+
+<h3 id="31-coca-contrastive-captioners">3.1. CoCa (Contrastive Captioners)</h3>
+
+<p>CoCa integrates <strong>both contrastive and generative losses</strong> to improve multimodal understanding and generation. The generative loss corresponds to the captions generated by a multimodal text decoder, which takes the outputs of an image encoder and a unimodal text decoder. The new loss allows the ability to perform new multimodal understanding.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'CoCa (source: CoCa paper)';">
+<img src="/img/blog/vision-language-models/coca.jpg" alt="CoCa (source: CoCa paper)" />
+</figure>
+
+<p>CoCa is pretrained using datasets like ALIGN (with around 1.8 billion images and alt-text pairs) and JFT-3B (containing over 29.5k classes treated as alt-text).</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'CoCa architecture (source: CoCa paper)';">
+<img src="/img/blog/vision-language-models/coca_tasks.jpg" alt="CoCa architecture (source: CoCa paper)" />
+</figure>
+
+<p>The pretrained CoCa can be used for downstream tasks including visual recognition, vision-language alignment, image captioning and multimodal understanding with zero-shot transfer, frozen-feature evaluation or end-to-end finetuning.</p>
+
+<h3 id="32-cm3leon-and-chameleon">3.2. CM3leon and Chameleon</h3>
+
+<p>It’s a family of early-fusion token-based mixed-modal models capable of understanding and generating images and text in any arbitrary sequence.</p>
+
+<figure class="mbimgstyle" style="--img-width: 60%; --img-caption: 'Chameleon architecture (source: Chameleon paper)';">
+<img src="/img/blog/vision-language-models/chameleon.jpg" alt="Chameleon architecture (source: Chameleon paper)" />
+</figure>
+
+<p>CM3leon (released before Chameleon) uses a transformer-based architecture that processes interleaved text and image tokens.</p>
+
+<p>The tokenization approach allows the model to handle mixed sequences of textual and visual content effectively. CM3leon uses an image tokenizer that encodes a 256x256 image into 1024 tokens from a vocabulary of 8192. It also uses a text tokenizer with a vocabulary size of 56320. A special token <code class="language-plaintext highlighter-rouge">&lt;break&gt;</code> indicates transitions between modalities. The tokenized images and texts are processed by a decoder-only transformer model, enabling the model to handle sequences of both image and text tokens without needing separate encoders for each modality.</p>
+
+<h4 id="training-process">Training Process</h4>
+
+<div class="mbsteps">
+  <div class="mbstep">
+    <p><strong>Retrieval-Augmented Pretraining</strong>
+A CLIP-based encoder acts as a dense retriever to fetch relevant multimodal documents, prepended to the input sequence. Trained using next-token prediction, increasing data efficiency.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Supervised Fine-Tuning (SFT)</strong>
+Multi-task instruction tuning, allowing the model to process and generate content across different modalities. Significantly improves text-to-image generation and language-guided image editing.</p>
+  </div>
+</div>
+
+<p>Chameleon builds on CM3leon. Its architecture largely follows LLaMa-2.</p>
+
+<h3 id="33-generative-text-to-image-models">3.3. Generative Text-to-Image Models</h3>
+
+<p>Models like Stable Diffusion and Imagen are trained to generate images from text prompts. While these models primarily focus on image generation, their ability to learn the joint distribution between text and images makes them suitable for various vision-language tasks.</p>
+
+<p>These models can generate high-quality images based on textual descriptions, demonstrating the potential of generative approaches in understanding and creating visual content from textual inputs.</p>
+
+<h2 id="4-pretrained-backbones-based-vlms">4. Pretrained backbones based VLMs</h2>
+
+<p>Since VLMs are expensive to train, these types of models leverage open-source LLMs like Llama to learn a mapping between an image encoder (which could also be pre-trained) and the LLM. This avoid the hefty cost to train VLM.</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Pretrained Backbones</strong>
+Utilize large language models (LLMs) and vision encoders that have already been trained on extensive datasets.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Mapping Mechanism</strong>
+Learn a mapping between the visual and textual representations produced by these pretrained models, thereby enabling multimodal understanding and generation with reduced computational resources.</p>
+  </div>
+</div>
+
+<h3 id="41-frozen">4.1. Frozen</h3>
+
+<p>It connects vision encoders to frozen language models via mapping layers which project visual features to text token embeddings. It was the first model to use a pretrained LLM for VLM task.</p>
+
+<figure class="mbimgstyle" style="--img-caption: 'Frozen architecture (source: Frozen paper)';">
+<img src="/img/blog/vision-language-models/frozen.jpg" alt="Frozen architecture (source: Frozen paper)" />
+</figure>
+
+<p>In Frozen, the language model (a 7 billion-parameter transformer trained on C4) is kept frozen (to maintain features that pre-trained model had already learned), while the vision encoder (NF-ResNet-50) and the linear mapping are trained from scratch. The vision embeddings are added as visual prefix to language embeddings - this fine-tuning for image captioning only updates weights of vision encoder.</p>
+
+<p><strong>Catastrophic forgetting:</strong> Fine-tuning Language Model results in model forgetting its general capabilities and only getting good at fine-tuned tasks. Frozen address this problem by keeping the Language Model frozen and only training Vision Encoder.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Frozen downstream tasks (source: Frozen paper)';">
+<img src="/img/blog/vision-language-models/frozen_zero_shot.jpg" alt="Frozen downstream tasks (source: Frozen paper)" />
+</figure>
+
+<p>Frozen exhibits good zero-shot and few-shot performance on multimodal tasks e.g. visual question answering (VQA). At inference time, the language model can be conditioned on interleaved text and image embedding.</p>
+
+<h3 id="42-minigpt">4.2. MiniGPT</h3>
+
+<p>MiniGPT-4 accepts text input and image input, and it only produces text output. A linear projection layer is used to align image representation (using the same visual encoder in BLIP-2, which is based on Q-Former and a ViT backbone) with the input space of the Vicuna language model.</p>
+
+<p>Given that the visual encoder and Vicuna language model are already pretrained and used as from prior work, MiniGPT-4 requires only training the linear project layer which is done in two rounds.</p>
+
+<div class="mbsteps">
+  <div class="mbstep">
+    <p><strong>Feature Alignment</strong>
+Train the linear projection layer using image-text pairs.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Instruction Tuning</strong>
+Fine-tune using highly-curated data in an instruction-tuning format.</p>
+  </div>
+</div>
+
+<p>MiniGPT-5 extends MiniGPT-4 so that the output can contain text interleaved with images.</p>
+
+<p>To generate images as well, MiniGPT-5 used generative tokens which are special visual tokens that can be mapped (through transformer layers) to feature vectors, which in turn can be fed into a frozen Stable Diffusion 2 model. The authors used supervised training on downstream tasks (e.g., multi-modal dialogue generation and
+story generation).</p>
+
+<h3 id="43-blip-2">4.3. BLIP-2</h3>
+
+<p>It integrates vision encoders (e.g., CLIP) with large language models via a Q-Former module. Q-Former is a transformer that interacts with image embeddings through cross-attention and projects them to the LLM’s input space. It greatly reduces training time by leveraging pretrained, frozen models for both vision and language tasks.</p>
+
+<h3 id="44-qwen-vl-and-qwen-vl-chat">4.4. Qwen-VL and Qwen-VL-Chat</h3>
+
+<p>It combines a ViT-bigG visual encoder with a one-layer cross-attention module to compress visual representations into a sequence fed into the Qwen-7B language model. It’s designed for tasks requiring detailed multimodal interaction, such as visual question answering and interactive chatbots.</p>
+
+<h3 id="45-llava-large-language-and-vision-assistant">4.5. LLaVA (Large Language-and-Vision Assistant)</h3>
+
+<p>LLaVA is a vision-language model designed to enhance multimodal chat capabilities through instruction fine-tuning.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'LLaVA architecture (source: LLaVA paper)';">
+<img src="/img/blog/vision-language-models/llava.jpg" alt="LLaVA architecture (source: LLaVA paper)" />
+</figure>
+
+<p>Its architecture consists of</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Language Model</strong>
+Pre-trained Vicuna (created by fine-tuning LLaMa 2 on conversations).</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>CLIP Vision Encoder (ViT-L/14)</strong>
+Used for extracting visual features from images. CLIP aligns visual and textual representations.</p>
+  </div>
+</div>
+
+<p>It involves passing the image through vision encoder and passing text embeddings as it is, combining them through Linear projection layer then passing them through Language Model. The outputs from language model and vision encoder are combined into the same dimensional space using a linear projector (linear layer). This integration allows the model to handle multimodal inputs effectively.</p>
+
+<h4 id="multimodal-instruction-tuning">Multimodal instruction tuning</h4>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'LLaVA instruction tuning (source: LLaVA paper)';">
+<img src="/img/blog/vision-language-models/llava_instruction_tuning.jpg" alt="LLaVA instruction tuning (source: LLaVA paper)" />
+</figure>
+
+<ul>
+  <li>Few-shot prompts to generate dataset: Take COCO image captioning dataset, and create instruction-dataset using GPT prompts. Ask text-only GPT to generate 3 types of responses (conversation, detailed description, complex reasoning).</li>
+  <li>The top block shows the contexts such as captions and boxes used to prompt GPT, and the bottom block shows the three types of responses. Note that the visual image is not used to prompt GPT, we only show it here as a reference.</li>
+</ul>
+
+<h4 id="training">Training</h4>
+
+<p>Its training consists of two stages.</p>
+
+<div class="mbsteps">
+  <div class="mbstep">
+    <p><strong>Pre-training for Feature Alignment</strong>
+Keep both the visual encoder and LLM weights frozen. Train only the Linear projection layers.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Fine-tuning End-to-End</strong>
+Keep the visual encoder frozen. Fine-tune the Linear projector layer and Language model weights end-to-end.</p>
+  </div>
+</div>
+
+<p>Catastrophic forgetting doesn’t happen here even though we’re fine-tuning Language Model because our dataset is mulit-instruction tuned. Instruction tuning is one of the solutions of catastrophic forgetting. This approach is designed to enhance the model’s flexibility and generalization capabilities by exposing it to a diverse range of tasks during the training phase. The goal is to produce a model that can adapt more effectively to a variety of tasks post-training, even those not seen during training, reducing the risk of catastrophic forgetting by reinforcing a broad base of capabilities.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'LLaVA 1.5 (source: LLaVA paper)';">
+<img src="/img/blog/vision-language-models/llava15.jpg" alt="LLaVA 1.5 (source: LLaVA paper)" />
+</figure>
+
+<p>LLaVA-1.5 improves on LLava’s instruction fine-tuning by using a cross-modal fully connected multi-layer perceptron (MLP) layer and incorporating academic VQA instruction data.</p>
+
+<h3 id="46-frozen-transformers-in-language-models">4.6. Frozen Transformers in Language Models</h3>
+
+<p>The large language models (LLMs) trained solely on text data are good encoders for visual tasks thus allowing usage of frozen language models. A straightforward method of using a frozen transformer block from pre-trained LLMs as a visual encoder layer is as follows.</p>
+
+<figure class="mbimgstyle" style="--img-width: 60%; --img-caption: 'Method of using a frozen transformer block from pre-trained LLMs as a visual encoder layer (source: Frozen transformers in Language Models paper)';">
+<img src="/img/blog/vision-language-models/frozen_llms.jpg" alt="Method of using a frozen transformer block from pre-trained LLMs as a visual encoder layer (source: Frozen transformers in Language Models paper)" />
+</figure>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kawargs</span><span class="p">):</span>
+<span class="c1"># Encoder
+</span><span class="n">self</span><span class="p">.</span><span class="n">ViT</span> <span class="o">=</span> <span class="nc">Encoder</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="n">self</span><span class="p">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="c1"># Language Transformer
+</span><span class="n">self</span><span class="p">.</span><span class="n">L1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">ViT</span><span class="p">.</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">LM</span><span class="p">.</span><span class="n">hidden_dim</span><span class="p">)</span>
+<span class="n">self</span><span class="p">.</span><span class="n">LM</span> <span class="o">=</span> <span class="nc">LM_Transformer</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="n">self</span><span class="p">.</span><span class="n">L2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">LM</span><span class="p">.</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">ViT</span><span class="p">.</span><span class="n">hidden_dim</span><span class="p">)</span>
+<span class="c1"># Freezing
+</span><span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">LM</span><span class="p">.</span><span class="nf">parameters</span><span class="p">():</span>
+<span class="n">param</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nc">ViT</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nc">L1</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nc">LM</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nc">L2</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">classifier</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">y</span></code></pre></figure>
+
+<section>
+	<script>
+    var all_questions = [{
+      question_string: "What is the core training objective of CLIP?",
+      choices: {
+        correct: "Predict correct image-text pairings using a symmetric contrastive loss",
+        wrong: ["Generate captions for images using autoregressive decoding", "Classify images into predefined categories", "Reconstruct masked image patches"]
+      }
+    }, {
+      question_string: "How does FLAVA differ from CLIP in its approach to VLM training?",
+      choices: {
+        correct: "FLAVA uses masking for both image and text, plus a multimodal encoder with MIM, MLM, and contrastive losses",
+        wrong: ["FLAVA only trains on text data", "FLAVA uses only generative loss for image synthesis", "FLAVA does not use any vision encoder"]
+      }
+    }, {
+      question_string: "What sets generative VLMs like CoCa apart from contrastive approaches?",
+      choices: {
+        correct: "They combine contrastive and generative losses to both align modalities and generate text or images",
+        wrong: ["They only generate images without any text understanding", "They do not use any pretraining", "They rely solely on masked language modeling"]
+      }
+    }, {
+      question_string: "In the Frozen model, how is catastrophic forgetting addressed?",
+      choices: {
+        correct: "The language model is kept frozen while only the vision encoder and mapping layers are trained",
+        wrong: ["The vision encoder is kept frozen while the language model is fine-tuned", "Both models are trained from scratch", "Only the output layer is trained"]
+      }
+    }, {
+      question_string: "What is the role of the linear projection layer in LLaVA?",
+      choices: {
+        correct: "To project visual features from the CLIP vision encoder into the language model's embedding space",
+        wrong: ["To convert text into image features", "To classify images into categories", "To generate image tokens from text"]
+      }
+    }, {
+      question_string: "How is masking applied in transformer-based VLMs like FLAVA?",
+      choices: {
+        correct: "Image patches are masked for MIM, text tokens are masked for MLM, and both can be masked jointly for multimodal masking",
+        wrong: ["Only text tokens are masked; images are never masked", "Only image patches are masked; text is always unmasked", "Masking is not used in transformer-based VLMs"]
+      }
+    }];
+</script>
+<link rel="stylesheet" href="/css/quiz.css" />
+<div id="quiz">
+  <div class="quiz-header">
+    <h2 class="quiz-title" id="test-your-knowledge">QUIZ: Test Your Knowledge</h2>
+    <div class="quiz-progress">
+      <span class="quiz-progress-text"></span>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="quiz-question-area">
+    <p class="quiz-question-text"></p>
+    <div class="quiz-options"></div>
+  </div>
+
+  <div class="quiz-footer">
+    <button class="quiz-btn quiz-btn-secondary" id="prev-btn">&#8592; Prev</button>
+    <div class="quiz-footer-right">
+      <button class="quiz-btn quiz-btn-outline" id="check-btn" style="display:none">Submit</button>
+      <button class="quiz-btn quiz-btn-primary" id="next-btn">Next &#8594;</button>
+      <button class="quiz-btn quiz-btn-primary" id="finish-btn" style="display:none">Finish</button>
+    </div>
+  </div>
+
+  <div class="quiz-results" style="display:none">
+    <div class="quiz-results-emoji"></div>
+    <p class="quiz-results-message"></p>
+    <p class="quiz-results-score"></p>
+    <button class="quiz-btn quiz-btn-secondary" id="retake-btn">&#8635; Retake Quiz</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/js/quiz/quiz.js"></script>
+</div>
+
+
+</section>
+
+<p><strong>References and Image sources:</strong></p>
+<ul>
+  <li><a href="https://arxiv.org/pdf/2405.17247">An Introduction to Vision-Language Modeling</a></li>
+  <li><a href="https://arxiv.org/abs/2103.00020">CLIP (Contrastive Language–Image Pre-Training)</a></li>
+  <li><a href="https://arxiv.org/pdf/2112.04482">FLAVA (Foundational Language And Vision Alignment Model)</a></li>
+  <li><a href="https://arxiv.org/pdf/2205.01917">CoCa (Contrastive Captioners are Image-Text Foundation Models)</a></li>
+  <li><a href="https://arxiv.org/pdf/2405.09818">Chameleon: Mixed-Modal Early-Fusion Foundation Models</a></li>
+  <li><a href="https://arxiv.org/pdf/2106.13884">Frozen (Multimodal Few-Shot Learning with Frozen Language Models)</a></li>
+  <li><a href="https://arxiv.org/pdf/2304.08485">LLaVA (Visual Instruction Tuning)</a></li>
+  <li><a href="https://arxiv.org/pdf/2310.03744">LLaVA 1.5 (Improved Baselines with Visual Instruction Tuning)</a></li>
+  <li><a href="https://arxiv.org/pdf/2310.12973">Frozen transformers in Language Models are effective visual encoder layers</a></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2024-07-12-vision-language-models.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/2024/06/07/matrix-multiplication-cuda">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Matrix Multiplication in CUDA</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/distributed-training/">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Distributed Training: How to train Large Language Models (LLM)</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/frontier-ai-models-evaluation-benchmarks/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/llm-benchmarks/benchmark_timeline.svg" alt="Frontier AI Models Evaluation Benchmarks" loading="lazy"></span>
+                
+                <span class="post-related-title">Frontier AI Models Evaluation Benchmarks</span>
+                <span class="post-related-date">Jun 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/introduction-to-model-context-protocol-mcp/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg" alt="Introduction to Model Context Protocol (MCP)" loading="lazy"></span>
+                
+                <span class="post-related-title">Introduction to Model Context Protocol (MCP)</span>
+                <span class="post-related-date">Feb 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/evaluation-metrics-for-large-language-models/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg" alt="Evaluation Metrics for Large Language Models" loading="lazy"></span>
+                
+                <span class="post-related-title">Evaluation Metrics for Large Language Models</span>
+                <span class="post-related-date">Dec 2025</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

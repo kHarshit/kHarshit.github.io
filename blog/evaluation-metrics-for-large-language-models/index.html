@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Walkthrough of evaluation metrics for large language models: perplexity, cross-entropy, BLEU, ROUGE, METEOR, CIDEr, BERTScore, RAG metrics, safety metrics, a...">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Evaluation Metrics for Large Language Models | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Evaluation Metrics for Large Language Models">
+        <meta property="og:description" content="Walkthrough of evaluation metrics for large language models: perplexity, cross-entropy, BLEU, ROUGE, METEOR, CIDEr, BERTScore, RAG metrics, safety metrics, a...">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/evaluation-metrics-for-large-language-models/">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Evaluation Metrics for Large Language Models">
+        <meta name="twitter:description" content="Walkthrough of evaluation metrics for large language models: perplexity, cross-entropy, BLEU, ROUGE, METEOR, CIDEr, BERTScore, RAG metrics, safety metrics, a...">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/evaluation-metrics-for-large-language-models/">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Evaluation Metrics for Large Language Models",
+          "datePublished": "2025-12-12T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Walkthrough of evaluation metrics for large language models: perplexity, cross-entropy, BLEU, ROUGE, METEOR, CIDEr, BERTScore, RAG metrics, safety metrics, a...",
+          "url": "https://kharshit.github.io/blog/evaluation-metrics-for-large-language-models/",
+          "image": "https://kHarshit.github.io/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Evaluation Metrics for Large Language Models</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Dec 12, 2025</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      17 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/llm/">LLM</a></li>
+                
+                    <li><a href="/categories/generative-ai/">Generative AI</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>Language models (LM) can be evaluated in two broad ways:</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Intrinsic evaluation</strong>
+Measures the language model on its training objective e.g. next-word prediction. Metrics like perplexity and cross-entropy assess how well the model predicts unseen data without reference to any specific application.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Extrinsic evaluation</strong>
+Evaluate the model on downstream task by using task-specific scoring functions e.g., BLEU for machine translation, ROUGE for summarization, or accuracy for question answering. These metrics capture how useful the model’s outputs are in practice.</p>
+  </div>
+</div>
+
+<h2 id="intrinsic-metrics">Intrinsic Metrics</h2>
+
+<p>These metrics assess the model’s internal probability distribution without referencing any external task. They directly measure how well the model predicts the next token given the preceding context.</p>
+
+<h3 id="log-likelihood">Log-Likelihood</h3>
+
+<p>Given a held-out text \(\mathbf{x} = (x_1, x_2, \ldots, x_n)\), the likelihood is the probability the LM assigns to the entire sequence. Since language models predict one token at a time, the total probability is the product of each conditional probability:</p>
+
+\[P(\mathbf{x}) = \prod_{i=1}^{n} P(x_i \mid x_1, \ldots, x_{i-1})\]
+
+<p>However, multiplying many small probabilities causes numerical underflow (numbers become too small for computers to represent accurately). Taking the logarithm solves this, it turns the product into a sum and works with larger, more manageable numbers:</p>
+
+\[\mathcal{L}(\mathbf{x}) = \log P(\mathbf{x}) = \sum_{i=1}^{n} \log P(x_i \mid x_1, \ldots, x_{i-1})\]
+
+<ul>
+  <li>A <strong>higher</strong> log-likelihood means the model assigns a higher probability to the text, the text is more “natural” according to the model.</li>
+  <li>A <strong>lower</strong> (more negative) log-likelihood means the model finds the text surprising.</li>
+</ul>
+
+<h3 id="cross-entropy">Cross-Entropy</h3>
+
+<p>Cross-entropy measures how many bits of information are needed to encode the true text using the model’s predicted probabilities. It is simply the negative log-likelihood averaged per token:</p>
+
+\[H(\mathbf{x}) = -\frac{1}{n} \sum_{i=1}^{n} \log_2 P(x_i \mid x_1, \ldots, x_{i-1})\]
+
+<p>The units are <strong>bits per token</strong>. A lower cross-entropy means the model’s predictions align well with the actual text. A model with cross-entropy of \(H\) bits is, on average, as surprised as if it had to choose between \(2^H\) equally likely options at each step. This connects directly to perplexity.</p>
+
+<h3 id="perplexity">Perplexity</h3>
+
+<p>Perplexity (PP) is the most widely used intrinsic metric for language models. It measures how “confused” the model is when predicting the next token. Think of it as the average number of equally likely tokens the model is choosing from at each step.</p>
+
+<p><img src="/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg" alt="" class="mbimgstyle" style="--img-width: 80%;" /></p>
+
+\[PP(\mathbf{x}) = 2^{-\frac{1}{n} \sum_{i=1}^{n} \log_2 P(x_i \mid x_1, \ldots, x_{i-1})} = 2^{H(\mathbf{x})}\]
+
+<ul>
+  <li><strong>Lower perplexity</strong> means model is more certain about its predictions.</li>
+  <li><strong>Higher perplexity</strong>: means model is more uncertain.</li>
+</ul>
+
+<p>Perplexity ranges from \(1\) (a perfect model assigns probability 1 to every token) to \(\|V\|\) (worst case: the model assigns equal probability to all tokens in the vocabulary).</p>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Perplexity</th>
+      <th>Rough meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Perfect prediction</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Like choosing between 2 equally likely tokens</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Like choosing between 10 equally likely tokens</td>
+    </tr>
+    <tr>
+      <td>100</td>
+      <td>Very uncertain</td>
+    </tr>
+  </tbody>
+</table>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/perplexity_viz.js"></script>
+
+<div id="ppl-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-perplexity-viz">Interactive: Perplexity Explorer</h3>
+  </div>
+  <div class="dt-widget-body">
+    <p style="font-size:0.85rem;color:var(--font-color,#666);margin-bottom:16px;">
+      Adjust the sliders to control the probability the model assigns to each token.
+      A <strong>peaked</strong> distribution (one token much more likely) gives <em>low</em> perplexity.
+      A <strong>flat</strong> distribution (all tokens equally likely) gives <em>high</em> perplexity.
+    </p>
+    <div class="ppl-chart">
+      <div class="ppl-bars-container">
+        <div class="ppl-bar-group">
+          <div class="ppl-bar-track"><div class="ppl-bar-fill" style="height:50%"></div></div>
+          <span class="ppl-prob-label">0.125</span>
+          <input type="range" class="dt-slider ppl-slider" min="0" max="100" value="50" />
+          <span class="ppl-token-label">the</span>
+        </div>
+        <div class="ppl-bar-group">
+          <div class="ppl-bar-track"><div class="ppl-bar-fill" style="height:50%"></div></div>
+          <span class="ppl-prob-label">0.125</span>
+          <input type="range" class="dt-slider ppl-slider" min="0" max="100" value="50" />
+          <span class="ppl-token-label">cat</span>
+        </div>
+        <div class="ppl-bar-group">
+          <div class="ppl-bar-track"><div class="ppl-bar-fill" style="height:50%"></div></div>
+          <span class="ppl-prob-label">0.125</span>
+          <input type="range" class="dt-slider ppl-slider" min="0" max="100" value="50" />
+          <span class="ppl-token-label">sat</span>
+        </div>
+        <div class="ppl-bar-group">
+          <div class="ppl-bar-track"><div class="ppl-bar-fill" style="height:50%"></div></div>
+          <span class="ppl-prob-label">0.125</span>
+          <input type="range" class="dt-slider ppl-slider" min="0" max="100" value="50" />
+          <span class="ppl-token-label">on</span>
+        </div>
+        <div class="ppl-bar-group">
+          <div class="ppl-bar-track"><div class="ppl-bar-fill" style="height:50%"></div></div>
+          <span class="ppl-prob-label">0.125</span>
+          <input type="range" class="dt-slider ppl-slider" min="0" max="100" value="50" />
+          <span class="ppl-token-label">the</span>
+        </div>
+        <div class="ppl-bar-group">
+          <div class="ppl-bar-track"><div class="ppl-bar-fill" style="height:50%"></div></div>
+          <span class="ppl-prob-label">0.125</span>
+          <input type="range" class="dt-slider ppl-slider" min="0" max="100" value="50" />
+          <span class="ppl-token-label">mat</span>
+        </div>
+        <div class="ppl-bar-group">
+          <div class="ppl-bar-track"><div class="ppl-bar-fill" style="height:50%"></div></div>
+          <span class="ppl-prob-label">0.125</span>
+          <input type="range" class="dt-slider ppl-slider" min="0" max="100" value="50" />
+          <span class="ppl-token-label">floor</span>
+        </div>
+        <div class="ppl-bar-group">
+          <div class="ppl-bar-track"><div class="ppl-bar-fill" style="height:50%"></div></div>
+          <span class="ppl-prob-label">0.125</span>
+          <input type="range" class="dt-slider ppl-slider" min="0" max="100" value="50" />
+          <span class="ppl-token-label">chair</span>
+        </div>
+      </div>
+    </div>
+    <div class="ppl-stats">
+      <div class="ppl-stat-item">
+        <div class="ppl-stat-value ppl-ce-value">3.000</div>
+        <div class="ppl-stat-label">Cross-Entropy (bits)</div>
+      </div>
+      <div class="ppl-stat-item">
+        <div class="ppl-stat-value ppl-ppl-value">8.00</div>
+        <div class="ppl-stat-label">Perplexity</div>
+      </div>
+      <div class="ppl-stat-item">
+        <div class="ppl-stat-value" style="font-size:1rem;">
+          The model is as confused as choosing between <strong class="ppl-intuition">8.0</strong> equally likely tokens
+        </div>
+        <div class="ppl-stat-label">Intuition</div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Drag sliders to see how the probability distribution affects perplexity. Uniform distribution → perplexity = vocabulary size.
+  </div>
+</div>
+
+<p>The fundamental intuition behind using perplexity as a model performance metric is that the model’s confidence correlates well with its accuracy. Suppose the model is confident about its predictions. In that case, statistically, it is more likely to be correct than in cases where it is confused between two or many words.</p>
+
+<p><strong>Example:</strong> “The cat sat on the __.” A good LLM should assign higher probability to words like: mat, floor, chair; while low probability to unrelated words like quantum, banana, parliament.</p>
+
+<p>While perplexity correlates well with overall model quality, it has a key drawback: deep learning models can be confidently wrong. A model might assign high probability to fluent but factually incorrect text, achieving low perplexity while generating misinformation.</p>
+
+<h2 id="n-gram-overlap-metrics">N-Gram Overlap Metrics</h2>
+
+<p>N-gram metrics compare the generated text against one or more reference texts by counting matching sequences of <em>n</em> tokens. They are simple, interpretable, and widely used, but they cannot capture meaning beyond exact surface-form overlap.</p>
+
+<h3 id="bleu">BLEU</h3>
+
+<p>BLEU (Bilingual Evaluation Understudy) evaluates generated text, most commonly machine translations, by comparing it against one or more human-written reference texts. It is <strong>precision-based</strong>: it measures how much of what the model generated appears in the reference. The core idea is that a good translation should use words and phrases that a human translator would also use.</p>
+
+<p>It uses key components: <strong>clipped precision</strong>, <strong>n-gram matching</strong>, and <strong>brevity penalty</strong>, all combined into a single score between 0 and 1.</p>
+
+<h4 id="clipped-precision">Clipped Precision</h4>
+
+<p>Naïve precision can be gamed by repeating the same word (e.g., “cat cat cat” gives precision = 3/3 = 1). Clipped precision fixes this by limiting each word’s count to its maximum occurrence in the reference:</p>
+
+\[\text{Clipped Precision} = \frac{\text{Clipped # correct predicted words}}{\text{# total predicted words}}\]
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Reference</strong></p>
+
+    <p>“the cat sat on the mat”</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Generated</strong></p>
+
+    <p>“cat cat cat cat”</p>
+  </div>
+</div>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Calculation</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Naïve Precision</td>
+      <td>4 predicted words, all in reference → 4/4</td>
+      <td><strong>1.0</strong></td>
+    </tr>
+    <tr>
+      <td>Clipped Precision</td>
+      <td>“cat” appears once in reference → clip count to 1 → 1/4</td>
+      <td><strong>0.25</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="brevity-penalty">Brevity Penalty</h4>
+
+<p>The brevity penalty (BP) penalizes generated sentences that are too short. Let \(c\) be the length of the predicted sentence and \(r\) the length of the reference:</p>
+
+\[BP = \begin{cases} 1 &amp; c &gt; r \\ \exp\!\left(1 - \dfrac{r}{c}\right) &amp; c \leq r \end{cases}\]
+
+<p>The brevity penalty cannot exceed 1.</p>
+
+<h4 id="bleu-score">BLEU Score</h4>
+
+<p>BLEU computes the geometric mean of n-gram precisions (for n = 1, 2, 3, 4) multiplied by the brevity penalty. This 4-gram variant (n=1..4) is the standard <strong>BLEU-4</strong>.</p>
+
+\[AP = \left( \prod_{n=1}^{N} P_n \right)^{\frac{1}{N}}\]
+
+\[\text{BLEU} = \min\!\left(1,\ \exp\!\left(1 - \frac{\text{reference-length}}{\text{output-length}}\right)\right) \cdot \left( \prod_{i=1}^{4} \text{precision}_i \right)^{1/4}\]
+
+<p>BLEU scores range between 0 and 1, where 1 indicates a perfect match.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/bleu_calc.js"></script>
+
+<div id="bleu-calc" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-bleu-calc">Interactive: BLEU Score Calculator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="bleu-inputs">
+      <div class="bleu-input-group">
+        <label class="bleu-input-label">Reference text</label>
+        <textarea class="bleu-input bleu-ref-input" rows="3" placeholder="the cat sat on the mat">the cat sat on the mat</textarea>
+      </div>
+      <div class="bleu-input-group">
+        <label class="bleu-input-label">Candidate (generated) text</label>
+        <textarea class="bleu-input bleu-cand-input" rows="3" placeholder="the cat sat on the mat">the cat sat on the mat</textarea>
+      </div>
+    </div>
+    <div class="bleu-results">
+      <div class="bleu-precisions">
+        <div class="bleu-precision-header">N-gram Precisions <span style="font-weight:400;color:#888;">(clipped, with add-1 smoothing)</span></div>
+        <div class="bleu-precision-row">
+          <span class="bleu-precision-lbl">Unigram (1-gram)</span>
+          <div class="bleu-precision-track"><div class="bleu-precision-fill bleu-p1-fill" style="width:100%"></div></div>
+          <span class="bleu-precision-val bleu-p1-value">100.0%</span>
+        </div>
+        <div class="bleu-precision-row">
+          <span class="bleu-precision-lbl">Bigram (2-gram)</span>
+          <div class="bleu-precision-track"><div class="bleu-precision-fill bleu-p2-fill" style="width:100%"></div></div>
+          <span class="bleu-precision-val bleu-p2-value">100.0%</span>
+        </div>
+        <div class="bleu-precision-row">
+          <span class="bleu-precision-lbl">Trigram (3-gram)</span>
+          <div class="bleu-precision-track"><div class="bleu-precision-fill bleu-p3-fill" style="width:100%"></div></div>
+          <span class="bleu-precision-val bleu-p3-value">100.0%</span>
+        </div>
+        <div class="bleu-precision-row">
+          <span class="bleu-precision-lbl">4-gram</span>
+          <div class="bleu-precision-track"><div class="bleu-precision-fill bleu-p4-fill" style="width:100%"></div></div>
+          <span class="bleu-precision-val bleu-p4-value">100.0%</span>
+        </div>
+      </div>
+      <div class="bleu-meta">
+        <div class="bleu-meta-item">
+          <span class="bleu-meta-lbl">Brevity Penalty</span>
+          <span class="bleu-meta-val bleu-bp-value">1.000</span>
+        </div>
+        <div class="bleu-meta-item">
+          <span class="bleu-meta-lbl">Candidate length</span>
+          <span class="bleu-meta-val bleu-cand-len">6</span>
+        </div>
+        <div class="bleu-meta-item">
+          <span class="bleu-meta-lbl">Reference length</span>
+          <span class="bleu-meta-val bleu-ref-len">6</span>
+        </div>
+      </div>
+      <div class="bleu-score">
+        <div class="bleu-score-lbl">BLEU Score</div>
+        <div class="bleu-score-value">1.000</div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Try editing the text: the unigram precision rewards content words, while 4-gram precision captures fluency and word order. 
+    A perfect score requires exact n-gram matches across all four orders.
+  </div>
+</div>
+
+<blockquote class="info-callout">
+  <p><strong>Sentence-level vs. corpus-level.</strong> The strict formula above produces a score of 0 whenever <em>any</em> n-gram order has zero clipped matches, common at the sentence level. In practice, BLEU is computed over <strong>entire test corpus</strong> where zero-precision collapse are extremely rare. For sentence-level use, <strong>add-1 smoothing</strong> (adding 1 to each n-gram’s numerator and denominator) prevents the zero-collapse.</p>
+</blockquote>
+
+<h3 id="meteor">METEOR</h3>
+
+<p>METEOR (Metric for Evaluation of Translation with Explicit ORdering) addresses BLEU’s main weakness: it cannot match synonyms or morphological variants. METEOR aligns unigrams between the candidate and reference using three matching stages:</p>
+
+<ol>
+  <li><strong>Exact</strong>: same word form.</li>
+  <li><strong>Stem</strong>: same root (e.g., “running” ≈ “runs”).</li>
+  <li><strong>Synonym</strong>: same meaning via WordNet (e.g., “car” ≈ “automobile”).</li>
+</ol>
+
+<p>It computes unigram precision \(P\) and recall \(R\), then takes their harmonic mean with a fragmentation penalty for word-order differences:</p>
+
+\[\text{F-mean} = \frac{10 \cdot P \cdot R}{9R + P}\]
+
+\[\text{Penalty} = 0.5 \cdot \left( \frac{\text{# of chunks}}{\text{# of matched unigrams}} \right)^3\]
+
+\[\text{METEOR} = \text{F-mean} \cdot (1 - \text{Penalty})\]
+
+<p>METEOR correlates better with human judgment at the sentence level than BLEU, but it only considers unigrams and requires WordNet, limiting its language coverage.</p>
+
+<h3 id="rouge">ROUGE</h3>
+
+<p>ROUGE (Recall-Oriented Understudy for Gisting Evaluation) is the standard metric for <strong>text summarization</strong>. While BLEU is precision-oriented (did the model say only things in the reference?), ROUGE is <strong>recall-based</strong>: it measures how much of the reference content is captured by the generated text. This makes it ideal for summarization, where the goal is to cover all important points from the source.</p>
+
+<p>ROUGE has several variants, each giving a different lens on output quality.</p>
+<ul>
+  <li>ROUGE-N for n-gram overlap, and</li>
+  <li>ROUGE-L for sentence-level structure.</li>
+</ul>
+
+<h4 id="rouge-n">ROUGE-N</h4>
+
+<p>ROUGE-N is the n-gram recall between the generated text and reference(s):</p>
+
+\[\text{ROUGE-N Recall} = \frac{\sum_{S \in \text{References}} \sum_{\text{n-gram} \in S} \text{Count}_{\text{match}}(\text{n-gram})}{\sum_{S \in \text{References}} \sum_{\text{n-gram} \in S} \text{Count}(\text{n-gram})}\]
+
+<p><strong>ROUGE-N F1</strong> is the F1-score combining ROUGE-N Precision and Recall.</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Reference (human)</strong></p>
+
+    <p>“It is cold outside.”</p>
+
+    <p>Bigrams:</p>
+    <div class="mbgrid mbgrid-3">
+      <div class="mbcard" style="--mbcard-bg: #eaf4ec; --mbcard-border: none">
+        <p><em>it is</em></p>
+      </div>
+      <div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none">
+        <p><em>is cold</em></p>
+      </div>
+      <div class="mbcard" style="--mbcard-bg: #eaf4ec; --mbcard-border: none">
+        <p><em>cold outside</em></p>
+      </div>
+    </div>
+  </div>
+  <div class="mbcard">
+    <p><strong>Generated output</strong></p>
+
+    <p>“It is very cold outside.”</p>
+
+    <p>Bigrams:</p>
+    <div class="mbgrid mbgrid-4">
+      <div class="mbcard" style="--mbcard-bg: #eaf4ec; --mbcard-border: none">
+        <p><em>it is</em></p>
+      </div>
+      <div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none">
+        <p><em>is very</em></p>
+      </div>
+      <div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none">
+        <p><em>very cold</em></p>
+      </div>
+      <div class="mbcard" style="--mbcard-bg: #eaf4ec; --mbcard-border: none">
+        <p><em>cold outside</em></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p>Matching bigrams: {<em>it is</em>, <em>cold outside</em>} → <strong>2 matches</strong></p>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Formula</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ROUGE-2 Recall</td>
+      <td>2 matches / 3 reference bigrams</td>
+      <td><strong>0.67</strong></td>
+    </tr>
+    <tr>
+      <td>ROUGE-2 Precision</td>
+      <td>2 matches / 4 output bigrams</td>
+      <td><strong>0.50</strong></td>
+    </tr>
+    <tr>
+      <td>ROUGE-2 F1</td>
+      <td>\(2 \times \frac{0.50 \times 0.67}{0.50 + 0.67}\)</td>
+      <td><strong>0.57</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="rouge-l">ROUGE-L</h4>
+
+<p>Unlike ROUGE-N which requires exact n-gram matches, ROUGE-L uses the <strong>longest common subsequence (LCS)</strong> — a sequence of words that appears in the same order in both texts, though not necessarily consecutively. This captures sentence-level fluency and word order without penalizing small rewordings.</p>
+
+\[\text{ROUGE-L Recall} = \frac{\text{LCS}(X, Y)}{|Y|}\]
+
+\[\text{ROUGE-L Precision} = \frac{\text{LCS}(X, Y)}{|X|}\]
+
+\[\text{ROUGE-L F1} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}\]
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Reference (human)</strong>  |Ref| = 4</p>
+    <div class="mbgrid mbgrid-2">
+      <div class="mbcard" style="--mbcard-bg: #eaf4ec; --mbcard-border: none">
+        <p><em>it is</em></p>
+      </div>
+      <div class="mbcard" style="--mbcard-bg: #eaf4ec; --mbcard-border: none">
+        <p><em>cold outside</em></p>
+      </div>
+    </div>
+
+  </div>
+  <div class="mbcard">
+    <p><strong>Generated output</strong>  |Gen| = 5</p>
+
+    <div class="mbgrid mbgrid-3">
+      <div class="mbcard" style="--mbcard-bg: #eaf4ec; --mbcard-border: none">
+        <p><em>it is</em></p>
+      </div>
+      <div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none">
+        <p><em>very</em></p>
+      </div>
+      <div class="mbcard" style="--mbcard-bg: #eaf4ec; --mbcard-border: none">
+        <p><em>cold outside</em></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p>LCS = <em>“It is cold outside”</em> → \(\text{LCS}(Gen, Ref) = 4\)</p>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Formula</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ROUGE-L Recall</td>
+      <td>\(4 / 4\)</td>
+      <td><strong>1.0</strong></td>
+    </tr>
+    <tr>
+      <td>ROUGE-L Precision</td>
+      <td>\(4 / 5\)</td>
+      <td><strong>0.8</strong></td>
+    </tr>
+    <tr>
+      <td>ROUGE-L F1</td>
+      <td>\(\frac{2 \times 0.8 \times 1.0}{0.8 + 1.0}\)</td>
+      <td><strong>0.889</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="cider">CIDEr</h3>
+
+<p>CIDEr (Consensus-based Image Description Evaluation) is designed for image and video captioning. It computes n-gram similarity between candidate and reference captions, but with a key twist: each n-gram is weighted by <strong>TF-IDF</strong> (term frequency–inverse document frequency). Common n-grams like “a” or “the” are downweighted, while informative n-grams that distinguish captions are upweighted.</p>
+
+\[\text{CIDEr}_n(c, S) = \frac{1}{m} \sum_{j=1}^{m} \frac{\mathbf{g}^c \cdot \mathbf{g}^{s_j}}{\|\mathbf{g}^c\| \|\mathbf{g}^{s_j}\|}\]
+
+<p>Where \(\mathbf{g}^c\) and \(\mathbf{g}^{s_j}\) are TF-IDF vectors of n-gram counts for the candidate and each of the \(m\) reference captions. The final CIDEr score averages over n-gram lengths 1 to 4.</p>
+
+<p>CIDEr is the standard metric for captioning tasks (MS COCO, Flickr30k) because it rewards captions that use distinctive, descriptive words that match what humans wrote.</p>
+
+<h2 id="semantic-similarity-metrics">Semantic Similarity Metrics</h2>
+
+<p>Semantic similarity metrics use dense vector representations (embeddings) to compare the meaning of generated and reference texts, rather than relying on exact surface-form matches. They capture paraphrases, synonyms, and rewordings that n-gram metrics miss.</p>
+
+<h3 id="bertscore">BERTScore</h3>
+
+<p>BERTScore evaluates generated text by computing token-level similarity using contextual embeddings from a pre-trained BERT model. Unlike BLEU and ROUGE, which rely on exact n-gram matches, BERTScore captures <strong>semantic similarity</strong> — two different words with similar meaning (e.g., “car” and “automobile”) can still match.</p>
+
+<p>For each token in the candidate (generated) and reference texts, BERT extracts a contextual embedding. Pairwise <strong>cosine similarities</strong> are computed between all candidate and reference token embeddings:</p>
+
+\[\text{Precision} = \frac{1}{|X|} \sum_{x_i \in X} \max_{y_j \in Y} \mathbf{x}_i \cdot \mathbf{y}_j\]
+
+\[\text{Recall} = \frac{1}{|Y|} \sum_{y_j \in Y} \max_{x_i \in X} \mathbf{x}_i \cdot \mathbf{y}_j\]
+
+<p>Where \(X\) and \(Y\) are the candidate and reference token embeddings, and \(\mathbf{x}_i \cdot \mathbf{y}_j\) is the cosine similarity between two token vectors.</p>
+
+<ul>
+  <li><strong>Precision</strong>: for each token in the candidate, find the most similar token in the reference (measures hallucination / extra info).</li>
+  <li><strong>Recall</strong>: for each token in the reference, find the most similar token in the candidate (measures content coverage).</li>
+  <li><strong>F1</strong>: harmonic mean of precision and recall.</li>
+</ul>
+
+<p>BERTScore correlates better with human judgment than n-gram metrics because it tolerates paraphrasing, synonyms, and rewordings. However, it is more expensive to compute since it requires running a BERT model on every pair of texts.</p>
+
+<h2 id="retrieval-augmented-generation-rag-metrics">Retrieval-Augmented Generation (RAG) Metrics</h2>
+
+<p>A RAG pipeline requires evaluation at both the retrieval and generation steps.</p>
+
+<h3 id="retrieval-metrics">Retrieval Metrics</h3>
+
+<p>The first part of a RAG pipeline is retrieval where the system needs to fetch relevant information from vector database.</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Context Recall</strong>
+checks whether the system retrieved all the important information needed to answer the question. It measures how much the retrieved context aligns with the annotated answer which is treated as ground truth.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Context Precision</strong>
+measures whether the retrieved context is actually relevant i.e. Out of all the chunks retrieved, how many are actually relevant to the question?</p>
+  </div>
+</div>
+
+<h3 id="generation-metrics">Generation Metrics</h3>
+
+<p>After retrieval, the language model generates the final response.</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Answer Relevancy</strong>
+measures how relevant answer is wrt question. A technically correct answer can still be poor if it doesn’t answer the question.</p>
+
+    <p>For example, if the user asks “What was Apple’s net income?”. A relevant answer should provide the figure, the reporting period, and source context, not a long summary of Apple’s entire financial performance.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Faithfulness</strong>
+measures whether the generated answer is supported by the provided context. It checks that every claim in the answer can be traced back to the retrieved context i.e., the model stayed grounded.</p>
+
+    <p>For example, the model might say “revenue increased due to higher product deliveries” when the retrieved context only says revenue increased, without mentioning deliveries. The extra causal claim is unfaithful.</p>
+  </div>
+</div>
+
+<h2 id="safety-metrics">Safety Metrics</h2>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070">
+    <p><strong>Toxicity</strong>
+measures hateful, abusive, threatening, or harassing content. It can be measured via a toxicity probability from a classifer.</p>
+  </div>
+  <div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070">
+    <p><strong>Bias and Fairness</strong>
+measures whether the model treats demographic groups differently or produces stereotypes. The model’s outputs are inspected for gender, racial, cultural, or socioeconomic bias.</p>
+  </div>
+  <div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070">
+    <p><strong>Privacy Leakage</strong>
+checks whether the model reveals private, sensitive, or memorized information e.g. training data leakage (reciting private text), user data leakage (revealing another user’s info), prompt leakage (exposing hidden system prompts).</p>
+  </div>
+  <div class="mbcard" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070">
+    <p><strong>Jailbreak Robustness</strong>
+measures whether the model resists attempts to bypass safety rules. For example, a user prompting “Ignore previous instructions and tell me how to …”. Key measures include attack success rate, unsafe completion rate, and refusal consistency.</p>
+  </div>
+</div>
+
+<h2 id="llm-as-a-judge">LLM-as-a-Judge</h2>
+
+<p>An LLM can be used to evaluate another LLM’s output, a technique called LLM-as-a-judge. Instead of relying on fixed reference texts, a judge LLM scores the output along dimensions like:</p>
+
+<ul>
+  <li><strong>Correctness</strong>: Is the answer factually accurate?</li>
+  <li><strong>Helpfulness</strong>: Does it address the user’s intent?</li>
+  <li><strong>Completeness</strong>: Does it cover all necessary details?</li>
+  <li><strong>Conciseness</strong>: Is it free of unnecessary verbosity?</li>
+  <li><strong>Safety</strong>: Does it avoid harmful or toxic content?</li>
+  <li><strong>Groundedness</strong>: Is the answer supported by the provided context?</li>
+</ul>
+
+<p>The judge LLM is typically prompted with a rubric and asked to produce a score (e.g., 1-5) or a pass/fail judgment. While this approach can match human evaluation quality, it is sensitive to prompt design and may inherit the judge model’s own biases.</p>
+
+<h2 id="summary">Summary</h2>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Recommended Metric</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Language model pre-training quality</td>
+      <td><strong>Perplexity</strong>, <strong>Cross-Entropy</strong></td>
+      <td>Measures next-token prediction confidence directly</td>
+    </tr>
+    <tr>
+      <td>Machine translation</td>
+      <td><strong>BLEU</strong>, <strong>METEOR</strong></td>
+      <td>Precision-based; penalizes extra/incorrect words. METEOR adds synonym/stem matching</td>
+    </tr>
+    <tr>
+      <td>Text summarization</td>
+      <td><strong>ROUGE</strong> (ROUGE-N, ROUGE-L)</td>
+      <td>Recall-based; checks if all key content is covered</td>
+    </tr>
+    <tr>
+      <td>Image/video captioning</td>
+      <td><strong>CIDEr</strong></td>
+      <td>TF-IDF weighted n-gram similarity; rewards distinctive, informative words</td>
+    </tr>
+    <tr>
+      <td>Paraphrase-tolerant / open-ended generation</td>
+      <td><strong>BERTScore</strong>, <strong>BLEURT</strong></td>
+      <td>Uses contextual embeddings to match synonyms and rewordings</td>
+    </tr>
+    <tr>
+      <td>Question answering</td>
+      <td><strong>Exact Match (EM)</strong>, <strong>F1 Score</strong></td>
+      <td>EM for strict correctness; F1 for partial credit on token overlap</td>
+    </tr>
+    <tr>
+      <td>RAG retrieval quality</td>
+      <td><strong>Context Precision</strong>, <strong>Context Recall</strong></td>
+      <td>Measures whether retrieved chunks are relevant and cover the needed information</td>
+    </tr>
+    <tr>
+      <td>RAG generation quality</td>
+      <td><strong>Answer Relevancy</strong>, <strong>Faithfulness</strong></td>
+      <td>Ensures the answer addresses the question and stays grounded in retrieved context</td>
+    </tr>
+    <tr>
+      <td>Safety evaluation</td>
+      <td><strong>Toxicity</strong>, <strong>Bias</strong>, <strong>Privacy Leakage</strong>, <strong>Jailbreak Robustness</strong></td>
+      <td>Checks for harmful, biased, or unsafe model behavior</td>
+    </tr>
+    <tr>
+      <td>General-purpose quality</td>
+      <td><strong>LLM-as-a-Judge</strong></td>
+      <td>Scores output on correctness, helpfulness, completeness, etc. without needing reference texts</td>
+    </tr>
+  </tbody>
+</table>
+
+<section>
+  <script>
+    var all_questions = [{
+      question_string: "What does perplexity measure in a language model?",
+      choices: {
+        correct: "How 'confused' the model is (average number of equally likely tokens it chooses from at each step)",
+        wrong: ["How many parameters the model has", "The total vocabulary size of the model", "How fast the model can generate text"]
+      }
+    }, {
+      question_string: "What problem does the clipped precision in BLEU solve?",
+      choices: {
+        correct: "It prevents gaming the score by repeating a single word that appears in the reference",
+        wrong: ["It penalizes long generated sentences", "It adds synonym matching using WordNet", "It measures recall instead of precision"]
+      }
+    }, {
+      question_string: "How does ROUGE differ from BLEU?",
+      choices: {
+        correct: "ROUGE is recall-based, while BLEU is precision-based",
+        wrong: ["ROUGE is precision-based, while BLEU is recall-based", "ROUGE only works for translation, BLEU only for summarization", "ROUGE uses BERT embeddings while BLEU uses n-grams"]
+      }
+    }, {
+      question_string: "What advantage does BERTScore have over n-gram metrics like BLEU and ROUGE?",
+      choices: {
+        correct: "It captures semantic similarity using contextual embeddings, so synonyms and paraphrases can still match",
+        wrong: ["It is much faster to compute", "It does not require any reference text", "It only works for single-word outputs"]
+      }
+    }, {
+      question_string: "In a RAG pipeline, what does faithfulness measure?",
+      choices: {
+        correct: "Whether the generated answer is supported by the provided context",
+        wrong: ["Whether the retrieved chunks are relevant to the question", "How fast the retrieval system returns results", "Whether the answer uses grammatically correct language"]
+      }
+    }, {
+      question_string: "What is the relationship between cross-entropy and perplexity?",
+      choices: {
+        correct: "Perplexity equals 2 raised to the power of cross-entropy (PP = 2^H)",
+        wrong: ["They are unrelated metrics", "Perplexity is the negative of cross-entropy", "Cross-entropy equals 2 raised to the power of perplexity"]
+      }
+    }];
+</script>
+<link rel="stylesheet" href="/css/quiz.css" />
+<div id="quiz">
+  <div class="quiz-header">
+    <h2 class="quiz-title" id="test-your-knowledge">QUIZ: Test Your Knowledge</h2>
+    <div class="quiz-progress">
+      <span class="quiz-progress-text"></span>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="quiz-question-area">
+    <p class="quiz-question-text"></p>
+    <div class="quiz-options"></div>
+  </div>
+
+  <div class="quiz-footer">
+    <button class="quiz-btn quiz-btn-secondary" id="prev-btn">&#8592; Prev</button>
+    <div class="quiz-footer-right">
+      <button class="quiz-btn quiz-btn-outline" id="check-btn" style="display:none">Submit</button>
+      <button class="quiz-btn quiz-btn-primary" id="next-btn">Next &#8594;</button>
+      <button class="quiz-btn quiz-btn-primary" id="finish-btn" style="display:none">Finish</button>
+    </div>
+  </div>
+
+  <div class="quiz-results" style="display:none">
+    <div class="quiz-results-emoji"></div>
+    <p class="quiz-results-message"></p>
+    <p class="quiz-results-score"></p>
+    <button class="quiz-btn quiz-btn-secondary" id="retake-btn">&#8635; Retake Quiz</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/js/quiz/quiz.js"></script>
+</div>
+
+
+</section>
+
+<p><strong>References:</strong></p>
+<ul>
+  <li><a href="https://aclanthology.org/P02-1040.pdf">BLEU: a Method for Automatic Evaluation of Machine Translation</a></li>
+  <li><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/was2004.pdf">ROUGE: A Package for Automatic Evaluation of Summaries</a></li>
+  <li><a href="https://arxiv.org/pdf/1904.09675">BERTScore: Evaluating Text Generation with BERT</a></li>
+  <li><a href="https://arxiv.org/pdf/1411.5726">CIDEr: Consensus-based Image Description Evaluation</a></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2025-12-12-evaluation-metrics-for-large-language-models.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/prompt-engineering-techniques/">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Prompt Engineering Techniques: How to Write Effective Prompts</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/introduction-to-model-context-protocol-mcp/">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Introduction to Model Context Protocol (MCP)</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/frontier-ai-models-evaluation-benchmarks/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/llm-benchmarks/benchmark_timeline.svg" alt="Frontier AI Models Evaluation Benchmarks" loading="lazy"></span>
+                
+                <span class="post-related-title">Frontier AI Models Evaluation Benchmarks</span>
+                <span class="post-related-date">Jun 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/introduction-to-model-context-protocol-mcp/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg" alt="Introduction to Model Context Protocol (MCP)" loading="lazy"></span>
+                
+                <span class="post-related-title">Introduction to Model Context Protocol (MCP)</span>
+                <span class="post-related-date">Feb 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/prompt-engineering-techniques/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/prompt-engineering-techniques/prompt_react_loop.svg" alt="Prompt Engineering Techniques: How to Write Effective Prompts" loading="lazy"></span>
+                
+                <span class="post-related-title">Prompt Engineering Techniques: How to Write Effective Prompts</span>
+                <span class="post-related-date">Oct 2025</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

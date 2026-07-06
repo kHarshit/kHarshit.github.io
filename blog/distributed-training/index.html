@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, 3D parallelism, ...">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Distributed Training: How to train Large Language Models (LLM) | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Distributed Training: How to train Large Language Models (LLM)">
+        <meta property="og:description" content="Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, 3D parallelism, ...">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/distributed-training/">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/js/interactive/memory_calc.js">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Distributed Training: How to train Large Language Models (LLM)">
+        <meta name="twitter:description" content="Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, 3D parallelism, ...">
+        <meta name="twitter:image" content="https://kHarshit.github.io/js/interactive/memory_calc.js">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/distributed-training/">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Distributed Training: How to train Large Language Models (LLM)",
+          "datePublished": "2025-03-21T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "Comprehensive guide to distributed training for LLMs covering data parallelism, model parallelism, tensor parallelism, ZeRO optimizer, FSDP, 3D parallelism, ...",
+          "url": "https://kharshit.github.io/blog/distributed-training/",
+          "image": "https://kHarshit.github.io/js/interactive/memory_calc.js"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Distributed Training: How to train Large Language Models (LLM)</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Mar 21, 2025</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      29 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/llm/">LLM</a></li>
+                
+                    <li><a href="/categories/generative-ai/">Generative AI</a></li>
+                
+                    <li><a href="/categories/deep-learning/">Deep Learning</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>Training large language models requires large amounts of GPU memory, far beyond what a single GPU can provide. This post explores key distributed training strategies that make it possible to train models with billions of parameters across hundreds of GPUs.</p>
+
+<h2 id="1-background">1. Background</h2>
+
+<p>For a 10B parameter LLM, it requires ~176 GiB of GPU memory (FP32: 4 bytes/param, FP16: 2 bytes/param) for mixed precision training.</p>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th style="text-align: center">Precision</th>
+      <th style="text-align: center">Explanation</th>
+      <th style="text-align: center">Memory</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Parameters / weights</td>
+      <td style="text-align: center">bf16</td>
+      <td style="text-align: center">10B * 2 bytes</td>
+      <td style="text-align: center">20 GB</td>
+    </tr>
+    <tr>
+      <td>Gradients</td>
+      <td style="text-align: center">bf16</td>
+      <td style="text-align: center">10B * 2 bytes</td>
+      <td style="text-align: center">20 GB</td>
+    </tr>
+    <tr>
+      <td>Optimizer states</td>
+      <td style="text-align: center">fp32</td>
+      <td style="text-align: center">AdamW: momentum + variance <br /> 2 * (10B * 2 bytes)</td>
+      <td style="text-align: center">80 GB</td>
+    </tr>
+    <tr>
+      <td>FP32 master weights</td>
+      <td style="text-align: center">fp32</td>
+      <td style="text-align: center">Used in mixed precision training <br /> 10B * 4 bytes</td>
+      <td style="text-align: center">40 GB</td>
+    </tr>
+    <tr>
+      <td>Activations</td>
+      <td style="text-align: center">bf16</td>
+      <td style="text-align: center">Dependent on batch size &amp; sequence length</td>
+      <td style="text-align: center">~20 GB</td>
+    </tr>
+    <tr>
+      <td>Temporary buffer</td>
+      <td style="text-align: center">mixed</td>
+      <td style="text-align: center">Attention, matmul, CUDA workspace (mixed)</td>
+      <td style="text-align: center">~10 GB</td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">190 GB (~176 GiB)</td>
+    </tr>
+  </tbody>
+</table>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/memory_calc.js"></script>
+
+<div id="dt-debug" style="display:none"></div>
+<div id="mem-calc" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-memory-calc">Interactive: GPU Memory Calculator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="dt-control-group">
+      <span class="dt-label-text">Model Parameters</span>
+      <input type="range" class="dt-slider mem-slider" min="1" max="1000" value="7" step="1" />
+      <span class="dt-label-value mem-params-display">7B</span>
+    </div>
+    <div class="dt-control-group">
+      <span class="dt-label-text">Precision</span>
+      <select class="dt-select mem-precision">
+        <option value="fp32">FP32 (4 bytes/param)</option>
+        <option value="bf16" selected="">BF16 / FP16 (2 bytes/param)</option>
+        <option value="int8">INT8 (1 byte/param)</option>
+      </select>
+      <span class="dt-label-value mem-prec-label">BF16</span>
+    </div>
+
+    <div class="mem-calc-summary">
+      <div class="mem-calc-stat">
+        <div class="mem-calc-stat-value mem-stat-params">7B</div>
+        <div class="mem-calc-stat-label">Model Size</div>
+      </div>
+      <div class="mem-calc-stat">
+        <div class="mem-calc-stat-value mem-stat-prec">BF16</div>
+        <div class="mem-calc-stat-label">Precision</div>
+      </div>
+      <div class="mem-calc-stat">
+        <div class="mem-calc-stat-value mem-stat-gpus">1 × A100</div>
+        <div class="mem-calc-stat-label">GPUs Needed (80GB)</div>
+      </div>
+      <div class="mem-calc-stat">
+        <div class="mem-calc-stat-value mem-total-value">14 GB</div>
+        <div class="mem-calc-stat-label">Total GPU Memory</div>
+      </div>
+    </div>
+
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">Parameters</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill params" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val params">-</span>
+    </div>
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">Gradients</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill grads" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val grads">-</span>
+    </div>
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">Optimizer States</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill opt" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val opt">-</span>
+    </div>
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">FP32 Master Weights</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill master" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val master">-</span>
+    </div>
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">Activations (est.)</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill act" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val act">-</span>
+    </div>
+    <div class="mem-calc-bar-row">
+      <span class="mem-calc-bar-label">Temp Buffers (est.)</span>
+      <div class="mem-calc-bar-track"><div class="mem-calc-bar-fill temp" style="width:0%"></div></div>
+      <span class="mem-calc-bar-val temp">-</span>
+    </div>
+
+  </div>
+  <div class="dt-widget-footer">
+    Drag the slider to adjust model size and select precision to see memory footprint.
+  </div>
+</div>
+
+<p>The A100 GPU has 80GB memory. Thus, for a 10B model, you’d need 3 A100s just to hold the parameters + optimizer states. Distributed training is essential to train Large Language Models.</p>
+
+<h2 id="2-scaling">2. Scaling</h2>
+
+<p>There are two fundamental scaling approaches:</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Horizontal Scaling (Scale Out)</strong></p>
+    <ul>
+      <li>Add more machines/instances to distribute workload across smaller resources</li>
+      <li>Easier to scale dynamically</li>
+      <li>Requires more complex management</li>
+    </ul>
+  </div>
+  <div class="mbcard">
+    <p><strong>Vertical Scaling (Scale Up)</strong></p>
+    <ul>
+      <li>Increase capacity of existing machine (more CPU, RAM, storage)</li>
+      <li>Easier to manage</li>
+      <li>Hardware upgrades can require downtime</li>
+    </ul>
+  </div>
+</div>
+
+<p>In distributed training, we’re mainly working with horizontal scaling since machine specification is fixed e.g. <code class="language-plaintext highlighter-rouge">p5.48xlarge</code> AWS instance consists of 8xA100 GPUs with fixed memory and CPUs. And, also, a machine can only be scaled up to a point so we need to figure out to split our data or model on multiple GPUs machines. Distributed training is all about how to do that.</p>
+
+<h2 id="3-communication-primitives">3. Communication Primitives</h2>
+
+<p>Before diving into parallelism strategies, it helps to understand the underlying communication operations.</p>
+
+<h3 id="point-to-point-communication">Point-to-Point Communication</h3>
+
+<p>Direct transfer of data between two specific processes (send/receive).</p>
+
+<figure class="mbimgstyle" style="--img-caption: 'Communication Primitives: Point to Point';">
+<img src="/img/blog/distributed-training/communication_primitives_point_to_point.jpg" alt="Communication Primitives: Point to Point" />
+</figure>
+
+<h3 id="collective-communication">Collective Communication</h3>
+
+<p>Operations involving all processes in a group simultaneously.</p>
+
+<figure class="mbimgstyle" style="--img-caption: 'Communication Primitives: Collective';">
+<img src="/img/blog/distributed-training/communication_primitives_collective.jpg" alt="Communication Primitives: Collective" />
+</figure>
+
+<p><strong>AllReduce</strong> is the key operation for synchronizing gradients across GPUs at the end of each training iteration e.g., average the gradients from different nodes, then use the averaged value to update weights. Used for data parallelism.</p>
+
+<p>Steps in AllReduce-based data parallel training:</p>
+<ol>
+  <li><strong>Step 0:</strong> Data is fetched from store to all nodes participating in distributed training.</li>
+  <li><strong>Step 1:</strong> During the forward pass, each model copy does a forward pass with its batch of data.</li>
+  <li><strong>Step 2:</strong> A backward pass is performed to compute gradients. The gradient is <strong>NOT</strong> used to update weights yet.</li>
+  <li><strong>Step 3:</strong> An AllReduce operation runs across all processes (average gradients and then broadcast).</li>
+  <li><strong>Step 4:</strong> The final all-reduced gradients are used to update each model replica.</li>
+</ol>
+
+<p><strong>AllGather</strong> is another key operation used in sharded data parallel training (e.g., FSDP, DeepSpeed ZeRO).</p>
+
+<p>The <strong>Divide-and-Conquer</strong> approach is followed during Broadcast and Reduce operations.</p>
+
+<p><strong>Ring AllReduce</strong> arranges GPUs in a logical ring, where each node communicates only with its two immediate neighbors. It requires <code class="language-plaintext highlighter-rouge">2(N-1)</code> communication steps total.</p>
+
+<div class="mbsteps">
+  <div class="mbstep">
+    <p><strong>Phase 1: Reduce-Scatter (<code class="language-plaintext highlighter-rouge">N-1</code> steps)</strong>
+Each GPU splits its vector (e.g., gradients) into <code class="language-plaintext highlighter-rouge">N</code> chunks. Chunks circulate clockwise around the ring: each GPU receives a chunk, adds its own corresponding chunk, and forwards the partial sum. After <code class="language-plaintext highlighter-rouge">N-1</code> steps, each GPU holds exactly one fully-reduced chunk.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Phase 2: All-Gather (<code class="language-plaintext highlighter-rouge">N-1</code> steps)</strong>
+The reduced chunks circulate around the ring again. Each GPU sends the reduced chunk it owns to its neighbor, receives the incoming chunk, stores it, and forwards it. After <code class="language-plaintext highlighter-rouge">N-1</code> steps, every GPU has all reduced chunks.</p>
+  </div>
+</div>
+
+<p><strong>Example:</strong> Try the interactive visualization below to see the full 6-step AllReduce algorithm.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/allreduce.js"></script>
+
+<div id="ar-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-ring-allreduce">Interactive: Ring AllReduce</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="ar-container">
+      <div class="ar-card" data-gpu="0">
+        <div class="ar-card-title">GPU 0</div>
+        <div class="ar-slots"></div>
+      </div>
+      <div class="ar-card" data-gpu="1">
+        <div class="ar-card-title">GPU 1</div>
+        <div class="ar-slots"></div>
+      </div>
+      <div class="ar-card" data-gpu="3">
+        <div class="ar-card-title">GPU 3</div>
+        <div class="ar-slots"></div>
+      </div>
+      <div class="ar-card" data-gpu="2">
+        <div class="ar-card-title">GPU 2</div>
+        <div class="ar-slots"></div>
+      </div>
+    </div>
+    <div class="ar-step-label">Initial vectors on each GPU</div>
+    <div class="ar-step-bar"></div>
+    <div class="ar-controls">
+      <button class="ar-btn ar-btn-secondary ar-back-btn">Back</button>
+      <button class="ar-btn ar-btn-primary ar-next-btn">Next</button>
+      <button class="ar-btn ar-btn-secondary ar-reset-btn">Reset</button>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+   Total 4 GPUs, (N-1=3 scatter-reduce steps) + (N-1=3 all-gather steps). Each GPU sends one chunk per step.
+  </div>
+</div>
+
+<h2 id="4-data-parallelism">4. Data Parallelism</h2>
+
+<p>Used when the model can fit in a single GPU. Each device (worker) holds a full copy of the model, but processes a different batch of training data. This way, data parallelism can scale up the training.</p>
+
+<h3 id="data-parallelism-steps">Data Parallelism Steps</h3>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Data Parallelism';">
+<img src="/img/blog/distributed-training/data_parallelism.jpg" alt="Data Parallelism" />
+</figure>
+
+<ol>
+  <li><strong>Broadcast:</strong> Model weights are initialized on one GPU worker and broadcast to all other nodes.</li>
+  <li><strong>Forward pass:</strong> Each GPU worker has the same model (weights \(W\)) but processes different mini-batches \(X_i\).</li>
+  <li><strong>Backward pass:</strong> Each worker computes a weight gradient \(dW_i\) for its portion of weight parameters on local mini-batch.</li>
+  <li><strong>Gradient synchronization:</strong> The gradients from each worker are averaged across all workers via <code class="language-plaintext highlighter-rouge">AllReduce</code> operation. Communication and computation can overlap with AllReduce gradients for layer \(k\) while computing gradients for layer \(k-1\).</li>
+  <li><strong>Update:</strong> Each worker updates its local model parameters with the average gradients \(\overline{dW}\) using its own optimizer.
+    <ul>
+      <li>\(\overline{dW} = (dW_0 + dW_1 + dW_3) / 3\), then</li>
+      <li>\(W_1 = W - lr * \overline{dW}\).</li>
+      <li>After the update, all workers have the same updated model weigths.</li>
+    </ul>
+  </li>
+  <li><strong>Repeat:</strong> Go back to step 2 for next mini-batch.</li>
+</ol>
+
+<p>The total <strong>global batch size</strong> is defined as the total records sent to all GPUs per iteration = <code class="language-plaintext highlighter-rouge">(num of GPUs) × (per-replica batch size)</code>.</p>
+
+<h3 id="parameter-server-approach">Parameter-server approach</h3>
+
+<p>An alternative approach for gradient synchronization is to use a separate server that stores parameters. In this setup, workers send gradients to parameter servers, the servers aggegrate the gradients and redistribute the model parameters.</p>
+
+<p>Workers use a push-and-pull pattern:</p>
+
+<ul>
+  <li>push gradients -&gt; parameter server</li>
+  <li>pull updated parameters &lt;- parameter server</li>
+</ul>
+
+<p>It can be synchronous (end of each training step) or asynchronous (replicas push/pull independently).</p>
+
+<h3 id="key-points">Key Points</h3>
+
+<ul>
+  <li>Data parallelism improve the overall throughput, but doesn’t reduce model memory per GPU.</li>
+  <li>Each GPU worker processes roughly 1/N of global batch. However, each worker still stores the full model and performs full optimizer update for all parameters. Techniques like optimizer sharding, ZeRO, or FSDP can reduce this redundancy.</li>
+</ul>
+
+<h3 id="pytorch-distributed-data-parallel-ddp">PyTorch Distributed Data Parallel (DDP)</h3>
+
+<p>The following code implements data parallelism with gradient accumulation:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">global_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nf">initialize_services </span><span class="p">()</span> <span class="c1"># W&amp;B, etc.
+</span>    <span class="n">data_loader</span> <span class="o">=</span> <span class="nc">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">sampler</span><span class="o">=</span><span class="nc">DistributedSampler</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="nc">MyModel</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">os</span> <span class="n">path</span><span class="p">.</span><span class="nf">exists</span><span class="p">(</span><span class="sh">'</span><span class="s">latest_checkpoint.pth</span><span class="sh">'</span><span class="p">):</span> <span class="c1"># Load latest checkpoint
+</span>        <span class="c1"># Also load optimizer state and other variables needed to restore the training state
+</span>        <span class="n">model</span><span class="p">.</span> <span class="nf">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">'</span><span class="s">latest_checkpoint.pth</span><span class="sh">'</span><span class="p">))</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="nc">DistributedDataParallel</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="n">local_rank</span><span class="p">])</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="nc">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">Ir</span><span class="o">=</span><span class="mf">10e-4</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">)</span>
+    <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="nc">CrossEntropyLoss</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range </span><span class="p">(</span><span class="n">num_epochs</span><span class="p">)</span> <span class="p">:</span>
+        <span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">data_loader</span><span class="p">:</span>
+            <span class="nf">if </span><span class="p">(</span><span class="n">step_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">last_step</span><span class="p">:</span> <span class="c1"># Accumulate gradients for 100 steps
+</span>                <span class="k">with</span> <span class="n">model</span><span class="p">.</span><span class="nf">no_sync</span><span class="p">():</span> <span class="c1"># Disable gradient synchronization
+</span>                    <span class="n">loss</span> <span class="o">=</span> <span class="nf">loss_tn</span><span class="p">(</span><span class="nf">model</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">labels</span><span class="p">)</span> <span class="c1"># Forward step
+</span>                    <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span> <span class="c1"># Backward step + gradient ACCUMULATION
+</span>            <span class="k">else</span><span class="p">:</span>
+                <span class="n">loss</span> <span class="o">=</span> <span class="nf">loss_fn</span><span class="p">(</span><span class="nf">model</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">labels</span><span class="p">)</span> <span class="c1"># Forward step
+</span>                <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span> <span class="c1"># Backward step + gradient SYNCHRONIZATION
+</span>                <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span> <span class="c1"># Update weights
+</span>                <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span> <span class="c1"># Reset gradients to zero
+</span>            <span class="k">if</span> <span class="n">global_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nf">collect_statistics </span><span class="p">()</span> <span class="c1"># W&amp;B, etc.
+</span>        <span class="k">if</span> <span class="n">global_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># Only save on rank o
+</span>            <span class="c1"># Also save the optimizer state and other variables needed to restore the training state
+</span>            <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="sh">"</span><span class="s">latest_checkpoint.pth</span><span class="sh">'</span><span class="s">)
+
+if _name_ == </span><span class="sh">'</span><span class="s">_main_</span><span class="sh">'</span><span class="s">:
+    local_rank = int(os.environ[</span><span class="sh">'</span><span class="s">LOCAL_RANK</span><span class="sh">'</span><span class="s"> ])
+    global_rank = int(os. environ [</span><span class="sh">'</span><span class="s">RANK</span><span class="sh">'</span><span class="s">])
+    init_process_group (backend=</span><span class="sh">'</span><span class="s">nccl</span><span class="sh">'</span><span class="s">)
+    torch.cuda.set_device(local_rank) # Set the device to local rank
+    train()
+    destroy_process_group()
+
+# Run on all machines:
+torchrun </span><span class="se">\
+</span><span class="s">  --nnodes=NUM_NODES </span><span class="se">\
+</span><span class="s">  --nproc-per-node=TRAINERS_PER_NODE \  # GPUs per node
+  --max-restarts=NUM_ALLOWED_FAILURES </span><span class="se">\
+</span><span class="s">  --rdzv-id=JOB_ID </span><span class="se">\
+</span><span class="s">  --rdzv-backend=c10d </span><span class="se">\
+</span><span class="s">  --rdzv-endpoint=HOST_NODE_ADDR </span><span class="se">\
+</span><span class="s">  YOUR_TRAINING_SCRIPT.py [--arg1 ...]</span></code></pre></figure>
+
+<h2 id="5-model-parallelism">5. Model Parallelism</h2>
+
+<p>Used when the model is too big to fit in a single GPU.</p>
+
+<h3 id="pipeline-parallelism-inter-layer">Pipeline Parallelism (Inter-layer)</h3>
+
+<p>Pipeline parallelism partitions the model’s layers across multiple GPUs. The training mini-batch is split into micro-batches that flow through pipeline. The forward and backward computation of micro-batches are overlapped to reduce device idle time.</p>
+
+<figure class="mbimgstyle" style="--img-width: 60%; --img-caption: 'Pipeline Parallelism';">
+<img src="/img/blog/distributed-training/pipeline_parallelism.jpg" alt="Pipeline Parallelism" />
+</figure>
+
+<p>The pipeline parallelism on 4 stages on 4 GPU devices involves following steps.</p>
+
+<ol>
+  <li><strong>Partition model</strong> into 4 sequential stages and place each stage on a different device.</li>
+  <li><strong>Split global mini-batch</strong> into M micro-batches.</li>
+  <li><strong>Forward Pass:</strong>
+    <ul>
+      <li><strong>Pipeline Fill:</strong> Stage 0 on GPU 0 starts with micro-batch 0 and sends activations to Stage 1 on GPU 1. Each next stage starts when it receives activations.</li>
+      <li><strong>Steady State:</strong> All stages are busy. While Stage i works on micro-batch <code class="language-plaintext highlighter-rouge">k</code>, Stage <code class="language-plaintext highlighter-rouge">i-1</code> can work on MB <code class="language-plaintext highlighter-rouge">k+1</code>.</li>
+      <li><strong>Drain:</strong> The last stage finishes remaining micro-batches and computes the loss.</li>
+    </ul>
+  </li>
+  <li><strong>Backward Pass (Drain → Fill):</strong> Gradients flow backward from Stage 3 to Stage 0 in the reverse order.</li>
+  <li><strong>Update Parameters:</strong> Each stage updates only its own parameters using the gradients it computed. Gradients are applied
+synchronously at the end.</li>
+  <li>Repeat for the next global mini-batch.</li>
+</ol>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Pipeline Parallelism (source: GPipe paper)';">
+<img src="/img/blog/distributed-training/pipeline_parallelism_bubble.jpg" alt="Pipeline Parallelism (source: GPipe paper)" />
+</figure>
+
+<p>At the beginning, later stages are idle while the first micro-batch moves through pipeline. At the end, earlier stages become idle while the last backward computations finish. This idle time is called <strong>pipeline bubble</strong>. Increasing the number of micro-batches reduces the relative bubble overhead, but using too many can also increase scheduling complexity.</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/pipeline_viz.js"></script>
+
+<div id="pipeline-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-pipeline-viz">Interactive: Pipeline Bubble Simulator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="pipeline-controls">
+      <div class="pipeline-control-group">
+        <div class="dt-label">
+          <span>Pipeline Stages</span>
+          <span class="dt-label-value pipeline-stages-display">4</span>
+        </div>
+        <input type="range" class="dt-slider pipeline-stages" min="2" max="8" value="4" step="1" />
+      </div>
+      <div class="pipeline-control-group">
+        <div class="dt-label">
+          <span>Micro-batches</span>
+          <span class="dt-label-value pipeline-micro-display">4</span>
+        </div>
+        <input type="range" class="dt-slider pipeline-micro" min="2" max="16" value="4" step="1" />
+      </div>
+    </div>
+
+    <div class="pipeline-grid-wrapper">
+      <div class="pipeline-grid"></div>
+    </div>
+
+    <div class="pipeline-legend">
+      <span class="pipeline-legend-item">
+        <span class="pipeline-legend-swatch fwd"></span> Forward
+      </span>
+      <span class="pipeline-legend-item">
+        <span class="pipeline-legend-swatch bwd"></span> Backward
+      </span>
+      <span class="pipeline-legend-item">
+        <span class="pipeline-legend-swatch idle"></span> Bubble (idle)
+      </span>
+    </div>
+
+    <div class="pipeline-bubble-stat">
+      <div class="pipeline-bubble-stat-item">
+        <div class="pipeline-bubble-stat-value pipeline-total-steps">14</div>
+        <div class="pipeline-bubble-stat-label">Total Steps</div>
+      </div>
+      <div class="pipeline-bubble-stat-item">
+        <div class="pipeline-bubble-stat-value pipeline-fwd-steps">7</div>
+        <div class="pipeline-bubble-stat-label">Forward Steps</div>
+      </div>
+      <div class="pipeline-bubble-stat-item">
+        <div class="pipeline-bubble-stat-value pipeline-bubble-pct success">42.9%</div>
+        <div class="pipeline-bubble-stat-label">Bubble Ratio</div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Adjust pipeline stages and micro-batches to see how they affect bubble and idle time.
+  </div>
+</div>
+
+<h4 id="interleaved-layers">Interleaved Layers</h4>
+
+<p>In interleaved pipeline parallelism, non-contiguous layers (e.g., layer 1 and layer 4) are assigned to GPU workers instead of consecutive layers. This reduces worker idle time but increases communication overhead (worker communicates after every layer instead of every 2 layers). It’s can be complicated if model has skip connections, attention patterns that cross workers.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Pipeline Parallelism: Interleaved';">
+<img src="/img/blog/distributed-training/pipeline_parallelism_interleaved.jpg" alt="Pipeline Parallelism: Interleaved" />
+</figure>
+
+<h4 id="1f1b-one-forward-one-backward-schedule">1F1B (One Forward, One Backward) Schedule</h4>
+
+<p>In classic data parallsielm, all micro-batches do all forward passes before any backward passes begin. In <strong>1F1B</strong>:</p>
+<div class="mbsteps">
+  <div class="mbstep">
+    <p><strong>Warm-up phase</strong>
+Workers perform differing numbers of forward passes.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Steady state</strong>
+Each worker performs one forward pass followed by one backward pass (unlike classic data parallelism where backward follows forward for all batches).</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Drain phase</strong>
+Complete backward passes for all remaining in-flight micro-batches.</p>
+  </div>
+</div>
+
+<p>The default non-interleaved 1F1B has a smaller pipeline bubble than GPipe. The interleaved 1F1B (each device assigned multiple chunks) reduces the bubble size further.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Pipeline Parallelism: 1F1B (source: 1F1B)';">
+<img src="/img/blog/distributed-training/pipeline_parallelism_1f1b.jpg" alt="Pipeline Parallelism: 1F1B (source: 1F1B)" />
+</figure>
+
+<h4 id="combining-pipeline-parallelism-with-data-parallelism">Combining Pipeline Parallelism with Data Parallelism</h4>
+
+<p>In this example, we split the model into 2 pipeline stages (Stage 0 and Stage 1). Each stage is replicated across 4 GPUs for data parallelism. Thus, <code class="language-plaintext highlighter-rouge">total GPUs = 2 (pipeline) * 4 (data) = 8</code>.</p>
+
+<figure class="mbimgstyle" style="--img-width: 80%; --img-caption: '8 GPUs with 2-way pipeline parallelism and 4-way data parallelism';">
+<img src="/img/blog/distributed-training/pipeline_data_parallelism2.jpg" alt="8 GPUs with 2-way pipeline parallelism and 4-way data parallelism" />
+</figure>
+
+<p>Here, the data parallel replicas are as of follows.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">Pipeline</span> <span class="n">replica</span> <span class="n">Group</span> <span class="mi">0</span><span class="p">:</span> 
+<span class="n">GPU</span> <span class="mi">0</span><span class="p">:</span> <span class="n">Stage</span> <span class="mi">0</span>
+<span class="n">GPU</span> <span class="mi">4</span><span class="p">:</span> <span class="n">Stage</span> <span class="mi">1</span>
+
+<span class="n">Pipeline</span> <span class="n">replica</span> <span class="n">Group</span> <span class="mi">1</span><span class="p">:</span> 
+<span class="n">GPU</span> <span class="mi">1</span><span class="p">:</span> <span class="n">Stage</span> <span class="mi">0</span>
+<span class="n">GPU</span> <span class="mi">5</span><span class="p">:</span> <span class="n">Stage</span> <span class="mi">1</span>
+
+<span class="n">etc</span><span class="p">.</span></code></pre></figure>
+
+<p>Pipeline Parallelism Steps:</p>
+
+<ol>
+  <li>Split global mini-batch into M micro-batches.</li>
+  <li>Each data-parallel in Stage 0 runs forward pass for its micro-batches.</li>
+  <li>Activations are sent to Stage 1 replias; Stage 1 runs forward pass.</li>
+  <li>After last stage produces outputs, backward pass flows from Stage 1 to Stage 0.</li>
+  <li>Gradients are synchronized across data-parallel replicas within each stage using AllReduce.</li>
+  <li>Optimizer updates are applied (per stage or globally, depending on setup).</li>
+  <li>Repeat for next global mini-batch.</li>
+</ol>
+
+<p><img src="/img/blog/distributed-training/pipeline_data_parallelism3.jpg" alt="" class="mbimgstyle" style="--img-width: 75%;" /></p>
+
+<figure class="mbimgstyle" style="--img-width: 50%; --img-caption: 'Combining Pipeline and Data Parallelism';">
+<img src="/img/blog/distributed-training/pipeline_data_parallelism.jpg" alt="Combining Pipeline and Data Parallelism" />
+</figure>
+
+<h3 id="tensor-parallelism-intra-layer">Tensor Parallelism (Intra-layer)</h3>
+
+<p>Tensor parallelism split the individual layer weights and computation across multiple GPUs unlike pipeline parallelism (which keeps individual weights intact but partitions layers). It’s required when a single parameter consumes most GPU memory, or for extremely large models like GPT.</p>
+
+<p>There are two ways to split the weight matrix W.</p>
+
+<div class="mbgrid mbgrid-2">
+  <div class="mbcard">
+    <p><strong>Column-wise Partitioning</strong> (by output dimension)
+No communication needed until a later layer requires the full output (then AllGather).</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Row-wise Partitioning</strong> (by input dimension)
+Partial outputs are summed with AllReduce to get the full output.</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Tensor Parallelism: Column and Row Partitioning';">
+<img src="/img/blog/distributed-training/tensor_parallelism_partitioning.jpg" alt="Tensor Parallelism: Column and Row Partitioning" />
+</figure>
+
+<h4 id="transformer-mlp">Transformer MLP</h4>
+
+<p>A Transformer MLP is usually. <code class="language-plaintext highlighter-rouge">Y = GELU(XA); Z = YB</code>.</p>
+
+<p>In Megatron-LM tensor parallelism, the first GEMM weight matrix <code class="language-plaintext highlighter-rouge">A</code> is column-partitioned \(A = [A1, A2]\) so that GeLU nonlinearity can be applied independently to each partitioned GEMM output:</p>
+
+\[[Y_1, Y_2] = [\text{GeLU}(XA_1),\ \text{GeLU}(XA_2)]\]
+
+<p><em>If we had split A into rows \(\begin{bmatrix}A1 \\ A2 \end{bmatrix}\), a sync point would have been needed since <code class="language-plaintext highlighter-rouge">GeLU(X1A1 + X2A2) ≠ GeLU(X1A1) + GeLU(X2A2)</code>.</em></p>
+
+<p>The second GEMM matrix <code class="language-plaintext highlighter-rouge">B</code> is row-partitioned \(\begin{bmatrix}B1 \\ B2 \end{bmatrix}\)</p>
+
+\[Z_1 = [Y_1 B_1]; Z_2 = [Y_2 B_2]\]
+
+\[Z = \text{AllReduce}(Z_1,\ Z_2)\]
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Tensor Parallelism: Column + Row Partitioning of MLP (source: Megatron-LM paper)';">
+<img src="/img/blog/distributed-training/tensor_parallelism_mlp.jpg" alt="Tensor Parallelism: Column + Row Partitioning of MLP (source: Megatron-LM paper)" />
+</figure>
+
+<p>The advantage of partitioning the first MLP GEMM column-wise and the second MLP GEMM row-wise is that no communication is needed in-between until end of MLP blocks. An AllReduce is only needed after row-parallelism.</p>
+
+<blockquote>
+  <p>Note: Row-wise partitioning in the forward pass becomes column-wise partitioning in the backward pass and vice versa.</p>
+</blockquote>
+
+<h4 id="multi-head-attention-mha">Multi-Head Attention (MHA)</h4>
+
+<p>MHA blocks are natural fit for tensor parallelism due to attention heads being mostly indpendent before final output projection. We can divide Q, K, V weight matrices by columns and the output linear layer by rows. This introduces two AllReduce operations per layer in both forward and backward passes.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'Tensor Parallelism: Column + Row Partitioning of Multi-Headed Attention (source: Megatron-LM paper)';">
+<img src="/img/blog/distributed-training/tensor_parallelism_attention.jpg" alt="Tensor Parallelism: Column + Row Partitioning of Multi-Headed Attention (source: Megatron-LM paper)" />
+</figure>
+
+<h2 id="6-zero-redundancy-optimizer-zero">6. Zero Redundancy Optimizer (ZeRO)</h2>
+
+<p>ZeRO consists of 3 stages which shards different model states: model parameters (weights), gradients, and optimizer states (e.g., momentum and variance in Adam).</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'ZeRO (source: ZeRO paper)';">
+<img src="/img/blog/distributed-training/deepspeed_zero.jpg" alt="ZeRO (source: ZeRO paper)" />
+</figure>
+
+<p>In the above figure, <code class="language-plaintext highlighter-rouge">Ψ</code> denotes model size (number of parameters), <code class="language-plaintext highlighter-rouge">K</code> denotes the memory multiplier of optimizer states, and <code class="language-plaintext highlighter-rouge">Nd</code> denotes data-parallel degree (#GPUs).</p>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/zero_compare.js"></script>
+
+<div id="zero-compare" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-zero-compare">Interactive: ZeRO Stage Comparison</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="zero-controls">
+      <div class="zero-stage-tabs">
+        <button class="zero-stage-tab active" data-stage="0">DDP</button>
+        <button class="zero-stage-tab" data-stage="1">ZeRO-1</button>
+        <button class="zero-stage-tab" data-stage="2">ZeRO-2</button>
+        <button class="zero-stage-tab" data-stage="3">ZeRO-3</button>
+      </div>
+    </div>
+
+    <div class="zero-chart">
+      <div class="zero-bar-group">
+        <div class="zero-bar-stack" style="height:60%"></div>
+        <div class="zero-bar-value zero-total-value">190 GB</div>
+        <div class="zero-bar-label">Per GPU</div>
+      </div>
+    </div>
+
+    <div class="zero-legend">
+      <span class="zero-legend-item"><span class="zero-legend-swatch" style="background:#10b981"></span> Params</span>
+      <span class="zero-legend-item"><span class="zero-legend-swatch" style="background:#8b5cf6"></span> Gradients</span>
+      <span class="zero-legend-item"><span class="zero-legend-swatch" style="background:#ec4899"></span> Optimizer States</span>
+      <span class="zero-legend-item"><span class="zero-legend-swatch" style="background:#f59e0b"></span> FP32 Master Weights</span>
+    </div>
+
+    <div class="zero-savings">
+      <div class="zero-savings-item">
+        <div class="zero-savings-label">Params</div>
+        <div class="zero-savings-value">20 GB</div>
+      </div>
+      <div class="zero-savings-item">
+        <div class="zero-savings-label">Grads</div>
+        <div class="zero-savings-value">20 GB</div>
+      </div>
+      <div class="zero-savings-item">
+        <div class="zero-savings-label">Opt States</div>
+        <div class="zero-savings-value">80 GB</div>
+      </div>
+      <div class="zero-savings-item">
+        <div class="zero-savings-label">Master W</div>
+        <div class="zero-savings-value">40 GB</div>
+      </div>
+    </div>
+
+    <div class="zero-comm-section">
+      <div class="zero-comm-header">Communication Volume (per step, per GPU)</div>
+      <div class="zero-comm-row">
+        <span class="zero-comm-label">Data Transferred</span>
+        <div class="zero-comm-track">
+          <div class="zero-comm-fill" style="width:50%"></div>
+        </div>
+        <span class="zero-comm-value">35 GB</span>
+      </div>
+      <div class="zero-comm-row">
+        <span class="zero-comm-label">Relative to DDP</span>
+        <div class="zero-comm-track">
+          <div class="zero-comm-ratio" style="width:50%"></div>
+        </div>
+        <span class="zero-comm-ratio-value">1.0x</span>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Toggle between stages to see memory distribution (10B model, 8 GPUs).
+  </div>
+</div>
+
+<h3 id="zero-stage-1-optimizer-state-partitioning-pos">ZeRO Stage 1: Optimizer State Partitioning (P<sub>os</sub>)</h3>
+
+<p>Shards optimizer states. Instead of creating per-param states for all parameters on every GPU, each optimizer instance only keeps states for a shard of all model parameters. The optimizer <code class="language-plaintext highlighter-rouge">step()</code> updates only the parameter shard for which it owns optimizer states and then broadcasts updated parameters to all peers.</p>
+
+<h3 id="zero-stage-2-gradient-partitioning-posg">ZeRO Stage 2: Gradient Partitioning (P<sub>os+g</sub>)</h3>
+
+<p>Shards both optimizer states and gradients across workers. Each worker maintains gradients only for its parameter partition. DeepSpeed performs a <strong>ReduceScatter</strong> (not AllReduce) so each worker only receives gradients for its own optimizer state partition.</p>
+
+<p>With ZeRO Stage 1 and 2, the entire model must still fit on 1 GPU.</p>
+
+<h3 id="zero-stage-3-parameter-partitioning-posgp">ZeRO Stage 3: Parameter Partitioning (P<sub>os+g+p</sub>)</h3>
+
+<p>Shards all model states (optimizer, gradients, and model parameters). During computation, ZeRO 3 needs its full parameters so it temporarily gathers shards before a layer runs. Its working is quite similar to that of PyTorch FSDP.</p>
+
+<p>Each GPU permanently stores only its own parameter shard, gradient shard, and optimizer shard. It gather the full parameters as needed and free them immediately after computation.</p>
+
+<p><img src="/img/blog/distributed-training/zero_example1.jpg" alt="" class="mbimgstyle" style="--img-width: 70%;" /></p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'ZeRO Stage 3 Example';">
+<img src="/img/blog/distributed-training/zero_example2.jpg" alt="ZeRO Stage 3 Example" />
+</figure>
+
+<p>1 <strong>Before Forward:</strong> Each GPU holds only its parameter shards. Before forward pass, AllGather gets all parameters of layer, so every GPU has full parameters temporarily.<br />
+2 <strong>Forward Compute:</strong> Run forward with full parameters.<br />
+3 <strong>After Forward:</strong> Reshard (release) parameters to free memory.</p>
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'ZeRO Stage 3 Example: Forward Pass';">
+<img src="/img/blog/distributed-training/zero_example3.jpg" alt="ZeRO Stage 3 Example: Forward Pass" />
+</figure>
+
+<p>4 <strong>Backward Compute:</strong> AllGather parameter shards again. Run backward pass to get local gradients.<br />
+5 <strong>After Backward:</strong> ReduceScatter gradients. Gradients are averaged across ranks, each rank keeps only its gradient shard.</p>
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'ZeRO Stage 3 Example: Backward Pass';">
+<img src="/img/blog/distributed-training/zero_example4.jpg" alt="ZeRO Stage 3 Example: Backward Pass" />
+</figure>
+
+<p>6 <strong>Optimizer Step:</strong> Each rank updates its parameter shard using its optimizer state shard i.e. GPU 0 updates p0 shards, GPU 1 updates p1 shards, GPU 2 updates p2 shards using local optimizer-state shards.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'ZeRO Stage 3 / FSDP Summary';">
+<img src="/img/blog/distributed-training/fsdp.jpg" alt="ZeRO Stage 3 / FSDP Summary" />
+</figure>
+
+<p><strong>ZeRO-Offload / ZeRO-Infinity:</strong></p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>ZeRO-Offload</strong>
+Offload optimizer states and gradients to CPU.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>ZeRO Offload++</strong>
+Offload optimizer and gradient states with better overlap.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>ZeRO Infinity</strong>
+ZeRO-Offload + offload model weights to CPU/NVMe with better computation and communication overlap.</p>
+  </div>
+</div>
+
+<p><strong>DeepSpeed Ulysses:</strong> Splits long sequence lengths across workers for sequence parallelism. Useful for long sequence length &gt;10k.</p>
+
+<h3 id="deepspeed-training-setup">DeepSpeed Training Setup</h3>
+
+<p>You can use Zero via DeepSpeed framework or use PyTorch FSDP for ZeRO Stage 3.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="n">deepspeed</span>
+
+<span class="n">ds_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">train_batch_size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">gradient_accumulation_steps</span><span class="sh">"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">optimizer</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sh">"</span><span class="s">type</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">Adam</span><span class="sh">"</span><span class="p">,</span>
+        <span class="sh">"</span><span class="s">params</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span><span class="sh">"</span><span class="s">lr</span><span class="sh">"</span><span class="p">:</span> <span class="mf">3e-5</span><span class="p">}</span>
+    <span class="p">},</span>
+    <span class="sh">"</span><span class="s">fp16</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span><span class="sh">"</span><span class="s">enabled</span><span class="sh">"</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
+    <span class="sh">"</span><span class="s">zero_optimization</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sh">"</span><span class="s">stage</span><span class="sh">"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>                        <span class="c1"># ZeRO Stage 3
+</span>        <span class="sh">"</span><span class="s">offload_optimizer</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">"</span><span class="s">device</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">,</span>               <span class="c1"># offload optimizer states to CPU
+</span>        <span class="p">},</span>
+        <span class="sh">"</span><span class="s">offload_param</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">"</span><span class="s">device</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">,</span>               <span class="c1"># offload parameters to CPU
+</span>        <span class="p">},</span>
+        <span class="sh">"</span><span class="s">overlap_comm</span><span class="sh">"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="sh">"</span><span class="s">contiguous_gradients</span><span class="sh">"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="sh">"</span><span class="s">reduce_bucket_size</span><span class="sh">"</span><span class="p">:</span> <span class="mf">5e8</span><span class="p">,</span>
+        <span class="sh">"</span><span class="s">stage3_prefetch_bucket_size</span><span class="sh">"</span><span class="p">:</span> <span class="mf">5e7</span><span class="p">,</span>
+        <span class="sh">"</span><span class="s">stage3_param_persistence_threshold</span><span class="sh">"</span><span class="p">:</span> <span class="mf">1e6</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">model_engine</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">deepspeed</span><span class="p">.</span><span class="nf">initialize</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">model_parameters</span><span class="o">=</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">ds_config</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="nf">model_engine</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+    <span class="n">model_engine</span><span class="p">.</span><span class="nf">backward</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+    <span class="n">model_engine</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span></code></pre></figure>
+
+<h2 id="7-pytorch-fully-sharded-data-parallel-fsdp">7. PyTorch Fully Sharded Data Parallel (FSDP)</h2>
+
+<p>FSDP is a type of data-parallel training, but unlike traditional DDP (which maintains a per-GPU copy of model parameters, gradients, and optimizer states), FSDP shards all of these states across data-parallel workers and can optionally offload sharded parameters to CPU. It is effectively a <strong>mix of data and model parallelism</strong>. <em>FSDP is PyTorch’s equivalent to DeepSpeed ZeRO Stage 3.</em></p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'DDP vs PyTorch FSDP';">
+<img src="/img/blog/distributed-training/fsdp_vs_ddp.jpg" alt="DDP vs PyTorch FSDP" />
+</figure>
+
+<p><strong>Advantages over DDP:</strong></p>
+<ul>
+  <li>Smaller GPU memory footprint → enables larger models or batch sizes.</li>
+  <li>Communication overhead is reduced via overlapping communication and computation.</li>
+</ul>
+
+<h3 id="how-fsdp-works">How FSDP Works</h3>
+
+<p><strong>FSDP Forward Pass:</strong></p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">layer_i</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+    <span class="n">all_gather</span> <span class="n">full</span> <span class="n">weights</span> <span class="k">for</span> <span class="n">layer_i</span>   <span class="c1"># reconstruct full weights from shards
+</span>    <span class="nf">forward_pass</span><span class="p">(</span><span class="n">layer_i</span><span class="p">)</span>
+    <span class="n">discard</span> <span class="n">full</span> <span class="n">weights</span> <span class="k">for</span> <span class="n">layer_i</span>      <span class="c1"># free memory immediately</span></code></pre></figure>
+
+<p><strong>FSDP Backward Pass:</strong></p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">layer_i</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+    <span class="n">all_gather</span> <span class="n">full</span> <span class="n">weights</span> <span class="k">for</span> <span class="n">layer_i</span>
+    <span class="nf">backward_pass</span><span class="p">(</span><span class="n">layer_i</span><span class="p">)</span>
+    <span class="n">discard</span> <span class="n">full</span> <span class="n">weights</span> <span class="k">for</span> <span class="n">layer_i</span>
+    <span class="n">reduce_scatter</span> <span class="n">gradients</span> <span class="k">for</span> <span class="n">layer_i</span>  <span class="c1"># average and reshard gradients</span></code></pre></figure>
+
+<p><strong>View as decomposed DDP:</strong> FSDP decomposes DDP’s gradient <code class="language-plaintext highlighter-rouge">AllReduce</code> into a <code class="language-plaintext highlighter-rouge">ReduceScatter</code> and an <code class="language-plaintext highlighter-rouge">AllGather</code>:</p>
+<div class="mbsteps">
+  <div class="mbstep">
+    <p><strong>Backward pass</strong>
+Reduce-scatter gradients: each rank holds a shard of gradients.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Optimizer step</strong>
+Each rank updates its parameter shard.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Next forward pass</strong>
+AllGather to collect updated parameter shards.</p>
+  </div>
+</div>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'PyTorch FSDP AllGather';">
+<img src="/img/blog/distributed-training/fsdp_allgather.jpg" alt="PyTorch FSDP AllGather" />
+</figure>
+
+<h3 id="wrapping-a-model-with-fsdp">Wrapping a Model with FSDP</h3>
+
+<p><strong>Auto wrapping</strong> (drop-in DDP replacement):</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">torch.distributed.fsdp</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FullyShardedDataParallel</span><span class="p">,</span>
+    <span class="n">CPUOffload</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="n">torch.distributed.fsdp.wrap</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">default_auto_wrap_policy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">layer1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">layer2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">layer3</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Replace DDP with FSDP:
+# model = DistributedDataParallel(MyModel())
+</span><span class="n">fsdp_model</span> <span class="o">=</span> <span class="nc">FullyShardedDataParallel</span><span class="p">(</span>
+    <span class="nc">MyModel</span><span class="p">(),</span>
+    <span class="n">fsdp_auto_wrap_policy</span><span class="o">=</span><span class="n">default_auto_wrap_policy</span><span class="p">,</span>
+    <span class="n">cpu_offload</span><span class="o">=</span><span class="nc">CPUOffload</span><span class="p">(</span><span class="n">offload_params</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+<span class="p">)</span></code></pre></figure>
+
+<p><strong>Manual wrapping</strong> allows selective application of FSDP to specific parts of the model for complex sharding strategies.</p>
+
+<h2 id="8-aws-sagemaker-distributed-training">8. AWS SageMaker Distributed Training</h2>
+
+<p>The SageMaker API can be used for distributed training as follows.</p>
+
+<h3 id="sagemaker-ddp-smddp">SageMaker DDP (SMDDP)</h3>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">sagemaker.pytorch</span> <span class="kn">import</span> <span class="n">PyTorch</span>
+
+<span class="n">estimator</span> <span class="o">=</span> <span class="nc">PyTorch</span><span class="p">(</span>
+    <span class="p">...,</span>
+    <span class="n">instance_count</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">instance_type</span><span class="o">=</span><span class="sh">"</span><span class="s">ml.p4d.24xlarge</span><span class="sh">"</span><span class="p">,</span>
+    <span class="c1"># Option 1: mpirun with SMDDP AllReduce OR AllGather
+</span>    <span class="n">distribution</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">pytorchddp</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span><span class="sh">"</span><span class="s">enabled</span><span class="sh">"</span><span class="p">:</span> <span class="bp">True</span><span class="p">}},</span>
+    <span class="c1"># Option 2: torchrun, activates SMDDP AllGather
+</span>    <span class="c1"># distribution={"torch_distributed": {"enabled": True}},
+</span>    <span class="c1"># Option 3: mpirun with smddprun
+</span>    <span class="c1"># distribution={"smdistributed": {"dataparallel": {"enabled": True}}},
+</span><span class="p">)</span></code></pre></figure>
+
+<p>For PyTorch DDP code, simply set the backend to <code class="language-plaintext highlighter-rouge">smddp</code>:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="n">torch.distributed</span> <span class="k">as</span> <span class="n">dist</span>
+<span class="kn">import</span> <span class="n">smdistributed.dataparallel.torch.torch_smddp</span>
+
+<span class="n">dist</span><span class="p">.</span><span class="nf">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="sh">"</span><span class="s">smddp</span><span class="sh">"</span><span class="p">)</span></code></pre></figure>
+
+<p>SMDDP uses <strong>MPI</strong> (Message Passing Interface) for node communication and <strong>NVIDIA NCCL</strong> for GPU-level communication.</p>
+
+<h3 id="sagemaker-model-parallelism-smp">SageMaker Model Parallelism (SMP)</h3>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">distribution</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">smdistributed</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sh">"</span><span class="s">modelparallel</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">"</span><span class="s">enabled</span><span class="sh">"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="sh">"</span><span class="s">parameters</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="sh">"</span><span class="s">hybrid_shard_degree</span><span class="sh">"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>          <span class="c1"># degree of sharded data parallelism
+</span>                <span class="sh">"</span><span class="s">sm_activation_offloading</span><span class="sh">"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>   <span class="c1"># offload activations to CPU
+</span>                <span class="sh">"</span><span class="s">activation_loading_horizon</span><span class="sh">"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="sh">"</span><span class="s">tensor_parallel_degree</span><span class="sh">"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="sh">"</span><span class="s">expert_parallel_degree</span><span class="sh">"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="sh">"</span><span class="s">random_seed</span><span class="sh">"</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+        <span class="sh">"</span><span class="s">mpi</span><span class="sh">"</span><span class="p">:</span> <span class="p">{</span><span class="sh">"</span><span class="s">enabled</span><span class="sh">"</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>SMP provides Sharded data parallelism, Expert parallelism, Tensor parallelism, Activation checkpointing and offloading, etc funcationalities.</p>
+
+<h2 id="9-3d-parallelism">9. 3D Parallelism</h2>
+
+<p>3D Parallelism combines <strong>Data Parallelism</strong> (or ZeRO/FSDP), <strong>Pipeline Parallelism</strong>, and <strong>Tensor Parallelism</strong> simultaneously. It’s used to train most frontier LLMs (GPT-3, LLaMA, etc.) across large cluster of GPUs.</p>
+
+<figure class="mbimgstyle" style="--img-caption: '3D Parallelism: Data, Pipeline, and Tensor Parallelism';">
+<img src="/img/blog/distributed-training/3d_parallelism.jpg" alt="3D Parallelism: Data, Pipeline, and Tensor Parallelism" />
+</figure>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<style>
+#pc-container {
+  width: 100%;
+  height: 520px;
+  position: relative;
+  background: var(--bg-color, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: grab;
+}
+#pc-container:active { cursor: grabbing; }
+#pc-container canvas { display: block; }
+.pc-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 14px 12px 8px;
+  flex-wrap: wrap;
+}
+.pc-btn {
+  padding: 7px 18px;
+  border: 1.5px solid #444;
+  background: #222;
+  color: #aaa;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.pc-btn:hover { background: #333; color: #ddd; }
+.pc-btn.active {
+  background: #20B2AA;
+  color: #fff;
+  border-color: #20B2AA;
+}
+.pc-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 20px 4px;
+  justify-content: center;
+}
+.pc-slider-row label {
+  color: #888;
+  font-size: 13px;
+  white-space: nowrap;
+}
+#pc-slider {
+  flex: 0 1 200px;
+  accent-color: #20B2AA;
+  height: 4px;
+}
+#pc-slice-val {
+  color: #20B2AA;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 28px;
+}
+.pc-info {
+  text-align: center;
+  color: #555;
+  font-size: 12px;
+  padding: 6px 12px 10px;
+}
+.pc-desc {
+  text-align: center;
+  color: #20B2AA;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 20px 10px;
+  min-height: 22px;
+  line-height: 1.4;
+}
+.pc-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 20px 12px;
+  flex-wrap: wrap;
+}
+.pc-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #888;
+}
+.pc-legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid #555;
+}
+</style>
+
+<script>
+(function() {
+  if (document.querySelector('script[type="importmap"]')) return;
+  var im = document.createElement('script');
+  im.type = 'importmap';
+  im.textContent = JSON.stringify({
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  });
+  document.head.appendChild(im);
+})();
+</script>
+
+<script type="module" src="/js/interactive/3d_parallelism_cube.js"></script>
+
+<div id="pc-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-3d-parallelism">Interactive: 3D Parallelism Cube</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div id="pc-container"></div>
+    <div class="pc-controls">
+      <button class="pc-btn active" data-mode="all">Overview</button>
+      <button class="pc-btn" data-mode="dp">Data Parallelism</button>
+      <button class="pc-btn" data-mode="pp">Pipeline Parallelism</button>
+      <button class="pc-btn" data-mode="tp">Tensor Parallelism</button>
+    </div>
+    <div class="pc-slider-row" id="pc-slider-row" style="display:none">
+      <label>Slice:</label>
+      <input type="range" id="pc-slider" min="0" max="3" value="0" step="1" />
+      <span id="pc-slice-val">1</span>
+    </div>
+    <div class="pc-desc" id="pc-desc">All 24 GPUs arranged in a 3D grid. Drag to rotate &bull; Scroll to zoom</div>
+    <div class="pc-legend">
+      <span class="pc-legend-item"><span class="pc-legend-swatch" style="background:hsl(210,70%,50%)"></span> DP=0</span>
+      <span class="pc-legend-item"><span class="pc-legend-swatch" style="background:hsl(185,65%,50%)"></span> DP=1</span>
+      <span class="pc-legend-item"><span class="pc-legend-swatch" style="background:hsl(150,60%,45%)"></span> DP=2</span>
+      <span class="pc-legend-item"><span class="pc-legend-swatch" style="background:hsl(30,80%,55%)"></span> DP=3</span>
+    </div>
+  </div>
+</div>
+
+<blockquote>
+  <p>Total GPUs = DP degree x PP degree x TP degree</p>
+</blockquote>
+
+<p>For example, with 2 nodes (16 GPUs), TP=2, PP=4, you’d have DP=N/(TPxPP) = 16/(2×4) = 2 data-parallel groups.</p>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th style="text-align: left">Dimension</th>
+      <th style="text-align: left">What it splits</th>
+      <th style="text-align: left">Rationale</th>
+      <th style="text-align: left">Communication</th>
+      <th style="text-align: left">Frequency</th>
+      <th style="text-align: left">Network Scope</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>Data Parallel</strong> (DP)</td>
+      <td style="text-align: left">Training data / batch</td>
+      <td style="text-align: left">Increase throughput</td>
+      <td style="text-align: left">AllReduce of gradients (~model params × 2 bytes)</td>
+      <td style="text-align: left">Once per training step</td>
+      <td style="text-align: left">Inter-node (InfiniBand / Ethernet)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Pipeline Parallel</strong> (PP)</td>
+      <td style="text-align: left">Model layers</td>
+      <td style="text-align: left">Fit many layers across GPUs</td>
+      <td style="text-align: left">Send/Receive of activations (~bs × seq_len × hidden) per pipeline stage boundary</td>
+      <td style="text-align: left">Once per micro-batch per stage boundary</td>
+      <td style="text-align: left">Across nodes / groups</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Tensor Parallel</strong> (TP)</td>
+      <td style="text-align: left">Matrix operations inside each layer</td>
+      <td style="text-align: left">Split large layer computations; leverage NVLink bandwidth (~600 GB/s)</td>
+      <td style="text-align: left">AllReduce / AllGather / ReduceScatter of activations (~bs × seq_len × hidden) per transformer block</td>
+      <td style="text-align: left">Every forward/backward pass per layer</td>
+      <td style="text-align: left">Intra-node (NVLink / NVSwitch)</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="mbgrid mbgrid-3" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070">
+  <div class="mbcard">
+    <p><strong>Tensor Parallelism</strong> is the most bandwidth-sensitive, it must run on fast intra-node links (NVLink).</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Pipeline Parallelism</strong> reduces memory and the amount of AllReduce data, but introduces the pipeline bubble.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Data Parallelism</strong> provides the most flexibility, you can scale to hundreds of nodes by increasing the DP degree.</p>
+  </div>
+</div>
+
+<h3 id="zero--3d-parallelism">ZeRO + 3D Parallelism</h3>
+
+<p>In practice, DeepSpeed ZeRO Stage 1 is often used on top of TP + PP instead of full data parallelism. This shards the optimizer states across the data-parallel replicas without adding extra communication.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># Pseudocode for a 3D-parallel training loop
+</span>
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>               <span class="c1"># Data Parallel: different data per DP group
+</span>    <span class="k">for</span> <span class="n">microbatch</span> <span class="ow">in</span> <span class="nf">split</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>     <span class="c1"># Pipeline Parallel: micro-batches through stages
+</span>        <span class="c1"># Tensor Parallel: each layer is split across TP group
+</span>        <span class="n">output</span> <span class="o">=</span> <span class="nf">tensor_parallel_forward</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">microbatch</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="nf">compute_loss</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="c1"># TP backward (AllReduce within node)
+</span>        <span class="nf">tensor_parallel_backward</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+    <span class="c1"># PP gradients flow backward across pipeline stages (P2P)
+</span>    <span class="nf">allreduce_gradients</span><span class="p">()</span>              <span class="c1"># DP: sync gradients across replicas
+</span>    <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>                   <span class="c1"># ZeRO: each rank updates its optimizer shard</span></code></pre></figure>
+
+<h2 id="10-summary-parallelism-strategies">10. Summary: Parallelism Strategies</h2>
+
+<table class="mbtablestyle">
+  <thead>
+    <tr>
+      <th>Strategy</th>
+      <th>Splits</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Data Parallelism</strong></td>
+      <td>Dataset across GPUs; full model replicated</td>
+      <td>Data doesn’t fit batch-wise on 1 GPU</td>
+    </tr>
+    <tr>
+      <td><strong>Pipeline Parallelism</strong></td>
+      <td>Layers across GPUs</td>
+      <td>Model layers don’t fit on 1 GPU</td>
+    </tr>
+    <tr>
+      <td><strong>Tensor Parallelism</strong></td>
+      <td>Individual weight tensors across GPUs</td>
+      <td>Single weights too large for 1 GPU</td>
+    </tr>
+    <tr>
+      <td><strong>ZeRO / FSDP</strong></td>
+      <td>Optimizer states, gradients, params sharded</td>
+      <td>Memory-efficient data parallelism</td>
+    </tr>
+    <tr>
+      <td><strong>3D Parallelism</strong></td>
+      <td>DP + PP + TP combined</td>
+      <td>Very large models across large GPU clusters</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>References and Image sources:</strong></p>
+<ul>
+  <li><a href="https://docs.pytorch.org/docs/2.12/distributed.html">Distributed communication package - torch.distributed</a></li>
+  <li><a href="https://arxiv.org/pdf/1811.06965">GPipe: Easy Scaling with Micro-Batch Pipeline Parallelism</a></li>
+  <li><a href="https://deepakn94.github.io/assets/papers/pipedream-sosp19.pdf">PipeDream: Generalized Pipeline Parallelism for DNN Training</a></li>
+  <li><a href="https://arxiv.org/pdf/1909.08053">Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism</a></li>
+  <li><a href="https://arxiv.org/pdf/1910.02054">ZeRO: Memory Optimizations Toward Training Trillion Parameter Models</a></li>
+  <li><a href="https://www.deepspeed.ai/tutorials/zero/">DeepSpeed ZeRO</a></li>
+  <li><a href="https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html">PyTorch FSDP</a></li>
+  <li><a href="https://dev-discuss.pytorch.org/t/rethinking-pytorch-fully-sharded-data-parallel-fsdp-from-first-principles/1019">PyTorch FSDP background</a></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2025-03-21-distributed-training.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/vision-language-models/">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Vision Language Models (VLM)</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/prompt-engineering-techniques/">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Prompt Engineering Techniques: How to Write Effective Prompts</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/frontier-ai-models-evaluation-benchmarks/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/llm-benchmarks/benchmark_timeline.svg" alt="Frontier AI Models Evaluation Benchmarks" loading="lazy"></span>
+                
+                <span class="post-related-title">Frontier AI Models Evaluation Benchmarks</span>
+                <span class="post-related-date">Jun 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/introduction-to-model-context-protocol-mcp/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg" alt="Introduction to Model Context Protocol (MCP)" loading="lazy"></span>
+                
+                <span class="post-related-title">Introduction to Model Context Protocol (MCP)</span>
+                <span class="post-related-date">Feb 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/evaluation-metrics-for-large-language-models/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg" alt="Evaluation Metrics for Large Language Models" loading="lazy"></span>
+                
+                <span class="post-related-title">Evaluation Metrics for Large Language Models</span>
+                <span class="post-related-date">Dec 2025</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>

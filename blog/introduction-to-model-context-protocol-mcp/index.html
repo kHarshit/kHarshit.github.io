@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="keywords" content="personal website, blog, machine learning, deep learning, computer vision, NLP, data science, github pages">
+        
+        <meta name="description" content="MCP is an open-source protocol that standardizes how LLMs connect to external tools and data sources, replacing fragile custom integrations with a common int...">
+		<meta name="author" content="Harshit Kumar">
+        
+        <title>Introduction to Model Context Protocol (MCP) | Harshit Kumar</title>
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="Introduction to Model Context Protocol (MCP)">
+        <meta property="og:description" content="MCP is an open-source protocol that standardizes how LLMs connect to external tools and data sources, replacing fragile custom integrations with a common int...">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://kharshit.github.io/blog/introduction-to-model-context-protocol-mcp/">
+        
+        
+        <meta property="og:image" content="https://kHarshit.github.io/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@harshit_kumar1">
+        <meta name="twitter:title" content="Introduction to Model Context Protocol (MCP)">
+        <meta name="twitter:description" content="MCP is an open-source protocol that standardizes how LLMs connect to external tools and data sources, replacing fragile custom integrations with a common int...">
+        <meta name="twitter:image" content="https://kHarshit.github.io/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg">
+        <!--
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHHHHHHHHHHHHHH
+			HHHHHHHHHHHHHHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+			HHHH        HHHH
+-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon_files/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon_files/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_files/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon_files/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon_files/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon_files/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon_files/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_files/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon_files/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_files/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon_files/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_files/favicon-16x16.png">
+        <link rel="manifest" href="/img/favicon_files/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+        
+        <link type="application/atom+xml" rel="alternate" href="https://kharshit.github.io/feed.xml" title="Harshit Kumar" />
+        <link rel="canonical" href="https://kharshit.github.io/blog/introduction-to-model-context-protocol-mcp/">
+
+        
+        
+
+        
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Introduction to Model Context Protocol (MCP)",
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "author": {"@type": "Person", "name": "Harshit Kumar", "url": "https://kHarshit.github.io"},
+          "description": "MCP is an open-source protocol that standardizes how LLMs connect to external tools and data sources, replacing fragile custom integrations with a common int...",
+          "url": "https://kharshit.github.io/blog/introduction-to-model-context-protocol-mcp/",
+          "image": "https://kHarshit.github.io/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg"
+        }
+        </script>
+        
+
+    </head>
+
+    <body>
+
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <!-- Theme Switch -->
+        <div class="theme-switch-wrapper">
+            <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
+            <label id="theme-switch" for="themeswitch">
+                <div class="toggle-track">
+                    <i class="fa fa-sun-o toggle-icon"></i>
+                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="theme_switch">
+            <span id="main-content" tabindex="-1"></span>
+            <header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="/blog">Harshit Kumar</a></h1>
+		</div>
+        <nav aria-label="Main navigation">
+    <ul>
+        <li><a href="https://kHarshit.github.io">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li class="current"><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
+            <ul class="nav-dropdown-menu">
+                <li><a href="/poems">Poems</a></li>
+                <li><a href="/books">Books</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+    </div>
+    <div id="reading-progress-bar"></div>
+</header>
+
+<main>
+<div class="container post-container">
+
+    <div class="post-header">
+        <h1 class="post-title">Introduction to Model Context Protocol (MCP)</h1>
+        <div class="post-meta">
+            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> Feb 20, 2026</span>
+            <span class="post-meta-read"><i class="fa fa-clock-o"></i> <!-- To estimate reading time of post -->
+<span class="readtime" title="Estimated read time">
+    
+    
+      14 min read
+    
+</span>
+</span>
+            <div class="post-meta-actions">
+                <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                    <i class="fa fa-headphones"></i>
+                </button>
+                <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                    <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                    <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                    <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                    <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        
+        
+        <div class="post-meta-tags-row">
+            <ul class="tag-cloud">
+                
+                    <li><a href="/categories/agentic-ai/">Agentic AI</a></li>
+                
+                    <li><a href="/categories/generative-ai/">Generative AI</a></li>
+                
+                    <li><a href="/categories/llm/">LLM</a></li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="post-layout">
+        <aside class="post-toc-sidebar">
+            <details id="toc-block" class="toc-block" open hidden>
+                <summary class="toc-summary">Contents</summary>
+                <nav id="toc-list" class="toc-list"></nav>
+            </details>
+        </aside>
+        <div class="post-content-wrap">
+            <div id="post" class="post-content">
+                <p>Model Context Protocol (MCP) is an open-source protocol that standardizes how AI models (LLMs) connect to external tools, data sources, and services.</p>
+
+<p>Instead of every AI app inventing its own way to connect to a database, SaaS tools (Slack, Notion, Jira, etc.), local files, internal APIs, or custom tools, MCP provides a common interface so models and tools can interoperate cleanly.</p>
+
+<p>Without MCP, every integration becomes custom glue - hard to maintain, hard to secure, hard to scale.</p>
+
+<figure class="mbimgstyle" style="--img-width: 70%; --img-caption: 'MCP: Universal AI Integration Layer';">
+<img src="/img/blog/introduction-to-model-context-protocol-mcp/mcp_fig1.svg" alt="MCP: Universal AI Integration Layer" />
+</figure>
+
+<p>MCP uses <strong>JSON-RPC 2.0</strong> as a <strong>protocol</strong> to communicate. It standardizes the request-response in a certain format:</p>
+
+<ul>
+  <li>I initiate, you respond in a certain format</li>
+  <li>Then I ask for your capabilities, you provide your tools in a certain format</li>
+  <li>I ask for recent changes, you respond with recent changes in a certain format</li>
+</ul>
+
+<p>MCP is not about a new protocol itself, but more about standardizing the JSON-RPC protocol by building additional layers that allow for universal AI communication.</p>
+
+<p>Breaking down the name:</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>Model</strong>
+AI model like an LLM</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Context</strong>
+Server-side context, not conversational context. LLMs have conversational context (what we’re talking about), while context for MCP is capability/domain/schema/data context (what we can do with this tool)</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Protocol</strong>
+A higher level of standardization than what JSON-RPC provides, acting as a universal standard for interaction between AI apps</p>
+  </div>
+</div>
+
+<h2 id="mcp-vs-api">MCP vs API</h2>
+
+<p>MCP sits on top of APIs and standardizes how models interact with them.</p>
+
+<p><em>While APIs are built for developers, MCP is meant to be utilized by LLMs.</em></p>
+
+<p>Your LLM agent can interrogate an MCP server and ask what its capabilities are, and then decide which tool or resource it’s going to utilize to address the task at hand. With an API endpoint, you need to know what that capability is going in, it doesn’t tell you about itself.</p>
+
+<h2 id="architecture">Architecture</h2>
+
+<p>MCP follows a <em>client-server architecture</em> where an MCP host - an AI application like Claude Code or Claude Desktop, establishes connections to one or more MCP servers. The MCP host accomplishes this by creating one MCP client for each MCP server. Each MCP client maintains a dedicated connection with its corresponding MCP server.</p>
+
+<p>The key participants in the MCP architecture are:</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>MCP Host</strong>
+The AI application that coordinates and manages one or multiple MCP clients.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>MCP Client</strong>
+A component (App/IDE/Agent) that maintains a connection to an MCP server and obtains context from an MCP server for the MCP host to use.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>MCP Server</strong>
+A program that provides context to MCP clients. It’s just any other service we build and operate that exposes an API using JSON-RPC, designed to be used by LLMs, not just traditional application code. MCP servers can execute locally or remotely.</p>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<style>
+#mcp3d-container {
+  width: 100%;
+  height: 440px;
+  position: relative;
+  background: var(--bg-color, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: grab;
+}
+#mcp3d-container:active { cursor: grabbing; }
+#mcp3d-container canvas { display: block; }
+.mcp3d-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 12px 12px 2px;
+  flex-wrap: wrap;
+}
+.mcp3d-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--font-color, #333);
+}
+.mcp3d-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.mcp3d-info {
+  text-align: center;
+  color: #888;
+  font-size: 12px;
+  padding: 4px 12px 10px;
+}
+.mcp3d-detail {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  display: none;
+  z-index: 10;
+  max-width: 320px;
+  width: 90%;
+  text-align: center;
+  pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  backdrop-filter: blur(8px);
+}
+.mcp3d-detail .mcp3d-dd-name { font-weight: 600; font-size: 15px; }
+.mcp3d-detail .mcp3d-dd-role { opacity: 0.7; font-size: 12px; }
+.mcp3d-detail .mcp3d-dd-desc { opacity: 0.85; font-size: 12px; margin-top: 4px; }
+</style>
+
+<script>
+(function() {
+  if (document.querySelector('script[type="importmap"]')) return;
+  var im = document.createElement('script');
+  im.type = 'importmap';
+  im.textContent = JSON.stringify({
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  });
+  document.head.appendChild(im);
+})();
+</script>
+
+<script type="module" src="/js/interactive/3d_mcp_arch.js"></script>
+
+<div id="mcp3d-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-3d-mcp-arch">Interactive: 3D MCP Architecture</h3>
+  </div>
+  <div class="dt-widget-body" style="position:relative">
+    <div id="mcp3d-container">
+      <div class="mcp3d-detail" id="mcp3d-detail">
+        <div class="mcp3d-dd-name" id="mcp3d-dd-name"></div>
+        <div class="mcp3d-dd-role" id="mcp3d-dd-role"></div>
+        <div class="mcp3d-dd-desc" id="mcp3d-dd-desc"></div>
+      </div>
+    </div>
+    <div class="mcp3d-legend">
+      <span class="mcp3d-legend-item"><span class="mcp3d-legend-dot" style="background:#6366f1"></span>MCP Host</span>
+      <span class="mcp3d-legend-item"><span class="mcp3d-legend-dot" style="background:#20B2AA"></span>MCP Clients</span>
+      <span class="mcp3d-legend-item"><span class="mcp3d-legend-dot" style="background:#10b981"></span>MCP Servers</span>
+    </div>
+    <div class="mcp3d-info">Drag to orbit &bull; Hover a node for details &bull; Host creates a Client per Server</div>
+  </div>
+</div>
+
+<p>Modern LLMs support <strong>tool calling</strong> (evolved from function calling), where the model is told “here are the tools you can use”. The LLM can then request “call tool X with param Y”. The host application executes the tool call, sends the results back to the LLM, which uses this as additional context to generate a response.</p>
+
+<p><strong>For example:</strong> AI-powered IDE, acting as MCP host, connects to a bug-tracking MCP server, the host creates a dedicated MCP client to manage that connection. If it later connects to a filesystem server or a documentation server, each gets its own MCP client, so one host can talk to many servers through separate client instances, each maintaining its own session.</p>
+
+<p>MCP is a stateful protocol that requires lifecycle management.</p>
+
+<h2 id="primitives">Primitives</h2>
+
+<p>Primitives define what clients and servers can offer each other. MCP defines three core primitives that servers can expose:</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>Tools (Actions)</strong>
+Executable functions that AI applications can invoke to perform actions e.g., file operations, API calls, database queries like <code class="language-plaintext highlighter-rouge">search_jira</code>, <code class="language-plaintext highlighter-rouge">run_sql</code>. Each tool defines: name, description, JSON input schema, optional output schema.</p>
+
+    <div class="mbgrid mbgrid-2">
+      <div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none">
+        <p><strong><code class="language-plaintext highlighter-rouge">tools/list</code></strong>
+Discover available tools</p>
+      </div>
+      <div class="mbcard" style="--mbcard-bg: #f0faf9; --mbcard-border: none">
+        <p><strong><code class="language-plaintext highlighter-rouge">tools/call</code></strong>
+Execute a specific tool</p>
+      </div>
+    </div>
+  </div>
+  <div class="mbcard">
+    <p><strong>Resources</strong>
+Data sources that provide contextual information to AI applications e.g., file contents, database records, API responses, documentation, logs.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Prompts (prompt templates)</strong>
+Reusable templates that help structure interactions with language models e.g., system prompts, few-shot examples.</p>
+  </div>
+</div>
+
+<p>Each primitive type has associated methods for discovery (<code class="language-plaintext highlighter-rouge">*/list</code>), retrieval (<code class="language-plaintext highlighter-rouge">*/get</code>), and in some cases, execution (<code class="language-plaintext highlighter-rouge">tools/call</code>). MCP clients use the <code class="language-plaintext highlighter-rouge">*/list</code> methods to discover available primitives. For example, a client can first list all available tools (<code class="language-plaintext highlighter-rouge">tools/list</code>) and then execute them. This design allows listings to be dynamic.</p>
+
+<p>Instead of hard-coding tools, MCP lets a model dynamically discover what tools exist, what arguments they accept, and what they return. Each tool is described in structured JSON like metadata:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"search_jira"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Search Jira issues"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"input_schema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>MCP also defines primitives that clients can expose. These primitives allow MCP server authors to build richer interactions:</p>
+
+<div class="mbgrid mbgrid-3">
+  <div class="mbcard">
+    <p><strong>Sampling</strong>
+Allows servers to request language model completions from the client’s AI application via <code class="language-plaintext highlighter-rouge">sampling/complete</code> — useful when server authors want LLM access while staying model-independent.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Elicitation</strong>
+Allows servers to request additional information from users via <code class="language-plaintext highlighter-rouge">elicitation/request</code> — useful for getting more context or asking for confirmation of an action.</p>
+  </div>
+  <div class="mbcard">
+    <p><strong>Logging</strong>
+Enables servers to send log messages to clients for debugging and monitoring purposes.</p>
+  </div>
+</div>
+
+<h2 id="example">Example</h2>
+
+<p>Let’s walk through a full example: “Summarize open high-priority Jira tasks”.</p>
+
+<h3 id="1-initialization-lifecycle-management">1. Initialization (Lifecycle Management)</h3>
+
+<p>Before any user query, the client connects to the MCP server through a capability negotiation handshake:</p>
+
+<div class="mbsteps">
+  <div class="mbstep">
+    <p><strong>Protocol Version Negotiation</strong>
+Ensures both client and server are using compatible protocol versions.</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Capability Discovery</strong>
+The capabilities object allows each party to declare what features they support, including which primitives they can handle (tools, resources, prompts).</p>
+  </div>
+  <div class="mbstep">
+    <p><strong>Identity Exchange</strong>
+<code class="language-plaintext highlighter-rouge">clientInfo</code> and <code class="language-plaintext highlighter-rouge">serverInfo</code> objects are exchanged.</p>
+  </div>
+</div>
+
+<p>Client → Server (initialize request):</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonrpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"initialize"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"protocolVersion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-11-25"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"capabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"elicitation"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"clientInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-client"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Server → Client (response: capabilities):</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonrpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"protocolVersion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-11-25"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"capabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"tools"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nl">"listChanged"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span><span class="w">
+      </span><span class="nl">"resources"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"serverInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-server"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/mcp_handshake.js"></script>
+
+<div id="mcp-handshake" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-mcp-handshake">Interactive: MCP Handshake Simulator</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="mcp-hs-phases">
+      <div class="mcp-hs-phase mcp-hs-phase-init">
+        <span class="mcp-hs-phase-dot"></span>
+        <span class="mcp-hs-phase-label">Initialize</span>
+      </div>
+      <div class="mcp-hs-connector"></div>
+      <div class="mcp-hs-phase mcp-hs-phase-proto">
+        <span class="mcp-hs-phase-dot"></span>
+        <span class="mcp-hs-phase-label">Protocol</span>
+      </div>
+      <div class="mcp-hs-connector"></div>
+      <div class="mcp-hs-phase mcp-hs-phase-cap">
+        <span class="mcp-hs-phase-dot"></span>
+        <span class="mcp-hs-phase-label">Capabilities</span>
+      </div>
+      <div class="mcp-hs-connector"></div>
+      <div class="mcp-hs-phase mcp-hs-phase-ready">
+        <span class="mcp-hs-phase-dot"></span>
+        <span class="mcp-hs-phase-label">Ready</span>
+      </div>
+    </div>
+    <div class="mcp-hs-flow">
+      <div class="mcp-hs-column">
+        <div class="mcp-hs-column-label">MCP Client</div>
+        <pre class="mcp-hs-msg mcp-hs-client-msg mcp-hs-empty"></pre>
+      </div>
+      <div class="mcp-hs-arrows">
+        <div class="mcp-hs-arrow-down">&#8595;</div>
+        <div class="mcp-hs-arrow-up">&#8593;</div>
+      </div>
+      <div class="mcp-hs-column">
+        <div class="mcp-hs-column-label">MCP Server</div>
+        <pre class="mcp-hs-msg mcp-hs-server-msg mcp-hs-empty"></pre>
+      </div>
+    </div>
+    <div class="mcp-hs-desc">Click Next to start the handshake.</div>
+    <div class="mcp-hs-bar"></div>
+    <div class="ar-controls">
+      <button class="ar-btn ar-btn-secondary mcp-hs-back">Back</button>
+      <button class="ar-btn ar-btn-primary mcp-hs-next">Next</button>
+      <button class="ar-btn ar-btn-secondary mcp-hs-reset">Reset</button>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Step through the MCP initialization lifecycle: protocol negotiation, capability discovery, and identity exchange.
+  </div>
+</div>
+
+<h3 id="2-tool-discovery-primitives">2. Tool Discovery (Primitives)</h3>
+
+<p>The client asks the server what tools are available by calling <code class="language-plaintext highlighter-rouge">tools/list</code>:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonrpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tools/list"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The MCP server advertises a tools array e.g. <code class="language-plaintext highlighter-rouge">search_jira</code>, <code class="language-plaintext highlighter-rouge">get_ticket_details</code>, <code class="language-plaintext highlighter-rouge">summarize_text</code>. The client then exposes this tool definition to the LLM. (The AI application fetches available tools from all connected MCP servers and combines them into a unified tool registry that the language model can access.)</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonrpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"tools"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"search_jira"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Search Jira issues"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"input_schema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">}</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"query"</span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_ticket_details"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"..."</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="3-model-reasoning--tool-call">3. Model Reasoning &amp; Tool Call</h3>
+
+<p>User query: “Summarize open high-priority Jira tasks”. The model reasons:</p>
+
+<ul>
+  <li>I need Jira data.</li>
+  <li>I should call <code class="language-plaintext highlighter-rouge">search_jira</code>.</li>
+</ul>
+
+<p>The LLM generates the structured output required for this call:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"tool"</span><span class="p">:</span><span class="w"> </span><span class="s2">"search_jira"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"arguments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"query"</span><span class="p">:</span><span class="w"> </span><span class="s2">"priority=high AND status=open"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The MCP client intercepts this and translates it into a JSON-RPC request.</p>
+
+<h3 id="4-tool-execution-primitives">4. Tool Execution (Primitives)</h3>
+
+<p>Client → Server (<code class="language-plaintext highlighter-rouge">tools/call</code>):</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonrpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tools/call"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"search_jira"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"arguments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"query"</span><span class="p">:</span><span class="w"> </span><span class="s2">"priority=high AND status=open"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Server → Client (result):</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonrpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JIRA-ISSUE-1: Deploy Qwen model</span><span class="se">\n</span><span class="s2">JIRA-ISSUE-2: Optimize inference</span><span class="se">\n</span><span class="s2">JIRA-ISSUE-3: Tokenize data"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The MCP client inserts the tool results into the LLM’s context. Now the model has Jira data. When the LLM decides to use a tool during a conversation, the AI application intercepts the tool call, routes it to the appropriate MCP server, executes it, and returns the results back to the LLM as part of the conversation flow. This enables the LLM to access real-time data and perform actions in the external world.</p>
+
+<p>The model generates the final response:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>There are 3 open high-priority tasks:
+* JIRA-ISSUE-1: Deploy Qwen model
+* JIRA-ISSUE-2: Optimize inference
+* JIRA-ISSUE-3: Tokenize data
+</code></pre></div></div>
+
+<h3 id="5-notifications">5. Notifications</h3>
+
+<p>If the server updates tool availability dynamically, it can notify the client:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonrpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"notifications/tools/list_changed"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The client can then re-fetch tools:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonrpc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tools/list"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>In the above example, the model:</p>
+<ul>
+  <li>never calls JIRA directly,</li>
+  <li>doesn’t know about HTTP,</li>
+  <li>doesn’t know about authentication,</li>
+  <li>doesn’t know about implementation details.</li>
+</ul>
+
+<p>It only sees “there is a tool called <code class="language-plaintext highlighter-rouge">search_jira</code>”.</p>
+
+<p>MCP standardizes the entire lifecycle of:</p>
+<ul>
+  <li>discovering tools</li>
+  <li>calling tools</li>
+  <li>returning structured results</li>
+  <li>continuing reasoning</li>
+</ul>
+
+<link rel="stylesheet" href="/css/interactive.css" />
+
+<script src="/js/interactive/mcp_toolflow.js"></script>
+
+<div id="mcp-toolflow" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-mcp-toolflow">Interactive: MCP Tool Call Flow</h3>
+  </div>
+  <div class="dt-widget-body">
+    <div class="mcp-tf-flow">
+      <div class="mcp-tf-node mcp-tf-node-query">
+        <div class="mcp-tf-node-icon">&#128172;</div>
+        <div class="mcp-tf-node-label">User Query</div>
+      </div>
+      <div class="mcp-tf-connector"></div>
+      <div class="mcp-tf-node mcp-tf-node-reason">
+        <div class="mcp-tf-node-icon">&#129504;</div>
+        <div class="mcp-tf-node-label">Model Reasons</div>
+      </div>
+      <div class="mcp-tf-connector"></div>
+      <div class="mcp-tf-node mcp-tf-node-call">
+        <div class="mcp-tf-node-icon">&#9889;</div>
+        <div class="mcp-tf-node-label">Tool Call</div>
+      </div>
+      <div class="mcp-tf-connector"></div>
+      <div class="mcp-tf-node mcp-tf-node-route">
+        <div class="mcp-tf-node-icon">&#8594;</div>
+        <div class="mcp-tf-node-label">Client Routes</div>
+      </div>
+      <div class="mcp-tf-connector"></div>
+      <div class="mcp-tf-node mcp-tf-node-execute">
+        <div class="mcp-tf-node-icon">&#9881;</div>
+        <div class="mcp-tf-node-label">Server Executes</div>
+      </div>
+      <div class="mcp-tf-connector"></div>
+      <div class="mcp-tf-node mcp-tf-node-response">
+        <div class="mcp-tf-node-icon">&#10003;</div>
+        <div class="mcp-tf-node-label">Response</div>
+      </div>
+    </div>
+    <div class="mcp-tf-detail">
+      <div class="mcp-tf-stage mcp-tf-stage-query">
+        Click Next to walk through the tool call pipeline.
+      </div>
+      <div class="mcp-tf-desc">User asks: "Summarize open high-priority Jira tasks."</div>
+    </div>
+    <div class="mcp-tf-bar"></div>
+    <div class="ar-controls">
+      <button class="ar-btn ar-btn-secondary mcp-tf-back">Back</button>
+      <button class="ar-btn ar-btn-primary mcp-tf-next">Next</button>
+      <button class="ar-btn ar-btn-secondary mcp-tf-reset">Reset</button>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Walk through how a user query flows through the MCP tool-calling pipeline, from LLM reasoning to tool execution.
+  </div>
+</div>
+
+<script>
+    var all_questions = [{
+      question_string: "What protocol does MCP use as its communication foundation?",
+      choices: {
+        correct: "JSON-RPC 2.0",
+        wrong: ["REST with HTTP/2", "gRPC with Protocol Buffers", "WebSocket with custom framing"]
+      }
+    }, {
+      question_string: "In MCP, what is the role of the host?",
+      choices: {
+        correct: "The application (like Claude Desktop) that orchestrates connections between clients and servers",
+        wrong: ["The server that provides tools and resources to the model", "The protocol layer that handles authentication", "The database that stores conversation history"]
+      }
+    }, {
+      question_string: "What is a tool in the MCP ecosystem?",
+      choices: {
+        correct: "A function exposed by a server that a model can invoke with structured parameters to perform an action",
+        wrong: ["A software library used to implement MCP servers", "A debugging utility for testing MCP connections", "A configuration file that defines the protocol version"]
+      }
+    }, {
+      question_string: "Which transport options does MCP support?",
+      choices: {
+        correct: "stdio (for subprocess communication) and Server-Sent Events over HTTP (for remote connections)",
+        wrong: ["TCP sockets and UDP datagrams", "WebRTC and Bluetooth", "Named pipes and shared memory"]
+      }
+    }, {
+      question_string: "What distinguishes a resource from a tool in MCP?",
+      choices: {
+        correct: "Resources provide structured data that the model reads, while tools let the model perform actions",
+        wrong: ["Resources are only available on servers, while tools exist on the host", "Resources use HTTP while tools use WebSocket", "Resources are immutable, while tools can be modified at runtime"]
+      }
+    }, {
+      question_string: "During the MCP handshake, what does the server advertise to the client?",
+      choices: {
+        correct: "Its capabilities: available tools, resources, and prompt templates it supports",
+        wrong: ["The model's IP address and authentication tokens", "The full conversation history from all connected hosts", "The hardware specifications of the server machine"]
+      }
+    }];
+</script>
+
+<link rel="stylesheet" href="/css/quiz.css" />
+
+<div id="quiz">
+  <div class="quiz-header">
+    <h2 class="quiz-title" id="test-your-knowledge">QUIZ: Test Your Knowledge</h2>
+    <div class="quiz-progress">
+      <span class="quiz-progress-text"></span>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="quiz-question-area">
+    <p class="quiz-question-text"></p>
+    <div class="quiz-options"></div>
+  </div>
+
+  <div class="quiz-footer">
+    <button class="quiz-btn quiz-btn-secondary" id="prev-btn">&#8592; Prev</button>
+    <div class="quiz-footer-right">
+      <button class="quiz-btn quiz-btn-outline" id="check-btn" style="display:none">Submit</button>
+      <button class="quiz-btn quiz-btn-primary" id="next-btn">Next &#8594;</button>
+      <button class="quiz-btn quiz-btn-primary" id="finish-btn" style="display:none">Finish</button>
+    </div>
+  </div>
+
+  <div class="quiz-results" style="display:none">
+    <div class="quiz-results-emoji"></div>
+    <p class="quiz-results-message"></p>
+    <p class="quiz-results-score"></p>
+    <button class="quiz-btn quiz-btn-secondary" id="retake-btn">&#8635; Retake Quiz</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/js/quiz/quiz.js"></script>
+</div>
+
+<p><strong>References</strong></p>
+<ul>
+  <li><a href="https://modelcontextprotocol.io/docs/getting-started/intro">Anthropic MCP guide (also image inspiration)</a></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit on GitHub -->
+    <div class="post-edit-bar">
+        <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/_posts/2026-02-20-introduction-to-model-context-protocol-mcp.md" class="post-edit-link" target="_blank" rel="noopener">
+            <i class="fa fa-pencil"></i> Edit this page on GitHub
+        </a>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="post-nav">
+        
+        <a class="post-nav-item post-nav-prev" href="/blog/evaluation-metrics-for-large-language-models/">
+            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-title">Evaluation Metrics for Large Language Models</span>
+        </a>
+        
+        
+        <a class="post-nav-item post-nav-next" href="/blog/frontier-ai-models-evaluation-benchmarks/">
+            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-title">Frontier AI Models Evaluation Benchmarks</span>
+        </a>
+        
+    </nav>
+
+
+    <!-- Related posts -->
+    
+    
+    
+    
+    
+
+    
+    <div class="post-related">
+        <h3 class="post-related-heading">You May Also Like</h3>
+        <div class="post-related-grid">
+        
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/frontier-ai-models-evaluation-benchmarks/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/llm-benchmarks/benchmark_timeline.svg" alt="Frontier AI Models Evaluation Benchmarks" loading="lazy"></span>
+                
+                <span class="post-related-title">Frontier AI Models Evaluation Benchmarks</span>
+                <span class="post-related-date">Jun 2026</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/evaluation-metrics-for-large-language-models/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg" alt="Evaluation Metrics for Large Language Models" loading="lazy"></span>
+                
+                <span class="post-related-title">Evaluation Metrics for Large Language Models</span>
+                <span class="post-related-date">Dec 2025</span>
+            </a>
+            
+            
+        
+            
+            
+            
+            
+            
+            <a class="post-related-card" href="/blog/prompt-engineering-techniques/">
+                
+                <span class="post-related-thumb"><img src="/img/blog/prompt-engineering-techniques/prompt_react_loop.svg" alt="Prompt Engineering Techniques: How to Write Effective Prompts" loading="lazy"></span>
+                
+                <span class="post-related-title">Prompt Engineering Techniques: How to Write Effective Prompts</span>
+                <span class="post-related-date">Oct 2025</span>
+            </a>
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </div>
+    </div>
+    
+
+    <div class="notecomments">
+        <h3 class="comments-heading">Comments</h3>
+<div class="giscus"></div>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">giscus</a>.</noscript>
+<script src="https://giscus.app/client.js"
+  data-repo="kHarshit/kHarshit.github.io"
+  data-repo-id="R_kgDOBaaONg"
+  data-category="General"
+  data-category-id="DIC_kwDOBaaONs4C_oJT"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="1"
+  data-input-position="top"
+  data-theme="https://kharshit.github.io/css/giscus.css"
+  data-lang="en"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+    </div>
+
+    <script src="/js/site/post.js"></script>
+    <script src="/js/site/soundscape.js"></script>
+
+    
+
+
+</div>
+</main>
+
+
+        <script>
+const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+            <footer id="last_footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <a href="https://linkedin.com/in/kHarshit" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <div class="footer-right">
+                            <span>Harshit Kumar 2026</span>
+                            <a href="/about_site">About this site</a>
+                            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <script>window.GITHUB_TOKEN = "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"; window.GITHUB_REPO = "kHarshit/kHarshit.github.io-contact";</script>
+            <script src="/js/site/script.js"></script>
+        </div>
+    </body>
+</html>
