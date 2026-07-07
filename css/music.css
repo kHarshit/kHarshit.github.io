@@ -1,0 +1,222 @@
+/* ── Individual music note page ───────────────────────────── */
+.music-note {
+    max-width: 720px;
+    margin: 2rem auto 3rem;
+    padding: 2rem 2.5rem 2.5rem;
+    font-size: var(--text-lg);
+    line-height: 1.75;
+    background: #fafafa;
+    border: 1px solid #ebebeb;
+    border-radius: 16px;
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .music-note {
+    background: #303030;
+    border-color: #3a3a3a;
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Back link */
+.music-back-link {
+    display: inline-block;
+    font-size: var(--text-md);
+    font-weight: 500;
+    color: var(--accent-color) !important;
+    text-decoration: none !important;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    transition: opacity 0.15s;
+}
+.music-back-link:hover { opacity: 1 !important; }
+
+/* Header: title + meta */
+.music-header {
+    margin-bottom: 1.25rem;
+}
+
+.music-header .tag-cloud {
+    margin-bottom: 0;
+}
+
+.music-title {
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 0.45em 0;
+    color: var(--font-color);
+}
+
+.music-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.music-date {
+    font-size: var(--text-sm);
+    color: #999;
+}
+
+[data-theme="dark"] .music-date { color: #999; }
+
+/* Content */
+.music-content {
+    margin-top: 1.5rem;
+}
+
+.music-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.music-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.music-content p,
+.music-content ul,
+.music-content ol {
+    margin-bottom: 1em;
+}
+
+.music-content img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+}
+
+.music-content a {
+    color: var(--accent-color, #20B2AA);
+    text-decoration: none;
+}
+
+.music-content a:hover {
+    color: var(--accent-hover, #178f8c);
+    text-decoration: underline;
+}
+
+/* Related notes */
+.music-related {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    padding: 0 0.5rem;
+}
+
+.music-related-heading {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--font-color);
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+[data-theme="dark"] .music-related-heading {
+    border-bottom-color: #3a3a3a;
+}
+
+.music-related-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.music-related-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #ebebeb;
+    background: var(--card-bg);
+    text-decoration: none !important;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+[data-theme="dark"] .music-related-card {
+    border-color: #3a3a3a;
+}
+
+.music-related-card:hover {
+    border-color: var(--accent-color);
+    background: rgba(32, 178, 170, 0.04);
+}
+
+.music-related-body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.music-related-title {
+    font-size: var(--text-md);
+    font-weight: 500;
+    color: var(--font-color);
+}
+
+.music-related-category {
+    font-size: var(--text-sm);
+    color: #888;
+}
+
+[data-theme="dark"] .music-related-category { color: #999; }
+
+/* Comments */
+.music-notecomments {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+}
+
+/* ── Music index: category filter pills ───────────────────── */
+.music-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.music-filters .filter-btn {
+    border: 1.5px solid #e0e0e0;
+    background: transparent;
+    color: var(--font-color, #282828);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: var(--text-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    outline: none;
+}
+
+[data-theme="dark"] .music-filters .filter-btn {
+    border-color: #444;
+    color: #ddd;
+}
+
+.music-filters .filter-btn:hover {
+    border-color: var(--accent-color, #20B2AA);
+    color: var(--accent-color, #20B2AA);
+    background: transparent;
+}
+
+.music-filters .filter-btn.active {
+    background: var(--accent-color, #20B2AA);
+    border-color: var(--accent-color, #20B2AA);
+    color: #fff;
+}
+
+/* ── Music index: list items ──────────────────────────────── */
+.text-category-title {
+    display: none;
+}
+
+.text-category-title.show {
+    display: block;
+}
+
+.blog-list .blog-list-item:first-child {
+    padding-top: 22px;
+}

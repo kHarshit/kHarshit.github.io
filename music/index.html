@@ -1,0 +1,80 @@
+---
+layout: default
+title: "Harshit Kumar | Music"
+---
+<link rel="stylesheet" href="/css/music.css">
+
+<header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
+        </div>
+        {% include nav.html %}
+    </div>
+</header>
+
+<main id="main">
+  <div class="container">
+
+    <div class="blog-page-header">
+      <h1 class="blog-page-title">Music</h1>
+    </div>
+
+    <p class="blog-page-desc">
+      Guitar and piano.
+    </p>
+
+    {% include interactive/piano_player.html %}
+
+    {% include interactive/guitar_player.html %}
+
+    <div id="post">
+      <div id="category-filters" class="music-filters">
+        <button class="filter-btn active" onclick="filterSelection('all')">All</button>
+        {% assign all_categories = "" %}
+        {% if site.music %}
+        {% for item in site.music %}
+          {% for category in item.categories %}
+            {% unless all_categories contains category %}
+              {% assign all_categories = all_categories | append:category | append:"," %}
+            {% endunless %}
+          {% endfor %}
+        {% endfor %}
+        {% endif %}
+        {% assign unique_categories = all_categories | split:"," | uniq %}
+        {% for category in unique_categories %}
+          {% if category != "" %}
+          <button class="filter-btn" onclick="filterSelection('{{ category | slugify }}')">{{ category | capitalize }}</button>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <ul class="blog-list">
+        {% if site.music %}
+        {% assign sorted_notes = site.music | sort: 'date' | reverse %}
+        {% for item in sorted_notes %}
+          {% assign category_classes = item.categories | join: ' ' | slugify %}
+          {% assign excerpt = item.excerpt | default: item.content | strip_html | strip_newlines | truncatewords: 24 %}
+          <li class="blog-list-item text-category-title {{ category_classes }}">
+            <a href="{{ item.url }}">
+              <div class="blog-list-body">
+                {% if item.categories.size > 0 %}
+                  <span class="blog-list-category">{{ item.categories | first | capitalize }}</span>
+                {% endif %}
+                <h3 class="blog-list-title">{{ item.title }}</h3>
+                <p class="blog-list-excerpt">{{ excerpt }}</p>
+                <div class="blog-list-meta">
+                  <span class="blog-list-date">{{ item.date | date: "%b %d, %Y" }}</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+
+  </div>
+</main>
+
+<script src="/js/site/filter_btn.js"></script>

@@ -3,11 +3,12 @@
         <li{% if page.url == "/" %} class="current"{% endif %}><a href="{{ site.url }}">Home</a></li>
         <li{% if page.url contains "/projects" %} class="current"{% endif %}><a href="/projects">Projects</a></li>
         <li{% if page.url contains "/blog" or page.url contains "/categories" or page.layout == "post" or page.layout == "category" %} class="current"{% endif %}><a href="/blog">Blog</a></li>
-        <li class="nav-dropdown{% if page.url contains "/poems" or page.url contains "/books" or page.layout == "poem" %} current{% endif %}">
+        <li class="nav-dropdown{% if page.url contains "/poems" or page.url contains "/books" or page.url contains "/music" or page.layout == "poem" or page.layout == "music" %} current{% endif %}">
             <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
             <ul class="nav-dropdown-menu">
                 <li{% if page.url contains "/poems" or page.layout == "poem" %} class="current"{% endif %}><a href="/poems">Poems</a></li>
                 <li{% if page.url contains "/books" %} class="current"{% endif %}><a href="/books">Books</a></li>
+                <li{% if page.url contains "/music" or page.layout == "music" %} class="current"{% endif %}><a href="/music">Music</a></li>
             </ul>
         </li>
     </ul>

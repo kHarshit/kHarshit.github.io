@@ -1,0 +1,78 @@
+---
+layout: default
+---
+<header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
+        </div>
+        {% include nav.html %}
+    </div>
+</header>
+
+<main>
+<div class="container">
+    <article class="music-note">
+
+        <a href="/music" class="music-back-link">← Music</a>
+
+        <div class="music-header">
+            <h1 class="music-title">{{ page.title }}</h1>
+            <div class="music-meta">
+                {% if page.categories.size > 0 %}
+                <ul class="tag-cloud">
+                {% for category in page.categories %}
+                    <li><a href="/music#{{ category | slugify }}">{{ category | capitalize }}</a></li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+                {% if page.date %}
+                <time class="music-date" datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%b %d, %Y" }}</time>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="music-content">
+            {{ content }}
+        </div>
+
+    </article>
+
+    {% assign related_notes = "" | split: "" %}
+    {% for note in site.music %}
+        {% if note.url != page.url %}
+            {% for cat in note.categories %}
+                {% if page.categories contains cat %}
+                    {% unless related_notes contains note %}
+                        {% assign related_notes = related_notes | push: note %}
+                    {% endunless %}
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+    {% if related_notes.size > 0 %}
+    <div class="music-related">
+        <h3 class="music-related-heading">Related Notes</h3>
+        <div class="music-related-grid">
+            {% for note in related_notes limit:3 %}
+                <a href="{{ note.url }}" class="music-related-card">
+                    <div class="music-related-body">
+                        <span class="music-related-title">{{ note.title }}</span>
+                        {% if note.categories.size > 0 %}
+                        <span class="music-related-category">{{ note.categories | first | capitalize }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="notecomments music-notecomments">
+        {% include giscus.html %}
+    </div>
+
+</div>
+</main>

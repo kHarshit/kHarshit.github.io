@@ -43,6 +43,9 @@ collections:
   poetry:
     output: true
     permalink: /poems/:title/
+  music:
+    output: true
+    permalink: /music/:title/
 
 # Giscus comments (populate repo_id and category_id from https://giscus.app)
 giscus:

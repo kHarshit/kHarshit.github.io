@@ -21,7 +21,7 @@
         {% endif %}
         <meta name="description" content="{{ _og_desc }}">
 		<meta name="author" content="Harshit Kumar">
-        {% if page.layout == "post" or page.layout == "poem" or page.layout == "category" %}
+        {% if page.layout == "post" or page.layout == "poem" or page.layout == "music" or page.layout == "category" %}
         <title>{{ page.title }} | Harshit Kumar</title>
         {% else %}
         <title>{{ page.title }}</title>
@@ -29,7 +29,7 @@
         <!-- Open Graph -->
         <meta property="og:title" content="{{ page.title | default: site.title }}">
         <meta property="og:description" content="{{ _og_desc }}">
-        <meta property="og:type" content="{% if page.layout == 'post' or page.layout == 'poem' %}article{% else %}website{% endif %}">
+        <meta property="og:type" content="{% if page.layout == 'post' or page.layout == 'poem' or page.layout == 'music' %}article{% else %}website{% endif %}">
         <meta property="og:url" content="{{ page.url | absolute_url }}">
         {% assign og_image = site.url | append: "/img/site/harshit_nu.jpeg" %}
         {% if page.layout == 'poem' and page.img_source %}
@@ -51,7 +51,7 @@
         {% endif %}
         <meta property="og:image" content="{{ og_image }}">
         <!-- Twitter Card -->
-        <meta name="twitter:card" content="{% if page.layout == 'post' or page.layout == 'poem' %}summary_large_image{% else %}summary{% endif %}">
+        <meta name="twitter:card" content="{% if page.layout == 'post' or page.layout == 'poem' or page.layout == 'music' %}summary_large_image{% else %}summary{% endif %}">
         <meta name="twitter:site" content="@{{ site.twitter_username }}">
         <meta name="twitter:title" content="{{ page.title | default: site.title }}">
         <meta name="twitter:description" content="{{ _og_desc }}">
@@ -79,6 +79,7 @@
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/syntax.css">
         {% if page.layout == 'poem' %}<link rel="stylesheet" href="/css/poems.css">{% endif %}
+        {% if page.layout == 'music' %}<link rel="stylesheet" href="/css/music.css">{% endif %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
 

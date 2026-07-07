@@ -1,0 +1,124 @@
+<link rel="stylesheet" href="/css/interactive.css">
+<style>
+#cp3-container {
+  width: 100%;
+  height: 420px;
+  position: relative;
+  background: var(--bg-color, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: grab;
+}
+#cp3-container canvas { display: block; }
+#cp3-container:active { cursor: grabbing; }
+.cp3-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 10px 12px;
+  justify-content: center;
+  background: linear-gradient(transparent, rgba(0,0,0,0.35));
+  pointer-events: none;
+}
+.cp3-overlay > * { pointer-events: auto; }
+.cp3-group {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.cp3-group-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  margin-right: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cp3-btn {
+  padding: 3px 8px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: rgba(0,0,0,0.35);
+  color: rgba(255,255,255,0.8);
+  font-family: inherit;
+  transition: all 0.15s;
+  backdrop-filter: blur(4px);
+}
+.cp3-btn:hover { border-color: #20B2AA; color: #fff; }
+.cp3-btn.active { background: #20B2AA; border-color: #20B2AA; color: #fff; }
+.cp3-status {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 0.85rem;
+  pointer-events: none;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.cp3-status .cp3-chord-name { font-weight: 700; color: #20B2AA; }
+.cp3-status .cp3-chord-notes { color: rgba(255,255,255,0.6); margin-left: 8px; }
+</style>
+<script>
+(function() {
+  if (document.querySelector('script[type="importmap"]')) return;
+  var im = document.createElement('script');
+  im.type = 'importmap';
+  im.textContent = JSON.stringify({
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  });
+  document.head.appendChild(im);
+})();
+</script>
+<script type="module" src="/js/interactive/piano_player.js"></script>
+<div id="cp3-viz" class="dt-widget">
+  <div class="dt-widget-header">
+    <h3 class="dt-widget-title" id="widget-chord-player">Interactive: 3D Piano</h3>
+  </div>
+  <div class="dt-widget-body" style="position:relative">
+    <div id="cp3-container">
+      <div class="cp3-status">
+        <span class="cp3-chord-name" id="cp3-name">—</span>
+        <span class="cp3-chord-notes" id="cp3-notes"></span>
+      </div>
+      <div class="cp3-overlay">
+        <div class="cp3-group">
+          <span class="cp3-group-label">Major</span>
+          <button class="cp3-btn" data-chord="C">C</button>
+          <button class="cp3-btn" data-chord="D">D</button>
+          <button class="cp3-btn" data-chord="E">E</button>
+          <button class="cp3-btn" data-chord="F">F</button>
+          <button class="cp3-btn" data-chord="G">G</button>
+          <button class="cp3-btn" data-chord="A">A</button>
+          <button class="cp3-btn" data-chord="B">B</button>
+        </div>
+        <div class="cp3-group">
+          <span class="cp3-group-label">Minor</span>
+          <button class="cp3-btn" data-chord="Am">Am</button>
+          <button class="cp3-btn" data-chord="Dm">Dm</button>
+          <button class="cp3-btn" data-chord="Em">Em</button>
+          <button class="cp3-btn" data-chord="Bm">Bm</button>
+        </div>
+        <div class="cp3-group">
+          <span class="cp3-group-label">7ths</span>
+          <button class="cp3-btn" data-chord="Cmaj7">Cmaj7</button>
+          <button class="cp3-btn" data-chord="G7">G7</button>
+          <button class="cp3-btn" data-chord="D7">D7</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dt-widget-footer">
+    Drag to orbit &bull; Click a chord to light up the keys
+  </div>
+</div>
