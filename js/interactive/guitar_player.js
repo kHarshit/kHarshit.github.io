@@ -15,7 +15,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
   var NUM_FRETS = FRET_POS.length - 1;
   var STRING_SPACING = 0.55;
   var NUM_STRINGS = 6;
-  var FB_WIDTH = 3.8;
+  var FB_WIDTH = 3.0;
   var FB_LENGTH = FRET_POS[FRET_POS.length-1] + 0.5;
   var FB_THICK = 0.36;
 
@@ -49,14 +49,14 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
   var ACTIVE_COLOR = new THREE.Color('#20B2AA');
   var HOVER_COLOR = new THREE.Color('#5EEAD4');
-  var STRING_START = -0.8;
-  var STRING_END = 14.0;
+  var STRING_START = -0.02;
+  var STRING_END = 13.05;
   var BODY_NECK_Z = 6.5;
   var BODY_BW = 3.8;
   var BODY_BH = 9.0;
   var BODY_BOTTOM_Z = BODY_NECK_Z + BODY_BH;
   var HEADSTOCK_END = -0.25;
-  var HEADSTOCK_LENGTH = 1.4;
+  var HEADSTOCK_LENGTH = 3.4;
   var STRING_LENGTH = STRING_END - STRING_START;
 
   function getStringX(stringIdx) {
@@ -113,6 +113,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.buildFrets();
     this.buildFretMarkers();
     this.buildHeadstock();
+    this.buildTuners();
     this.initControls();
     this.initClick();
     this.initHover();
@@ -218,23 +219,49 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     backPlate.position.set(0, bodyTopY - bodyDepth + 0.001, holeZ);
     this.scene.add(backPlate);
 
+    var bridgeZ = HEADSTOCK_END + FB_LENGTH + 2.5;
     var bridgeMat = new THREE.MeshPhysicalMaterial({
-      color: 0x2c1810, roughness: 0.7, metalness: 0.0
+      color: 0x5c3a1e, roughness: 0.6, metalness: 0.0
     });
     var bridge = new THREE.Mesh(
-      new THREE.BoxGeometry(0.55, 0.04, 0.15), bridgeMat
+      new THREE.BoxGeometry(3.2, 0.20, 0.40), bridgeMat
     );
-    bridge.position.set(0, faceY + 0.02, BODY_NECK_Z + bh * 0.82);
+    bridge.position.set(0, 0.05, bridgeZ);
     this.scene.add(bridge);
 
     var saddleMat = new THREE.MeshPhysicalMaterial({
-      color: 0xf5f0e0, roughness: 0.3, metalness: 0.1
+      color: 0xf0e8d0, roughness: 0.3, metalness: 0.1
     });
     var saddle = new THREE.Mesh(
-      new THREE.BoxGeometry(0.45, 0.025, 0.025), saddleMat
+      new THREE.BoxGeometry(2.8, 0.08, 0.025), saddleMat
     );
-    saddle.position.set(0, faceY + 0.04, BODY_NECK_Z + bh * 0.83);
+    saddle.position.set(0, 0.19, bridgeZ + 0.12);
     this.scene.add(saddle);
+
+    var pinMat = new THREE.MeshPhysicalMaterial({
+      color: 0xf0e8d8, roughness: 0.3, metalness: 0.0
+    });
+    var pinZ = bridgeZ + 0.22;
+    for (var p = 0; p < NUM_STRINGS; p++) {
+      var pin = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.030, 0.040, 0.12, 6), pinMat
+      );
+      pin.position.set(getStringX(p), 0.05, pinZ);
+      this.scene.add(pin);
+    }
+
+    // Bridge pins: anchor pegs at each string position behind the saddle
+    var pinMat = new THREE.MeshPhysicalMaterial({
+      color: 0xf0e8d8, roughness: 0.3, metalness: 0.0
+    });
+    var pinZ = bridgeZ + 0.18;
+    for (var p = 0; p < NUM_STRINGS; p++) {
+      var pin = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.020, 0.028, 0.06, 6), pinMat
+      );
+      pin.position.set(getStringX(p), faceY + 0.06, pinZ);
+      this.scene.add(pin);
+    }
   };
 
   Guitar3D.prototype.buildFretboard = function () {
@@ -244,37 +271,21 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
       color: 0x5c3a1e, roughness: 0.6, metalness: 0.0
     });
 
-    // Neck portion: thick curved D-shape back
-    var neckLen = BODY_NECK_Z - HEADSTOCK_END;
-    var neckShape = new THREE.Shape();
-    neckShape.moveTo(-hw, 0);
-    neckShape.lineTo(hw, 0);
-    neckShape.bezierCurveTo(hw, -thick*0.2, hw*0.7, -thick*2.0, 0, -thick*2.5);
-    neckShape.bezierCurveTo(-hw*0.7, -thick*2.0, -hw, -thick*0.2, -hw, 0);
-    var neckGeom = new THREE.ExtrudeGeometry(neckShape, {
-      depth: neckLen, bevelEnabled: true,
-      bevelThickness: 0.03, bevelSize: 0.02, bevelSegments: 6
+    // Single D‑shape from headstock to fretboard end
+    var fullLen = FB_LENGTH;
+    var fullShape = new THREE.Shape();
+    fullShape.moveTo(-hw, 0);
+    fullShape.lineTo(hw, 0);
+    fullShape.bezierCurveTo(hw, -thick*0.2, hw*0.7, -thick*2.0, 0, -thick*2.5);
+    fullShape.bezierCurveTo(-hw*0.7, -thick*2.0, -hw, -thick*0.2, -hw, 0);
+    var fullGeom = new THREE.ExtrudeGeometry(fullShape, {
+      depth: fullLen, bevelEnabled: true,
+      bevelThickness: 0.02, bevelSize: 0.015, bevelSegments: 4
     });
-    neckGeom.translate(0, 0, HEADSTOCK_END);
-    var neckBoard = new THREE.Mesh(neckGeom, mat);
-    neckBoard.receiveShadow = true;
-    this.scene.add(neckBoard);
-
-    // Body portion: thin flat back over the body
-    var bodyLen = FB_LENGTH - neckLen;
-    var bodyShape = new THREE.Shape();
-    bodyShape.moveTo(-hw, 0);
-    bodyShape.lineTo(hw, 0);
-    bodyShape.lineTo(hw, -0.12);
-    bodyShape.lineTo(-hw, -0.12);
-    var bodyGeom = new THREE.ExtrudeGeometry(bodyShape, {
-      depth: bodyLen, bevelEnabled: true,
-      bevelThickness: 0.02, bevelSize: 0.01, bevelSegments: 4
-    });
-    bodyGeom.translate(0, 0, BODY_NECK_Z);
-    var bodyBoard = new THREE.Mesh(bodyGeom, mat);
-    bodyBoard.receiveShadow = true;
-    this.scene.add(bodyBoard);
+    fullGeom.translate(0, 0, HEADSTOCK_END);
+    var fbMesh = new THREE.Mesh(fullGeom, mat);
+    fbMesh.receiveShadow = true;
+    this.scene.add(fbMesh);
 
     var nutGeom = new THREE.BoxGeometry(FB_WIDTH - 0.2, 0.06, 0.08);
     var nutMat = new THREE.MeshPhysicalMaterial({
@@ -348,63 +359,109 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
   Guitar3D.prototype.buildHeadstock = function () {
     var hsMat = new THREE.MeshPhysicalMaterial({
-      color: 0x5c3a1e, roughness: 0.5, metalness: 0.0
+      color: 0x5c3a1e, roughness: 0.6, metalness: 0.0,
+      side: THREE.DoubleSide
     });
     var taper = 0.7;
-    var hw = FB_WIDTH * 0.75;
+    var hw = FB_WIDTH / 2;
+    var thick = FB_THICK;
+    var d = thick * 2.5;
+    var headLen = HEADSTOCK_LENGTH;
+
+    // D-shape cross-section matching the neck profile
     var shape = new THREE.Shape();
-    shape.moveTo(-hw / 2, 0);
-    shape.lineTo(hw / 2, 0);
-    shape.lineTo(hw * taper / 2, HEADSTOCK_LENGTH);
-    shape.lineTo(-hw * taper / 2, HEADSTOCK_LENGTH);
-    shape.closePath();
+    shape.moveTo(-hw, 0);
+    shape.lineTo(hw, 0);
+    shape.bezierCurveTo(hw, -d*0.08, hw*0.7, -d*0.8, 0, -d);
+    shape.bezierCurveTo(-hw*0.7, -d*0.8, -hw, -d*0.08, -hw, 0);
 
     var geom = new THREE.ExtrudeGeometry(shape, {
-      depth: FB_THICK, bevelEnabled: true,
-      bevelThickness: 0.02, bevelSize: 0.01, bevelSegments: 4
+      depth: headLen, bevelEnabled: false
     });
-    geom.translate(0, 0, -FB_THICK / 2);
+
+    // Taper width and depth along the extrusion, then flip Z to point backward
+    var pos = geom.attributes.position;
+    for (var i = 0; i < pos.count; i++) {
+      var z = pos.getZ(i);
+      var t = z / headLen;               // 0 at nut, 1 at tip
+      var s = 1 - (1 - taper) * t;
+      var zNew = HEADSTOCK_END - z;      // flip so headstock extends in -Z
+      pos.setXYZ(i, pos.getX(i) * s, pos.getY(i) * s, zNew);
+    }
+    geom.computeVertexNormals();
+
     var hs = new THREE.Mesh(geom, hsMat);
-    hs.rotation.x = -Math.PI / 2;
-    hs.position.set(0, -FB_THICK / 2, HEADSTOCK_END);
+    hs.receiveShadow = true;
     this.scene.add(hs);
   };
 
   Guitar3D.prototype.buildTuners = function () {
     var tunerMat = new THREE.MeshPhysicalMaterial({
-      color: 0x888, roughness: 0.3, metalness: 0.7
+      color: 0xd4a050, roughness: 0.3, metalness: 0.6
     });
     var postMat = new THREE.MeshPhysicalMaterial({
-      color: 0x666, roughness: 0.4, metalness: 0.5
+      color: 0xbb8833, roughness: 0.4, metalness: 0.4
     });
     var knobMat = new THREE.MeshPhysicalMaterial({
-      color: 0xddd, roughness: 0.2, metalness: 0.3
+      color: 0xeeddbb, roughness: 0.2, metalness: 0.2
+    });
+    var segMat = new THREE.MeshPhysicalMaterial({
+      color: 0xddcbb8, roughness: 0.4, metalness: 0.05
     });
 
-    for (var s = 0; s < NUM_STRINGS; s++) {
-      var sx = getStringX(s);
-      var side = s < 3 ? 1 : -1;
-      var postEnd = HEADSTOCK_END + HEADSTOCK_LENGTH * 0.3 + s * 0.06;
+    var nutZ = -0.02;
+    var margin = 0.25;
+    var zSpacing = (HEADSTOCK_LENGTH - margin * 2) / (NUM_STRINGS / 2 - 1);
 
+    for (var s_ = 0; s_ < NUM_STRINGS; s_++) {
+      var sx = getStringX(s_);
+      var side = s_ < 3 ? -1 : 1;
+      // Outer strings (s=0, s=5) closest to nut (shortest segments)
+      var zIdx = s_ < 3 ? s_ : NUM_STRINGS - 1 - s_;
+      var postZ = HEADSTOCK_END - margin - zIdx * zSpacing;
+      // Position post near headstock edge at this Z (follows the taper)
+      var extZ = HEADSTOCK_END - postZ;
+      var t = extZ / HEADSTOCK_LENGTH;
+      var hsScale = 1 - (1 - 0.7) * t;
+      var hsHalfW = (FB_WIDTH / 2) * hsScale;
+      var postX = side * hsHalfW * 0.88;
+
+      // Tuning post (vertical, string wraps around)
       var post = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.02, 0.02, 0.15, 6), postMat
+        new THREE.CylinderGeometry(0.065, 0.065, 0.22, 8), postMat
       );
-      post.position.set(sx, 0.08, postEnd);
-      post.rotation.x = Math.PI / 2;
+      post.position.set(postX, 0.02, postZ);
       this.scene.add(post);
 
+      // Peg arm (horizontal, toward side)
       var peg = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.015, 0.015, 0.1, 6), tunerMat
+        new THREE.CylinderGeometry(0.055, 0.055, 0.36, 8), tunerMat
       );
-      peg.position.set(sx + side * 0.18, 0.06, postEnd);
+      peg.position.set(postX + side * 0.18, 0.01, postZ);
       peg.rotation.z = Math.PI / 2 * side;
       this.scene.add(peg);
 
+      // Knob at peg end
       var knob = new THREE.Mesh(
-        new THREE.SphereGeometry(0.025, 6, 6), knobMat
+        new THREE.SphereGeometry(0.10, 8, 8), knobMat
       );
-      knob.position.set(sx + side * 0.26, 0.06, postEnd);
+      knob.position.set(postX + side * 0.36, 0.01, postZ);
       this.scene.add(knob);
+
+      // Angled headstock string segment from nut to tuning post
+      var r = 0.025 + (5 - s_) * 0.006;
+      var from = new THREE.Vector3(sx, 0.01, nutZ);
+      var to   = new THREE.Vector3(postX, 0.04, postZ);
+      var dir  = new THREE.Vector3().copy(to).sub(from);
+      var len  = dir.length();
+      dir.normalize();
+
+      var segGeom = new THREE.CylinderGeometry(r, r, len, 4);
+      var seg = new THREE.Mesh(segGeom, segMat.clone());
+      var mid = new THREE.Vector3().copy(from).add(to).multiplyScalar(0.5);
+      seg.position.copy(mid);
+      seg.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+      this.scene.add(seg);
     }
   };
 
