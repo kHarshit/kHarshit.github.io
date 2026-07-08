@@ -1,9 +1,12 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+// 3D Interactive Piano — builds a Two‑octave piano keyboard in Three.js
+// with clickable keys, hover highlighting, chord playback, and orbit controls.
 (function () {
   'use strict';
 
+  // --- Note → frequency lookup (C4 – B5) ---
   var NOTE_FREQ = {
     'C4':261.63,'C#4':277.18,'D4':293.66,'D#4':311.13,'E4':329.63,
     'F4':349.23,'F#4':369.99,'G4':392.00,'G#4':415.30,'A4':440.00,
@@ -12,6 +15,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     'G#5':830.61,'A5':880.00,'A#5':932.33,'B5':987.77
   };
 
+  // --- Chord library (triads / sevenths) ---
   var CHORDS = {
     'C':    { name:'C Major',     notes:['C4','E4','G4'] },
     'D':    { name:'D Major',     notes:['D4','F#4','A4'] },
@@ -29,6 +33,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     'D7':   { name:'D Dominant 7',notes:['D4','F#4','A4','C5'] }
   };
 
+  // --- Keyboard layout ---
+  // x = raw position before CENTER_OFFSET shift
   var WHITE_KEYS = [
     { note:'C4', x:0 }, { note:'D4', x:1 }, { note:'E4', x:2 },
     { note:'F4', x:3 }, { note:'G4', x:4 }, { note:'A4', x:5 }, { note:'B4', x:6 },
@@ -43,13 +49,16 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     { note:'F#5', x:10.7 }, { note:'G#5', x:11.7 }, { note:'A#5', x:12.7 }
   ];
 
-  var CENTER_OFFSET = 6.5;
+  // --- Key dimensions ---
+  var CENTER_OFFSET = 6.5;       // shift to centre the keyboard
   var WHITE_W = 0.92, WHITE_D = 4.0, WHITE_H = 0.22;
   var BLACK_W = 0.54, BLACK_D = 2.4, BLACK_H = 0.40;
 
-  var ACTIVE_COLOR = new THREE.Color('#20B2AA');
-  var HOVER_COLOR = new THREE.Color('#5EEAD4');
+  // --- Colours ---
+  var ACTIVE_COLOR = new THREE.Color('#20B2AA');   // teal highlight
+  var HOVER_COLOR = new THREE.Color('#5EEAD4');     // lighter teal hover
 
+  // --- Constructor ---
   function Piano3D(container) {
     this.container = container;
     this.nameEl = document.getElementById('cp3-name');
@@ -58,8 +67,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.oscillators = [];
     this.gains = [];
     this.activeChord = null;
-    this.keyMeshes = {};
-    this.keyOrigY = {};
+    this.keyMeshes = {};       // note → Mesh
+    this.keyOrigY = {};        // note → rest Y position
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
     this.mouseDownPos = null;
@@ -75,11 +84,12 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.animate();
   }
 
+  // --- Scene setup ---
   Piano3D.prototype.initScene = function () {
     var w = this.container.clientWidth;
     var h = this.container.clientHeight;
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xf5f0e8);
+    this.scene.background = new THREE.Color(0xf5f0e8);     // warm cream
     this.camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 30);
     this.camera.position.set(4.5, 5.5, 12);
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -96,13 +106,14 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.resizeObserver.observe(this.container);
   };
 
+  // --- Lighting ---
   Piano3D.prototype.initLights = function () {
-    this.scene.add(new THREE.AmbientLight(0x3a3530, 0.4));
+    this.scene.add(new THREE.AmbientLight(0x3a3530, 0.4));   // dim warm fill
 
     var hemi = new THREE.HemisphereLight(0xeeddcc, 0x554433, 0.5);
     this.scene.add(hemi);
 
-    var key = new THREE.DirectionalLight(0xfff0dd, 1.8);
+    var key = new THREE.DirectionalLight(0xfff0dd, 1.8);     // key light
     key.position.set(4, 8, 6);
     key.castShadow = true;
     key.shadow.mapSize.set(1024, 1024);
@@ -114,11 +125,12 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     key.shadow.camera.bottom = -10;
     this.scene.add(key);
 
-    var fill = new THREE.DirectionalLight(0xddaa77, 0.25);
+    var fill = new THREE.DirectionalLight(0xddaa77, 0.25);   // rim fill
     fill.position.set(-4, 2, -5);
     this.scene.add(fill);
   };
 
+  // --- Build 14 white keys + 10 black keys with materials ---
   Piano3D.prototype.buildKeyboard = function () {
     var self = this;
     var whiteRest = new THREE.Color('#f0f0f0');
@@ -137,6 +149,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     var whiteGeom = new THREE.BoxGeometry(WHITE_W, WHITE_H, WHITE_D);
     var blackGeom = new THREE.BoxGeometry(BLACK_W, BLACK_H, BLACK_D);
 
+    // White keys (natural notes)
     WHITE_KEYS.forEach(function (k) {
       var m = new THREE.Mesh(whiteGeom.clone(), whiteMat.clone());
       var cx = k.x - CENTER_OFFSET;
@@ -149,6 +162,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
       self.keyOrigY[k.note] = WHITE_H / 2;
     });
 
+    // Black keys (sharps/flats, raised and set back)
     BLACK_KEYS.forEach(function (k) {
       var m = new THREE.Mesh(blackGeom.clone(), blackMat.clone());
       var cx = k.x - CENTER_OFFSET;
@@ -162,6 +176,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     });
   };
 
+  // --- Orbit controls ---
   Piano3D.prototype.initControls = function () {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
@@ -173,21 +188,25 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.controls.target.set(0, 0.5, 0);
   };
 
+  // --- Light/dim a single key (teal = active, lighter teal = hover, rest colour = off) ---
   Piano3D.prototype.lightKey = function (note, on) {
     var mesh = this.keyMeshes[note];
     if (!mesh) return;
     mesh.userData.chordActive = on;
     if (on) {
+      // Active (chord note or clicked) → teal + pressed down
       mesh.material.color.copy(ACTIVE_COLOR);
       mesh.material.emissive.copy(ACTIVE_COLOR);
       mesh.material.emissiveIntensity = 0.3;
       mesh.position.y = this.keyOrigY[note] - 0.04;
     } else if (this.hoveredNote === note) {
+      // Hovered → lighter teal, slightly pressed
       mesh.material.color.copy(HOVER_COLOR);
       mesh.material.emissive.copy(HOVER_COLOR);
       mesh.material.emissiveIntensity = 0.15;
       mesh.position.y = this.keyOrigY[note] - 0.02;
     } else {
+      // Rest state
       mesh.material.color.copy(mesh.userData.restColor);
       mesh.material.emissive.setHex(0x000000);
       mesh.material.emissiveIntensity = 0;
@@ -195,6 +214,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     }
   };
 
+  // --- Display a chord: light keys + play audio ---
   Piano3D.prototype.showChord = function (chordId) {
     var chord = CHORDS[chordId];
     if (!chord) return;
@@ -207,11 +227,13 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     chord.notes.forEach(function (n) { self.lightKey(n, true); });
   };
 
+  // --- Reset all keys to rest state ---
   Piano3D.prototype.clearAllKeys = function () {
     var self = this;
     Object.keys(this.keyMeshes).forEach(function (note) { self.lightKey(note, false); });
   };
 
+  // --- Play notes via Web Audio (triangle wave + lowpass) ---
   Piano3D.prototype.playSound = function (notes) {
     this.stopSound();
     if (!this.audioCtx) {
@@ -232,6 +254,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
       filter.type = 'lowpass';
       filter.frequency.value = 4000;
       filter.Q.value = 0.5;
+      // Soft attack → sustain → release
       gain.gain.setValueAtTime(0, now);
       gain.gain.linearRampToValueAtTime(0.2, now + 0.01);
       gain.gain.linearRampToValueAtTime(0.15, now + 0.3);
@@ -246,6 +269,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     });
   };
 
+  // --- Stop all active oscillators ---
   Piano3D.prototype.stopSound = function () {
     var ctx = this.audioCtx;
     var now = ctx ? ctx.currentTime : 0;
@@ -260,11 +284,13 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.gains = [];
   };
 
+  // --- Wire chord buttons to showChord (toggle off if already active) ---
   Piano3D.prototype.setupUI = function () {
     var self = this;
     this.container.querySelectorAll('.cp3-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var chordId = btn.getAttribute('data-chord');
+        // Toggle: clicking active chord clears it
         if (self.activeChord === chordId) {
           self.clearAllKeys();
           self.stopSound();
@@ -281,6 +307,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     });
   };
 
+  // --- Click-to-play a single note (ignoring drags) ---
   Piano3D.prototype.initKeyClick = function () {
     var self = this;
     var canvas = this.renderer.domElement;
@@ -294,6 +321,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
       var dx = e.clientX - self.mouseDownPos.x;
       var dy = e.clientY - self.mouseDownPos.y;
       self.mouseDownPos = null;
+      // Ignore drags (threshold = 4px)
       if (dx * dx + dy * dy > 16) return;
 
       var rect = canvas.getBoundingClientRect();
@@ -310,6 +338,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         var hit = intersects[0].object;
         var note = hit.userData.note;
         if (note) {
+          // Clear any active chord and play the clicked note solo
           self.clearAllKeys();
           self.stopSound();
           self.activeChord = null;
@@ -323,6 +352,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     });
   };
 
+  // --- Hover: highlight key under pointer, dim previous ---
   Piano3D.prototype.initHover = function () {
     var self = this;
     var canvas = this.renderer.domElement;
@@ -343,14 +373,17 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         hitNote = intersects[0].object.userData.note;
       }
 
+      // Only update if hovering a different key
       if (hitNote !== self.hoveredNote) {
         var prevNote = self.hoveredNote;
         self.hoveredNote = null;
+        // Restore previous hovered key (unless it's a chord-active key)
         if (prevNote && prevNote !== self.activeChord &&
             (!self.activeChord || self.keyMeshes[prevNote].userData.chordActive !== true)) {
           self.lightKey(prevNote, false);
         }
         self.hoveredNote = hitNote;
+        // Light the new hovered key
         if (hitNote && hitNote !== self.activeChord &&
             (!self.activeChord || self.keyMeshes[hitNote].userData.chordActive !== true)) {
           var mesh = self.keyMeshes[hitNote];
@@ -374,6 +407,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     });
   };
 
+  // --- Handle container resize ---
   Piano3D.prototype.resize = function () {
     var w = this.container.clientWidth;
     var h = this.container.clientHeight;
@@ -382,6 +416,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.renderer.setSize(w, h);
   };
 
+  // --- Render loop ---
   Piano3D.prototype.animate = function () {
     var self = this;
     function loop() {
@@ -392,6 +427,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     loop();
   };
 
+  // --- Bootstrap ---
   var container = document.getElementById('cp3-container');
   if (container) new Piano3D(container);
 })();
