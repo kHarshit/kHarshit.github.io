@@ -24,6 +24,9 @@
   background: linear-gradient(transparent, rgba(0,0,0,0.35));
   pointer-events: none;
 }
+[data-theme="dark"] .gp3-overlay {
+  background: linear-gradient(transparent, rgba(0,0,0,0.55));
+}
 .gp3-overlay > * { pointer-events: auto; }
 .gp3-group {
   display: flex;
@@ -33,10 +36,11 @@
 .gp3-group-label {
   font-size: 0.65rem;
   font-weight: 600;
-  color: rgba(255,255,255,0.6);
+  color: var(--font-color, #333);
   margin-right: 3px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  opacity: 0.6;
 }
 .gp3-btn {
   padding: 3px 8px;
@@ -45,14 +49,19 @@
   font-size: 0.7rem;
   font-weight: 500;
   cursor: pointer;
-  background: rgba(0,0,0,0.35);
-  color: rgba(255,255,255,0.8);
+  background: var(--glass-bg, rgba(255,255,255,0.55));
+  color: var(--font-color, #333);
   font-family: inherit;
   transition: all 0.15s;
   backdrop-filter: blur(4px);
 }
-.gp3-btn:hover { border-color: #20B2AA; color: #fff; }
-.gp3-btn.active { background: #20B2AA; border-color: #20B2AA; color: #fff; }
+[data-theme="dark"] .gp3-btn {
+  background: var(--glass-bg, rgba(40,40,40,0.65));
+  border-color: var(--glass-border, rgba(255,255,255,0.06));
+  color: var(--font-color, #fff);
+}
+.gp3-btn:hover { border-color: var(--accent-color, #20B2AA); background: var(--accent-color, #20B2AA); color: #fff; }
+.gp3-btn.active { background: var(--accent-color, #20B2AA); border-color: var(--accent-color, #20B2AA); color: #fff; }
 .gp3-status {
   position: absolute;
   top: 10px;
@@ -61,10 +70,9 @@
   text-align: center;
   font-size: 0.85rem;
   pointer-events: none;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
-.gp3-status .gp3-chord-name { font-weight: 700; color: #20B2AA; }
-.gp3-status .gp3-chord-notes { color: rgba(255,255,255,0.6); margin-left: 8px; }
+.gp3-status .gp3-chord-name { font-weight: 700; color: var(--accent-color, #20B2AA); }
+.gp3-status .gp3-chord-notes { color: var(--font-color, #333); margin-left: 8px; opacity: 0.6; }
 </style>
 <script>
 (function() {

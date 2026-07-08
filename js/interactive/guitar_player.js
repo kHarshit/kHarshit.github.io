@@ -62,8 +62,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
   var STRING_START = -0.02;       // nut Z
   var STRING_END = 13.05;        // bridge Z
   var BODY_NECK_Z = 6.5;         // neck joint Z
-  var BODY_BW = 3.8;             // body half-width
-  var BODY_BH = 9.0;             // body length
+  var BODY_BW = 5.0;             // body half-width
+  var BODY_BH = 10.0;             // body length
   var BODY_BOTTOM_Z = BODY_NECK_Z + BODY_BH;
   var HEADSTOCK_END = -0.25;     // nut → headstock transition
   var HEADSTOCK_LENGTH = 3.4;    // headstock extrusion length
@@ -145,7 +145,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xf5f0e8);     // warm cream
     this.camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 45);
-    this.camera.position.set(-10, 14, 22);
+    this.camera.position.set(-10, 14, 16);
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.setSize(w, h);
