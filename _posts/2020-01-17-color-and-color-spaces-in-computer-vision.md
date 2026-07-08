@@ -86,7 +86,7 @@ In RGB color model, all the colors are represented by adding the combinations of
 
 Though RGB model is a convenient model for representing colors, it differs from how human eye perceive colors.
 
-{% include interactive/rgb_mixer.html %}
+{% include interactive/color-spaces-rgb_mixer.html %}
 
 {% include img.html src="/img/blog/color-and-color-spaces-in-computer-vision/rgb_cymk.png" width="70%" caption="RGB (additive) versus CMYK (subtractive) color models." %}
 
@@ -123,7 +123,7 @@ Both HSV (Hue, Saturation, Value) and HSL (Hue, Saturation, Lightness) are cylin
 
 {% include img.html src="/img/blog/color-and-color-spaces-in-computer-vision/hsv_hsl.png" caption="HSL and HSV: cylindrical representations of color" %}
 
-{% include interactive/hsv_explorer.html %}
+{% include interactive/color-spaces-hsv_explorer.html %}
 
 ## Chromaticity
 
@@ -137,7 +137,7 @@ Each channel tells you "what fraction of the total light is red (green / blue)?"
 
 Since $$r + g + b = 1$$, we only need two of the three values. Plotting every possible (r, g) pair produces a right triangle called the **rg chromaticity diagram**.
 
-{% include interactive/chromaticity_explorer.html %}
+{% include interactive/color-spaces-chromaticity_explorer.html %}
 
 Chromaticity is widely used in computer vision: discarding intensity lets algorithms segment objects by material color while staying robust to shadows and illumination gradients.
 
@@ -219,7 +219,7 @@ $$\Delta E_{00} = \sqrt{\left(\frac{\Delta L'}{k_L S_L}\right)^2 + \left(\frac{\
 
 where $$S_L$$, $$S_C$$, $$S_H$$ are weighting functions and $$R_T$$ is the rotation term.
 
-{% include interactive/delta_e.html %}
+{% include interactive/color-spaces-delta_e.html %}
 
 <section>
 	{% include quiz/color.html %}	 

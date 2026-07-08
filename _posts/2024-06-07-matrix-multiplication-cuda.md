@@ -160,11 +160,11 @@ kernel<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C);
 
 This setup ensures that the CUDA kernel efficiently processes the entire matrix by dividing the workload among the available threads and blocks.
 
-{% include interactive/cuda_block_mapper.html %}
+{% include interactive/matrix-multiplication-cuda-block_mapper.html %}
 
 The visualization below shows the same block-and-thread hierarchy in 3D; each block is a cluster of thread spheres, and you can explore the full `gridDim × blockDim` structure interactively.
 
-{% include interactive/3d_cuda_grid.html %}
+{% include interactive/3d-matrix-multiplication-cuda-grid.html %}
 
 To execute CUDA program:
 
@@ -307,7 +307,7 @@ __global__ void matMulSharedMemoryKernel(Matrix A, Matrix B, Matrix C)
 
 The animation below demonstrates the tiled matmul process: tiles of A and B are cooperatively loaded into shared memory, threads compute partial products, then the next tile is loaded.
 
-{% include interactive/cuda_tiled_anim.html %}
+{% include interactive/matrix-multiplication-cuda-tiled_anim.html %}
 
 We can call our kernel as follows:
 

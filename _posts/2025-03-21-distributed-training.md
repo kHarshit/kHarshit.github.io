@@ -26,7 +26,7 @@ For a 10B parameter LLM, it requires ~176 GiB of GPU memory (FP32: 4 bytes/param
 | Total                | | | 190 GB (~176 GiB) |
 {:.mbtablestyle}
 
-{% include interactive/memory_calc.html %}
+{% include interactive/distributed-training-memory_calc.html %}
 
 The A100 GPU has 80GB memory. Thus, for a 10B model, you'd need 3 A100s just to hold the parameters + optimizer states. Distributed training is essential to train Large Language Models. 
 
@@ -95,7 +95,7 @@ The reduced chunks circulate around the ring again. Each GPU sends the reduced c
 
 **Example:** Try the interactive visualization below to see the full 6-step AllReduce algorithm.
 
-{% include interactive/allreduce.html %}
+{% include interactive/distributed-training-allreduce.html %}
 
 ## 4. Data Parallelism
 
@@ -213,7 +213,7 @@ synchronously at the end.
 
 At the beginning, later stages are idle while the first micro-batch moves through pipeline. At the end, earlier stages become idle while the last backward computations finish. This idle time is called **pipeline bubble**. Increasing the number of micro-batches reduces the relative bubble overhead, but using too many can also increase scheduling complexity.
 
-{% include interactive/pipeline_viz.html %}
+{% include interactive/distributed-training-pipeline_viz.html %}
 
 #### Interleaved Layers
 
@@ -332,7 +332,7 @@ ZeRO consists of 3 stages which shards different model states: model parameters 
 
 In the above figure, `Ψ` denotes model size (number of parameters), `K` denotes the memory multiplier of optimizer states, and `Nd` denotes data-parallel degree (#GPUs).
 
-{% include interactive/zero_compare.html %}
+{% include interactive/distributed-training-zero_compare.html %}
 
 ### ZeRO Stage 1: Optimizer State Partitioning (P<sub>os</sub>)
 
@@ -568,7 +568,7 @@ SMP provides Sharded data parallelism, Expert parallelism, Tensor parallelism, A
 
 {% include img.html src="/img/blog/distributed-training/3d_parallelism.jpg" caption="3D Parallelism: Data, Pipeline, and Tensor Parallelism" %}
 
-{% include interactive/3d_parallelism_cube.html %}
+{% include interactive/3d-distributed-training-parallelism_cube.html %}
 
 > Total GPUs = DP degree x PP degree x TP degree
 

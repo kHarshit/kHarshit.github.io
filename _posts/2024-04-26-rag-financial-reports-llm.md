@@ -116,7 +116,7 @@ The `chunk_size=500` and `chunk_overlap=300` parameters control how the document
 
 The optimal chunking balances context preservation with retrieval precision. A chunk overlap of 300 ensures that sentences or table rows split across chunk boundaries appear in at least two chunks, preventing information loss at cut points. This is especially important for financial documents where a table's header row might end up in chunk N while its data rows fall in chunk N+1.
 
-{% include interactive/chunk_explorer.html %}
+{% include interactive/rag-financial-reports-llm-chunk_explorer.html %}
 
 We now create the embeddings using Sentence Transformer and HuggingFace embeddings. In order to create vector embeddings, we use the open-source Chroma vector database.
 
@@ -130,7 +130,7 @@ embeddings = HuggingFaceEmbeddings(model_name=model_name, model_kwargs={"device"
 vectordb = Chroma.from_documents(documents=all_splits, embedding=embeddings, persist_directory="chroma_db")
 {% endhighlight %}
 
-{% include interactive/vecsearch_sim.html %}
+{% include interactive/rag-financial-reports-llm-vecsearch_sim.html %}
 
 We use HuggingFace to load LLama 2 model and create a HuggingFace pipeline. Since, we're going to use LangChain, we use `HugggingFacePipeline` wrapper from LangChain to create LangChain llm object, which we're going to use to do further processing. 
 

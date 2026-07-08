@@ -115,11 +115,11 @@ loss_t = cross_entropy_loss(logits, labels, axis=1)
 loss = (loss_i + loss_t)/2
 {% endhighlight %}
 
-{% include interactive/clip_matrix.html %}
+{% include interactive/vision-language-models-clip_matrix.html %}
 
 The interactive 3D visualization below shows CLIP's contrastive learning in action: image and text embeddings begin randomly scattered, and over training steps, matching pairs attract while non-matching pairs repel, showing how CLIP learns its joint embedding space.
 
-{% include interactive/3d_clip_embedding.html %}
+{% include interactive/3d-vision-language-models-clip_embedding.html %}
 
 #### Zero-Shot Image Classification
 
@@ -169,7 +169,7 @@ Wrt VLMs, we can either
 
 Implementing masking is straightforward for transformer based models, since the input is tokenized, we can easily drop the tokens to be masked during training.
 
-{% include interactive/masking_viz.html %}
+{% include interactive/vision-language-models-masking_viz.html %}
 
 ### 2.1. FLAVA (Foundational Language And Vision Alignment Model)
 

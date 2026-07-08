@@ -604,7 +604,7 @@ $$
 \end{bmatrix}_{\text{FP32 (dequant)}}
 $$
 
-{% include interactive/quant_sim.html %}
+{% include interactive/mixed-precision-and-quantization-quant_sim.html %}
 
 ### Symmetric (Scale) Quantization
 

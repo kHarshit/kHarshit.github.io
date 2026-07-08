@@ -69,7 +69,9 @@ A program that provides context to MCP clients. It's just any other service we b
 </div>
 </div>
 
-{% include interactive/3d_mcp_arch.html %}
+{% include interactive/3d-mcp_arch.html %}
+
+{% include interactive/mcp-arch.html %}
 
 Modern LLMs support **tool calling** (evolved from function calling), where the model is told "here are the tools you can use". The LLM can then request "call tool X with param Y". The host application executes the tool call, sends the results back to the LLM, which uses this as additional context to generate a response.
 
@@ -202,7 +204,7 @@ Server → Client (response: capabilities):
 }
 ```
 
-{% include interactive/mcp_handshake.html %}
+{% include interactive/mcp-handshake.html %}
 
 ### 2. Tool Discovery (Primitives)
 
@@ -345,7 +347,7 @@ MCP standardizes the entire lifecycle of:
 - returning structured results
 - continuing reasoning
 
-{% include interactive/mcp_toolflow.html %}
+{% include interactive/mcp-toolflow.html %}
 
 {% include quiz/mcp.html %}
 

@@ -96,7 +96,7 @@ Safety benchmarks test bias ,toxicity, unsafe output generation, jail-break, res
 </div>
 </div>
 
-{% include img.html src="/img/blog/llm-benchmarks/benchmark_timeline.svg" caption="Benchmark Release Timeline" %}
+{% include img.html src="/img/blog/frontier-ai-benchmarks/benchmark_timeline.svg" caption="Benchmark Release Timeline" %}
 
 ## Knowledge & Factual Reasoning
 
@@ -168,7 +168,7 @@ HLE is the current ceiling for knowledge evaluation. It comprises 2,500 question
 
 The "with tools" means models can run code or search the web during the test. That gap tells you how much a model depends on external tools versus internal reasoning. At the current pace, HLE may saturate within a year or two, following the same arc as every benchmark before it.
 
-{% include interactive/beat_hle.html %}
+{% include interactive/frontier-ai-benchmarks-beat_hle.html %}
 
 ### LiveBench
 
@@ -381,7 +381,7 @@ As frontier labs compete for enterprise use cases, domain-specific benchmarks ar
 
 Running through each domain makes clear how much progress the field has made. But it also reveals a deeper problem: benchmarks have a shelf life, and that shelf life is shrinking.
 
-{% include img.html src="/img/blog/llm-benchmarks/benchmark_saturation_chart.svg" width="95%" caption="Benchmark score trajectories from 2020–2026. Every benchmark follows the same arc: rapid improvement, then ceiling." %}
+{% include img.html src="/img/blog/frontier-ai-benchmarks/benchmark_saturation_chart.svg" width="95%" caption="Benchmark score trajectories from 2020–2026. Every benchmark follows the same arc: rapid improvement, then ceiling." %}
 
 <div class="mbgrid mbgrid-2" style="--mbcard-border: 1.5px solid #d4a0a0; --mbcard-title-color: #e07070" markdown="1">
 <div class="mbcard" markdown="1">
@@ -428,7 +428,7 @@ Putting it all together, here is the current state across the key benchmarks:
 
 No model leads across all benchmarks. ARC-AGI-2 remains genuinely wide open. The agentic benchmarks, TerminalBench and OSWorld, are where the most active competition is happening right now.
 
-{% include interactive/benchmark_radar.html %}
+{% include interactive/frontier-ai-benchmarks-benchmark_radar.html %}
 
 ## Conclusion
 
