@@ -61,6 +61,15 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
   var WHITE_W = 0.92, WHITE_D = 4.0, WHITE_H = 0.22;
   var BLACK_W = 0.54, BLACK_D = 2.4, BLACK_H = 0.40;
 
+  // --- Sound profiles ---
+  var PIANO_SOUNDS = {
+    'warm':    { label:'Warm Piano',    osc:'triangle', detune:3,  filterType:'lowpass',  filterFreq:3500, filterQ:0.5, attack:0.02, level:0.10, decay:2.5, reverbMix:0.35 },
+    'bright':  { label:'Bright Piano',  osc:'sawtooth', detune:2,  filterType:'lowpass',  filterFreq:5000, filterQ:0.3, attack:0.01, level:0.08, decay:2.0, reverbMix:0.20 },
+    'musicbox':{ label:'Music Box',     osc:'sine',     detune:0,  filterType:'lowpass',  filterFreq:6000, filterQ:0.2, attack:0.005,level:0.12, decay:3.0, reverbMix:0.50 },
+    'electric':{ label:'Electric Piano',osc:'square',   detune:5,  filterType:'lowpass',  filterFreq:2500, filterQ:1.0, attack:0.03, level:0.08, decay:2.2, reverbMix:0.30 },
+    'harpsi':  { label:'Harpsichord',   osc:'triangle', detune:0,  filterType:'highpass', filterFreq:500,  filterQ:0.5, attack:0.003,level:0.10, decay:1.0, reverbMix:0.15 }
+  };
+
   // --- Colours ---
   var ACTIVE_COLOR = new THREE.Color('#20B2AA');   // teal highlight
   var HOVER_COLOR = new THREE.Color('#5EEAD4');     // lighter teal hover
@@ -80,11 +89,13 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.mouse = new THREE.Vector2();
     this.mouseDownPos = null;
     this.hoveredNote = null;
+    this.soundSelect = document.getElementById('cp3-sound');
 
     this.initScene();
     this.initLights();
     this.buildKeyboard();
     this.initControls();
+    this.initCamControls();
     this.initKeyClick();
     this.initHover();
     this.setupUI();
@@ -99,6 +110,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.scene.background = new THREE.Color(0xf5f0e8);     // warm cream
     this.camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 30);
     this.camera.position.set(4.5, 5.5, 15);
+    this.initialCamPos = this.camera.position.clone();
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.setSize(w, h);
@@ -190,9 +202,76 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.controls.dampingFactor = 0.08;
     this.controls.minDistance = 2;
     this.controls.maxDistance = 22;
-    this.controls.minPolarAngle = 0.3;
-    this.controls.maxPolarAngle = 1.2;
+    this.controls.minPolarAngle = 0.05;
+    this.controls.maxPolarAngle = Math.PI - 0.05;
     this.controls.target.set(0, 0.5, 0);
+  };
+
+  // --- Camera control buttons ---
+  Piano3D.prototype.cameraAction = function (action) {
+    var offset = new THREE.Vector3().subVectors(this.camera.position, this.controls.target);
+    var radius = offset.length();
+    var theta = Math.atan2(offset.x, offset.z);
+    var phi = Math.acos(Math.max(-1, Math.min(1, offset.y / radius)));
+
+    switch (action) {
+      case 'default':
+        this.camera.position.copy(this.initialCamPos);
+        this.controls.update();
+        return;
+      case 'zoomin': {
+        var dir = new THREE.Vector3().subVectors(this.controls.target, this.camera.position).normalize();
+        this.camera.position.addScaledVector(dir, 0.5);
+        this.controls.update();
+        return;
+      }
+      case 'zoomout': {
+        var dir = new THREE.Vector3().subVectors(this.camera.position, this.controls.target).normalize();
+        this.camera.position.addScaledVector(dir, 0.5);
+        this.controls.update();
+        return;
+      }
+      case 'rotleft':  theta += 0.1; break;
+      case 'rotright': theta -= 0.1; break;
+      case 'up':       phi = Math.max(0.05, phi - 0.1); break;
+      case 'down':     phi = Math.min(Math.PI - 0.05, phi + 0.1); break;
+      case 'panleft':
+      case 'panright': {
+        var fwd = new THREE.Vector3();
+        this.camera.getWorldDirection(fwd);
+        var right = new THREE.Vector3();
+        right.crossVectors(fwd, new THREE.Vector3(0, 1, 0)).normalize();
+        var step = 0.4;
+        var dir = action === 'panleft' ? 1 : -1;
+        this.camera.position.addScaledVector(right, step * dir);
+        this.controls.target.addScaledVector(right, step * dir);
+        this.controls.update();
+        return;
+      }
+      default: return;
+    }
+
+    this.camera.position.set(
+      this.controls.target.x + radius * Math.sin(phi) * Math.sin(theta),
+      this.controls.target.y + radius * Math.cos(phi),
+      this.controls.target.z + radius * Math.sin(phi) * Math.cos(theta)
+    );
+    this.camera.lookAt(this.controls.target);
+    this.controls.update();
+  };
+
+  Piano3D.prototype.initCamControls = function () {
+    var self = this;
+    this.container.addEventListener('click', function (e) {
+      var target = e.target;
+      while (target && target !== self.container) {
+        if (target.classList && target.classList.contains('dt-cam-btn')) {
+          self.cameraAction(target.getAttribute('data-action'));
+          return;
+        }
+        target = target.parentNode;
+      }
+    });
   };
 
   // --- Light/dim a single key (teal = active, lighter teal = hover, rest colour = off) ---
@@ -240,39 +319,71 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     Object.keys(this.keyMeshes).forEach(function (note) { self.lightKey(note, false); });
   };
 
-  // --- Play notes via Web Audio (triangle wave + lowpass) ---
+  // --- Shared reverb convolver (short impulse for ambience) ---
+  function createReverb(ctx) {
+    var sr = ctx.sampleRate;
+    var len = Math.floor(sr * 1.2);
+    var impulse = ctx.createBuffer(2, len, sr);
+    for (var ch = 0; ch < 2; ch++) {
+      var data = impulse.getChannelData(ch);
+      for (var i = 0; i < len; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5);
+      }
+    }
+    var c = ctx.createConvolver();
+    c.buffer = impulse;
+    return c;
+  }
+
+  // --- Play notes via Web Audio (uses selected sound profile) ---
   Piano3D.prototype.playSound = function (notes) {
     this.stopSound();
     if (!this.audioCtx) {
       this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
+    // One‑time shared reverb node
+    if (!this.reverbNode) {
+      this.reverbNode = createReverb(this.audioCtx);
+      this.reverbGain = this.audioCtx.createGain();
+      this.reverbGain.gain.value = 0.25;
+      this.reverbNode.connect(this.reverbGain);
+      this.reverbGain.connect(this.audioCtx.destination);
+    }
     if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
     var ctx = this.audioCtx;
     var now = ctx.currentTime;
     var self = this;
+    var profile = PIANO_SOUNDS[this.soundSelect ? this.soundSelect.value : 'warm'] || PIANO_SOUNDS['warm'];
+    var numOscs = profile.detune > 0 ? 2 : 1;
+
     notes.forEach(function (n) {
       var freq = NOTE_FREQ[n];
       if (!freq) return;
-      var osc = ctx.createOscillator();
-      var gain = ctx.createGain();
-      var filter = ctx.createBiquadFilter();
-      osc.type = 'triangle';
-      osc.frequency.value = freq;
-      filter.type = 'lowpass';
-      filter.frequency.value = 4000;
-      filter.Q.value = 0.5;
-      // Soft attack → sustain → release
-      gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(0.2, now + 0.01);
-      gain.gain.linearRampToValueAtTime(0.15, now + 0.3);
-      gain.gain.linearRampToValueAtTime(0, now + 2.0);
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 2.2);
-      self.oscillators.push(osc);
-      self.gains.push(gain);
+      for (var o = 0; o < numOscs; o++) {
+        var d = numOscs > 1 ? (o === 0 ? -1 : 1) : 0;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        var filter = ctx.createBiquadFilter();
+        osc.type = profile.osc;
+        osc.frequency.value = freq * (1 + d * profile.detune * 0.001);
+        filter.type = profile.filterType;
+        filter.frequency.value = profile.filterFreq;
+        filter.Q.value = profile.filterQ;
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(profile.level, now + profile.attack);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + profile.decay);
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        var wet = ctx.createGain();
+        wet.gain.value = profile.reverbMix;
+        gain.connect(wet);
+        wet.connect(self.reverbNode);
+        osc.start(now);
+        osc.stop(now + profile.decay + 0.5);
+        self.oscillators.push(osc);
+        self.gains.push(gain);
+      }
     });
   };
 
@@ -359,7 +470,21 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     });
   };
 
-  // --- Hover: highlight key under pointer, dim previous ---
+  // --- Restore status text to chord name or placeholder ---
+  Piano3D.prototype.restoreStatus = function () {
+    if (this.activeChord) {
+      var chord = CHORDS[this.activeChord];
+      if (chord) {
+        this.nameEl.textContent = chord.name;
+        this.notesEl.textContent = chord.notes.join(' \u00b7 ');
+        return;
+      }
+    }
+    this.nameEl.textContent = '\u2014';
+    this.notesEl.textContent = '';
+  };
+
+  // --- Hover: highlight key under pointer, dim previous, show note text ---
   Piano3D.prototype.initHover = function () {
     var self = this;
     var canvas = this.renderer.domElement;
@@ -380,6 +505,14 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         hitNote = intersects[0].object.userData.note;
       }
 
+      // Show note name in status when hovering
+      if (hitNote && hitNote !== self.hoveredNote) {
+        self.nameEl.textContent = hitNote;
+        self.notesEl.textContent = '';
+      } else if (!hitNote && self.hoveredNote) {
+        self.restoreStatus();
+      }
+
       // Only update if hovering a different key
       if (hitNote !== self.hoveredNote) {
         var prevNote = self.hoveredNote;
@@ -397,7 +530,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
           if (mesh) {
             mesh.material.color.copy(HOVER_COLOR);
             mesh.material.emissive.copy(HOVER_COLOR);
-            mesh.material.emissiveIntensity = 0.15;
+            mesh.material.emissiveIntensity = 0.6;
             mesh.position.y = self.keyOrigY[hitNote] - 0.02;
           }
         }
@@ -405,6 +538,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     });
 
     canvas.addEventListener('pointerleave', function () {
+      self.restoreStatus();
       var prevNote = self.hoveredNote;
       self.hoveredNote = null;
       if (prevNote && prevNote !== self.activeChord &&

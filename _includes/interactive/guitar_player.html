@@ -2,7 +2,7 @@
 <style>
 #gp3-container {
   width: 100%;
-  height: 420px;
+  height: 520px;
   position: relative;
   background: var(--bg-color, #fff);
   border-radius: 8px;
@@ -71,8 +71,58 @@
   font-size: 0.85rem;
   pointer-events: none;
 }
+.dt-cam-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 3px;
+  z-index: 10;
+}
+.dt-cam-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background: var(--glass-bg, rgba(255,255,255,0.55));
+  color: var(--font-color, #333);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: all 0.15s;
+}
+[data-theme="dark"] .dt-cam-btn {
+  background: var(--glass-bg, rgba(40,40,40,0.65));
+  border-color: var(--glass-border, rgba(255,255,255,0.06));
+  color: var(--font-color, #fff);
+}
+.dt-cam-btn:hover {
+  border-color: var(--accent-color, #20B2AA);
+  color: var(--accent-color, #20B2AA);
+}
 .gp3-status .gp3-chord-name { font-weight: 700; color: var(--accent-color, #20B2AA); }
 .gp3-status .gp3-chord-notes { color: var(--font-color, #333); margin-left: 8px; opacity: 0.6; }
+.dt-sound-select {
+  padding: 2px 6px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  background: var(--glass-bg, rgba(255,255,255,0.55));
+  color: var(--font-color, #333);
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+  backdrop-filter: blur(4px);
+}
+[data-theme="dark"] .dt-sound-select {
+  background: var(--glass-bg, rgba(40,40,40,0.65));
+  border-color: var(--glass-border, rgba(255,255,255,0.06));
+  color: var(--font-color, #fff);
+}
 </style>
 <script>
 (function() {
@@ -99,6 +149,17 @@
         <span class="gp3-chord-name" id="gp3-name">—</span>
         <span class="gp3-chord-notes" id="gp3-notes"></span>
       </div>
+      <div class="dt-cam-controls">
+        <button class="dt-cam-btn" data-action="default" title="Default view">⌖</button>
+        <button class="dt-cam-btn" data-action="zoomin" title="Zoom in">+</button>
+        <button class="dt-cam-btn" data-action="zoomout" title="Zoom out">−</button>
+        <button class="dt-cam-btn" data-action="rotleft" title="Rotate left">↺</button>
+        <button class="dt-cam-btn" data-action="rotright" title="Rotate right">↻</button>
+        <button class="dt-cam-btn" data-action="up" title="Rotate up">↑</button>
+        <button class="dt-cam-btn" data-action="down" title="Rotate down">↓</button>
+        <button class="dt-cam-btn" data-action="panleft" title="Pan left">←</button>
+        <button class="dt-cam-btn" data-action="panright" title="Pan right">→</button>
+      </div>
       <div class="gp3-overlay">
         <div class="gp3-group">
           <span class="gp3-group-label">Major</span>
@@ -120,6 +181,16 @@
           <button class="gp3-btn" data-chord="A7">A7</button>
           <button class="gp3-btn" data-chord="D7">D7</button>
           <button class="gp3-btn" data-chord="G7">G7</button>
+        </div>
+        <div class="gp3-group">
+          <span class="gp3-group-label">Sound</span>
+          <select id="gp3-sound" class="dt-sound-select">
+            <option value="acoustic">Acoustic</option>
+            <option value="nylon">Nylon</option>
+            <option value="jazz">Jazz</option>
+            <option value="twangy">Twangy</option>
+            <option value="electric">Electric</option>
+          </select>
         </div>
       </div>
     </div>

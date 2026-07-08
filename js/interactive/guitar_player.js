@@ -54,6 +54,15 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     'A5':880.00
   };
 
+  // --- Sound profiles ---
+  var GUITAR_SOUNDS = {
+    'acoustic': { label:'Acoustic',   osc:'triangle', detune:4,  filterType:'bandpass', filterFreq:800,  filterQ:1.5, attack:0.005, level:0.05, decay:1.8, reverbMix:0.30 },
+    'nylon':    { label:'Nylon',      osc:'sine',     detune:0,  filterType:'lowpass',  filterFreq:2000, filterQ:0.5, attack:0.010, level:0.07, decay:2.2, reverbMix:0.40 },
+    'jazz':     { label:'Jazz',       osc:'triangle', detune:2,  filterType:'lowpass',  filterFreq:1500, filterQ:0.8, attack:0.008, level:0.04, decay:2.5, reverbMix:0.35 },
+    'twangy':   { label:'Twangy',     osc:'sawtooth', detune:3,  filterType:'bandpass', filterFreq:1200, filterQ:2.0, attack:0.003, level:0.05, decay:1.2, reverbMix:0.20 },
+    'electric': { label:'Electric',   osc:'square',   detune:4,  filterType:'lowpass',  filterFreq:1800, filterQ:2.0, attack:0.002, level:0.012, decay:1.5, reverbMix:0.25 }
+  };
+
   // --- Colours ---
   var ACTIVE_COLOR = new THREE.Color('#20B2AA');  // teal highlight
   var HOVER_COLOR = new THREE.Color('#5EEAD4');    // lighter teal hover
@@ -121,6 +130,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.mouseDownPos = null;
     this.hoverMesh = null;
     this.hoveredString = undefined;
+    this.soundSelect = document.getElementById('gp3-sound');
 
     this.initScene();
     this.initLights();
@@ -132,6 +142,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.buildHeadstock();
     this.buildTuners();
     this.initControls();
+    this.initCamControls();
     this.initClick();
     this.initHover();
     this.setupUI();
@@ -146,6 +157,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.scene.background = new THREE.Color(0xf5f0e8);     // warm cream
     this.camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 45);
     this.camera.position.set(-10, 14, 16);
+    this.initialCamPos = this.camera.position.clone();
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.setSize(w, h);
@@ -559,40 +571,74 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.stringMeshes.forEach(function (m, i) { self.highlightString(i, false); });
   };
 
-  // --- Play chord notes through Web Audio (sawtooth + lowpass) ---
+  // --- Shared reverb convolver (short impulse for ambience) ---
+  function createReverb(ctx) {
+    var sr = ctx.sampleRate;
+    var len = Math.floor(sr * 1.2);
+    var impulse = ctx.createBuffer(2, len, sr);
+    for (var ch = 0; ch < 2; ch++) {
+      var data = impulse.getChannelData(ch);
+      for (var i = 0; i < len; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5);
+      }
+    }
+    var c = ctx.createConvolver();
+    c.buffer = impulse;
+    return c;
+  }
+
+  // --- Play chord notes through Web Audio (uses selected sound profile) ---
   Guitar3D.prototype.playSound = function (notes) {
     this.stopSound();
     if (!this.audioCtx) {
       this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
+    // One‑time shared reverb node
+    if (!this.reverbNode) {
+      this.reverbNode = createReverb(this.audioCtx);
+      this.reverbGain = this.audioCtx.createGain();
+      this.reverbGain.gain.value = 0.2;
+      this.reverbNode.connect(this.reverbGain);
+      this.reverbGain.connect(this.audioCtx.destination);
+    }
     if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
     var ctx = this.audioCtx;
     var now = ctx.currentTime;
     var self = this;
+    var profile = GUITAR_SOUNDS[this.soundSelect ? this.soundSelect.value : 'acoustic'] || GUITAR_SOUNDS['acoustic'];
+    var numOscs = profile.detune > 0 ? 2 : 1;
+
     notes.forEach(function (n) {
       var freq = freqFromNote(n);
       if (!freq) return;
-      // Stagger note start slightly for a strum effect
       setTimeout(function () {
-        var osc = ctx.createOscillator();
-        var gain = ctx.createGain();
-        var filter = ctx.createBiquadFilter();
-        osc.type = 'sawtooth';
-        osc.frequency.value = freq;
-        filter.type = 'lowpass';
-        filter.frequency.value = 3000;
-        filter.Q.value = 0.5;
-        // Quick attack, then exponential decay
-        gain.gain.setValueAtTime(0, ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 0.005);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
-        osc.connect(filter);
-        filter.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + 1.6);
-        self.oscillators.push(osc);
-        self.gains.push(gain);
+        for (var o = 0; o < numOscs; o++) {
+          var d = numOscs > 1 ? (o === 0 ? -1 : 1) : 0;
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          var filter = ctx.createBiquadFilter();
+          osc.type = profile.osc;
+          osc.frequency.value = freq * (1 + d * profile.detune * 0.001);
+          filter.type = profile.filterType;
+          filter.frequency.value = profile.filterType === 'bandpass'
+            ? Math.min(freq * 2.5, profile.filterFreq)
+            : profile.filterFreq;
+          filter.Q.value = profile.filterQ;
+          gain.gain.setValueAtTime(0, ctx.currentTime);
+          gain.gain.linearRampToValueAtTime(profile.level, ctx.currentTime + profile.attack);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + profile.decay);
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(ctx.destination);
+          var wet = ctx.createGain();
+          wet.gain.value = profile.reverbMix;
+          gain.connect(wet);
+          wet.connect(self.reverbNode);
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + profile.decay + 0.4);
+          self.oscillators.push(osc);
+          self.gains.push(gain);
+        }
       }, Math.random() * 30);
     });
   };
@@ -619,9 +665,76 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     this.controls.dampingFactor = 0.08;
     this.controls.minDistance = 5;
     this.controls.maxDistance = 35;
-    this.controls.minPolarAngle = 0.2;
-    this.controls.maxPolarAngle = 1.3;
+    this.controls.minPolarAngle = 0.05;
+    this.controls.maxPolarAngle = Math.PI - 0.05;
     this.controls.target.set(0, 0.3, (HEADSTOCK_END + BODY_BOTTOM_Z) / 2);
+  };
+
+  // --- Camera control buttons ---
+  Guitar3D.prototype.cameraAction = function (action) {
+    var offset = new THREE.Vector3().subVectors(this.camera.position, this.controls.target);
+    var radius = offset.length();
+    var theta = Math.atan2(offset.x, offset.z);
+    var phi = Math.acos(Math.max(-1, Math.min(1, offset.y / radius)));
+
+    switch (action) {
+      case 'default':
+        this.camera.position.copy(this.initialCamPos);
+        this.controls.update();
+        return;
+      case 'zoomin': {
+        var dir = new THREE.Vector3().subVectors(this.controls.target, this.camera.position).normalize();
+        this.camera.position.addScaledVector(dir, 0.5);
+        this.controls.update();
+        return;
+      }
+      case 'zoomout': {
+        var dir = new THREE.Vector3().subVectors(this.camera.position, this.controls.target).normalize();
+        this.camera.position.addScaledVector(dir, 0.5);
+        this.controls.update();
+        return;
+      }
+      case 'rotleft':  theta += 0.1; break;
+      case 'rotright': theta -= 0.1; break;
+      case 'up':       phi = Math.max(0.05, phi - 0.1); break;
+      case 'down':     phi = Math.min(Math.PI - 0.05, phi + 0.1); break;
+      case 'panleft':
+      case 'panright': {
+        var fwd = new THREE.Vector3();
+        this.camera.getWorldDirection(fwd);
+        var right = new THREE.Vector3();
+        right.crossVectors(fwd, new THREE.Vector3(0, 1, 0)).normalize();
+        var step = 0.4;
+        var dir = action === 'panleft' ? 1 : -1;
+        this.camera.position.addScaledVector(right, step * dir);
+        this.controls.target.addScaledVector(right, step * dir);
+        this.controls.update();
+        return;
+      }
+      default: return;
+    }
+
+    this.camera.position.set(
+      this.controls.target.x + radius * Math.sin(phi) * Math.sin(theta),
+      this.controls.target.y + radius * Math.cos(phi),
+      this.controls.target.z + radius * Math.sin(phi) * Math.cos(theta)
+    );
+    this.camera.lookAt(this.controls.target);
+    this.controls.update();
+  };
+
+  Guitar3D.prototype.initCamControls = function () {
+    var self = this;
+    this.container.addEventListener('click', function (e) {
+      var target = e.target;
+      while (target && target !== self.container) {
+        if (target.classList && target.classList.contains('dt-cam-btn')) {
+          self.cameraAction(target.getAttribute('data-action'));
+          return;
+        }
+        target = target.parentNode;
+      }
+    });
   };
 
   // --- Hover interaction: highlight string + show hover sphere ---
@@ -685,6 +798,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
         var note = noteFromStringFret(si, fret);
         self.nameEl.textContent = note + ' (Str ' + (6 - si) + ' Fr ' + fret + ')';
+        self.notesEl.textContent = '';
       } else {
         self.removeHover();
       }
@@ -704,8 +818,14 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     }
     if (this.activeChord) {
       this.refreshChordStrings();
+      var chord = CHORDS[this.activeChord];
+      if (chord) {
+        this.nameEl.textContent = chord.name;
+        this.notesEl.textContent = chord.notes ? chord.notes.join(' \u00b7 ') : '';
+      }
     } else {
       this.nameEl.textContent = '\u2014';
+      this.notesEl.textContent = '';
     }
   };
 
