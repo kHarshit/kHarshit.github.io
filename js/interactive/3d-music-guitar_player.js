@@ -230,18 +230,31 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     body.receiveShadow = true;
     this.scene.add(body);
 
-    // Sound hole rosette ring
+    // Sound hole rosette — multi-ring design
     var faceY = bodyTopY;
-    var ringMat = new THREE.MeshPhysicalMaterial({
-      color: 0xc4923e, roughness: 0.4, metalness: 0.15
-    });
-
     var holeZ = HEADSTOCK_END + FB_LENGTH + 1.0;
-    var holeGeom = new THREE.RingGeometry(0.78, 0.90, 28);
-    var hole = new THREE.Mesh(holeGeom, ringMat);
-    hole.rotation.x = -Math.PI / 2;
-    hole.position.set(0, faceY + 0.003, holeZ);
-    this.scene.add(hole);
+    var rosZ = faceY + 0.004;
+
+    function addRing(innerR, outerR, color, rough, metal, segs) {
+      var m = new THREE.MeshPhysicalMaterial({
+        color: color, roughness: rough, metalness: metal || 0,
+        side: THREE.DoubleSide
+      });
+      var g = new THREE.RingGeometry(innerR, outerR, segs || 32);
+      var mesh = new THREE.Mesh(g, m);
+      mesh.rotation.x = -Math.PI / 2;
+      mesh.position.set(0, rosZ, holeZ);
+      this.scene.add(mesh);
+    }
+
+    // Outer purfling (dark)
+    addRing.call(this, 0.90, 0.96, 0x2a1a0e, 0.7, 0);
+    // Main band (golden wood)
+    addRing.call(this, 0.82, 0.90, 0xc4923e, 0.4, 0.15);
+    // Inner purfling (dark)
+    addRing.call(this, 0.78, 0.82, 0x2a1a0e, 0.7, 0);
+    // Sound hole edge trim (ivory)
+    addRing.call(this, 0.74, 0.78, 0xf0e8d0, 0.3, 0.1);
 
     // Dark backplate behind the sound hole so it reads as a cavity
     var backPlateMat = new THREE.MeshPhysicalMaterial({
@@ -287,6 +300,35 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
       pin.position.set(getStringX(p), 0.05, pinZ);
       this.scene.add(pin);
     }
+
+    // Pickguard — Martin-style teardrop on treble side of soundhole
+    var pgMat = new THREE.MeshPhysicalMaterial({
+      color: 0x5c3a1e, roughness: 0.6, metalness: 0.0,
+      clearcoat: 0.4, clearcoatRoughness: 0.3,
+      side: THREE.DoubleSide
+    });
+    var pgShape = new THREE.Shape();
+    // Martin-style teardrop in body coords — inner edge clears soundhole (r=0.90)
+    pgShape.moveTo(0.85, 3.7);                                // top, above soundhole
+    pgShape.bezierCurveTo(1.2, 3.6, 2.0, 3.8, 2.3, 4.4);     // upper-right bulge
+    pgShape.bezierCurveTo(2.6, 5.0, 2.1, 5.9, 1.2, 6.5);     // lower-right taper
+    pgShape.bezierCurveTo(0.85, 6.8, 0.85, 6.6, 0.85, 5.9);  // bottom tip
+    pgShape.bezierCurveTo(0.85, 5.3, 1.0, 5.1, 1.0, 4.8);    // inner lower (concave)
+    pgShape.bezierCurveTo(1.0, 4.5, 0.85, 4.3, 0.85, 3.7);   // inner upper (concave)
+    var pts = pgShape.getPoints(24);
+    var tri = THREE.ShapeUtils.triangulateShape(pts, []);
+    var pos = [];
+    for (var ti = 0; ti < tri.length; ti++) {
+      var a = tri[ti][0], b = tri[ti][1], c = tri[ti][2];
+      pos.push(pts[a].x, 0.005, BODY_NECK_Z + pts[a].y);
+      pos.push(pts[b].x, 0.005, BODY_NECK_Z + pts[b].y);
+      pos.push(pts[c].x, 0.005, BODY_NECK_Z + pts[c].y);
+    }
+    var pgGeom = new THREE.BufferGeometry();
+    pgGeom.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    pgGeom.computeVertexNormals();
+    var pg = new THREE.Mesh(pgGeom, pgMat);
+    this.scene.add(pg);
   };
 
   // --- Build fretboard (D‑shape extrusion from headstock to end) + nut ---
