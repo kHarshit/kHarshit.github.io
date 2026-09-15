@@ -15,7 +15,7 @@ This blog post outlines the AI evaluation benchmark landscape, what each benchma
 
 A benchmark is a standardized test used to measure how well a model performs on a specific task. Just as students take exams to assess knowledge, AI models are run through benchmarks to measure their capabilities.
 
-"Frontier models" refers to the most capable AI systems currently available e.g. GPT-5.6, Claude Fable 5, Gemini 3.1 Pro, Grok 4, etc. Evaluating these models requires progressively harder tests. When every model aces a test, that test no longer tells you anything useful i.e. it has *saturated*. The field then moves to a harder benchmark, and the cycle repeats.
+"Frontier models" refers to the most capable AI systems currently available e.g. GPT-6 Astra, Claude Fable 5.1, Gemini 3.8 Flash, Grok 4, etc. Evaluating these models requires progressively harder tests. When every model aces a test, that test no longer tells you anything useful i.e. it has *saturated*. The field then moves to a harder benchmark, and the cycle repeats.
 
 ## What Benchmarks Actually Measure
 
@@ -147,22 +147,20 @@ the dienophile can take to each of them, there are 4*4 = 16 possible products
 - GPT-5.4 (April 2026): **92%**
 - Claude Fable 5 and Gemini 3.1 Pro (June 2026): **94%**
 
-Frontier models have surpassed PhD experts on subject matter. Gemini 3.1 Pro (94.3%), Claude Fable 5 (94.1%), and Claude Opus 4.8 (93.6%) currently lead the leaderboard . GPQA Diamond is approaching saturation at the very top but still separates models in the 60–90% range.
+Frontier models have surpassed PhD experts on subject matter. GPT-6 Astra (96.0%), Gemini 3.8 Flash (95.3%), and Claude Fable 5.1 (93.7%) currently lead the leaderboard. GPQA Diamond is approaching saturation at the very top but still separates models in the 60–90% range.
 
 Note that human expert scores vary across benchmarks: ~65% on GPQA Diamond (narrow, field-specific questions) versus ~90% on HLE (broader questions across many fields). Both use domain experts, but GPQA tests depth within a subfield while HLE tests breadth across disciplines.
 
 ### Humanity's Last Exam (HLE)
 
-HLE is the current ceiling for knowledge evaluation. It comprises 2,500 questions created by domain experts across math, humanities, and natural sciences, all written from scratch, making it nearly impossible for a model to have "seen" the answers during training. The current status in 2026 looks like this:
+HLE is the current ceiling for knowledge evaluation. It comprises 2,500 questions created by domain experts across math, humanities, and natural sciences, all written from scratch, making it nearly impossible for a model to have "seen" the answers during training. The current status as of September 2026 looks like this:
 
 | Model | Score (no tools) | Score (with tools) |
 | - | - | - |
-| Claude Fable 5 | 59.0% | 64.5% |
-| Claude Opus 4.8 | 49.8% | 57.9% |
-| GPT-5.5 | ~41.4% | — |
-| Gemini 3 Pro Preview | 37.5% | — |
-| GPT-5 Pro | 31.6% | — |
-| DeepSeek-V4 | ~28% | — |
+| Claude Fable 5.1 | 60.9% | 65.0% |
+| Claude Fable 5 | 57.8% | 63.8% |
+| Claude Opus 5 | 56.6% | 63.6% |
+| GPT-6 Astra | — | 57.2% |
 | Human domain experts (reference) | ~90% | — |
 {:.mbtablestyle}
 
@@ -219,7 +217,16 @@ d) then holds up a razor and begins shaving his face. (100.0%)
 AIME (American Invitational Mathematics Examination) consists of 15 difficult competition math problems with integer answers. It became a useful evaluation once the easier tests saturated. Top frontier models in 2026 approach ceiling performance on AIME 2025, thus pushing the field toward harder contests like the USAMO and PutnamBench.
 
 ### FrontierMath
-It consists of hundreds of unpublished challenging math problems. These are divided into 4 difficulty tiers with level 4 for research-level math.
+It consists of hundreds of unpublished challenging math problems. These are divided into 4 difficulty tiers with level 4 for research-level math. As of September 2026, the FrontierMath Tier 4 v2 scores show dramatic progress:
+
+| Model | FrontierMath Tier 4 (v2) |
+| - | - |
+| GPT-6 Astra | 97.6% |
+| Claude Fable 5 | 90.2% |
+| Claude Fable 5.1 | 87.8% |
+| GPT-5.6 Sol | 83.0% |
+| Claude Opus 5 | 73.2% |
+{:.mbtablestyle}
 
 {% highlight markdown %}
 # Example Question:
@@ -228,8 +235,24 @@ Construct a degree 19 polynomial p(x) ∈ C[x] such that X := {p(x) = p(y)} ⊂ 
 {% endhighlight %}
 
 
-### ARC-AGI-2
-ARC-AGI-2 tests abstract reasoning and fluid intelligence, the ability to solve novel visual puzzles from just a few examples, with no relevant training data to draw on. The puzzles are grids of colored squares; the model must infer the underlying rule and complete the pattern. As of mid-2026, GPT-5.5 leads the leaderboard at ~85%, surpassing the average individual human performance of ~66%. Top human panel scores (where multiple experts must agree) still exceed the best AI, but the gap has closed dramatically since past year.
+### ARC-AGI-2 and ARC-AGI-3
+
+ARC-AGI-2 tests abstract reasoning and fluid intelligence, the ability to solve novel visual puzzles from just a few examples, with no relevant training data to draw on. The puzzles are grids of colored squares; the model must infer the underlying rule and complete the pattern.
+
+ARC-AGI-3, released in 2026, pushes the frontier further with interactive reasoning environments that challenge AI agents to explore novel environments, acquire goals on the fly, and learn continuously. Unlike its predecessors which tested passive puzzle-solving, ARC-AGI-3 measures skill-acquisition efficiency and adaptation over time.
+
+| Model | ARC-AGI-1 | ARC-AGI-2 | ARC-AGI-3 |
+| - | - | - | - |
+| GPT-6 Astra | 98.5% | 95.0% | 62.7%, 99.95% (w/ provider adapter) |
+| Claude Fable 5.1 | 97.5% | 90.0% | — |
+| Claude Opus 5 | 97.5% | 90.4% | 30.16% |
+| GPT-5.6 Sol | 97.5% | 92.5% | 7.78% |
+| Grok 4.6 | 87.5% | 67.1% | 2.11% |
+| Gemini 3.7 Flash | 95.5% | 84.6% | — |
+| DeepSeek V4 Pro | 90.5% | 61.3% | — |
+{:.mbtablestyle}
+
+Note that GPT-6 Astra scores 99.95% with the Provider Adapter harness (which preserves reasoning state across requests) and 62.7% with the Standard harness. 
 
 {% include img.html src="/img/blog/frontier-ai-benchmarks/arc_agi_2.jpg" width="85%" caption="ARC-AGI-2 example (source: ARC-AGI-2 paper)" %}
 
@@ -262,6 +285,7 @@ The SWE-Bench measures: *Given a real GitHub codebase and a bug report, can the 
 - **2023**: 4.4% of issues solved
 - **2024**: 71.7% solved (+67 pp in one year)
 - **Mid-2026**: Claude Fable 5 reached 80.3% on SWE-bench Pro
+- **September 2026**: GPT-6 Astra and Claude Fable 5.1 push the frontier further
 
 | Model | SWE-bench Verified | SWE-bench Pro |
 | - | - | - |
@@ -270,9 +294,20 @@ The SWE-Bench measures: *Given a real GitHub codebase and a bug report, can the 
 | GPT-5.5 | 82.6% | 58.6% |
 {:.mbtablestyle}
 
-### FrontierCode
+### FrontierCode and DeepSWE
 
-FrontierCode (by Cognition) evaluates whether the model can write production-quality code that would eventually get merged by benchmarking it against PR rubrics. It measures correctness, test quality, scope discipline, style, and adherence to codebase standards. Claude Fable 5 scores 29.3% vs. Opus 4.8's 13.4%, still wide open at research-grade engineering.
+FrontierCode (by Cognition) evaluates whether the model can write production-quality code that would eventually get merged by benchmarking it against PR rubrics. It measures correctness, test quality, scope discipline, style, and adherence to codebase standards. 
+
+| Model | FrontierCode 1.1 Extended | FrontierCode 1.1 Main | DeepSWE v1.1 |
+| - | - | - | - |
+| GPT-6 Astra | 64.5% | 53.3% | 74.1% |
+| Claude Fable 5.1 | 63.6% | 50.9% | 67.4% |
+| Claude Fable 5 | 64.9% | 53.5% | 69.9% |
+| Claude Opus 5 | 63.6% | 53.4% | 73.7% |
+| GPT-5.6 Sol | 60.6% | 47.5% | 72.7% |
+{:.mbtablestyle}
+
+DeepSWE v1.1 evaluates agentic software engineering capabilities, with GPT-6 Astra leading at 74.1%.
 
 {% include img.html src="/img/blog/frontier-ai-benchmarks/frontiercode.jpg" caption="FrontierCode grading pipeline (source: FrontierCode website)" %}
 
@@ -280,23 +315,124 @@ FrontierCode (by Cognition) evaluates whether the model can write production-qua
 
 Coding benchmarks test whether a model can produce the right output. Agentic benchmarks go further: can the model *take actions* across many steps, use tools, and recover when things go wrong? This is what it means to deploy a model as an autonomous assistant rather than a question-answering system.
 
-### Terminal-Bench 2.1
+### Terminal-Bench 4.0 and Terminal-Bench Science 0.1
 
 Terminal-Bench tests multi-step agentic terminal operation i.e. writing scripts, debugging shell pipelines, and interpreting command-line output across many turns. Instead of producing a single file, the model must operate an actual terminal environment end-to-end.
 
-{% include img.html src="/img/blog/frontier-ai-benchmarks/terminalbench.jpg" caption="Original Terminal-Bench (source: Terminal-Bench paper)" %}
+Terminal-Bench 4.0 is the latest version, with GPT-6 Astra achieving 57.9% and Claude Fable 5.1 at 55.8%:
 
-| Model | Terminal-Bench 2.1 |
+| Model | Terminal-Bench 4.0 |
 | - | - |
-| GPT-5.5 (Codex CLI) | 83.4% |
-| Claude Fable 5 (Claude Code) | 83.1% |
-| Claude Opus 4.8 (Claude Code) | 78.9% |
-| Gemini 3.1 Pro | 70.7% |
+| GPT-6 Astra | 57.9% |
+| Claude Fable 5.1 | 55.8% |
+| Claude Opus 5 | 52.6% |
+| Claude Fable 5 | 44.5% |
+| GPT-5.6 Sol | 37.3% |
+| Gemini 3.8 Flash | 19.1% |
+{:.mbtablestyle}
+
+**Terminal-Bench Science 0.1** tests whether agents can complete scientific research workflows using code and terminal tools, including analyzing data, running simulations, and fitting models. This is a new benchmark that measures scientific coding capability:
+
+| Model | Terminal-Bench Science 0.1 |
+| - | - |
+| GPT-6 Astra | 64.6% |
+| Claude Fable 5.1 | 52.6% |
+| Claude Opus 5 | 30.0% |
+| GPT-5.6 Sol | 22.4% |
+| Claude Fable 5 | 21.4% |
 {:.mbtablestyle}
 
 ### OSWorld
 
-OSWorld takes agentic evaluation the furthest: can a model operate a real computer? It tests tasks across operating systems: opening files, navigating a browser, running terminal commands, interacting with GUI applications. Unlike TerminalBench, OSWorld involves full visual interfaces and requires the model to perceive and act on a screen. Accuracy has risen from ~12% to 85.0% (Claude Fable 5). Human performance is around 72%, meaning models have now surpassed the human baseline on this benchmark.
+OSWorld takes agentic evaluation the furthest: can a model operate a real computer? It tests tasks across operating systems: opening files, navigating a browser, running terminal commands, interacting with GUI applications. Unlike TerminalBench, OSWorld involves full visual interfaces and requires the model to perceive and act on a screen. Accuracy has risen from ~12% to 72.6% (GPT-6 Astra). Human performance is around 72%, meaning models have now reached parity with the human baseline on this benchmark.
+
+| Model | OSWorld 2.0 |
+| - | - |
+| GPT-6 Astra | 72.6% |
+| Claude Opus 5 | 70.2% |
+| GPT-5.6 Sol | 65.7% |
+| Claude Fable 5.1 | 77.9% (partial) |
+| Claude Fable 5 | 72.9% (partial) |
+{:.mbtablestyle}
+
+Note: Claude Fable 5.1 and 5 scores on OSWorld 2.0 use partial scoring from the benchmark authors' August 2026 task release, while GPT-6 Astra uses the offline set with partial scoring. Strict scoring for Claude Fable 5.1 is 41.7%.
+
+### BrowseComp
+
+BrowseComp tests whether a model can find specific information on the web when the answer requires navigating and synthesizing content across multiple pages. It measures real-world browsing capability:
+
+| Model | BrowseComp |
+| - | - |
+| GPT-6 Astra | 91.5% |
+| Claude Opus 5 | 90.8% |
+| GPT-5.6 Sol | 90.4% |
+| Claude Fable 5 | 87.4% |
+{:.mbtablestyle}
+
+### Agents' Last Exam
+
+Agents' Last Exam (ALE) is a benchmark developed by UC Berkeley RDI in collaboration with 300+ industry experts, designed to evaluate AI agents on long-horizon, economically valuable, real-world tasks. It consists of 1500+ tasks spanning 55 subdomains across 13 industry clusters, grounded in the O*NET / SOC 2018 occupational taxonomy. Tasks are sourced from actual professional practice and require interleaving GUI interaction with CLI operations on real OS sandboxes.
+
+{% include img.html src="/img/blog/frontier-ai-benchmarks/agents_last_exam.jpg" caption="Agents Last Exam (source: ALE paper)" %}
+
+| Model | Agents' Last Exam |
+| - | - |
+| GPT-6 Astra | 59.3% |
+| Claude Opus 5 | 55.5% |
+| GPT-5.6 Sol | 53.6% |
+| Claude Fable 5 | 48.7% |
+{:.mbtablestyle}
+
+### AutomationBench
+
+AutomationBench evaluates business workflow automation: can a model complete real-world business tasks like data entry, form filling, and process management?:
+
+| Model | AutomationBench |
+| - | - |
+| GPT-6 Astra | 41.4% |
+| Claude Fable 5.1 | 31.4% |
+| Claude Opus 5 | 26.9% |
+| Claude Fable 5 | 17.4% |
+| GPT-5.6 Sol | 18.1% |
+{:.mbtablestyle}
+
+### BenchCAD
+
+BenchCAD evaluates whether models can reconstruct 3D objects from multi-view renders by generating executable parametric CAD code (CadQuery programs). Through four tasks: Vision2Code (image-to-code generation), Vision-QA, Code-QA, and CodeEdit (instruction-guided program editing), it tests spatial reasoning, engineering design knowledge, and the ability to recover exact parametric dimensions. The benchmark contains 17,900 execution-verified parts across 106 industrial part families (gears, springs, fasteners, brackets, etc.), with 52 families. Scoring is execution-grounded via voxel IoU between the model's output and ground-truth geometry, no LLM judge.
+
+{% include img.html src="/img/blog/frontier-ai-benchmarks/benchcad.jpg" caption="BenchCAD generation pipeline and task suite (source: BenchCAD paper)" %}
+
+| Model | BenchCAD (plain) | BenchCAD (agentic) |
+| - | - | - |
+| GPT-6 Astra | — | 95.9% |
+| Claude Fable 5.1 | 0.437 | 84.3% |
+| GPT-5.6 Sol | 0.706 | 83.3% |
+| Claude Opus 5 | — | 82.1% |
+| Claude Fable 5 | — | 67.5% |
+{:.mbtablestyle}
+
+### CursorBench
+
+CursorBench evaluates coding agent performance within the Cursor IDE, measuring real-world software development workflows:
+
+| Model | CursorBench 3.2.0 |
+| - | - |
+| Claude Fable 5.1 | 73.4% |
+| Claude Fable 5 | 70.5% |
+| Claude Opus 5 | 70.0% |
+| GPT-5.6 Sol | 67.2% |
+{:.mbtablestyle}
+
+### ScreenSpot-Pro
+
+ScreenSpot-Pro tests whether models can accurately read and understand text rendered in images, a key capability for computer use:
+
+| Model | ScreenSpot-Pro (no tools) |
+| - | - |
+| GPT-6 Astra | 92.7% |
+| Claude Fable 5 | 87.3% |
+| GPT-5.6 Sol | 76.9% |
+{:.mbtablestyle}
 
 {% include img.html src="/img/blog/frontier-ai-benchmarks/osworld.jpg" caption="OSWorld example task (source: OSWorld paper)" %}
 
@@ -306,6 +442,8 @@ The benchmarks so far have mostly involved text. But real-world tasks often requ
 
 ### Long-context benchmarks
 They test whether models can actually *use* their large context windows. Context windows have grown from 4K tokens (GPT-3) to over 1M tokens (Gemini 3 Pro), but accepting a long document and reasoning over it are very different things. RULER and HELMET measure whether models can actually retrieve and connect information spread across very long inputs. A well-known failure mode here is "lost-in-the-middle" where a model handles the beginning and end of a document fine but loses track of content buried deeper inside.
+
+The **OpenAI MRCR v2** (Multi-Round Coreference Resolution) is a newer long-context benchmark that tests whether models can track and resolve references across very long contexts. GPT-6 Astra achieves 100% on the 8-needle 256K-512K variant and 96.3% on the 512K-1M variant, demonstrating near-perfect recall across million-token contexts:
 
 ### Vision and multimodal reasoning
 The models that handle both images and text are called **vision-language models (VLMs)**. **MMMU** (Massive Multidisciplinary Multimodal Understanding) is the standard: college-level questions across six disciplines that require genuinely understanding images, not just reading captions. Top VLMs score in the 75–86% range, with room still to improve. More specific benchmarks test narrower skills:
@@ -377,6 +515,38 @@ A model that scores well on GPQA Diamond may still struggle on MedQA, because cl
 
 As frontier labs compete for enterprise use cases, domain-specific benchmarks are becoming a primary differentiator. Choosing a model for a specialized deployment increasingly means running it through the relevant domain benchmark, not just checking its MMLU or Arena Elo score.
 
+### Cybersecurity Benchmarks
+
+As AI models gain the ability to identify and exploit software vulnerabilities, cybersecurity benchmarks have become critical for evaluating both capability and safety. These benchmarks test whether models can find and develop exploits for real software vulnerabilities.
+
+| Benchmark | What it tests | GPT-6 Astra | Claude Fable 5.1 | Status |
+| - | - | - | - | - |
+| **ExploitBench** | Turning known vulnerabilities into working exploits | 100.0% | — | Active |
+| **ExploitGym** | Exploit development in challenging environments | 42.4% | 30.4% | Active |
+| **SRE-Bench** | Reverse engineering binaries without source code | 88.0% | — | Active |
+| **SEC-Bench Pro** | Security vulnerability identification | 85.4% | — | Active |
+{:.mbtablestyle}
+
+GPT-6 Astra's 100% score on ExploitBench and discovery of previously unknown zero-day vulnerabilities during evaluation represent a significant jump in cyber capabilities. Claude Mythos 5.1 (Fable with fewer safeguards) achieves 30.4% on ExploitGym.
+
+### Science & Health Benchmarks
+
+AI models are increasingly being used for scientific research and healthcare applications. These benchmarks evaluate domain-specific knowledge and reasoning in biology, medicine, and chemistry.
+
+| Benchmark | What it tests | GPT-6 Astra | Claude Fable 5.1 | Status |
+| - | - | - | - | - |
+| **HealthBench Professional** | Clinical reasoning and medical knowledge | 63.4% | 58.1% | Active |
+| **LifeSciBench** | Life sciences research tasks | 60.3% | — | Active |
+| **GeneBench Pro** | Genomics and genetics knowledge | 37.1% | — | Active |
+| **MedChemBench** | Medicinal chemistry reasoning | 49.3% | — | Active |
+{:.mbtablestyle}
+
+Claude Fable 5.1 and Mythos 5.1 also demonstrated significant scientific research capabilities, including designing high-affinity protein binders with nearly 50% hit rate and creating a new high-resolution elevation map of Venus from NASA Magellan radar data.
+
+### OpenScore String Quartets
+
+OpenScore String Quartets evaluates optical music recognition (OMR), the ability to convert images of sheet music into machine-readable notation. GPT-6 Astra achieves 0.84 on the OMR-NED metric, compared to 0.19 for GPT-5.6 Sol, representing a major advance in multimodal understanding of specialized document types.
+
 ## Why Benchmarks Break Down
 
 Running through each domain makes clear how much progress the field has made. But it also reveals a deeper problem: benchmarks have a shelf life, and that shelf life is shrinking.
@@ -406,7 +576,7 @@ The response to these problems is a shift toward dynamic benchmarks like LiveBen
 </div>
 </div>
 
-## Where the Frontier Stands (Mid-2026)
+## Where the Frontier Stands (September 2026)
 
 Putting it all together, here is the current state across the key benchmarks:
 
@@ -414,25 +584,35 @@ Putting it all together, here is the current state across the key benchmarks:
 | - | - | - | - | - |
 | MMLU | Knowledge breadth | 92.5% | Multiple | Saturated |
 | MMLU-Pro | Graduate knowledge | 90% | Gemini 3 Pro Preview | Near-saturated |
-| GPQA Diamond | PhD-level science | 94.3% | Gemini 3.1 Pro | Active, saturating |
-| HLE | Knowledge frontier | 59.0% | Claude Fable 5 | Active, fast-improving |
-| AIME 2025 | Competition math | 100% | Multiple | Saturated |
-| FrontierMath | Research math | ~52% | GPT-5.5 Pro | Active |
-| ARC-AGI-2 | Fluid reasoning | ~85% | GPT-5.5 | Active, fast-improving |
+| GPQA Diamond | PhD-level science | 96.0% | GPT-6 Astra | Active, saturating |
+| HLE | Knowledge frontier | 65.0% | Claude Fable 5.1 (with tools) | Active, fast-improving |
+| FrontierMath Tier 4 v2 | Research math | 97.6% | GPT-6 Astra | Saturated |
+| ARC-AGI-3 | Interactive reasoning | 99.95% | GPT-6 Astra (Provider Adapter) | Saturated |
+| ARC-AGI-2 | Fluid reasoning | 95.0% | GPT-6 Astra | Active |
 | SWE-bench Pro | Agentic coding | 80.3% | Claude Fable 5 | Active, saturating |
-| TerminalBench 2.1 | Agentic terminal ops | 83.4% | GPT-5.5 (Codex CLI) | New, active |
-| FrontierCode | Research-level coding | 29.3% | Claude Fable 5 | Wide-open |
-| OSWorld | Agentic computer tasks | 85.0% | Claude Fable 5 | Active |
+| Terminal-Bench 4.0 | Agentic terminal ops | 57.9% | GPT-6 Astra | Active |
+| Terminal-Bench Science 0.1 | Scientific coding | 64.6% | GPT-6 Astra | New, active |
+| FrontierCode 1.1 | Research-level coding | 64.9% | Claude Fable 5 | Active |
+| OSWorld | Agentic computer tasks | 72.6% | GPT-6 Astra | Active |
+| BrowseComp | Web browsing | 91.5% | GPT-6 Astra | Active |
+| Agents' Last Exam | Professional agentic tasks | 59.3% | GPT-6 Astra | Active |
+| BenchCAD | 3D CAD reconstruction | 95.9% | GPT-6 Astra | Active |
+| CursorBench 3.2.0 | IDE coding agent | 73.4% | Claude Fable 5.1 | Active |
+| AutomationBench | Business automation | 41.4% | GPT-6 Astra | Active, wide-open |
+| ExploitBench | Cybersecurity | 100.0% | GPT-6 Astra | Saturated |
+| HealthBench Professional | Medical reasoning | 63.4% | GPT-6 Astra | Active |
 | Arena Elo | Human preference | ~1,510 | Claude Fable 5 | Converged |
 {:.mbtablestyle}
 
-No model leads across all benchmarks. ARC-AGI-2 remains genuinely wide open. The agentic benchmarks, TerminalBench and OSWorld, are where the most active competition is happening right now.
+No model leads across all benchmarks. GPT-6 Astra dominates in abstract reasoning (ARC-AGI-3 at 99.9%), mathematics (FrontierMath Tier 4 at 97.6%), and cybersecurity (ExploitBench at 100%), while Claude Fable 5.1 leads on HLE with tools (65.0%) and CursorBench (73.4%). The agentic benchmarks, Terminal-Bench 4.0, OSWorld, and Agents' Last Exam, are where the most active competition is happening right now.
 
 {% include interactive/frontier-ai-benchmarks-benchmark_radar.html %}
 
 ## Conclusion
 
 Benchmarking frontier AI models is a fast-changing field that requires regular updates. Tests saturate, harder ones replace them, and the cycle repeats faster each year. No single benchmark tells the full story, and no single model leads across all domains.
+
+The September 2026 releases of GPT-6 Astra and Claude Fable 5.1 have pushed several benchmarks to saturation: FrontierMath Tier 4 (97.6%), ARC-AGI-3 (99.9%), and ExploitBench (100%). Meanwhile, benchmarks like Terminal-Bench 4.0, AutomationBench, and the science/health benchmarks remain wide open with significant room for improvement.
 
 Choosing a model is less about finding the highest score and more about matching capability to use case, whether that's knowledge reasoning, coding, agentic tasks, vision, or a specific domain like medicine or law.
 
@@ -446,29 +626,37 @@ And if history is any guide, the benchmarks you read about today will be obsolet
 - [Leaderboard: MMLU-Pro](https://huggingface.co/spaces/TIGER-Lab/MMLU-Pro)
 - [Paper: GPQA, A Graduate-Level Google-Proof Q&A Benchmark](https://arxiv.org/abs/2311.12022)
 - [Leaderboard: GPQA Diamond](https://epoch.ai/benchmarks/gpqa-diamond?view=graph&tab=release-date)
-- [Paper: Humanity’s Last Exam](https://arxiv.org/pdf/2501.14249)
+- [Paper: Humanity's Last Exam](https://arxiv.org/pdf/2501.14249)
 - [Leaderboard: Humanity's Last Exam](https://labs.scale.com/leaderboard/humanitys_last_exam)
 - [Paper: LiveBench, A Challenging, Contamination-Free LLM Benchmark](https://arxiv.org/abs/2406.19314)
 - [Paper: GSM8K, Training Verifiers to Solve Math Word Problems](https://arxiv.org/abs/2110.14168)
 - [Website: HellaSwag](https://rowanzellers.com/hellaswag/)
 - [Paper: FrontierMath, A Benchmark for Evaluating Advanced Mathematical Reasoning in AI](https://arxiv.org/abs/2411.04872)
+- [Website: FrontierMath EpochAI](https://epoch.ai/frontiermath/tiers-1-4?view=graph&tab=leaderboard&tier=Tier+4+%28v2%29)
 - [Paper: ARC-AGI-2](https://arxiv.org/pdf/2505.11831)
-- [Leaderboard: ARC-AGI-2](https://arcprize.org/leaderboard)
+- [Paper: ARC-AGI-3](https://arxiv.org/pdf/2603.24621)
+- [Leaderboard: ARC-AGI](https://arcprize.org/leaderboard)
 - [Paper: HumanEval, Evaluating Large Language Models Trained on Code](https://arxiv.org/abs/2107.03374)
 - [Paper: SWE-Bench, Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770)
 - [Leaderboard: SWE-Bench Verified vals.ai](https://www.vals.ai/benchmarks/swebench)
 - [Leaderboard: SWE-Bench Pro](https://labs.scale.com/leaderboard/swe_bench_pro_public)
 - [Blog: FrontierCode](https://cognition.com/blog/frontier-code)
 - [Paper: OSWorld, Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments](https://arxiv.org/abs/2404.07972)
+- [Paper: Agents' Last Exam](https://arxiv.org/abs/2606.05405)
+- [Leaderboard: Agents' Last Exam](https://agents-last-exam.org/leaderboard)
+- [Paper: BenchCAD](https://arxiv.org/pdf/2605.10865)
+- [Leaderboard: BenchCAD](https://benchcad.com/leaderboard.html)
 - [Paper: MMMU, A Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark](https://arxiv.org/abs/2311.16502)
 - [Paper: Chatbot Arena, An Open Platform for Evaluating LLMs by Human Preference](https://arxiv.org/abs/2403.04132)
 - [Leaderboard: Chatbot Arena](https://openlm.ai/chatbot-arena/)
 - [Paper: Terminal-Bench](https://arxiv.org/pdf/2601.11868)
-- [Leaderboard: Terminal-Bench 2.1](https://www.tbench.ai/leaderboard/terminal-bench/2.1)
+- [Leaderboard: Terminal-Bench 4.0](https://www.tbench.ai/leaderboard/terminal-bench/4.0)
 - [Paper: TruthfulQA, Measuring How Models Mimic Human Falsehoods](https://arxiv.org/abs/2109.07958)
 - [Paper: A StrongREJECT for Empty Jailbreaks](https://arxiv.org/abs/2402.10260)
 - [Paper: MedQA, What Disease does this Patient Have?](https://arxiv.org/abs/2009.13081)
 - [Paper: LegalBench, A Collaboratively Built Benchmark for Measuring Legal Reasoning in LLMs](https://arxiv.org/abs/2308.11462)
 - [Paper: FinanceBench, A New Benchmark for Financial Question Answering](https://arxiv.org/abs/2311.11944)
+- [Blog: GPT-6 Astra: A new generation of intelligence](https://openai.com/index/gpt-6-astra/)
+- [Blog: Introducing Claude Fable 5.1 and Claude Mythos 5.1](https://www.anthropic.com/claude-fable-and-mythos-5-1)
 - [Blog: Claude Fable 5 and Claude Mythos 5](https://www.anthropic.com/news/claude-fable-5-mythos-5)
 - [Blog: reviewing GPT‑5.6 Sol: a next-generation model](https://openai.com/index/previewing-gpt-5-6-sol/)
