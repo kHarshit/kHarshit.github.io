@@ -298,6 +298,10 @@ The SWE-Bench measures: *Given a real GitHub codebase and a bug report, can the 
 
 FrontierCode (by Cognition) evaluates whether the model can write production-quality code that would eventually get merged by benchmarking it against PR rubrics. It measures correctness, test quality, scope discipline, style, and adherence to codebase standards. 
 
+{% include img.html src="/img/blog/frontier-ai-benchmarks/frontiercode.jpg" caption="FrontierCode grading pipeline (source: FrontierCode website)" %}
+
+**DeepSWE v1.1** evaluates agentic software engineering capabilities on 113 original, long-horizon tasks across 91 active open-source repositories in five languages (TypeScript, Go, Python, JavaScript, Rust). Unlike SWE-bench which mines merged PRs and risks contamination, DeepSWE tasks are written from scratch and never contributed upstream, keeping solutions out of training data. Each task is graded by hand-written functional verifiers rather than inherited test suites. On a matched audit, an independent LLM judge disagrees with DeepSWE's verifier just 1.4% of the time, compared to 32.4% for SWE-Bench Pro's inherited tests. Despite prompts being ~half the length of SWE-Bench Pro's, reference solutions touch 5.5x more code, requiring ~2x more output tokens.
+
 | Model | FrontierCode 1.1 Extended | FrontierCode 1.1 Main | DeepSWE v1.1 |
 | - | - | - | - |
 | GPT-6 Astra | 64.5% | 53.3% | 74.1% |
@@ -306,10 +310,6 @@ FrontierCode (by Cognition) evaluates whether the model can write production-qua
 | Claude Opus 5 | 63.6% | 53.4% | 73.7% |
 | GPT-5.6 Sol | 60.6% | 47.5% | 72.7% |
 {:.mbtablestyle}
-
-DeepSWE v1.1 evaluates agentic software engineering capabilities, with GPT-6 Astra leading at 74.1%.
-
-{% include img.html src="/img/blog/frontier-ai-benchmarks/frontiercode.jpg" caption="FrontierCode grading pipeline (source: FrontierCode website)" %}
 
 ## Agentic & Tool-Use Capability
 
