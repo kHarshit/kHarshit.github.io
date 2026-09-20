@@ -31,24 +31,38 @@
         <meta property="og:description" content="{{ _og_desc }}">
         <meta property="og:type" content="{% if page.layout == 'post' or page.layout == 'poem' or page.layout == 'music' %}article{% else %}website{% endif %}">
         <meta property="og:url" content="{{ page.url | absolute_url }}">
-        {% assign og_image = site.url | append: "/img/site/harshit_nu.jpeg" %}
-        {% if page.layout == 'poem' and page.img_source %}
-          {% if page.img_source contains 'http' %}
-            {% assign og_image = page.img_source %}
-          {% else %}
-            {% assign og_image = site.url | append: page.img_source %}
-          {% endif %}
+        {% comment %}
+          og:image — an explicit `image:` in front matter wins, then the poem hero,
+          then the first usable image in the post body.
+
+          Only <img> tags are inspected: searching the rendered content for a bare
+          `src="` also matches <script>, <video> and <source>, which produced cards
+          pointing at .js and .webm files. SVG is skipped too, since Twitter and
+          Facebook will not render it in a card. Anything unusable falls through to
+          the site image rather than shipping a broken card.
+        {% endcomment %}
+        {% assign og_image = "/img/site/harshit_nu.jpeg" | absolute_url %}
+        {% assign _og_src = "" %}
+        {% if page.image %}
+          {% assign _og_src = page.image %}
+        {% elsif page.layout == 'poem' and page.img_source %}
+          {% assign _og_src = page.img_source %}
         {% elsif page.layout == 'post' %}
-          {% assign _img_split = page.content | split: 'src="' %}
-          {% if _img_split.size > 1 %}
-            {% assign _img_src = _img_split[1] | split: '"' | first %}
-            {% unless _img_src contains 'http' %}
-              {% assign og_image = site.url | append: _img_src %}
-            {% else %}
-              {% assign og_image = _img_src %}
-            {% endunless %}
-          {% endif %}
+          {% assign _img_chunks = page.content | split: '<img' %}
+          {% for _chunk in _img_chunks offset: 1 %}
+            {% assign _tag = _chunk | split: '>' | first %}
+            {% if _tag contains 'src="' %}
+              {% assign _src = _tag | split: 'src="' | last | split: '"' | first | strip %}
+              {% assign _ext = _src | split: '?' | first | split: '.' | last | downcase %}
+              {% if _ext == 'png' or _ext == 'jpg' or _ext == 'jpeg' or _ext == 'gif' or _ext == 'webp' %}
+                {% assign _og_src = _src %}
+                {% break %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
         {% endif %}
+        {% comment %}absolute_url leaves already-absolute URLs untouched and normalises the rest.{% endcomment %}
+        {% if _og_src != "" %}{% assign og_image = _og_src | absolute_url %}{% endif %}
         <meta property="og:image" content="{{ og_image }}">
         <!-- Twitter Card -->
         <meta name="twitter:card" content="{% if page.layout == 'post' or page.layout == 'poem' or page.layout == 'music' %}summary_large_image{% else %}summary{% endif %}">
