@@ -16,7 +16,7 @@ In the above example, the month when the sale of ice cream is high plays a signi
 
 Have a look at another example<sup id="a2">[2](#myfootnote2)</sup>.
 
-<img src="/img/blog/correlation-is-not-causation/correlation.png" style="display: block; margin: auto; width: auto; max-width: 100%;">  
+<img src="/img/blog/correlation-is-not-causation/correlation.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="2080" height="820">  
 
 The correlation between divorce rate in Maine and per capita consumption of margarine tempts us to believe that consumption of margarine causes divorce, which is incorrect.
 
@@ -26,7 +26,7 @@ On the other hand, Tufte states that saying *Correlation is not causation* is in
 > &mdash; <cite>Tufte</cite>
 
 
-<img src="https://imgs.xkcd.com/comics/correlation.png" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="https://imgs.xkcd.com/comics/correlation.png" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async">
 <div style="text-align: center">
 <figcaption>xkcd: <a href="https://xkcd.com/552/">Correlation</a></figcaption></div>
 

@@ -208,7 +208,7 @@ We can integrate our code with some frontend e.g. with Dash to have chatbot like
 
 <div style="text-align: center">
 <figure>
-<img src="/img/blog/rag/rag_chatbot_10q.png" style="display: block; margin: auto;  max-width: 80%;">
+<img src="/img/blog/rag/rag_chatbot_10q.png" style="display: block; margin: auto;  max-width: 80%;" loading="eager" decoding="async" width="1600" height="1139">
 <figcaption>RAG Chatbot</figcaption>
 </figure>
 </div>

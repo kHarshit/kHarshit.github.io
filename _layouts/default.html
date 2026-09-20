@@ -76,24 +76,12 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="preconnect" href="https://cdnjs.cloudflare.com">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/css/variables.css">
-        <link rel="stylesheet" href="/css/base.css">
-        <link rel="stylesheet" href="/css/header.css">
-        <link rel="stylesheet" href="/css/homepage.css">
-        <link rel="stylesheet" href="/css/timeline.css">
-        <link rel="stylesheet" href="/css/sidebar.css">
-        <link rel="stylesheet" href="/css/blog.css">
-        <link rel="stylesheet" href="/css/blog-list.css">
-        <link rel="stylesheet" href="/css/projects.css">
-        <link rel="stylesheet" href="/css/post.css">
-        <link rel="stylesheet" href="/css/components.css">
-        <link rel="stylesheet" href="/css/chat.css">
-        <link rel="stylesheet" href="/css/misc.css">
-        <link rel="stylesheet" href="/css/responsive.css">
-        <link rel="stylesheet" href="/css/syntax.css">
+        <link rel="stylesheet" href="/css/main.css">
         {% if page.layout == 'poem' %}<link rel="stylesheet" href="/css/poems.css">{% endif %}
         {% if page.layout == 'music' %}<link rel="stylesheet" href="/css/music.css">{% endif %}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        {% comment %}Font Awesome is icon-only, so load it without blocking the first paint.{% endcomment %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all';this.onload=null;">
+        <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
         <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
 
         <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
@@ -185,7 +173,7 @@
                             <span>Harshit Kumar {{ 'now' | date: "%Y" }}</span>
                             <a href="/about_site">About this site</a>
                             <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
-                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png">
+                                <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" width="80" height="15" loading="lazy" decoding="async">
                             </a>
                         </div>
                     </div>
@@ -194,7 +182,7 @@
 
             <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa-solid fa-chevron-up"></span></button>
             <script>window.GITHUB_TOKEN = "{{ site.github_contact_token }}"; window.GITHUB_REPO = "{{ site.github_contact_repo }}";</script>
-            <script src="/js/site/script.js"></script>
+            <script src="/js/site/script.js" defer></script>
         </div>
     </body>
 </html>

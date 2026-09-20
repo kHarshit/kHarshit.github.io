@@ -83,7 +83,7 @@ Dynamic programming differs from [greedy algorithms]({% post_url 2017-11-03-gree
 * Longest Common Subsequence
 
 <figcaption style="text-align: center;">Travelling Salesman Problem</figcaption>
-<img src="https://imgs.xkcd.com/comics/travelling_salesman_problem.png " style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="https://imgs.xkcd.com/comics/travelling_salesman_problem.png " style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async">
 
 **References:**  
 <a name="#" />1. Introduction to algorithms / Thomas H. Cormen . . . [et al.].—3rd ed.  

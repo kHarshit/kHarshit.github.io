@@ -19,6 +19,10 @@ github:
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
 
+sass:
+  style: compressed
+  sourcemap: never
+
 
 # GitHub token and repo for the chatbot contact widget on the homepage sidebar.
 # When a visitor completes the chat, their message (name, email, topic, extra notes)

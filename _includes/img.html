@@ -1,7 +1,12 @@
+{% comment %}
+  Post image. Pass `lcp=true` for an image that is likely above the fold so it
+  is fetched eagerly instead of lazily.
+{% endcomment %}
+{% if include.lcp %}{% assign _loading = "eager" %}{% else %}{% assign _loading = "lazy" %}{% endif %}
 {% if include.caption %}
 <figure class="mbimgstyle"{% if include.width %} style="--img-width: {{ include.width }}; --img-caption: '{{ include.caption }}';"{% else %} style="--img-caption: '{{ include.caption }}';"{% endif %}>
-<img src="{{ include.src }}" alt="{{ include.caption }}">
+<img src="{{ include.src }}" alt="{{ include.caption }}" loading="{{ _loading }}" decoding="async">
 </figure>
 {% else %}
-<img src="{{ include.src }}" alt="{{ include.alt }}" class="mbimgstyle"{% if include.width %} style="--img-width: {{ include.width }};"{% endif %}>
+<img src="{{ include.src }}" alt="{{ include.alt }}" class="mbimgstyle" loading="{{ _loading }}" decoding="async"{% if include.width %} style="--img-width: {{ include.width }};"{% endif %}>
 {% endif %}

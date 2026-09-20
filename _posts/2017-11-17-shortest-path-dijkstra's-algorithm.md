@@ -25,7 +25,7 @@ Dijkstra's algorithm is a [greedy algorithm]({{ site.url }}{% link _posts/2017-1
 *Note* that all the edges must have non-negative weights otherwise the algorithm doesn't work.
 
 <div style="text-align: center">
-<a href="https://commons.wikimedia.org/wiki/File:Dijkstra_Animation.gif#/media/File:Dijkstra_Animation.gif"><img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif" alt="Dijkstra's algorithm runtime" height="222" width="283"></a>
+<a href="https://commons.wikimedia.org/wiki/File:Dijkstra_Animation.gif#/media/File:Dijkstra_Animation.gif"><img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif" alt="Dijkstra's algorithm runtime" height="222" width="283" loading="eager" decoding="async"></a>
 <figcaption>Dijkstra's algorithm to find the shortest path between a and b. It picks the unvisited vertex with the lowest distance, calculates the distance through it to each unvisited neighbor, and updates the neighbor's distance if smaller.</figcaption>
 </div>
 

@@ -332,6 +332,9 @@
 
 .post-content img {
     max-width: 100%;
+    /* Paired with the width/height attributes on post images: lets the browser
+       reserve the right box before load without squashing wide images. */
+    height: auto;
     border-radius: 8px;
     display: block;
     margin: 1.5rem auto;

@@ -47,7 +47,8 @@ layout: default
 
         <div class="poem-body">
             {% if page.img_source %}
-            <img src="{{ page.img_source }}" alt="{{ page.title }}" loading="lazy" class="poem-hero-img">
+            {% comment %}Hero image is preloaded in <head> and is the LCP element, so fetch it eagerly.{% endcomment %}
+            <img src="{{ page.img_source }}" alt="{{ page.title }}" fetchpriority="high" decoding="async" class="poem-hero-img">
             {% endif %}
             {{ content }}
 
@@ -120,8 +121,8 @@ layout: default
         {% include giscus.html %}
     </div>
 
-    <script src="/js/site/soundscape.js"></script>
-    <script src="/js/site/poem.js"></script>
+    <script src="/js/site/soundscape.js" defer></script>
+    <script src="/js/site/poem.js" defer></script>
 
 </div>
 </main>

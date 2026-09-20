@@ -89,8 +89,9 @@
             current = item;
           }
         });
+        // current stays null while scrolled above the first heading.
         tocLinks.forEach(function(item) {
-          item.link.classList.toggle('active', item.link === current.link);
+          item.link.classList.toggle('active', current !== null && item.link === current.link);
         });
       }
 

@@ -45,7 +45,7 @@ ax[1].set_title("Scaled data")
 plt.show()
 {% endhighlight %}
 
-<img src="/img/blog/scaling-vs-normalization/scaling.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/scaling-vs-normalization/scaling.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="640" height="478">
 
 
 ## Normalization and Standardization
@@ -54,7 +54,7 @@ The point of normalization is to change your observations so that they can be de
 
 Normal distribution (Gaussian distribution), also known as the **bell curve**, is a specific statistical distribution where a roughly equal observations fall above and below the mean, the mean and the median are the same, and there are more observations closer to the mean.
 
-<a href="https://commons.wikimedia.org/wiki/File:The_Normal_Distribution.svg#/media/File:The_Normal_Distribution.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/2/25/The_Normal_Distribution.svg" alt="The Normal Distribution.svg" style="display:block; margin: auto; width:80%; max-width:100%"></a>
+<a href="https://commons.wikimedia.org/wiki/File:The_Normal_Distribution.svg#/media/File:The_Normal_Distribution.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/2/25/The_Normal_Distribution.svg" alt="The Normal Distribution.svg" style="display:block; margin: auto; width:80%; max-width:100%" loading="lazy" decoding="async"></a>
 
 ***Note:** The above definition is as per statistics. There are various types of normalization. In fact, min-max scaling can also be said to a type of normalization. In machine learning, the following are most commonly used.*
 
@@ -70,7 +70,7 @@ The z-score comes from statistics, defined as
 
 $$z = \frac{x - \mu}{\sigma}$$
 
-<img src="/img/blog/scaling-vs-normalization/standardization.gif" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/scaling-vs-normalization/standardization.gif" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="472" height="319">
 
 where $$\mu$$ is the mean. By subtracting the mean from the distribution, we're essentially shifting it towards left or right by amount equal to mean i.e. if we have a distribution of mean 100, and we subtract mean 100 from every value, then we shift the distribution left by 100 without changing its shape. Thus, the new mean will be 0. When we divide by standard deviation $$\sigma$$, we're changing the shape of distribution. The new standard deviation of this standardized distribution is 1 which you can get putting the new mean, $$\mu = 0$$ in the z-score equation.
 
@@ -89,7 +89,7 @@ ax[1].set_title("Standardized data")
 plt.show()
 {% endhighlight %}
 
-<img src="/img/blog/scaling-vs-normalization/standardization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/scaling-vs-normalization/standardization.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="640" height="478">
 
 ## #2
 
@@ -110,11 +110,11 @@ ax[1].set_title("Normalized data")
 plt.show()
 {% endhighlight %}
 
-<img src="/img/blog/scaling-vs-normalization/normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/scaling-vs-normalization/normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="640" height="478">
 
 You need to normalize our data if you're going use a machine learning or statistics technique that assumes that data is normally distributed e.g. t-tests, ANOVAs, linear regression, linear discriminant analysis (LDA) and Gaussian Naive Bayes. 
 
-<img src="/img/blog/scaling-vs-normalization/scaling_vs_normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="/img/blog/scaling-vs-normalization/scaling_vs_normalization.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="960" height="479">
 
 ## Applications
 

@@ -16,7 +16,7 @@ A greedy algorithm always makes the choice that looks best at the moment i.e. it
 **NOTE:** Greedy algorithm do not always yield optimal solutions, but for many problems they do.
 
 <figure>
-<img src="/img/blog/greedy-algorithms/greedy-search-path-example.gif" style="display: block; margin: auto; width: auto; max-width: 100%;"> 
+<img src="/img/blog/greedy-algorithms/greedy-search-path-example.gif" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="300" height="180"> 
 <figcaption>
 With a goal of reaching the largest-sum, at each step, the greedy algorithm will choose what appears to be the optimal immediate choice, so it will choose 12 instead of 3 at the second step, and will not reach the best solution, which contains 99.</figcaption>
 </figure> 
@@ -42,7 +42,7 @@ In other words, a greedy algorithm never reconsiders its choices.
 * Huffman coding for data compression
 
 <div style="text-align: center">
-    <a title="By Ken10311120 (Own work) [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AHuffman_algorithm.gif"><img width="256" alt="Huffman algorithm" src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Huffman_algorithm.gif"/>
+    <a title="By Ken10311120 (Own work) [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AHuffman_algorithm.gif"><img width="256" alt="Huffman algorithm" src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Huffman_algorithm.gif" loading="lazy" decoding="async" />
     <figcaption>Huffman coding</figcaption></a>
 </div>
 

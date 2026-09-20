@@ -29,7 +29,7 @@ Some better algorithms exist to test the primality of a number.
 Coming back to *The Fundamental Theorem of Arithmetic*, $$98$$ can be written as $$2\,.\,7^2$$. There is no other way to factor it.
 
 
-<img src="https://imgs.xkcd.com/comics/factoring_the_time.png" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;">
+<img src="https://imgs.xkcd.com/comics/factoring_the_time.png" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async">
 <div style="text-align: center">
     <figcaption>xkcd: <a href="https://xkcd.com/247/">Factoring the Time</a></figcaption>
 </div>
