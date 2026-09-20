@@ -1,14 +1,19 @@
 <nav aria-label="Main navigation">
     <ul>
-        <li{% if page.url == "/" %} class="current"{% endif %}><a href="{{ site.url }}">Home</a></li>
-        <li{% if page.url contains "/projects" %} class="current"{% endif %}><a href="/projects">Projects</a></li>
-        <li{% if page.url contains "/blog" or page.url contains "/categories" or page.layout == "post" or page.layout == "category" %} class="current"{% endif %}><a href="/blog">Blog</a></li>
+        <li{% if page.url == "/" %} class="current"{% endif %}><a href="{{ site.url }}"{% if page.url == "/" %} aria-current="page"{% endif %}>Home</a></li>
+        <li{% if page.url contains "/projects" %} class="current"{% endif %}><a href="/projects"{% if page.url contains "/projects" %} aria-current="page"{% endif %}>Projects</a></li>
+        <li{% if page.url contains "/blog" or page.url contains "/categories" or page.layout == "post" or page.layout == "category" %} class="current"{% endif %}><a href="/blog"{% if page.url contains "/blog" or page.url contains "/categories" or page.layout == "post" or page.layout == "category" %} aria-current="page"{% endif %}>Blog</a></li>
         <li class="nav-dropdown{% if page.url contains "/poems" or page.url contains "/books" or page.url contains "/music" or page.layout == "poem" or page.layout == "music" %} current{% endif %}">
-            <a href="#" class="nav-dropdown-toggle" aria-haspopup="true">More ▾</a>
-            <ul class="nav-dropdown-menu">
-                <li{% if page.url contains "/poems" or page.layout == "poem" %} class="current"{% endif %}><a href="/poems">Poems</a></li>
-                <li{% if page.url contains "/books" %} class="current"{% endif %}><a href="/books">Books</a></li>
-                <li{% if page.url contains "/music" or page.layout == "music" %} class="current"{% endif %}><a href="/music">Music</a></li>
+            {% comment %}
+              A button rather than a dummy link: this opens a menu, it does not
+              navigate. Keyboard users get it via Tab + Enter/Space, and the CSS
+              also opens it on :focus-within so tabbing straight through works.
+            {% endcomment %}
+            <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-controls="nav-more-menu">More <span aria-hidden="true">&#9662;</span></button>
+            <ul class="nav-dropdown-menu" id="nav-more-menu">
+                <li{% if page.url contains "/poems" or page.layout == "poem" %} class="current"{% endif %}><a href="/poems"{% if page.url contains "/poems" or page.layout == "poem" %} aria-current="page"{% endif %}>Poems</a></li>
+                <li{% if page.url contains "/books" %} class="current"{% endif %}><a href="/books"{% if page.url contains "/books" %} aria-current="page"{% endif %}>Books</a></li>
+                <li{% if page.url contains "/music" or page.layout == "music" %} class="current"{% endif %}><a href="/music"{% if page.url contains "/music" or page.layout == "music" %} aria-current="page"{% endif %}>Music</a></li>
             </ul>
         </li>
     </ul>

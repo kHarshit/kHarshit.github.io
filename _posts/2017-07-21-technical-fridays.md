@@ -6,7 +6,7 @@ categories: [Personal]
 excerpt: "Introducing Technical Fridays, a weekly technical writing series covering topics from data science to algorithms."
 ---
 
-<img src="/img/blog/technical-fridays/technical_fridays.gif" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="480" height="270">
+<img alt="Animated 'Technical Fridays' banner" src="/img/blog/technical-fridays/technical_fridays.gif" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="480" height="270">
 
 From today, I'll start technical writing. I have never written blog posts before, though I always wanted to. To be able to write has been the primary purpose and motivation for building this blog for me.
 

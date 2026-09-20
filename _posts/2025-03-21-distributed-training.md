@@ -273,7 +273,7 @@ Pipeline Parallelism Steps:
 6. Optimizer updates are applied (per stage or globally, depending on setup).
 7. Repeat for next global mini-batch.
 
-{% include img.html src="/img/blog/distributed-training/pipeline_data_parallelism3.jpg" width="75%" %}
+{% include img.html src="/img/blog/distributed-training/pipeline_data_parallelism3.jpg" alt="Pipeline stages combined with data-parallel replicas, with activations passed between stages" width="75%" %}
 
 {% include img.html src="/img/blog/distributed-training/pipeline_data_parallelism.jpg" width="50%" caption="Combining Pipeline and Data Parallelism" %}
 
@@ -350,7 +350,7 @@ Shards all model states (optimizer, gradients, and model parameters). During com
 
 Each GPU permanently stores only its own parameter shard, gradient shard, and optimizer shard. It gather the full parameters as needed and free them immediately after computation.
 
-{% include img.html src="/img/blog/distributed-training/zero_example1.jpg" width="70%" %}
+{% include img.html src="/img/blog/distributed-training/zero_example1.jpg" alt="ZeRO Stage 3 sharding parameters, gradients and optimizer state across GPUs" width="70%" %}
 
 {% include img.html src="/img/blog/distributed-training/zero_example2.jpg" width="70%" caption="ZeRO Stage 3 Example" %}
 

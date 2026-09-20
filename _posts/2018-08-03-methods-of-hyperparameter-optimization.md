@@ -32,7 +32,7 @@ Grid best score (accuracy):  0.98
 
 Random search searches the grid space randomly instead of doing exhaustive search i.e. it tries randomly selected combinations of parameters. In case of deep learning algorithms, it outperforms grid search.
 
-<img src="/img/blog/methods-of-hyperparameter-optimization/gridsearchbad.jpeg" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="753" height="367">
+<img alt="Comparison of how grid search and random search cover a hyperparameter space" src="/img/blog/methods-of-hyperparameter-optimization/gridsearchbad.jpeg" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="753" height="367">
 
 Often some of the hyperparameters matter much more than others. Performing random search rather than grid search allows much more precise discovery of good values for the important ones.
 

@@ -35,7 +35,7 @@ where `i` and `j` are the row and column indices of the resulting matrix `C` and
 
 <div style="text-align: center">
 <figure>
-<img src="/img/blog/matrix-multiplication-cuda/cuda_matmul_naive.png" style="display: block; margin: auto;  max-width: 55%;" loading="eager" decoding="async" width="748" height="822">
+<img alt="Naive matrix multiplication: each output element computed from one row and one column" src="/img/blog/matrix-multiplication-cuda/cuda_matmul_naive.png" style="display: block; margin: auto;  max-width: 55%;" loading="eager" decoding="async" width="748" height="822">
 <figcaption>Naive matmul (source: Nvidia CUDA docs)</figcaption>
 </figure>
 </div>
@@ -111,7 +111,7 @@ In CUDA programming model, there is a three-level hierarchy. The threads are the
 
 <div style="text-align: center">
 <figure>
-<img src="/img/blog/matrix-multiplication-cuda/cuda_thread_grid.png" style="display: block; margin: auto;  max-width: 55%;" loading="lazy" decoding="async" width="852" height="414">
+<img alt="CUDA grid of thread blocks mapped onto a matrix" src="/img/blog/matrix-multiplication-cuda/cuda_thread_grid.png" style="display: block; margin: auto;  max-width: 55%;" loading="lazy" decoding="async" width="852" height="414">
 <figcaption>CUDA grid of thread blocks (source: Nvidia CUDA docs)</figcaption>
 </figure>
 </div>
@@ -235,7 +235,7 @@ The previous CUDA kernel uses DRAM, but we can optimize performance by leveragin
 
 <div style="text-align: center">
 <figure>
-<img src="/img/blog/matrix-multiplication-cuda/cuda_matmul_sharedmem.png" style="display: block; margin: auto;  max-width: 55%;" loading="lazy" decoding="async" width="748" height="760">
+<img alt="Tiled matrix multiplication using CUDA shared memory" src="/img/blog/matrix-multiplication-cuda/cuda_matmul_sharedmem.png" style="display: block; margin: auto;  max-width: 55%;" loading="lazy" decoding="async" width="748" height="760">
 <figcaption>Shared memory matmul (source: Nvidia CUDA docs)</figcaption>
 </figure>
 </div>

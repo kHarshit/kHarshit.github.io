@@ -37,7 +37,7 @@ library
 * [ONNX](#ONNX)
 * [Assignment](#Assignment)
 
-# Immediate Vs Deferred execution modes
+## Immediate Vs Deferred execution modes
 
 PyTorch and Tensorflow 2 (by default) uses immediate (eager) mode. It follows the "define by run" principle i.e. you can execute the code as you define it. Consider the below simple example in Python.
 {% highlight python %}
@@ -64,12 +64,12 @@ Dynamic graphs (righ side) can change during successive forward passes. Differen
 
 <div style="text-align: center">
 <figure>
-<img src="/img/blog/pytorch-basics-tutorial/graph_static_dynamic.png" style="display: block; margin: auto;  max-width: 100%;" loading="eager" decoding="async" width="1530" height="542">
+<img alt="A static computation graph on the left and a dynamic computation graph on the right" src="/img/blog/pytorch-basics-tutorial/graph_static_dynamic.png" style="display: block; margin: auto;  max-width: 100%;" loading="eager" decoding="async" width="1530" height="542">
 <figcaption>Source: Deep Learning with PyTorch book</figcaption>
 </figure>
 </div>
 
-# Installation
+## Installation
 
 I recommend creating a conda environment first. Then, follow the steps on [PyTorch Getting Started](https://pytorch.org/get-started/locally/). By default, the PyTorch library contains CUDA code, however, if you're using CPU, you can download a smaller version of it.
 
@@ -86,7 +86,7 @@ You can use [`collect_env.py`](https://raw.githubusercontent.com/pytorch/pytorch
 
 *Note:* This tutorial works fine on PyTorch 1.4, torchvision 0.5.
 
-# Tensors
+## Tensors
 
 You can create and train neural networks in numpy as well. However, you won't be able to use GPU, and will have to write the backward pass of gradient descent yourself, write your layers etc. The deep learning libraries, like PyTorch, solves all these types of problems. In short,
 
@@ -220,7 +220,7 @@ cpu
 
 If you've multiple GPUs, you can specify it using `to.device('cuda:<n>`). Here, `n` (0, 1, 2, ...) denotes GPU number.
 
-# Autograd
+## Autograd
 
 
 automatic differentiation: calculate the gradients of the parameters (W, b) with respect to the loss, L
@@ -229,7 +229,7 @@ It does so by keeping track of operations performed on tensors, then going backw
 
 <div style="text-align: center">
 <figure>
-<img src="/img/blog/pytorch-basics-tutorial/autograd.png" style="display: block; margin: auto;  max-width: 100%;" loading="lazy" decoding="async" width="569" height="640">
+<img alt="Autograd tracking operations on tensors and computing gradients on the backward pass" src="/img/blog/pytorch-basics-tutorial/autograd.png" style="display: block; margin: auto;  max-width: 100%;" loading="lazy" decoding="async" width="569" height="640">
 <figcaption>Source: Deep Learning with PyTorch book</figcaption>
 </figure>
 </div>
@@ -334,7 +334,7 @@ False
 
 Now, we're going to train a simple dog classifier.
 
-# Data loading and augmentation
+## Data loading and augmentation
 
 [`Dataset`](https://pytorch.org/docs/stable/data.html) class is an abstract class representing a dataset.
 
@@ -457,7 +457,7 @@ device(type='cpu')
 
 
 
-# Designing a neural network
+## Designing a neural network
 
 There are two ways we can implement different layers and functions in PyTorch. `torch.nn module` (python class) is a real layer which can be added or connected to other layers or network models. However, `torch.nn.functional` (python function) contains functions  that do some operations, not the layers which have learnable parameters such as weights and bias terms. Still, the choice of using `torch.nn` or `torch.nn.functional` is yours. `torch.nn` is more convenient for methods which have learnable parameters. It keep the network clean.
 
@@ -558,12 +558,12 @@ Estimated Total Size (MB): 113.09
 
 <div style="text-align: center">
 <figure>
-<img src="/img/blog/pytorch-basics-tutorial/tensorboard_dogmodel.png" style="display: block; margin: auto;  max-width: 100%;" loading="lazy" decoding="async" width="768" height="940">
+<img alt="Model graph visualized in TensorBoard" src="/img/blog/pytorch-basics-tutorial/tensorboard_dogmodel.png" style="display: block; margin: auto;  max-width: 100%;" loading="lazy" decoding="async" width="768" height="940">
 <figcaption>Model graph in Tensorboard</figcaption>
 </figure>
 </div>
 
-# Transfer Learning
+## Transfer Learning
 
 [PyTorch transfer learning offical tutorial](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html)
 
@@ -597,7 +597,7 @@ summary(model_transfer, input_size=(3, 224, 224))
 {% endhighlight %}
 
 
-# Training, Validation, and Inference
+## Training, Validation, and Inference
 
 Since, it's a classification problem, we'll use cross-entropy loss function.
 
@@ -784,7 +784,7 @@ def predict_breed_transfer(img_path):
 predict_breed_transfer('dogImages/train/001.Affenpinscher/Affenpinscher_00001.jpg')
 {% endhighlight %}
     
-<img src="/img/blog/pytorch-basics-tutorial/dog_output_Affenpinscher.png" style="display: block; margin: auto;  max-width: 100%;" loading="lazy" decoding="async" width="304" height="231">
+<img alt="Photograph of an Affenpinscher, correctly predicted by the transfer learning model" src="/img/blog/pytorch-basics-tutorial/dog_output_Affenpinscher.png" style="display: block; margin: auto;  max-width: 100%;" loading="lazy" decoding="async" width="304" height="231">
     
 
 {% highlight python %}
@@ -794,7 +794,7 @@ predict_breed_transfer('dogImages/train/001.Affenpinscher/Affenpinscher_00001.jp
 
 
 
-# ONNX
+## ONNX
 
 - [ONNX](https://onnx.ai/) (Open Neural Network Exchange) is an open format to represent models thus allowing interoperability. 
 - It defines a common set of operators (opsets) that a model uses and creates `.onnx` model file that can be converted to various frameworks.
@@ -867,7 +867,7 @@ Exported model has been tested with ONNXRuntime, and the result looks good!
 {% endhighlight %}
 
 
-# Assignment
+## Assignment
 
 ### Assignment 1
 

@@ -53,6 +53,39 @@ document.addEventListener('DOMContentLoaded', function () {
     typeLoop();
   }
 
+  // ── "More" nav dropdown ───────────────────────────────────
+  // CSS opens the menu on :hover and :focus-within; this adds click/tap
+  // toggling (the only thing that works on touch) and Escape to close.
+  (function () {
+    var dropdown = document.querySelector('.nav-dropdown');
+    var toggle = dropdown && dropdown.querySelector('.nav-dropdown-toggle');
+    if (!dropdown || !toggle) return;
+
+    function setOpen(open) {
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // A mouse user who clicked leaves aria-expanded set; clear it on the way out
+    // so hover stays in charge.
+    dropdown.addEventListener('mouseleave', function () { setOpen(false); });
+
+    dropdown.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!dropdown.contains(e.target)) setOpen(false);
+    });
+  })();
+
   // ── Chat widget ────────────────────────────────────────────
   (function() {
     var chatContainer = document.getElementById('chat-container');

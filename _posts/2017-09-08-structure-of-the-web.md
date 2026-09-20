@@ -20,7 +20,7 @@ The two regions of approximately equal size on the two sides of CORE are named a
 
 This structure of web is known as the **Bowtie structure**.
 
-<img src="/img/blog/structure-of-the-web/structure_of_web.gif" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="565" height="420">
+<img alt="Animated bow-tie diagram of the web, showing the IN, giant SCC and OUT components" src="/img/blog/structure-of-the-web/structure_of_web.gif" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="565" height="420">
 
 There are pages that belong to none of `IN`, `OUT`, or `the giant SCC` i.e. they can neither reach the giant SCC nor be reached from it. These are clasified as:
 * `Tendrils`: the nodes reachable from IN that can't reach the giant SCC, and

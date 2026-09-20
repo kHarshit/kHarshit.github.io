@@ -18,7 +18,7 @@ while True:
     weights += -learning_rate * weights_grad  
 {% endhighlight %}
 
-<img src="/img/blog/optimizers/local_minima.png" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="366" height="189">
+<img alt="Loss surface with local minima where stochastic gradient descent can get stuck" src="/img/blog/optimizers/local_minima.png" style="float: right; display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="366" height="189">
 
 There are certain problems with SGD. If the loss function has a local minima or a saddle point, the gradient becomes zero (gradient descent get stuck).
 
@@ -41,7 +41,7 @@ Here, the effect of gradient is to increment the previous velocity. `velocity` i
 
 ## Nesterov momentum
 
-<img src="/img/blog/optimizers/nesterov_momentum.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="625" height="177">
+<img alt="Diagram comparing a standard momentum update with a Nesterov momentum update" src="/img/blog/optimizers/nesterov_momentum.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="625" height="177">
 <figcaption>
     <i style="color:blue;">blue vectors: standard momentum</i>,
     <i style="color:brown;">brown vectors: jump</i>,
@@ -60,7 +60,7 @@ x += -mu * v_prev + (1 + mu) * v # position update changes
 
 ### Learning Rate Decay
 
-<img src="/img/blog/optimizers/lrdecay.png" style="display: block; margin: auto; width: 35%; max-width: 100%;" loading="lazy" decoding="async" width="470" height="460">
+<img alt="Loss curves under different learning rate decay schedules" src="/img/blog/optimizers/lrdecay.png" style="display: block; margin: auto; width: 35%; max-width: 100%;" loading="lazy" decoding="async" width="470" height="460">
 
 Sometimes, the chosen reasonable learning rate can only decrease the error upto a certain value as shown in the figure. In this scenario, it's useful to decrease the learning rate. It's accomplished by using learning rate decay e.g. the learning rate can be decreased by half every 7 epochs.
 

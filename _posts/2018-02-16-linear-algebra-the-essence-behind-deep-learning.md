@@ -27,7 +27,7 @@ For example, in the CIFAR-10 dataset, all pixels in the *i*th image are flattene
 
 <div style="text-align: center">
 <figure>
-<img src="/img/blog/linear-algebra-the-essence-behind-deep-learning/score_fn.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="1223" height="453">
+<img alt="Score function worked through on a 4-pixel image with 3 classes" src="/img/blog/linear-algebra-the-essence-behind-deep-learning/score_fn.jpg" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="1223" height="453">
 <figcaption>The image shows only has 4 pixels and 3 classes.</figcaption>
 </figure>
 </div>

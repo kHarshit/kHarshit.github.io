@@ -15,7 +15,7 @@ An autoencoder is a neural network that learns data representations in an unsupe
 
 For example, in case of MNIST dataset,
 
-<img src="/img/blog/autoencoder:-downsampling-and-upsampling/autoencoder_1.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="703" height="209">
+<img alt="Autoencoder architecture: an encoder compressing to a bottleneck and a decoder reconstructing the input" src="/img/blog/autoencoder:-downsampling-and-upsampling/autoencoder_1.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="703" height="209">
 
 ## Linear autoencoder
 
@@ -49,7 +49,7 @@ class Autoencoder(nn.Module):
 
 In Convolutional autoencoder, the Encoder consists of convolutional layers and pooling layers, which downsamples the input image. The Decoder upsamples the image. The structure of convolutional autoencoder looks like this:
 
-<img src="/img/blog/autoencoder:-downsampling-and-upsampling/autoencoder_3.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="511" height="459">
+<img alt="Convolutional autoencoder, with convolution and pooling in the encoder and upsampling in the decoder" src="/img/blog/autoencoder:-downsampling-and-upsampling/autoencoder_3.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="511" height="459">
 
 Let's review some important operations.
 
@@ -57,21 +57,21 @@ Let's review some important operations.
 
 The normal convolution *(without stride)* operation gives the same size output image as input image e.g. 3x3 kernel (filter) convolution on 4x4 input image with stride 1 and padding 1 gives the same-size output.
 
-<img src="/img/blog/autoencoder:-downsampling-and-upsampling/downsampling1.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="614" height="265">
+<img alt="A 3x3 convolution with stride 1 and padding 1 on a 4x4 input, giving a same-size output" src="/img/blog/autoencoder:-downsampling-and-upsampling/downsampling1.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="614" height="265">
 
 But strided convolution results in downsampling i.e. reduction in size of input image e.g. 3x3 convolution with stride 2 and padding 1 convert image of size 4x4 to 2x2.
 
-<img src="/img/blog/autoencoder:-downsampling-and-upsampling/downsampling.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="581" height="265">
+<img alt="Strided convolution reducing the spatial size of the input" src="/img/blog/autoencoder:-downsampling-and-upsampling/downsampling.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="581" height="265">
 
 ### Upsampling
 
 One of the ways to upsample the compressed image is by **Unpooling** *(the reverse of pooling)* using Nearest Neighbor or by max unpooling.
 
-<img src="/img/blog/autoencoder:-downsampling-and-upsampling/upsampling1.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="398" height="221">
+<img alt="Unpooling upsampling, using nearest neighbour and max unpooling" src="/img/blog/autoencoder:-downsampling-and-upsampling/upsampling1.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="398" height="221">
 
 Another way is to use **transpose convolution**. The convolution operation with strides results in downsampling. The transpose convolution is reverse of the convolution operation. Here, the kernel is placed over the input image pixels. The pixel values are multiplied successively by the kernel weights to produce the upsampled image. In case of overlapping, the values are summed. The kernel weights in upsampling are learned the same way as in convolutional operation that's why it's also called learnable upsampling.
 
-<img src="/img/blog/autoencoder:-downsampling-and-upsampling/upsampling2.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="791" height="340">
+<img alt="Transpose convolution upsampling, with overlapping values summed" src="/img/blog/autoencoder:-downsampling-and-upsampling/upsampling2.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="791" height="340">
 
 One other way is to use nearest-neighbor upsampling and convolutional layers in Decoder instead of transpose convolutional layers. This method prevents checkerboard artifacts in the images, caused by transpose convolution.
 
@@ -79,7 +79,7 @@ One other way is to use nearest-neighbor upsampling and convolutional layers in 
 
 The denoising autoencoder recovers de-noised images from the noised input images. It utilizes the fact that the higher-level feature representations of image are relatively stable and robust to the corruption of the input. During training, the goal is to reduce the regression loss between pixels of original un-noised images and that of de-noised images produced by the autoencoder.
 
-<img src="/img/blog/autoencoder:-downsampling-and-upsampling/autoencoder_denoise.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="608" height="218">
+<img alt="Denoising autoencoder reconstructing a clean image from a noisy input" src="/img/blog/autoencoder:-downsampling-and-upsampling/autoencoder_denoise.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="608" height="218">
 
 There are many other types of autoencoders such as Variational autoencoder (VAE).
 

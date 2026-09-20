@@ -84,7 +84,6 @@ h3.dt-widget-title {
   height: 6px;
   border-radius: 3px;
   background: #e2e8f0;
-  outline: none;
   transition: background 0.15s;
 }
 [data-theme="dark"] .dt-slider {
@@ -125,7 +124,6 @@ h3.dt-widget-title {
   background: var(--bg-color, #fff);
   color: var(--font-color, #333);
   cursor: pointer;
-  outline: none;
   transition: border-color 0.15s;
 }
 [data-theme="dark"] .dt-select {
@@ -836,7 +834,6 @@ h3.dt-widget-title {
   background: var(--bg-color, #fff);
   color: var(--font-color, #333);
   resize: vertical;
-  outline: none;
   transition: border-color 0.15s;
   box-sizing: border-box;
 }

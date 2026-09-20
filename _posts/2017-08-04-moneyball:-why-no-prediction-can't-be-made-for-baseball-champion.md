@@ -6,7 +6,7 @@ categories: [Data Science, Machine Learning]
 excerpt: "Using logistic regression in R to explore why ML cannot reliably predict the baseball World Series champion."
 ---
 
-<img src="/img/blog/moneyball:-why-no-prediction-can't-be-made-for-baseball-champion/moneyball.jpeg" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="535" height="272">
+<img alt="Moneyball promotional artwork" src="/img/blog/moneyball:-why-no-prediction-can't-be-made-for-baseball-champion/moneyball.jpeg" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="535" height="272">
 
 > How can you not be romantic about baseball?     
 > &mdash; <cite>Billy Beans</cite>

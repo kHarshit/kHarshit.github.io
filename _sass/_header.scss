@@ -26,16 +26,17 @@
     color: #ffffff;
 }
 
-#branding h1 {
+#branding .branding-title {
     margin: 0;
     font-size: 1.15em;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 #branding a{
 	text-decoration: none;
 	color: #ffffff;
 	display: inline-block;
-	outline: none;
 }
 
 #branding a:hover{
@@ -125,9 +126,25 @@ nav > ul > li.current > a::after {
     display: none;
 }
 
+/* The toggle is a <button>, so restate the nav link styling it no longer inherits. */
 .nav-dropdown-toggle {
-    cursor: default;
+    cursor: pointer;
     user-select: none;
+    background: none;
+    border: 0;
+    padding: 0 0 3px;
+    margin: 0;
+    font-family: inherit;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    transition: color 0.2s ease;
+}
+
+.nav-dropdown-toggle:hover {
+    color: #ffffff;
 }
 
 .nav-dropdown-menu {
@@ -147,7 +164,11 @@ nav > ul > li.current > a::after {
     box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
-.nav-dropdown:hover .nav-dropdown-menu {
+/* Open on hover (mouse), on focus-within (keyboard tabbing) and on an explicit
+   toggle (click/tap, which is the only one that works on touch devices). */
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu,
+.nav-dropdown-toggle[aria-expanded="true"] + .nav-dropdown-menu {
     display: block;
 }
 

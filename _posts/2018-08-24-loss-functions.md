@@ -71,7 +71,7 @@ $$L(y) = -\sum_{c=1}^n y_{o,c}\log(p_{o,c})$$
 
 Here, `y` is a binary indicator (0 or 1) if class label `c` is the correct classification for observation `o` and `p` is predicted probability observation s.t. `o` is of class `c`.
 
-<img src="/img/blog/loss-functions/log_loss.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="556" height="397">
+<img alt="Plot of log loss against predicted probability" src="/img/blog/loss-functions/log_loss.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="556" height="397">
 
 {% highlight python %}
 def cross_entropy(y, p):

@@ -26,7 +26,7 @@ examples to it.
 There exists a trade-off between simplicity and accuracy. Consider the example of *linear regression*. Given a set of *predictors*, one attempts to provide a good fit to the *response*. A common measure of accuracy is the coefficient of determination, $$R^2$$. Increasing the number of predictors will generally incrase the $$R^2$$ (accuracy), but our model will become complex. We can decrease the complexity by decreasing the number of predictors, but now the model may not yield a sufficient level of accuracy.
 
 Also, note that *Simple isn’t always easy*. The statement below demonstrates an assumption that because the desired action is conceptually simple, it must therefore be simple to implement.
-<img src="https://imgs.xkcd.com/comics/shouldnt_be_hard.png" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async">
+<img alt="xkcd comic about problems that sound like they should be easy" src="https://imgs.xkcd.com/comics/shouldnt_be_hard.png" style="float: center; display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async">
 <div style="text-align: center">
     <figcaption>xkcd: <a href="https://xkcd.com/1349/">Shouldn't Be Hard</a></figcaption>
 </div>

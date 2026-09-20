@@ -6,7 +6,7 @@ categories: [Deep Learning, Computer Vision]
 excerpt: "How data augmentation like flipping, rotation, color jittering artificially expands training data to build more generalizable deep learning models."
 ---
 
-<img src="/img/blog/data-augmentation/data_augmentation.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="799" height="264">
+<img alt="Data augmentation examples: flipping, rotation and colour jittering applied to one image" src="/img/blog/data-augmentation/data_augmentation.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="799" height="264">
 
 
 Data augmentation is the technique of increasing the size of data used for training a model. For reliable predictions, the deep learning models often require a lot of training data, which is not always available. Therefore, the existing data is augmented in order to make a better generalized model.

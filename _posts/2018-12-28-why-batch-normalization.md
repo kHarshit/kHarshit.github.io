@@ -13,7 +13,7 @@ In deep neural networks, you not only have input features but activations in the
 
 > It's called "batch" normalization because, during training, we normalize each layer's inputs by using the mean and standard deviation (or variance) of the values in the current batch
 
-<img src="/img/blog/why-batch-normalization/batch_normalization.png" style="display: block; margin: auto; width: 420px; max-width: 100%;" loading="eager" decoding="async" width="405" height="328">
+<img alt="Diagram of batch normalization applied to a layer's inputs" src="/img/blog/why-batch-normalization/batch_normalization.png" style="display: block; margin: auto; width: 420px; max-width: 100%;" loading="eager" decoding="async" width="405" height="328">
 
 In simple terms, in batch normalization, rather than just performing normalization once in the beginning, you're doing it all over the network. But, normaliztion will squeeze your values to [0, 1]. It's not desirable always. So, you apply $$\gamma$$ and $$\beta$$ parameters to your normalization value. These parameters are learned the same way as other hyperparameters through backpropagation during the training process.
 
@@ -29,13 +29,13 @@ Suppose you train a neural network on the images of black cats only. Then your m
 
 The idea is that even when the exact values of inputs to hidden layers change, their mean and standard deviation will still almost remain same thus reducing the covariate shift. This weakens the coupling between parameters of early layer and that of later layers hence, allowing each layer of the network to learn by itself i.e. more independent of each other. This has the effect of speeding up the learning process.
 
-<img src="/img/blog/why-batch-normalization/batch_norm_plot.png" style="display: block; margin: auto; width: 420px; max-width: 100%;" loading="lazy" decoding="async" width="745" height="517">
+<img alt="Training curves with and without batch normalization" src="/img/blog/why-batch-normalization/batch_norm_plot.png" style="display: block; margin: auto; width: 420px; max-width: 100%;" loading="lazy" decoding="async" width="745" height="517">
 
 The other benefit of batch normalization is that it acts as **regularization**. Each mini-batch is scaled using its mean and standard deviation. This introduces some noise to each layer, providing a regularization effect.
 
 Due to numerous benefits of batch normalization, it's extensively used nowadays as evident from the below figure.
 
-<img src="/img/blog/why-batch-normalization/batch_norm_milestone.png" style="display: block; margin: auto; width: 420px; max-width: 100%;" loading="lazy" decoding="async" width="535" height="363">
+<img alt="Timeline placing batch normalization among deep learning milestones" src="/img/blog/why-batch-normalization/batch_norm_milestone.png" style="display: block; margin: auto; width: 420px; max-width: 100%;" loading="lazy" decoding="async" width="535" height="363">
 
 **References:**  
 1. [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/pdf/1502.03167v3.pdf)  

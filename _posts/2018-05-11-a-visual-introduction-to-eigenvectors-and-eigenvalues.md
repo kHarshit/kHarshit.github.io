@@ -12,7 +12,7 @@ The word *eigen*, having a German origin, means *characteristics*. The eigenvalu
 
 The linear transformations such as scaling, rotation, and shearing can be expressed using matrices. For example, by applying a vertical scaling of +2 to every vector of a square, will transform the square into a rectangle. In the same way, by applying a horizontal shear to the square, it becomes a parallelogram.
 
-<img src="/img/blog/a-visual-introduction-to-eigenvectors-and-eigenvalues/eigenvectors.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="501" height="385">
+<img alt="A square transformed into a rectangle by vertical scaling and into a parallelogram by shear" src="/img/blog/a-visual-introduction-to-eigenvectors-and-eigenvalues/eigenvectors.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="eager" decoding="async" width="501" height="385">
 
 Note that during these transformations, some of the vectors remain on the same line (span) as they were earlier. As shown in the figure, 
 
@@ -36,7 +36,7 @@ In the same way, the horizontal shear transformation to square gives only one ei
 
 In 180 degree rotation of square, all vectors are still laying on the same span, but their direction is reversed. Hence, all vectors are  eigenvectors, having an eigenvalue of -1.
 
-<img src="/img/blog/a-visual-introduction-to-eigenvectors-and-eigenvalues/eigenvectors_180.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="504" height="234">
+<img alt="A square rotated 180 degrees, where every vector stays on its span but reverses direction" src="/img/blog/a-visual-introduction-to-eigenvectors-and-eigenvalues/eigenvectors_180.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="504" height="234">
 
 In case of 3d rotation transformation of cube, the eigenvector gives the axis of rotation.
 
@@ -52,7 +52,7 @@ Ax &= \lambda x \\
 
 where `I` is the identity matrix.
 
-<img src="/img/blog/a-visual-introduction-to-eigenvectors-and-eigenvalues/eigenvalue_equation.svg.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="250" height="200">
+<img alt="The eigenvalue equation, A x equals lambda x" src="/img/blog/a-visual-introduction-to-eigenvectors-and-eigenvalues/eigenvalue_equation.svg.png" style="display: block; margin: auto; width: auto; max-width: 100%;" loading="lazy" decoding="async" width="250" height="200">
 
 
 The above euqation has a non-zero solution iff the determinant of the matrix `(A − λI)` is zero i.e.

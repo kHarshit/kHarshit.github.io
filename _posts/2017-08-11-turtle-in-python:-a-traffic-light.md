@@ -108,7 +108,7 @@ wn.mainloop()  # Wait for user to close window
 
 Our traffic light will look like this:
 
-<!-- <img source="" loading="lazy" decoding="async" /> 
+<!-- <img source="" /> 
     Added for functionality of archive page first image retrieval -->
 
 <div style="text-align: center">

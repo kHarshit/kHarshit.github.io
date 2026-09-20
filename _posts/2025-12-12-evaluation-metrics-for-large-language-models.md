@@ -50,7 +50,7 @@ The units are **bits per token**. A lower cross-entropy means the model's predic
 
 Perplexity (PP) is the most widely used intrinsic metric for language models. It measures how "confused" the model is when predicting the next token. Think of it as the average number of equally likely tokens the model is choosing from at each step.
 
-{% include img.html src="/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg" width="80%" %}
+{% include img.html src="/img/blog/evaluation-metrics-for-large-language-models/perplexity_visual.jpg" alt="Perplexity as the average number of equally likely tokens the model chooses between at each step" width="80%" %}
 
 $$PP(\mathbf{x}) = 2^{-\frac{1}{n} \sum_{i=1}^{n} \log_2 P(x_i \mid x_1, \ldots, x_{i-1})} = 2^{H(\mathbf{x})}$$
 
