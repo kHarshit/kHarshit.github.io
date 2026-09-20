@@ -208,6 +208,14 @@ title: Harshit Kumar | Home
                         <button class="chat-send-btn" id="chat-send" aria-label="Send"><i class="fa-regular fa-paper-plane"></i></button>
                     </div>
                 </div>
+                {% comment %}
+                  Credential + consumer, scoped to this page. The contact widget
+                  posts to the GitHub Issues API from the browser, so the token
+                  has to be readable client-side; emitting it here rather than in
+                  the shared layout keeps it off every other page on the site.
+                {% endcomment %}
+                <script>window.GITHUB_TOKEN = "{{ site.github_contact_token }}"; window.GITHUB_REPO = "{{ site.github_contact_repo }}";</script>
+                <script src="/js/site/chat.js" defer></script>
             </div>
 
             <div class="sidebar-section">
