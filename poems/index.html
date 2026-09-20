@@ -4,14 +4,7 @@ title: "Harshit Kumar | Poems"
 ---
 <link rel="stylesheet" href="/css/poems.css">
 
-<header id="top_header">
-    <div class="container">
-        <div id="branding">
-            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
-        </div>
-        {% include nav.html %}
-    </div>
-</header>
+{% include header.html %}
 
 <main id="main">
   <div class="container">
@@ -59,7 +52,7 @@ title: "Harshit Kumar | Poems"
                   <img src="{{ first_img_src }}" alt="{{ item.title }}" loading="lazy">
                 {% else %}
                   <div class="blog-list-thumb-placeholder">
-                    <i class="fa fa-quote-left"></i>
+                    <i class="fa-regular fa-quote-left"></i>
                   </div>
                 {% endif %}
               </div>

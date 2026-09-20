@@ -1,14 +1,7 @@
 ---
 layout: default
 ---
-<header id="top_header">
-    <div class="container">
-        <div id="branding">
-            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
-        </div>
-        {% include nav.html %}
-    </div>
-</header>
+{% include header.html %}
 
 <main>
 <div class="container">
@@ -24,7 +17,7 @@ layout: default
                     {% if page.explanations %}
                     <div class="post-meta-actions">
                         <button class="poem-explain-toggle" id="poem-explain-toggle">
-                            <i class="fa fa-info-circle"></i> Show explanations
+                            <i class="fa-regular fa-circle-info"></i> Show explanations
                         </button>
                     </div>
                     {% endif %}
@@ -39,7 +32,7 @@ layout: default
                     {% endif %}
                     <div class="post-meta-actions">
                         <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
-                            <i class="fa fa-headphones"></i>
+                            <i class="fa-regular fa-headphones"></i>
                         </button>
                         <div class="poem-soundscape-panel" id="poem-soundscape-panel">
                             <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
@@ -96,7 +89,7 @@ layout: default
                         {% if img_src != "" %}
                             <img src="{{ img_src }}" alt="{{ poem.title }}" loading="lazy">
                         {% else %}
-                            <div class="poem-related-thumb-placeholder"><i class="fa fa-quote-left"></i></div>
+                            <div class="poem-related-thumb-placeholder"><i class="fa-regular fa-quote-left"></i></div>
                         {% endif %}
                     </div>
                     <div class="poem-related-body">

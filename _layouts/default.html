@@ -76,11 +76,24 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="preconnect" href="https://cdnjs.cloudflare.com">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/variables.css">
+        <link rel="stylesheet" href="/css/base.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/homepage.css">
+        <link rel="stylesheet" href="/css/timeline.css">
+        <link rel="stylesheet" href="/css/sidebar.css">
+        <link rel="stylesheet" href="/css/blog.css">
+        <link rel="stylesheet" href="/css/blog-list.css">
+        <link rel="stylesheet" href="/css/projects.css">
+        <link rel="stylesheet" href="/css/post.css">
+        <link rel="stylesheet" href="/css/components.css">
+        <link rel="stylesheet" href="/css/chat.css">
+        <link rel="stylesheet" href="/css/misc.css">
+        <link rel="stylesheet" href="/css/responsive.css">
         <link rel="stylesheet" href="/css/syntax.css">
         {% if page.layout == 'poem' %}<link rel="stylesheet" href="/css/poems.css">{% endif %}
         {% if page.layout == 'music' %}<link rel="stylesheet" href="/css/music.css">{% endif %}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         <!-- <link rel="shortcut icon" href="/img/favicon_files/favicon.ico" type="image/x-icon"> -->
 
         <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon_files/apple-icon-57x57.png">
@@ -151,8 +164,8 @@
             <input type="checkbox" id="themeswitch" aria-label="Toggle dark mode" />
             <label id="theme-switch" for="themeswitch">
                 <div class="toggle-track">
-                    <i class="fa fa-sun-o toggle-icon"></i>
-                    <i class="fa fa-moon-o toggle-icon"></i>
+                    <i class="fa-regular fa-sun toggle-icon"></i>
+                    <i class="fa-regular fa-moon toggle-icon"></i>
                     <div class="toggle-thumb"></div>
                 </div>
             </label>
@@ -167,7 +180,7 @@
             <footer id="last_footer">
                 <div class="container">
                     <div class="footer-inner">
-                        <a href="https://linkedin.com/in/{{ site.linkedin_username }}" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <a href="https://linkedin.com/in/{{ site.linkedin_username }}" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-linkedin"><i class="fa-brands fa-linkedin"></i></a>
                         <div class="footer-right">
                             <span>Harshit Kumar {{ 'now' | date: "%Y" }}</span>
                             <a href="/about_site">About this site</a>
@@ -179,7 +192,7 @@
                 </div>
             </footer>
 
-            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa fa-chevron-up"></span></button>
+            <button onclick="topFunction()" id="scroll_top" title="Go to top" aria-label="Scroll to top"><span class="fa-solid fa-chevron-up"></span></button>
             <script>window.GITHUB_TOKEN = "{{ site.github_contact_token }}"; window.GITHUB_REPO = "{{ site.github_contact_repo }}";</script>
             <script src="/js/site/script.js"></script>
         </div>

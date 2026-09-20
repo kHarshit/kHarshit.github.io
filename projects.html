@@ -4,14 +4,7 @@ title: Harshit Kumar | Projects
 permalink: /projects/
 ---
 
-<header id="top_header">
-    <div class="container">
-        <div id="branding">
-            <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
-        </div>
-        {% include nav.html %}
-    </div>
-</header>
+{% include header.html %}
 
 <main id="main">
     <div class="container">
@@ -19,24 +12,24 @@ permalink: /projects/
         <div class="projects-page-header">
             <h2 class="projects-page-title">Projects</h2>
             <a href="https://github.com/{{ site.github_username }}" class="projects-github-link" target="_blank" rel="noopener">
-                <i class="fa fa-github"></i> GitHub
+                <i class="fa-brands fa-github"></i> GitHub
             </a>
         </div>
         <p class="projects-page-subtitle">A collection of ML, computer vision, and NLP projects.</p>
 
         <div class="github-chart-wrap">
             <p class="github-chart-label">
-                <i class="fa fa-github"></i> GitHub Contributions
+                <i class="fa-brands fa-github"></i> GitHub Contributions
             </p>
             <img src="https://ghchart.rshah.org/20B2AA/kHarshit" alt="Harshit's GitHub contribution chart" />
         </div>
 
         <div class="project-filters">
-            <button class="filter-btn active" onclick="filterProjects('all', this)">All</button>
-            <button class="filter-btn" onclick="filterProjects('llm', this)">LLM</button>
-            <button class="filter-btn" onclick="filterProjects('computer-vision', this)">Computer Vision</button>
-            <button class="filter-btn" onclick="filterProjects('nlp', this)">NLP</button>
-            <button class="filter-btn" onclick="filterProjects('data-science', this)">Data Science</button>
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="llm">LLM</button>
+            <button class="filter-btn" data-filter="computer-vision">Computer Vision</button>
+            <button class="filter-btn" data-filter="nlp">NLP</button>
+            <button class="filter-btn" data-filter="data-science">Data Science</button>
         </div>
 
         <ul class="project-list" id="projects-list">
@@ -386,15 +379,4 @@ permalink: /projects/
     </div>
 </main>
 
-<script>
-function filterProjects(category, btn) {
-    document.querySelectorAll('#projects-list .project-list-item').forEach(function(item) {
-        var cats = item.dataset.category || '';
-        item.style.display = (category === 'all' || cats.indexOf(category) > -1) ? '' : 'none';
-    });
-    document.querySelectorAll('.project-filters .filter-btn').forEach(function(b) {
-        b.classList.remove('active');
-    });
-    if (btn) btn.classList.add('active');
-}
-</script>
+<script src="/js/site/project_filter.js"></script>

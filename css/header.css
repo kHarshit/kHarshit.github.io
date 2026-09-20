@@ -1,0 +1,244 @@
+#top_header {
+    background-color: var(--header-bg);
+    color: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+#top_header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    overflow: visible;
+}
+
+#top_header_algo {
+    background-color: #1E423B;
+}
+
+#header_algo {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #065150;
+    color: #ffffff;
+}
+
+#branding h1 {
+    margin: 0;
+    font-size: 1.15em;
+}
+
+#branding a{
+	text-decoration: none;
+	color: #ffffff;
+	display: inline-block;
+	outline: none;
+}
+
+#branding a:hover{
+	color: #cccccc;
+}
+
+nav {
+    margin-top: 0;
+}
+
+nav a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: inline-block;
+    list-style: none;
+    position: relative;
+    padding-bottom: 3px;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: rgba(255,255,255,0.5);
+    transition: width 0.25s ease;
+    border-radius: 2px;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+nav ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+nav #post_algo{
+    margin-top: 30px;
+}
+
+nav li {
+    font-family: 'Inter', 'Helvetica', 'Arial', sans-serif;
+    display: inline;
+    padding: 0 14px;
+}
+
+nav a:hover {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+nav > ul > li.current > a {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+nav > ul > li.current > a::after {
+    width: 100%;
+    background: var(--accent-color);
+}
+
+.nav-dropdown-menu li.current a {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* More dropdown */
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown.current .nav-dropdown-toggle {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.nav-dropdown.current .nav-dropdown-toggle::after {
+    display: none;
+}
+
+.nav-dropdown-toggle {
+    cursor: default;
+    user-select: none;
+}
+
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--header-bg);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 16px 0 6px;
+    min-width: 120px;
+    z-index: 100;
+    list-style: none;
+    margin: 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+    display: block;
+}
+
+.nav-dropdown-menu li {
+    display: block;
+    padding: 0;
+}
+
+.nav-dropdown-menu li a {
+    display: block;
+    padding: 8px 18px;
+    white-space: nowrap;
+    text-decoration: none;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    transition: color 0.2s ease, text-decoration-color 0.25s ease;
+}
+
+.nav-dropdown-menu li a::after {
+    display: none;
+}
+
+.nav-dropdown-menu li a:hover {
+    text-decoration: underline;
+    text-decoration-color: rgba(255,255,255,0.85);
+}
+
+[data-theme="dark"] .nav-dropdown-menu {
+    background: var(--header-bg);
+}
+
+#btmnav {
+    list-style: none;
+}
+
+#btmnav li {
+    display: inline;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+#last_footer {
+    clear: both;
+    padding: 16px 24px;
+    margin-top: 20px;
+    color: #888;
+    border-top: 1px solid #e8e8e8;
+    font-size: var(--text-md);
+}
+
+[data-theme="dark"] #last_footer {
+    color: #777;
+    border-top-color: #3a3a3a;
+}
+
+#last_footer a {
+    text-decoration: none;
+    color: #888;
+}
+
+[data-theme="dark"] #last_footer a { color: #777; }
+
+#last_footer a:hover {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.footer-linkedin {
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+#last_footer .container {
+    overflow: visible;
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+@media (max-width: 768px) {
+    .footer-right { align-items: flex-end; }
+}

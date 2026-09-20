@@ -1,0 +1,9 @@
+<header id="top_header">
+    <div class="container">
+        <div id="branding">
+            <h1><a href="{{ include.home_url | default: site.url }}">Harshit Kumar</a></h1>
+        </div>
+        {% include nav.html %}
+    </div>
+    {% if include.reading_progress %}<div id="reading-progress-bar"></div>{% endif %}
+</header>

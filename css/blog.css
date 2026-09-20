@@ -1,0 +1,235 @@
+.blog-page-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: 24px;
+    margin-bottom: 6px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 12px;
+}
+
+[data-theme="dark"] .blog-page-header {
+    border-bottom-color: #3a3a3a;
+}
+
+.blog-page-title {
+    font-size: 1.8em;
+    font-weight: 700;
+    margin: 0;
+}
+
+.blog-archive-link {
+    font-size: var(--text-md);
+    font-weight: 500;
+    color: var(--accent-color) !important;
+    text-decoration: none;
+    opacity: 1 !important;
+}
+
+.blog-archive-link:hover {
+    opacity: 0.75 !important;
+}
+
+.blog-page-desc {
+    font-size: var(--text-md);
+    color: #777;
+    margin-bottom: 20px;
+}
+
+[data-theme="dark"] .blog-page-desc {
+    color: #999;
+}
+
+.blog-page-desc a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.blog-page-desc a:hover {
+    opacity: 0.75;
+}
+
+.category-page-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.category-back-link {
+    font-size: var(--text-md);
+    color: var(--accent-color) !important;
+    text-decoration: none;
+    font-weight: 500;
+    opacity: 1 !important;
+}
+
+.category-back-link:hover {
+    opacity: 0.75 !important;
+}
+
+.category-post-count {
+    margin-bottom: 8px;
+}
+
+.category-description {
+    margin-bottom: 4px;
+}
+
+.tag-cloud {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.tag-cloud li {
+    display: inline-block;
+    margin: 0;
+}
+
+.tag-cloud li a {
+    display: inline-block;
+    padding: 4px 13px;
+    border-radius: 20px;
+    background-color: var(--card-bg);
+    color: var(--accent-color);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    line-height: 1.6;
+}
+
+.tag-cloud li a:hover {
+    background-color: var(--accent-color);
+    color: #fff;
+    border-color: var(--accent-color);
+    text-decoration: none;
+}
+
+.tag-cloud-divider {
+    border: none;
+    border-bottom: 2px solid #f0f0f0;
+    margin: 16px 0 0 0;
+}
+
+[data-theme="dark"] .tag-cloud-divider {
+    border-bottom-color: #3a3a3a;
+}
+
+#taggs {
+    padding: 5px;
+}
+.taggs-group {
+    margin: 5px;
+    border-top: 1px solid #ddd;
+}
+.taggs-item {
+    margin-left: 5px;
+}
+.post-tags {
+    text-align: right;
+}
+
+.pagination {
+    margin-top: 32px;
+    margin-bottom: 16px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.pagination a,
+.pagination span,
+.pagination em {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 8px;
+    font-size: var(--text-md);
+    font-weight: 500;
+    font-style: normal;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+    color: var(--font-color);
+}
+
+.pagination a {
+    background: var(--card-bg);
+    color: var(--font-color);
+}
+
+.pagination a:hover {
+    background: var(--accent-color);
+    color: #ffffff;
+    opacity: 1;
+}
+
+.pagination em {
+    background: var(--accent-color);
+    color: #ffffff;
+    cursor: default;
+}
+
+.pagination span {
+    background: transparent;
+    color: #ccc;
+    cursor: default;
+}
+
+.pagination a:first-child,
+.pagination a:last-child {
+    padding: 0 14px;
+    font-size: var(--text-sm);
+    letter-spacing: 0.02em;
+}
+
+[data-theme="dark"] .pagination a {
+    background: #3a3a3a;
+}
+
+[data-theme="dark"] .pagination span {
+    color: #555;
+}
+
+.card {
+    display: inline-block;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 30px;
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: 0 0 8px 8px rgba(0,0,0,0.2);
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card .btn.read-more {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.post-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}

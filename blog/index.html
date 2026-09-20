@@ -3,14 +3,7 @@ layout: default
 title: Technical Fridays | Blog | Harshit Kumar
 ---
 
-<header id="top_header">
-  <div class="container">
-    <div id="branding">
-      <h1><a href="{{ site.url }}">Harshit Kumar</a></h1>
-    </div>
-    {% include nav.html %}
-  </div>
-</header>
+{% include header.html %}
 
 <main id="main">
   <div class="container">
@@ -67,7 +60,7 @@ title: Technical Fridays | Blog | Harshit Kumar
                   <img src="{{ first_img_src }}" alt="{{ post.title }}" loading="lazy">
                 {% else %}
                   <div class="blog-list-thumb-placeholder">
-                    <i class="fa fa-file-text-o"></i>
+                    <i class="fa-regular fa-file-lines"></i>
                   </div>
                 {% endif %}
               </div>
@@ -78,8 +71,8 @@ title: Technical Fridays | Blog | Harshit Kumar
                 <h3 class="blog-list-title">{{ post.title }}</h3>
                 <p class="blog-list-excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
                 <div class="blog-list-meta">
-                  <span class="blog-list-date"><i class="fa fa-calendar-o"></i> {{ post.date | date: "%b %-d, %Y" }}</span>
-                  <span class="blog-list-readtime"><i class="fa fa-clock-o"></i> {{ read_time }} min read</span>
+                  <span class="blog-list-date"><i class="fa-regular fa-calendar"></i> {{ post.date | date: "%b %-d, %Y" }}</span>
+                  <span class="blog-list-readtime"><i class="fa-regular fa-clock"></i> {{ read_time }} min read</span>
                 </div>
               </div>
             </a>

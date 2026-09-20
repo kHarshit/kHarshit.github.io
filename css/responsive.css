@@ -1,0 +1,126 @@
+@media(max-width: 768px) {
+	.container{
+		width: 86%;
+	}
+    #showcase, #experience, #education, #projects, #skills {
+        scroll-margin-top: 110px;
+    }
+	#top_header .container {
+        flex-direction: column;
+        height: auto;
+        padding: 12px 0;
+        gap: 6px;
+    }
+    header #branding,
+    nav,
+    aside#sidebar {
+        float: none;
+        text-align: center;
+        width: 100%;
+        word-wrap: break-word;
+    }
+    nav li {
+        padding: 0 10px;
+    }
+    article#main-art,
+    article#blog {
+        float: none;
+        width: 100%;
+    }
+    nav #post_algo {
+        margin-top: 0px;
+    }
+    iframe, video{
+        max-width: 100%;
+        height: 80%;
+    }
+    label#theme{
+        margin: 0;
+    }
+    .card {
+        width: 100%;
+        margin: 0;
+        margin-bottom: 30px;
+    }
+
+    .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .blog-card-img {
+    height: 200px;
+    }
+
+    .floating-sidebar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        transform: none;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 4px 0;
+        border-radius: 0;
+        border-top: 1px solid rgba(0,0,0,0.07);
+    }
+
+    .sidebar-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        padding: 6px 8px;
+        font-size: 10px;
+    }
+
+    .sidebar-link span {
+        display: none;
+    }
+
+    .sidebar-link .fa-solid,
+    .sidebar-link .fa-regular,
+    .sidebar-link .fas,
+    .sidebar-link .far {
+        font-size: 18px;
+        width: auto;
+    }
+
+    .floating-sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .floating-sidebar ul li {
+        padding: 0 10px;
+    }
+
+    #post .blog-list-item a,
+    .project-list-row {
+        flex-direction: column;
+    }
+    .blog-list-thumb {
+        width: 100%;
+        height: 180px;
+    }
+    .hero-grid {
+        padding: 24px 0 20px;
+    }
+    .hero-photo img {
+        width: 110px;
+        height: 110px;
+    }
+    .hero-chips {
+        justify-content: center;
+    }
+    .post-item {
+        flex-direction: column;
+        gap: 4px;
+    }
+}

@@ -1,0 +1,133 @@
+#showcase, #experience, #education, #projects, #skills {
+    scroll-margin-top: 80px;
+}
+
+#showcase{
+	text-align: center;
+    margin-top: 70px;
+}
+
+#showcase h1 {
+    font-size: var(--text-hero);
+    margin-bottom: 10px;
+}
+
+aside {
+    float: right;
+    width: 30%;
+    margin-top: 36px;
+}
+
+#main{
+	margin-bottom: 40px;
+}
+
+#sidebar a, #main-art a, #univ a, #post a, #projects-page a{
+	text-decoration: none;
+	color: var(--accent-color);
+	outline: none;
+}
+
+#tags a{
+    text-decoration: none;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 3px 6px;
+    margin-top: 3px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 3px;
+}
+
+#tags a:hover, #projects-page a:hover{
+    opacity: 0.75;
+}
+
+#main-art a:hover, #sidebar a:hover{
+    opacity: 0.75;
+}
+
+#univ a:hover {
+	color: orange;
+}
+
+article#main-art{
+    float: left;
+    width: 65%;
+}
+
+.dark {
+    padding: 15px;
+    background: #35424a;
+    color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#mypic img{
+	display: block;
+	margin: auto;
+	width: 240px;
+	max-width: 100%;
+}
+
+#social-icons {
+    list-style: none;
+    padding: 0;
+}
+
+#social-icons li {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+}
+
+.social-icon .fa-solid .fa-linkedin,
+.social-icon .fa-regular .fa-linkedin,
+.social-icon .fa-brands .fa-linkedin {
+    font-size: 32px;
+    margin-right: 8px;
+}
+
+.icon-text {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.stack-overflow img {
+    height: 32px;
+    width: auto;
+    margin-right: 8px;
+}
+
+.stack-overflow .icon-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#social-icons li a:hover {
+    color: #cccccc;
+}
+
+.btn {
+    display: block;
+    width: 80%;
+    padding: 10px;
+    background-color: var(--accent-color);
+    color: white;
+    text-align: center;
+    margin: 0 auto 20px auto;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn:hover {
+    background-color: var(--accent-hover);
+}

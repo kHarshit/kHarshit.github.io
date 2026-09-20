@@ -52,7 +52,7 @@ giscus:
   repo: "kHarshit/kHarshit.github.io"
   repo_id: "R_kgDOBaaONg"
   category: "General"
-  category_id: "DIC_kwDOBaaONs4C_oJT"       # TODO: fill from giscus.app
+  category_id: "DIC_kwDOBaaONs4C_oJT"
   mapping: "pathname"
   strict: "0"
   reactions_enabled: "1"

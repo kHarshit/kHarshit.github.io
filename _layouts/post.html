@@ -2,15 +2,7 @@
 layout: default
 ---
 
-<header id="top_header">
-    <div class="container">
-        <div id="branding">
-            <h1><a href="/blog">Harshit Kumar</a></h1>
-		</div>
-        {% include nav.html %}
-    </div>
-    <div id="reading-progress-bar"></div>
-</header>
+{% include header.html reading_progress=true home_url="/blog" %}
 
 <main>
 <div class="container post-container">
@@ -18,11 +10,11 @@ layout: default
     <div class="post-header">
         <h1 class="post-title">{{ page.title }}</h1>
         <div class="post-meta">
-            <span class="post-meta-date"><i class="fa fa-calendar-o"></i> {{ page.date | date: "%b %-d, %Y" }}</span>
-            <span class="post-meta-read"><i class="fa fa-clock-o"></i> {% include readtime.html %}</span>
+            <span class="post-meta-date"><i class="fa-regular fa-calendar"></i> {{ page.date | date: "%b %-d, %Y" }}</span>
+            <span class="post-meta-read"><i class="fa-regular fa-clock"></i> {% include readtime.html %}</span>
             <div class="post-meta-actions">
                 <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
-                    <i class="fa fa-headphones"></i>
+                    <i class="fa-regular fa-headphones"></i>
                 </button>
                 <div class="poem-soundscape-panel" id="poem-soundscape-panel">
                     <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
@@ -63,7 +55,7 @@ layout: default
     <!-- Edit on GitHub -->
     <div class="post-edit-bar">
         <a href="https://github.com/kHarshit/kHarshit.github.io/edit/master/{{ page.path }}" class="post-edit-link" target="_blank" rel="noopener">
-            <i class="fa fa-pencil"></i> Edit this page on GitHub
+            <i class="fa-regular fa-pencil"></i> Edit this page on GitHub
         </a>
     </div>
 
@@ -71,7 +63,7 @@ layout: default
     <nav class="post-nav">
         {% if page.previous.url %}
         <a class="post-nav-item post-nav-prev" href="{{ page.previous.url }}">
-            <span class="post-nav-label"><i class="fa fa-arrow-left"></i> Previous</span>
+            <span class="post-nav-label"><i class="fa-regular fa-arrow-left"></i> Previous</span>
             <span class="post-nav-title">{{ page.previous.title }}</span>
         </a>
         {% else %}
@@ -79,7 +71,7 @@ layout: default
         {% endif %}
         {% if page.next.url %}
         <a class="post-nav-item post-nav-next" href="{{ page.next.url }}">
-            <span class="post-nav-label">Next <i class="fa fa-arrow-right"></i></span>
+            <span class="post-nav-label">Next <i class="fa-regular fa-arrow-right"></i></span>
             <span class="post-nav-title">{{ page.next.title }}</span>
         </a>
         {% else %}
@@ -157,8 +149,20 @@ layout: default
     <script src="/js/site/soundscape.js"></script>
 
     {% if page.mathjax %}
-    <!-- MathJax -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    <!-- MathJax 3 -->
+    <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     {% endif %}
 
 

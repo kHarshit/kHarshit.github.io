@@ -1,29 +1,27 @@
 // project-filter.js
-function filterProjects(category) {
-    var projects = document.getElementsByClassName('project-card');
-    var buttons = document.getElementsByClassName('filter-btn');
-    
-    // Remove the 'active' class from all buttons
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].classList.remove('active');
-    }
-    
-    // Add the 'active' class to the currently clicked button
-    // The 'this' keyword represents the clicked button
-    // Make sure to pass 'this' from the onclick attribute in the HTML
-    document.querySelector('.filter-btn.' + category).classList.add('active');
-    
-    for (var i = 0; i < projects.length; i++) {
-        var categories = projects[i].dataset.category.split(' ');
-        if (category === 'all' || categories.includes(category)) {
-            projects[i].style.display = 'block';
-        } else {
-            projects[i].style.display = 'none';
+(function() {
+    function filterProjects(category) {
+        var items = document.querySelectorAll('#projects-list .project-list-item');
+        for (var i = 0; i < items.length; i++) {
+            var cats = items[i].dataset.category || '';
+            items[i].style.display = (category === 'all' || cats.indexOf(category) > -1) ? '' : 'none';
+        }
+        var buttons = document.querySelectorAll('.project-filters .filter-btn');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.toggle('active', buttons[i].dataset.filter === category);
         }
     }
-}
 
-// Add a load event listener
-window.addEventListener('load', function() {
-    filterProjects('all');
-});
+    document.addEventListener('DOMContentLoaded', function() {
+        var filters = document.querySelector('.project-filters');
+        if (filters) {
+            filters.addEventListener('click', function(e) {
+                var btn = e.target.closest('.filter-btn');
+                if (btn && btn.dataset.filter) {
+                    filterProjects(btn.dataset.filter);
+                }
+            });
+        }
+        filterProjects('all');
+    });
+})();
