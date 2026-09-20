@@ -178,3 +178,97 @@
     color: var(--accent-color);
     text-decoration: underline;
 }
+
+/* ── Review card ──────────────────────────────────────────────
+   Shown after the last question; nothing is sent until Send is pressed. */
+.chat-review {
+    background: #f0f0f0;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: var(--text-xs);
+    animation: msg-fadein 0.25s ease;
+}
+
+[data-theme="dark"] .chat-review {
+    background: #444;
+    color: #eee;
+}
+
+.chat-review-heading {
+    margin: 0 0 8px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.chat-review-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: 8px;
+    padding: 3px 0;
+}
+
+.chat-review-label {
+    color: #777;
+    white-space: nowrap;
+}
+
+[data-theme="dark"] .chat-review-label {
+    color: #aaa;
+}
+
+.chat-review-value {
+    /* Wrap rather than truncate: the point of this card is checking what you
+       typed, and the message field is routinely longer than the sidebar. */
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-weight: 500;
+}
+
+.chat-review-edit {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: var(--accent-color);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.chat-review-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.chat-review-send,
+.chat-review-restart {
+    font: inherit;
+    padding: 6px 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.chat-review-send {
+    background: var(--accent-color);
+    color: #fff;
+    border: 1px solid var(--accent-color);
+    font-weight: 500;
+}
+
+.chat-review-send:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+.chat-review-restart {
+    background: transparent;
+    color: var(--font-color);
+    border: 1px solid #ccc;
+}
+
+[data-theme="dark"] .chat-review-restart {
+    color: #eee;
+    border-color: #666;
+}
