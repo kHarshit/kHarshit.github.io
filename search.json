@@ -1,0 +1,67 @@
+---
+layout: null
+sitemap: false
+---
+{%- comment -%}
+  Search index for the blog page, consumed by js/site/blog_search.js.
+
+  Covers every post, not just the ten on the current paginated page - that is the
+  whole point, since /blog/ shows 10 of 84.
+
+  Fields are one letter to keep the payload small (~12KB gzipped over 84 posts):
+    u url   t title   e excerpt   c categories
+    h headings   d date   r read time   i thumbnail src
+
+  Every string goes through `jsonify`, never hand-quoted: titles contain
+  apostrophes ("Simpson's paradox") and colons ("Moneyball: Why no prediction
+  can't be made ..."). The commas between records are the only hand-written JSON
+  punctuation, and `forloop.last` keeps them valid.
+{%- endcomment -%}
+[
+{%- for post in site.posts -%}
+{%- comment -%}
+  Headings give search a way into a post's subject matter without indexing the
+  whole body. post.content is rendered HTML, so they arrive as
+  <h2 id="slug">Text</h2>.
+
+  Each level is handled in its own pass, re-prepending its own tag before
+  strip_html. That prepend is what removes the id attribute: splitting on '<h2'
+  leaves a chunk starting ` id="x">Text`, which is not a well-formed tag, so
+  strip_html would leave the literal `id="x">` behind. strip_html also handles
+  the nested markup in the three ZeRO headings, which contain <sub>.
+
+  The split must be assigned before the loop: Liquid's `for` tag ignores filters
+  in its collection expression, so `for chunk in post.content | split: '<h2'`
+  silently iterates the whole unsplit body and the index balloons with prose.
+
+  Splitting on '<h2' cannot match the closing tag, since </h2> is '<' + '/h'.
+  Literal <h2> inside code blocks is entity-escaped by kramdown and so invisible.
+
+  quiz-title headings are skipped: _includes/quiz.html injects one into 7 posts,
+  6 of them the identical text "QUIZ: Test Your Knowledge", which would make a
+  search for "test" return 6 unrelated posts. The dt-widget-title headings are
+  kept deliberately - "Interactive: Perplexity Explorer" and friends are exactly
+  what someone would search for.
+{%- endcomment -%}
+{%- assign heads = "" -%}
+{%- assign h2_parts = post.content | split: '<h2' -%}
+{%- for chunk in h2_parts offset: 1 -%}
+  {%- assign attrs = chunk | split: '>' | first -%}
+  {%- unless attrs contains 'quiz-title' -%}
+    {%- assign h = '<h2' | append: chunk | split: '</h2>' | first | append: '</h2>' | strip_html | strip -%}
+    {%- if h != "" -%}{%- assign heads = heads | append: h | append: " | " -%}{%- endif -%}
+  {%- endunless -%}
+{%- endfor -%}
+{%- assign h3_parts = post.content | split: '<h3' -%}
+{%- for chunk in h3_parts offset: 1 -%}
+  {%- assign attrs = chunk | split: '>' | first -%}
+  {%- unless attrs contains 'quiz-title' -%}
+    {%- assign h = '<h3' | append: chunk | split: '</h3>' | first | append: '</h3>' | strip_html | strip -%}
+    {%- if h != "" -%}{%- assign heads = heads | append: h | append: " | " -%}{%- endif -%}
+  {%- endunless -%}
+{%- endfor -%}
+{%- assign fi_content = post.content -%}
+{%- capture thumb -%}{%- include first_image.html -%}{%- endcapture -%}
+{"u":{{ post.url | jsonify }},"t":{{ post.title | jsonify }},"e":{{ post.excerpt | strip_html | strip_newlines | truncatewords: 28 | strip | jsonify }},"c":{{ post.categories | jsonify }},"h":{{ heads | strip | jsonify }},"d":{{ post.date | date: "%b %-d, %Y" | jsonify }},"r":{{ post.content | number_of_words | divided_by: 200 | at_least: 1 }},"i":{{ thumb | strip | jsonify }}}{%- unless forloop.last -%},{%- endunless -%}
+{%- endfor -%}
+]

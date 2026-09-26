@@ -37,18 +37,30 @@ title: Technical Fridays | Blog | Harshit Kumar
     </div>
 
     <div id="post">
-      <ul class="blog-list">
+
+      {%- comment -%}
+        Search box. Ships hidden and js/site/blog_search.js reveals it, so with
+        JS off or the script missing the reader just gets the normal paginated
+        list instead of a dead input. It lives inside this #post div because
+        _sass/_blog-list.scss scopes the result row layout to `#post .blog-list-item a`.
+      {%- endcomment -%}
+      <div class="blog-search" id="blog-search" data-index="{{ '/search.json' | relative_url }}" hidden>
+        <div class="blog-search-field">
+          <i class="fa-solid fa-magnifying-glass blog-search-icon" aria-hidden="true"></i>
+          <input type="search" id="blog-search-input" class="blog-search-input"
+                 placeholder="Search titles, topics and sections…" autocomplete="off"
+                 aria-label="Search posts" aria-describedby="blog-search-status">
+          <button type="button" class="blog-search-clear" id="blog-search-clear"
+                  aria-label="Clear search" hidden>&times;</button>
+        </div>
+        <p class="blog-search-status" id="blog-search-status" role="status" aria-live="polite"></p>
+      </div>
+
+      <ul class="blog-list" id="blog-paginated-list">
 
         {% for post in paginator.posts %}
-          {% assign first_img_src = "" %}
-          {% if post.content contains '<img' %}
-            {% assign img_split = post.content | split: '<img' %}
-            {% assign first_img  = img_split[1] %}
-            {% assign src_split  = first_img | split: 'src="' %}
-            {% if src_split.size > 1 %}
-              {% assign first_img_src = src_split[1] | split: '"' | first %}
-            {% endif %}
-          {% endif %}
+          {% assign fi_content = post.content %}{% capture first_img_src %}{% include first_image.html %}{% endcapture %}
+          {% assign first_img_src = first_img_src | strip %}
           {% assign words     = post.content | number_of_words %}
           {% assign read_time = words | divided_by: 200 %}
           {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
@@ -81,6 +93,9 @@ title: Technical Fridays | Blog | Harshit Kumar
 
       </ul>
 
+      {%- comment -%}Results replace the list above while a query is active.{%- endcomment -%}
+      <ul class="blog-list" id="blog-search-results" aria-label="Search results" hidden></ul>
+
       {% if paginator.total_pages > 1 %}
       <div class="pagination">
         {% if paginator.previous_page %}
@@ -112,4 +127,6 @@ title: Technical Fridays | Blog | Harshit Kumar
   </div>
 
 </main>
+
+<script src="/js/site/blog_search.js" defer></script>
 

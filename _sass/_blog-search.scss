@@ -1,0 +1,95 @@
+/* Search box on the blog page. See js/site/blog_search.js. */
+
+.blog-search {
+    margin: 18px 0 4px;
+}
+
+/* The box ships with [hidden] and JS reveals it, so that a missing script
+   leaves the normal paginated list rather than a dead input. There is no
+   [hidden] reset anywhere in _sass, and the display below would otherwise
+   override the browser default and show it regardless. */
+.blog-search[hidden] {
+    display: none;
+}
+
+.blog-search-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 9px 12px;
+    background: var(--card-bg);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-theme="dark"] .blog-search-field {
+    border-color: #3a3a3a;
+}
+
+.blog-search-field:focus-within {
+    border-color: var(--accent-color);
+    /* --accent-color (#20B2AA) at 15%. Hard-coded because rgba() cannot take a
+       CSS variable, and the accent is identical in both themes. */
+    box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.15);
+}
+
+.blog-search-input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: var(--text-md);
+    color: var(--font-color);
+}
+
+/* Safari draws its own clear affordance on type=search; we have our own. */
+.blog-search-input::-webkit-search-decoration,
+.blog-search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+.blog-search-icon {
+    color: var(--accent-color);
+    font-size: var(--text-sm);
+}
+
+.blog-search-clear {
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 0 2px;
+    line-height: 1;
+    font-size: 1.25rem;
+    color: #999;
+    transition: color 0.15s;
+}
+
+.blog-search-clear:hover,
+.blog-search-clear:focus-visible {
+    color: var(--accent-color);
+}
+
+.blog-search-status {
+    font-size: var(--text-sm);
+    color: #777;
+    margin: 8px 0 0;
+    /* Reserve the line so results appearing do not shift the list. */
+    min-height: 1.2em;
+}
+
+[data-theme="dark"] .blog-search-status {
+    color: #999;
+}
+
+.blog-list-empty {
+    padding: 28px 0;
+    color: #777;
+    border-bottom: 0;
+}
+
+[data-theme="dark"] .blog-list-empty {
+    color: #999;
+}

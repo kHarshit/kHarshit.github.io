@@ -1,0 +1,29 @@
+{%- comment -%}
+  Outputs the src of the first <img> in a post's rendered content, or "" if the
+  post has none. Used for the thumbnails on the blog list, category pages, the
+  related-post cards and the search index, which previously held four copies of
+  this same string-splitting.
+
+  Reads `fi_content` from the caller's scope rather than taking an include
+  parameter: parameters resolve to nothing inside the related-posts loop in
+  _layouts/post.html, so the parameter form would silently drop those thumbnails.
+
+  Usage:
+    {% assign fi_content = post.content %}
+    {% capture first_img_src %}{% include first_image.html %}{% endcapture %}
+    {% assign first_img_src = first_img_src | strip %}
+
+  Deliberately the naive scrape: it takes whatever the first <img> is, including
+  an SVG. The stricter, extension-filtering version in _layouts/default.html is
+  for og:image, where Twitter and Facebook refuse to render SVG - different job,
+  so the two are intentionally not merged.
+{%- endcomment -%}
+{%- assign first_img_src = "" -%}
+{%- if fi_content contains '<img' -%}
+  {%- assign img_split = fi_content | split: '<img' -%}
+  {%- assign src_split = img_split[1] | split: 'src="' -%}
+  {%- if src_split.size > 1 -%}
+    {%- assign first_img_src = src_split[1] | split: '"' | first -%}
+  {%- endif -%}
+{%- endif -%}
+{{- first_img_src -}}

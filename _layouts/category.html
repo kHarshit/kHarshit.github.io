@@ -24,15 +24,8 @@ layout: default
     <div id="post">
       <ul class="blog-list">
         {% for post in cat_posts %}
-          {% assign first_img_src = "" %}
-          {% if post.content contains '<img' %}
-            {% assign img_split = post.content | split: '<img' %}
-            {% assign first_img  = img_split[1] %}
-            {% assign src_split  = first_img | split: 'src="' %}
-            {% if src_split.size > 1 %}
-              {% assign first_img_src = src_split[1] | split: '"' | first %}
-            {% endif %}
-          {% endif %}
+          {% assign fi_content = post.content %}{% capture first_img_src %}{% include first_image.html %}{% endcapture %}
+          {% assign first_img_src = first_img_src | strip %}
           {% assign words     = post.content | number_of_words %}
           {% assign read_time = words | divided_by: 200 %}
           {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}

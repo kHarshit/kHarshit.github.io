@@ -2,21 +2,31 @@
 const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
 const currentTheme = localStorage.getItem('theme');
 
+// Keep the browser chrome (mobile address bar) matching the page background.
+// Values mirror --bg-color in _variables.scss.
+function syncThemeColor(theme) {
+    const meta = document.getElementById('theme-color-meta');
+    if (meta) meta.setAttribute('content', theme === 'dark' ? '#282828' : '#ffffff');
+}
+
 if (currentTheme) {
     document.documentElement.setAttribute('data-theme', currentTheme);
-  
+
     if (currentTheme === 'dark') {
         toggleSwitch.checked = true;
     }
 }
+syncThemeColor(currentTheme);
 
 function switchTheme(e) {
     if (e.target.checked) {
         document.documentElement.setAttribute('data-theme', 'dark');
         localStorage.setItem('theme', 'dark');
+        syncThemeColor('dark');
     } else {
         document.documentElement.setAttribute('data-theme', 'light');
         localStorage.setItem('theme', 'light');
+        syncThemeColor('light');
     }    
 }
 

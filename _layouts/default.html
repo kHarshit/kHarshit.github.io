@@ -114,7 +114,12 @@
         <link rel="manifest" href="/img/favicon_files/manifest.json">
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
-        <meta name="theme-color" content="#ffffff">
+        {% comment %}
+          Kept in sync with the actual applied theme by dark_theme.html. A
+          prefers-color-scheme media query would be wrong here: the theme comes
+          from the toggle in localStorage, not from the OS setting.
+        {% endcomment %}
+        <meta name="theme-color" id="theme-color-meta" content="#ffffff">
         
         {% if site.google_analytics and jekyll.environment == 'production' %}
             {% include analytics.html %}
@@ -135,6 +140,8 @@
           "@type": "Article",
           "headline": {{ page.title | jsonify }},
           "datePublished": "{{ page.date | date_to_xmlschema }}",
+          "dateModified": "{% if page.last_updated %}{{ page.last_updated | date_to_xmlschema }}{% else %}{{ page.date | date_to_xmlschema }}{% endif %}",
+          "mainEntityOfPage": {"@type": "WebPage", "@id": "{{ page.url | absolute_url }}"},
           "author": {"@type": "Person", "name": "Harshit Kumar", "url": "{{ site.url }}"},
           "description": {{ _og_desc | jsonify }},
           "url": "{{ page.url | absolute_url }}",
