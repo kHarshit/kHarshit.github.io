@@ -2,6 +2,7 @@
 layout: post
 title: "Frontier AI Models Evaluation Benchmarks"
 date: 2026-06-26
+last_updated: 2026-09-15
 categories: [LLM, Generative AI, Agentic AI]
 excerpt: "A guide to frontier AI model benchmarks in 2026, covering MMLU, GPQA Diamond, HLE, SWE-bench, ARC-AGI-2, MMMU, Arena Elo, etc. What each benchmark measures, which models lead, why scores saturate."
 permalink: /blog/frontier-ai-models-evaluation-benchmarks/

@@ -12,6 +12,9 @@ layout: default
         <div class="post-meta">
             <span class="post-meta-date"><i class="fa-regular fa-calendar"></i> {{ page.date | date: "%b %-d, %Y" }}</span>
             <span class="post-meta-read"><i class="fa-regular fa-clock"></i> {% include readtime.html %}</span>
+            {% if page.last_updated %}
+            <span class="post-meta-updated" title="Content last revised"><i class="fa-solid fa-rotate"></i> Updated {{ page.last_updated | date: "%b %-d, %Y" }}</span>
+            {% endif %}
             <div class="post-meta-actions">
                 <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
                     <i class="fa-solid fa-headphones"></i>
