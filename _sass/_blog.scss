@@ -4,17 +4,15 @@
     justify-content: space-between;
     margin-top: 24px;
     margin-bottom: 6px;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 12px;
-}
-
-[data-theme="dark"] .blog-page-header {
-    border-bottom-color: #3a3a3a;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 14px;
 }
 
 .blog-page-title {
-    font-size: 1.8em;
-    font-weight: 700;
+    font-size: 1.9em;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
     margin: 0;
 }
 
@@ -32,12 +30,8 @@
 
 .blog-page-desc {
     font-size: var(--text-md);
-    color: #777;
+    color: var(--ink-soft);
     margin-bottom: 20px;
-}
-
-[data-theme="dark"] .blog-page-desc {
-    color: #999;
 }
 
 .blog-page-desc a {
@@ -112,7 +106,7 @@
 
 .tag-cloud-divider {
     border: none;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 1px solid var(--line);
     margin: 16px 0 0 0;
 }
 

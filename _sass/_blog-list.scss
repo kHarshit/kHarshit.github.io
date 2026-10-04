@@ -5,7 +5,7 @@
 }
 
 .blog-list-item {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--line);
     padding: 28px 0;
     transition: background 0.15s;
 }
@@ -33,7 +33,7 @@
     flex-shrink: 0;
     border-radius: 10px;
     overflow: hidden;
-    background: #f0f4f8;
+    background: var(--card-bg);
 }
 
 [data-theme="dark"] .blog-list-thumb {
@@ -53,8 +53,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
-    color: #c0ccd8;
+    background: var(--card-bg);
+    color: var(--line-strong);
     font-size: 28px;
 }
 
@@ -162,7 +162,7 @@
     align-items: baseline;
     gap: 18px;
     padding: 13px 0;
-    border-bottom: 1px solid #f2f2f2;
+    border-bottom: 1px solid var(--line);
 }
 
 [data-theme="dark"] .post-item {

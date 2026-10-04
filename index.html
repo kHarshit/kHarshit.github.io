@@ -20,21 +20,30 @@ title: Harshit Kumar | Home
                 </div>
                 <div class="hero-text">
                     <p class="hero-title" id="hero-title"></p>
-                    <p class="hero-bio">I build production-grade AI across LLMs, computer vision, and generative AI, from training large-scale models to shipping optimized inference.</p>
+                    <p class="hero-bio">I build production-grade AI across LLMs, computer vision, and generative AI, <span class="tt-muted">from training large-scale models to shipping optimized inference.</span></p>
+                    {% comment %}
+                      Blog posts is counted at build time; years and projects are
+                      hand-kept. js/site/stats.js counts the figures up on first view.
+                    {% endcomment %}
                     <div class="hero-stats">
-                      <span>3+ years experience</span>
-                      <span class="stat-divider">·</span>
-                      <span>15+ projects</span>
-                      <span class="stat-divider">·</span>
-                      <span>80+ blog posts</span>
+                      <div class="hero-stat"><span class="hero-stat-value" data-count="3" data-suffix="+">3+</span><span class="hero-stat-label">Years in industry</span></div>
+                      <div class="hero-stat"><span class="hero-stat-value" data-count="15" data-suffix="+">15+</span><span class="hero-stat-label">Projects built</span></div>
+                      <div class="hero-stat"><span class="hero-stat-value" data-count="{{ site.posts.size }}">{{ site.posts.size }}</span><span class="hero-stat-label">Blog posts</span></div>
+                    </div>
+                    <script src="/js/site/stats.js" defer></script>
+                    <div class="cta-row">
+                      <a class="cta" href="/projects">Explore projects <span class="cta-arrow" aria-hidden="true">&#8599;</span></a>
+                      <a class="cta cta--ghost" href="/blog">Read the blog <span class="cta-arrow" aria-hidden="true">&#8599;</span></a>
                     </div>
                 </div>
             </div>
         </section>
 
+        {% include pipeline_strip.html %}
 
-			<section id="experience">
-				<h2>Experience</h2>
+			<section id="experience" class="tagged-section">
+				<span class="section-tag">01 · Career</span>
+				<h2>Experience, <span class="tt-muted">so far.</span></h2>
 				<div class="timeline">
 
 					<div class="timeline-item timeline-item--current">
@@ -126,8 +135,9 @@ title: Harshit Kumar | Home
 				</div>
 			</section>
 
-			<section id="education">
-				<h2>Education</h2>
+			<section id="education" class="tagged-section">
+				<span class="section-tag">02 · Education</span>
+				<h2>Where I <span class="tt-muted">studied.</span></h2>
 				<div class="timeline">
 
 					<div class="timeline-item">
@@ -228,6 +238,20 @@ title: Harshit Kumar | Home
             <div class="sidebar-section">
                 <div id="skills">
                     <h2>Skills</h2>
+                    {% comment %}Logos: Simple Icons (CC0), stored in /img/site/tools and tinted with the brand colour via CSS mask.{% endcomment %}
+                    <ul class="tool-grid" aria-label="Core stack">
+                        <li class="tool-tile" style="--brand: #EE4C2C; --logo: url(/img/site/tools/pytorch.svg)"><span class="tool-box"><span class="tool-logo" aria-hidden="true"></span></span><span class="tool-name">PyTorch</span></li>
+                        <li class="tool-tile" style="--brand: #FFD21E; --brand-on-light: #D9A400; --logo: url(/img/site/tools/huggingface.svg)"><span class="tool-box"><span class="tool-logo" aria-hidden="true"></span></span><span class="tool-name">Hugging Face</span></li>
+                        <li class="tool-tile" style="--brand: #5C3EE8; --logo: url(/img/site/tools/opencv.svg)"><span class="tool-box"><span class="tool-logo" aria-hidden="true"></span></span><span class="tool-name">OpenCV</span></li>
+                        <li class="tool-tile" style="--brand: #76B900; --logo: url(/img/site/tools/nvidia.svg)"><span class="tool-box"><span class="tool-logo" aria-hidden="true"></span></span><span class="tool-name">CUDA</span></li>
+                        <li class="tool-tile" style="--brand: #028CF0; --logo: url(/img/site/tools/ray.svg)"><span class="tool-box"><span class="tool-logo" aria-hidden="true"></span></span><span class="tool-name">Ray</span></li>
+                        <li class="tool-tile" style="--brand: #2496ED; --logo: url(/img/site/tools/docker.svg)"><span class="tool-box"><span class="tool-logo" aria-hidden="true"></span></span><span class="tool-name">Docker</span></li>
+                        <li class="tool-tile" style="--brand: #3776AB; --logo: url(/img/site/tools/python.svg)"><span class="tool-box"><span class="tool-logo" aria-hidden="true"></span></span><span class="tool-name">Python</span></li>
+                        <li class="tool-tile" style="--brand: #00599C; --logo: url(/img/site/tools/cplusplus.svg)"><span class="tool-box"><span class="tool-logo" aria-hidden="true"></span></span><span class="tool-name">C++</span></li>
+                        <li class="tool-tile" style="--brand: #F05032; --logo: url(/img/site/tools/git.svg)"><span class="tool-box"><span class="tool-logo" aria-hidden="true"></span></span><span class="tool-name">Git</span></li>
+                    </ul>
+                    <details class="skills-more">
+                        <summary>All skills</summary>
                     <div class="skill-group">
                         <span class="skill-label">Languages</span>
                         <div class="skill-chips">
@@ -301,6 +325,7 @@ title: Harshit Kumar | Home
                             <span class="chip">Linux</span>
                         </div>
                     </div>
+                    </details>
                 </div>
             </div>
 

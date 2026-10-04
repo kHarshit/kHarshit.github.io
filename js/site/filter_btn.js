@@ -21,6 +21,23 @@ for (var i = 0; i < btns.length; i++) {
     });
 }
 
+// Append "N" to each chip: how many items that filter shows.
+(function() {
+    var items = document.getElementsByClassName('text-category-title');
+    for (var i = 0; i < btns.length; i++) {
+        var m = /filterSelection\('([^']*)'\)/.exec(btns[i].getAttribute('onclick') || '');
+        if (!m) continue;
+        var cat = m[1], n = 0;
+        for (var j = 0; j < items.length; j++) {
+            if (cat === 'all' || cat === '' || items[j].classList.contains(cat)) n++;
+        }
+        var badge = document.createElement('span');
+        badge.className = 'filter-count';
+        badge.textContent = n;
+        btns[i].appendChild(badge);
+    }
+})();
+
 // On load, apply filter from URL hash if present
 (function() {
     var hash = window.location.hash.replace('#', '');

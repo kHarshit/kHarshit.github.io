@@ -5,15 +5,22 @@
   color-scheme: light;
 
   /* ── Colour palette ───────────────────────────────────────── */
+  /* Keep --bg-color in sync with the theme-color values in
+     _layouts/default.html and _includes/dark_theme.html. */
   --bg-color: #ffffff;
   --font-color: #282828;
+  --ink-soft: #4a4a4a;      /* nav links, secondary body text */
+  --ink-muted: #8a8a8a;     /* second half of two-tone headlines */
+  --line: rgba(0, 0, 0, 0.09);           /* hairline borders */
+  --line-strong: rgba(0, 0, 0, 0.16);    /* button / chip outlines */
   --accent-color: #20B2AA;
   --accent-hover: #178f8c;
+  --on-accent: #0e1f1e;     /* text on a filled-accent surface (7:1 on teal) */
   --chip-bg: #f0faf9;
   --border-color: #a0d8d5;
   --card-bg: #f4f4f4;
   --card-bg-alt: #f5f5f5;
-  --header-bg: #0f1117;
+  --header-bg: #ffffff;
 
   /* ── Glassmorphism ────────────────────────────────────────── */
   --glass-bg: rgba(255, 255, 255, 0.55);
@@ -34,10 +41,15 @@
 
     --bg-color: #282828;
     --font-color: #fff;
+    --ink-soft: #cccccc;
+    --ink-muted: #8f8f8f;
+    --line: rgba(255, 255, 255, 0.12);
+    --line-strong: rgba(255, 255, 255, 0.22);
     --chip-bg: #3a3a3a;
     --mbcard-bg: #3a3a3a;
     --card-bg: #3a3a3a;
     --card-bg-alt: #3a3a3a;
+    --header-bg: #282828;
     --glass-bg: rgba(40, 40, 40, 0.65);
     --glass-border: rgba(255, 255, 255, 0.06);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);

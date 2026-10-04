@@ -12,7 +12,25 @@
         }
     }
 
+    // Append "N" to each chip, using the same match as filterProjects so the
+    // number always equals what the chip shows when clicked.
+    function addCounts() {
+        var items = document.querySelectorAll('#projects-list .project-list-item');
+        var buttons = document.querySelectorAll('.project-filters .filter-btn');
+        for (var i = 0; i < buttons.length; i++) {
+            var f = buttons[i].dataset.filter, n = 0;
+            for (var j = 0; j < items.length; j++) {
+                if (f === 'all' || (items[j].dataset.category || '').indexOf(f) > -1) n++;
+            }
+            var badge = document.createElement('span');
+            badge.className = 'filter-count';
+            badge.textContent = n;
+            buttons[i].appendChild(badge);
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+        addCounts();
         var filters = document.querySelector('.project-filters');
         if (filters) {
             filters.addEventListener('click', function(e) {

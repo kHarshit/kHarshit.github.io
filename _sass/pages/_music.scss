@@ -179,7 +179,7 @@
 }
 
 .music-filters .filter-btn {
-    border: 1.5px solid #e0e0e0;
+    border: 1px solid var(--line-strong);
     background: transparent;
     color: var(--font-color, #282828);
     padding: 5px 14px;
@@ -188,11 +188,6 @@
     font-weight: 500;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-
-[data-theme="dark"] .music-filters .filter-btn {
-    border-color: #444;
-    color: #ddd;
 }
 
 .music-filters .filter-btn:hover {
@@ -204,7 +199,7 @@
 .music-filters .filter-btn.active {
     background: var(--accent-color, #20B2AA);
     border-color: var(--accent-color, #20B2AA);
-    color: #fff;
+    color: var(--on-accent);
 }
 
 /* ── Music index: list items ──────────────────────────────── */

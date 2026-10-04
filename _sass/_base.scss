@@ -47,6 +47,12 @@ body {
     background: linear-gradient(135deg, var(--bg-color) 0%, #222 50%, #1e2828 100%);
 }
 
+/* ── Two-tone headlines ───────────────────────────────────── */
+/* Wrap the second clause of a heading: "Experience, <span class="tt-muted">so far.</span>" */
+.tt-muted {
+    color: var(--ink-muted);
+}
+
 header, section, article, footer, aside, nav, hgroup, h1, h2, h3, h4, h5, h6 {
     display: block;
 }

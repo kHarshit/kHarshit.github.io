@@ -1,0 +1,129 @@
+/* ── ML pipeline line drawing (homepage divider) ───────────── */
+/* Markup: _includes/pipeline_strip.html. Line art in the muted ink colour,
+   the model and the packets in the accent. */
+.pipeline-strip {
+    margin: 8px 0 0;
+}
+
+.pipeline-art {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: var(--ink-muted);
+    overflow: visible;
+}
+
+.pipeline-art line,
+.pipeline-art path,
+.pipeline-art rect,
+.pipeline-art ellipse,
+.pipeline-art circle {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.pipe-base {
+    stroke: var(--line-strong) !important;
+}
+
+.pipe-ticks line {
+    stroke: var(--line-strong);
+}
+
+.pipe-wire line,
+.pipeline-art .pipe-dash {
+    stroke-dasharray: 3 4;
+}
+
+.pipeline-art .pipe-accent path {
+    stroke: var(--accent-color);
+    stroke-opacity: 0.45;
+    stroke-width: 1;
+}
+
+.pipeline-art .pipe-node {
+    stroke: var(--accent-color);
+    fill: var(--bg-color);
+}
+
+.pipeline-art .pipe-accent-line {
+    stroke: var(--accent-color);
+    stroke-width: 1.75;
+}
+
+.pipeline-art .pipe-led {
+    stroke: none;
+    fill: var(--accent-color);
+    animation: pipe-blink 2.5s steps(1) infinite;
+}
+
+.pipeline-art .pipe-led + .pipe-led {
+    animation-delay: 1.25s;
+}
+
+/* Each connector's packet runs during its own fifth of a 5s loop, so a
+   single packet appears to hop DATA → TRAIN → MODEL → EVAL → SERVE and then
+   rest for a beat before starting again. */
+.pipe-packets circle {
+    stroke: none;
+    fill: var(--accent-color);
+    opacity: 0;
+    animation: pipe-hop 5s linear infinite;
+    animation-delay: calc(var(--i) * 1s);
+}
+
+.pipe-labels text {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-anchor: middle;
+    fill: var(--ink-muted);
+}
+
+.pipeline-strip figcaption {
+    margin-top: 10px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+.pipeline-strip figcaption span {
+    color: var(--accent-color);
+    margin-right: 8px;
+}
+
+@keyframes pipe-hop {
+    0%   { transform: translateX(0); opacity: 0; }
+    3%   { opacity: 1; }
+    17%  { opacity: 1; }
+    20%  { transform: translateX(var(--len)); opacity: 0; }
+    100% { transform: translateX(var(--len)); opacity: 0; }
+}
+
+@keyframes pipe-blink {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.25; }
+}
+
+/* Too small to read on phones; the drawing alone carries it. */
+@media (max-width: 600px) {
+    .pipe-labels { display: none; }
+}
+
+/* Reduced motion: the global rule in _base.scss collapses the animation to a
+   single instant iteration, which would leave every packet invisible. Show one
+   resting packet on each wire instead. */
+@media (prefers-reduced-motion: reduce) {
+    .pipe-packets circle {
+        animation: none;
+        opacity: 1;
+        transform: translateX(calc(var(--len) / 2));
+    }
+    .pipeline-art .pipe-led { animation: none; }
+}

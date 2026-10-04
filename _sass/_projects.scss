@@ -157,7 +157,7 @@
     justify-content: space-between;
     gap: 16px;
     padding: 14px 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--line);
 }
 
 [data-theme="dark"] .events-item {
@@ -188,7 +188,7 @@
 }
 
 .project-list-item {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--line);
     padding: 24px 0;
 }
 
@@ -307,23 +307,21 @@
     gap: 12px;
     margin-top: 24px;
     margin-bottom: 6px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #f0f0f0;
-}
-
-[data-theme="dark"] .projects-page-header {
-    border-bottom-color: #3a3a3a;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
 }
 
 .projects-page-title {
-    font-size: 1.8em;
-    font-weight: 700;
+    font-size: 1.9em;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
     margin: 0;
 }
 
 .projects-page-subtitle {
     font-size: var(--text-md);
-    color: #777;
+    color: var(--ink-soft);
     margin-bottom: 20px;
 }
 
@@ -347,13 +345,9 @@
 .github-chart-wrap {
     margin: 0 0 2rem;
     background: var(--card-bg);
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--line);
     border-radius: 12px;
     padding: 18px 22px 16px;
-}
-
-[data-theme="dark"] .github-chart-wrap {
-    border-color: #3a3a3a;
 }
 
 .github-chart-label {
@@ -387,7 +381,7 @@
 .filter-btn {
     padding: 5px 14px;
     margin: 0;
-    border: 1.5px solid #e0e0e0;
+    border: 1px solid var(--line-strong);
     cursor: pointer;
     background: transparent;
     color: var(--font-color);
@@ -395,11 +389,6 @@
     font-size: var(--text-md);
     font-weight: 500;
     transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-
-[data-theme="dark"] .filter-btn {
-    border-color: #444;
-    color: #ddd;
 }
 
 .filter-btn:hover {
@@ -411,5 +400,15 @@
 .filter-btn.active {
     background: var(--accent-color);
     border-color: var(--accent-color);
-    color: #fff;
+    color: var(--on-accent);
+}
+
+/* Item count added to each chip by the filter scripts. Shared with the
+   poems, books and music filters. */
+.filter-count {
+    margin-left: 7px;
+    font-size: 0.78em;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.55;
 }

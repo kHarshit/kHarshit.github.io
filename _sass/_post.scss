@@ -79,8 +79,15 @@
     text-decoration: none;
     padding: 5px 6px;
     line-height: 1.4;
-    font-size: var(--text-xs);
+    font-size: 13.5px;
     transition: background 0.15s, color 0.15s;
+}
+
+/* The TOC and the prev/next links are <nav>s, so they pick up the header
+   menu's link rules from _header.scss; drop its current-page dot. */
+.toc-list a::after,
+.post-nav a::after {
+    display: none;
 }
 
 .toc-list .toc-h1 a {
@@ -99,7 +106,7 @@
     color: var(--font-color);
     font-weight: 400;
     opacity: 0.65;
-    font-size: calc(var(--text-xs) - 1px);
+    font-size: 12.5px;
     padding-left: 28px;
 }
 

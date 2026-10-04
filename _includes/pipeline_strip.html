@@ -1,0 +1,94 @@
+{% comment %}
+  Decorative line drawing of an ML pipeline, used as a divider under the
+  homepage hero. Strokes use currentColor (set by .pipeline-art), accents use
+  the theme's teal, so it follows light/dark mode. One "packet" circle per
+  connector hops from stage to stage on a shared 5s loop (see _pipeline.scss);
+  --len is the connector length in SVG units. Hidden from screen readers
+  except for the figure's label.
+{% endcomment %}
+<figure class="pipeline-strip" role="img" aria-label="Illustration: a machine learning pipeline from data, through training and the model, to evaluation and serving">
+    <svg class="pipeline-art" viewBox="0 0 720 100" aria-hidden="true" focusable="false">
+        <!-- ruler baseline -->
+        <line class="pipe-base" x1="0" y1="78" x2="720" y2="78"/>
+        <g class="pipe-ticks">
+            {% for i in (0..30) %}<line x1="{{ i | times: 24 }}" y1="78" x2="{{ i | times: 24 }}" y2="{% if i == 0 or i == 30 or i == 15 %}84{% else %}81{% endif %}"/>{% endfor %}
+        </g>
+
+        <!-- connectors -->
+        <g class="pipe-wire">
+            <line x1="74" y1="44" x2="166" y2="44"/>
+            <line x1="234" y1="44" x2="328" y2="44"/>
+            <line x1="394" y1="44" x2="490" y2="44"/>
+            <line x1="552" y1="44" x2="644" y2="44"/>
+        </g>
+
+        <!-- DATA: dataset cylinder -->
+        <g class="pipe-station">
+            <ellipse cx="50" cy="28" rx="20" ry="5.5"/>
+            <path d="M30 28 V60 a20 5.5 0 0 0 40 0 V28"/>
+            <path d="M30 39 a20 5.5 0 0 0 40 0"/>
+            <path d="M30 50 a20 5.5 0 0 0 40 0"/>
+        </g>
+
+        <!-- TRAIN: GPU card with two fans and edge pins -->
+        <g class="pipe-station">
+            <rect x="168" y="28" width="64" height="30" rx="3"/>
+            <circle cx="186" cy="43" r="9"/>
+            <circle cx="214" cy="43" r="9"/>
+            <path d="M186 36 V50 M179 43 H193 M214 36 V50 M207 43 H221"/>
+            <path d="M176 58 v5 M184 58 v5 M192 58 v5 M200 58 v5 M208 58 v5 M216 58 v5 M224 58 v5"/>
+        </g>
+
+        <!-- MODEL: a small neural net, in the accent colour -->
+        <g class="pipe-station pipe-accent">
+            <path d="M336 30 L361 22 M336 30 L361 37 M336 30 L361 51 M336 30 L361 66
+                     M336 44 L361 22 M336 44 L361 37 M336 44 L361 51 M336 44 L361 66
+                     M336 58 L361 22 M336 58 L361 37 M336 58 L361 51 M336 58 L361 66
+                     M361 22 L386 37 M361 37 L386 37 M361 51 L386 37 M361 66 L386 37
+                     M361 22 L386 51 M361 37 L386 51 M361 51 L386 51 M361 66 L386 51"/>
+            <circle class="pipe-node" cx="336" cy="30" r="3.5"/>
+            <circle class="pipe-node" cx="336" cy="44" r="3.5"/>
+            <circle class="pipe-node" cx="336" cy="58" r="3.5"/>
+            <circle class="pipe-node" cx="361" cy="22" r="3.5"/>
+            <circle class="pipe-node" cx="361" cy="37" r="3.5"/>
+            <circle class="pipe-node" cx="361" cy="51" r="3.5"/>
+            <circle class="pipe-node" cx="361" cy="66" r="3.5"/>
+            <circle class="pipe-node" cx="386" cy="37" r="3.5"/>
+            <circle class="pipe-node" cx="386" cy="51" r="3.5"/>
+        </g>
+
+        <!-- EVAL: loss curve settling under a target line -->
+        <g class="pipe-station">
+            <path d="M494 22 V62 H550"/>
+            <path class="pipe-dash" d="M494 54 H550"/>
+            <path class="pipe-accent-line" d="M498 26 C506 48 514 54 524 56 S542 58 548 58"/>
+        </g>
+
+        <!-- SERVE: two-unit server rack with status lights -->
+        <g class="pipe-station">
+            <rect x="646" y="24" width="48" height="16" rx="2"/>
+            <rect x="646" y="44" width="48" height="16" rx="2"/>
+            <path d="M664 32 H686 M664 52 H686 M670 60 V68 M670 68 H682"/>
+            <circle class="pipe-led" cx="655" cy="32" r="2.2"/>
+            <circle class="pipe-led" cx="655" cy="52" r="2.2"/>
+        </g>
+
+        <!-- packets -->
+        <g class="pipe-packets">
+            <circle cx="74" cy="44" r="3.5" style="--i: 0; --len: 92px"/>
+            <circle cx="234" cy="44" r="3.5" style="--i: 1; --len: 94px"/>
+            <circle cx="394" cy="44" r="3.5" style="--i: 2; --len: 96px"/>
+            <circle cx="552" cy="44" r="3.5" style="--i: 3; --len: 92px"/>
+        </g>
+
+        <!-- stage labels -->
+        <g class="pipe-labels">
+            <text x="50" y="97">DATA</text>
+            <text x="200" y="97">TRAIN</text>
+            <text x="361" y="97">MODEL</text>
+            <text x="522" y="97">EVAL</text>
+            <text x="670" y="97">SERVE</text>
+        </g>
+    </svg>
+    <figcaption><span>Fig. 01</span> From data to deployment</figcaption>
+</figure>
