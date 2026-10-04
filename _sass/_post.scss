@@ -149,13 +149,43 @@
     border-bottom: 1px solid #e8ecf0;
 }
 
+/* Categories above the title, as on the list pages: the first as a filled
+   tag, the rest as small links. They're links here, so restate their colours
+   over the post's link rules. */
+.post-eyebrow {
+    flex-wrap: wrap;
+    row-gap: 6px;
+    margin: 1.5rem 0 0.6rem;
+}
+
+.post-eyebrow-more a {
+    color: var(--ink-muted) !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease;
+}
+
+.post-eyebrow-more a:hover {
+    color: var(--accent-color) !important;
+}
+
+.post-eyebrow a.section-tag {
+    color: var(--on-accent) !important;
+    text-decoration: none !important;
+    transition: background 0.15s ease;
+}
+
+.post-eyebrow a.section-tag:hover {
+    background: var(--accent-hover);
+}
+
 [data-theme="dark"] .post-header {
     border-bottom-color: #2e3a4a;
 }
 
 .post-title {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.025em;
     line-height: 1.25;
     margin: 0 0 0.75rem;
     color: var(--font-color);
@@ -163,10 +193,17 @@
 
 .post-meta {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 4px 8px;
     font-size: var(--text-sm);
     color: #888;
+}
+
+/* Keep each item whole ("Mar 21, 2025", "29 min read"); wrap between items. */
+.post-meta-date,
+.post-meta-read {
+    white-space: nowrap;
 }
 
 .post-meta-sep {
@@ -386,18 +423,6 @@
 .post-content h3:hover .heading-anchor,
 .post-content h4:hover .heading-anchor {
     opacity: 1;
-}
-
-.post-meta-tags-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-}
-
-.post-meta-tags-row .tag-cloud {
-    margin-bottom: 0;
-    flex: 1;
 }
 
 .post-meta-actions {

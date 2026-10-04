@@ -17,44 +17,50 @@
     box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
 }
 
-/* Back link */
-.poem-back-link {
-    display: inline-block;
-    font-size: var(--text-md);
-    font-weight: 500;
-    color: var(--accent-color) !important;
-    text-decoration: none !important;
-    margin-bottom: 1.5rem;
-    opacity: 0.9;
-    transition: opacity 0.15s;
-}
-.poem-back-link:hover { opacity: 1 !important; }
-
-/* Header: title + meta */
+/* Header: category tag + back link, title, then author with the actions */
 .poem-header {
     margin-bottom: 1.25rem;
 }
 
-.poem-header .tag-cloud {
-    margin-bottom: 0;
+.poem-eyebrow {
+    flex-wrap: wrap;
+    row-gap: 6px;
+    margin: 0 0 0.75rem;
+}
+
+/* Both are links: restate their colours over the poem's link rules. */
+.poem-eyebrow a.section-tag {
+    color: var(--on-accent) !important;
+    text-decoration: none !important;
+    transition: background 0.15s ease;
+}
+
+.poem-eyebrow a.section-tag:hover {
+    background: var(--accent-hover);
+}
+
+.poem-eyebrow .poem-back-link {
+    color: var(--ink-muted) !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease;
+}
+
+.poem-eyebrow .poem-back-link:hover {
+    color: var(--accent-color) !important;
 }
 
 .poem-title {
     font-size: 2em;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.02em;
     line-height: 1.2;
     margin: 0 0 0.45em 0;
     color: var(--font-color);
 }
 
-.poem-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
 .poem-meta-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
 }

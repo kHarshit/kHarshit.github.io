@@ -8,6 +8,16 @@ layout: default
 <div class="container post-container">
 
     <div class="post-header">
+        {% comment %}All categories, above the title: the first as a filled tag, the rest as small links.{% endcomment %}
+        {% if page.categories.size > 0 %}
+        {% assign primary_category = page.categories | first %}
+        <div class="page-eyebrow post-eyebrow">
+            <a class="section-tag" href="{{ site.baseurl }}/categories/{{ primary_category | slugify }}/">{{ primary_category }}</a>
+            {% if page.categories.size > 1 %}
+            <span class="page-eyebrow-meta post-eyebrow-more">{% for category in page.categories offset: 1 %}<a href="{{ site.baseurl }}/categories/{{ category | slugify }}/">{{ category }}</a>{% unless forloop.last %}<span aria-hidden="true"> · </span>{% endunless %}{% endfor %}</span>
+            {% endif %}
+        </div>
+        {% endif %}
         <h1 class="post-title">{{ page.title }}</h1>
         <div class="post-meta">
             <span class="post-meta-date"><i class="fa-regular fa-calendar"></i> {{ page.date | date: "%b %-d, %Y" }}</span>
@@ -27,18 +37,6 @@ layout: default
                 </div>
             </div>
         </div>
-
-        <!-- Tags -->
-        {% assign categories = page.categories %}
-        {% if categories.size > 0 %}
-        <div class="post-meta-tags-row">
-            <ul class="tag-cloud">
-                {% for category in categories %}
-                    <li><a href="{{ site.baseurl }}/categories/{{ category | slugify }}/">{{ category }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
     </div>
 
     <div class="post-layout">
@@ -84,39 +82,38 @@ layout: default
 
 
     <!-- Related posts -->
+    {% comment %}
+      Pick up to maxRelated posts sharing at least minCommonTags categories with
+      this one, ranked by how many they share (most first), newest first within
+      a tier. The picks are collected as URLs, then rendered in that order.
+    {% endcomment %}
     {% assign maxRelated = 3 %}
     {% assign minCommonTags = 2 %}
-    {% assign maxRelatedCounter = 0 %}
-    {% assign hasRelated = false %}
-    {% for post in site.posts %}
-        {% assign sameTagCount = 0 %}
-        {% for category in post.categories %}
-            {% if post.url != page.url %}
-                {% if page.categories contains category %}
-                    {% assign sameTagCount = sameTagCount | plus: 1 %}
+    {% assign related_urls = "" %}
+    {% assign related_count = 0 %}
+    {% assign maxShared = page.categories.size %}
+    {% for tier in (minCommonTags..maxShared) reversed %}
+        {% for candidate in site.posts %}
+            {% if related_count < maxRelated and candidate.url != page.url %}
+                {% assign shared = 0 %}
+                {% for category in candidate.categories %}
+                    {% if page.categories contains category %}{% assign shared = shared | plus: 1 %}{% endif %}
+                {% endfor %}
+                {% if shared == tier %}
+                    {% assign related_urls = related_urls | append: candidate.url | append: "|" %}
+                    {% assign related_count = related_count | plus: 1 %}
                 {% endif %}
             {% endif %}
         {% endfor %}
-        {% if sameTagCount >= minCommonTags and maxRelatedCounter < maxRelated %}
-            {% assign hasRelated = true %}
-        {% endif %}
     {% endfor %}
 
-    {% if hasRelated %}
+    {% if related_count > 0 %}
     <div class="post-related">
-        <h3 class="post-related-heading">You May Also Like</h3>
+        <h3 class="post-related-heading">Related posts</h3>
         <div class="post-related-grid">
-        {% assign maxRelatedCounter = 0 %}
-        {% for post in site.posts %}
-            {% assign sameTagCount = 0 %}
-            {% for category in post.categories %}
-                {% if post.url != page.url %}
-                    {% if page.categories contains category %}
-                        {% assign sameTagCount = sameTagCount | plus: 1 %}
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-            {% if sameTagCount >= minCommonTags and maxRelatedCounter < maxRelated %}
+        {% assign related_list = related_urls | split: "|" %}
+        {% for related_url in related_list %}
+            {% assign post = site.posts | where: "url", related_url | first %}
             {% assign first_img_src = "" %}
             {% if post.content contains '<img' %}
               {% assign img_split = post.content | split: '<img' %}
@@ -137,8 +134,6 @@ layout: default
                 <span class="post-related-title">{{ post.title }}</span>
                 <span class="post-related-date">{{ post.date | date: "%b %Y" }}</span>
             </a>
-            {% assign maxRelatedCounter = maxRelatedCounter | plus: 1 %}
-            {% endif %}
         {% endfor %}
         </div>
     </div>

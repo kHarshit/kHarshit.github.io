@@ -53,6 +53,12 @@
     var list = document.getElementById('toc-list');
     if (block && list) {
       block.removeAttribute('hidden');
+      // At <=768px the TOC stacks above the article (see _post.scss), and a long
+      // one pushed the first paragraph about two screens down. Start it closed
+      // there; one tap on "Contents" opens it.
+      if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+        block.open = false;
+      }
 
       var tocLinks = [];
       var ol = document.createElement('ol');

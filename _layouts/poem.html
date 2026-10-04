@@ -7,39 +7,35 @@ layout: default
 <div class="container">
     <article class="poem poetry">
 
-        <a href="/poems" class="poem-back-link">← Poems</a>
-
         <div class="poem-header">
+            {% comment %}
+              Category tag + back link above the title, as on blog posts. Every
+              poem has one category; the tag opens the poems list filtered to it.
+            {% endcomment %}
+            <div class="page-eyebrow poem-eyebrow">
+                {% if page.categories.size > 0 %}
+                {% assign poem_category = page.categories | first | strip %}
+                <a class="section-tag" href="{{ site.baseurl }}/poems#{{ poem_category | slugify }}">{{ poem_category }}</a>
+                {% endif %}
+                <a class="page-eyebrow-meta poem-back-link" href="/poems">&larr; All poems</a>
+            </div>
             <h1 class="poem-title">{{ page.title }}</h1>
-            <div class="poem-meta">
-                <div class="poem-meta-row">
-                    <span class="poem-author">{{ page.author }}</span>
+            <div class="poem-meta-row">
+                <span class="poem-author">{{ page.author }}</span>
+                <div class="post-meta-actions">
                     {% if page.explanations %}
-                    <div class="post-meta-actions">
-                        <button class="poem-explain-toggle" id="poem-explain-toggle">
-                            <i class="fa-solid fa-circle-info"></i> Show explanations
-                        </button>
-                    </div>
+                    <button class="poem-explain-toggle" id="poem-explain-toggle">
+                        <i class="fa-solid fa-circle-info"></i> Show explanations
+                    </button>
                     {% endif %}
-                </div>
-                <div class="post-meta-tags-row">
-                    {% if page.categories.size > 0 %}
-                    <ul class="tag-cloud">
-                    {% for category in page.categories %}
-                        <li><a href="{{ site.baseurl }}/poems#{{ category | slugify }}">{{ category | capitalize }}</a></li>
-                    {% endfor %}
-                    </ul>
-                    {% endif %}
-                    <div class="post-meta-actions">
-                        <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
-                            <i class="fa-solid fa-headphones"></i>
-                        </button>
-                        <div class="poem-soundscape-panel" id="poem-soundscape-panel">
-                            <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
-                            <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
-                            <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
-                            <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
-                        </div>
+                    <button class="poem-soundscape-toggle" id="poem-soundscape-toggle" title="Ambient soundscape">
+                        <i class="fa-solid fa-headphones"></i>
+                    </button>
+                    <div class="poem-soundscape-panel" id="poem-soundscape-panel">
+                        <button class="poem-soundscape-option" data-sound="rain">🌧️ Rain</button>
+                        <button class="poem-soundscape-option" data-sound="ocean">🌊 Ocean</button>
+                        <button class="poem-soundscape-option" data-sound="wind">💨 Wind</button>
+                        <button class="poem-soundscape-option" data-sound="birds">🕊️ Birds</button>
                     </div>
                 </div>
             </div>
