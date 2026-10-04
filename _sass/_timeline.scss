@@ -68,70 +68,88 @@
     border-color: var(--glass-border);
 }
 
-.exp-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
+/* ── Entry layout ─────────────────────────────────────────── */
+/* Two columns: when/where on the left in small mono, the role on the right.
+   .exp-card--row is the one-line form for short or older entries. */
+.exp-card {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 4px 18px;
 }
 
-.exp-meta {
-    flex: 1;
+.exp-when {
+    display: flex;
+    flex-direction: column;
+    padding-top: 3px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--ink-muted);
+}
+
+.exp-years {
+    color: var(--font-color);
+}
+
+.timeline-item--current .exp-years {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.exp-body {
     min-width: 0;
 }
 
 .exp-role {
     font-size: var(--text-lg);
-    font-weight: 700;
-    margin: 0 0 3px 0;
-    color: var(--font-color);
-    line-height: 1.3;
-}
-
-.exp-company {
-    font-size: var(--text-md);
-    color: #666;
+    font-weight: 600;
     margin: 0;
+    color: var(--font-color);
+    line-height: 1.35;
 }
 
-[data-theme="dark"] .exp-company {
-    color: #999;
+/* "· Company" after the role: lighter, so the role reads first. */
+.exp-at {
+    font-weight: 400;
+    color: var(--ink-muted);
 }
 
-.exp-date {
+.exp-path {
+    margin: 4px 0 0;
     font-size: var(--text-sm);
-    font-weight: 500;
-    color: #888;
-    background: var(--card-bg);
-    padding: 3px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    align-self: flex-start;
-    margin-top: 2px;
+    line-height: 1.5;
+    color: var(--ink-muted);
 }
 
-.exp-date.current {
-    background: rgba(32, 178, 170, 0.1);
+.exp-path span {
     color: var(--accent-color);
+    margin-right: 2px;
 }
 
-[data-theme="dark"] .exp-date {
-    background: #2a3a4a;
-    color: #aaa;
+.exp-points {
+    margin: 10px 0 12px;
+    padding-left: 18px;
 }
 
-.exp-desc {
+.exp-points li {
     font-size: var(--text-md);
-    line-height: 1.65;
+    line-height: 1.6;
     color: #555;
-    margin: 0 0 10px 0;
+    margin-bottom: 4px;
 }
 
-[data-theme="dark"] .exp-desc {
+.exp-points li:last-child {
+    margin-bottom: 0;
+}
+
+[data-theme="dark"] .exp-points li {
     color: #bbb;
+}
+
+/* Results inside a bullet: one step darker, not bold-black. */
+.exp-points strong {
+    font-weight: 600;
+    color: var(--font-color);
 }
 
 .exp-tags {
@@ -140,30 +158,59 @@
     gap: 5px;
 }
 
+.exp-path + .exp-tags {
+    margin-top: 12px;
+}
+
 .exp-tags .chip {
     font-size: var(--text-sm);
     padding: 2px 9px;
 }
 
-.exp-sub {
-    margin-top: 14px;
-    padding-top: 12px;
+.exp-note {
+    margin: 12px 0 0;
+    padding-top: 10px;
     border-top: 1px solid var(--line);
-}
-
-[data-theme="dark"] .exp-sub {
-    border-top-color: #3a3a3a;
-}
-
-.exp-sub-role {
     font-size: var(--text-sm);
-    font-weight: 600;
-    color: #666;
-    margin: 0 0 5px 0;
+    line-height: 1.55;
+    color: var(--ink-muted);
 }
 
-[data-theme="dark"] .exp-sub-role {
-    color: #aaa;
+.exp-note span {
+    font-weight: 600;
+    color: var(--ink-soft);
+}
+
+/* One-line entries: tighter padding, no hover lift, smaller dot. */
+.exp-card--row {
+    align-items: baseline;
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+
+.exp-card--row .exp-when {
+    padding-top: 0;
+}
+
+.exp-line {
+    margin: 0;
+    font-size: var(--text-md);
+    line-height: 1.5;
+    color: var(--font-color);
+}
+
+.exp-line strong {
+    font-weight: 600;
+}
+
+.exp-line-desc {
+    color: var(--ink-muted);
+}
+
+.timeline-item--row .timeline-icon {
+    width: 9px;
+    height: 9px;
+    top: 14px;
 }
 
 @media screen and (max-width: 768px) {
@@ -173,18 +220,18 @@
     .timeline-icon {
         transform: translateX(calc(-50% - 18px));
     }
-    .exp-header {
-        flex-direction: column;
-        gap: 6px;
+    /* Stack: the when/where column becomes one line above the role. */
+    .exp-card {
+        grid-template-columns: minmax(0, 1fr);
     }
-}
-
-.timeline-date {
-    font-size: var(--text-sm);
-    color: #888;
-    margin: 2px 0 6px 0;
-}
-
-[data-theme="dark"] .timeline-date {
-    color: #999;
+    .exp-when {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding-top: 0;
+    }
+    /* Separator after each item, so a wrapped line never starts with "·". */
+    .exp-when span:not(:last-child)::after {
+        content: '\00b7';
+        margin: 0 6px;
+    }
 }

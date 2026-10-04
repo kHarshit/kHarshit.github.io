@@ -76,12 +76,23 @@
     animation-delay: calc(var(--i) * 1s);
 }
 
-.pipe-labels text {
+.pipe-labels {
+    position: relative;
+    height: 14px;
+    margin-top: 4px;
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 9px;
-    letter-spacing: 1.5px;
-    text-anchor: middle;
-    fill: var(--ink-muted);
+    letter-spacing: 0.16em;
+    line-height: 14px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+.pipe-labels span {
+    position: absolute;
+    left: var(--x);
+    transform: translateX(-50%);
+    white-space: nowrap;
 }
 
 .pipeline-strip figcaption {
@@ -111,9 +122,11 @@
     50%  { opacity: 0.25; }
 }
 
-/* Too small to read on phones; the drawing alone carries it. */
 @media (max-width: 600px) {
-    .pipe-labels { display: none; }
+    .pipe-labels {
+        font-size: 10px;
+        letter-spacing: 0.08em;
+    }
 }
 
 /* Reduced motion: the global rule in _base.scss collapses the animation to a

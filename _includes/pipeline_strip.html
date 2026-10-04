@@ -7,7 +7,7 @@
   except for the figure's label.
 {% endcomment %}
 <figure class="pipeline-strip" role="img" aria-label="Illustration: a machine learning pipeline from data, through training and the model, to evaluation and serving">
-    <svg class="pipeline-art" viewBox="0 0 720 100" aria-hidden="true" focusable="false">
+    <svg class="pipeline-art" viewBox="0 0 720 88" aria-hidden="true" focusable="false">
         <!-- ruler baseline -->
         <line class="pipe-base" x1="0" y1="78" x2="720" y2="78"/>
         <g class="pipe-ticks">
@@ -80,15 +80,18 @@
             <circle cx="394" cy="44" r="3.5" style="--i: 2; --len: 96px"/>
             <circle cx="552" cy="44" r="3.5" style="--i: 3; --len: 92px"/>
         </g>
-
-        <!-- stage labels -->
-        <g class="pipe-labels">
-            <text x="50" y="97">DATA</text>
-            <text x="200" y="97">TRAIN</text>
-            <text x="361" y="97">MODEL</text>
-            <text x="522" y="97">EVAL</text>
-            <text x="670" y="97">SERVE</text>
-        </g>
     </svg>
+    {% comment %}
+      Stage labels live outside the SVG so they keep a readable size when the
+      drawing scales down on phones. --x is each station's centre as a share of
+      the 720-unit viewBox width.
+    {% endcomment %}
+    <div class="pipe-labels" aria-hidden="true">
+        <span style="--x: 6.94%">Data</span>
+        <span style="--x: 27.78%">Train</span>
+        <span style="--x: 50.14%">Model</span>
+        <span style="--x: 72.5%">Eval</span>
+        <span style="--x: 93.06%">Serve</span>
+    </div>
     <figcaption><span>Fig. 01</span> From data to deployment</figcaption>
 </figure>
