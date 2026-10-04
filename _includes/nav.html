@@ -11,10 +11,10 @@
             {% endcomment %}
             <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-controls="nav-more-menu">More <span aria-hidden="true">&#9662;</span></button>
             <ul class="nav-dropdown-menu" id="nav-more-menu">
+                <li{% if page.url contains "/events" %} class="current"{% endif %}><a href="/events"{% if page.url contains "/events" %} aria-current="page"{% endif %}>Events</a></li>
                 <li{% if page.url contains "/poems" or page.layout == "poem" %} class="current"{% endif %}><a href="/poems"{% if page.url contains "/poems" or page.layout == "poem" %} aria-current="page"{% endif %}>Poems</a></li>
                 <li{% if page.url contains "/books" %} class="current"{% endif %}><a href="/books"{% if page.url contains "/books" %} aria-current="page"{% endif %}>Books</a></li>
                 <li{% if page.url contains "/music" or page.layout == "music" %} class="current"{% endif %}><a href="/music"{% if page.url contains "/music" or page.layout == "music" %} aria-current="page"{% endif %}>Music</a></li>
-                <li{% if page.url contains "/events" %} class="current"{% endif %}><a href="/events"{% if page.url contains "/events" %} aria-current="page"{% endif %}>Events</a></li>
             </ul>
         </li>
     </ul>
