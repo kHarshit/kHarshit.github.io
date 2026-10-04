@@ -1,5 +1,8 @@
 /* ── Individual poem page ─────────────────────────────────── */
+/* Verse, title and author use a book serif; the controls and explanation
+   cards stay in the site's sans. The font is loaded in _layouts/default.html. */
 .poetry {
+    --poem-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
     max-width: 680px;
     margin: 2rem auto 3rem;
     padding: 2rem 2.5rem 2.5rem;
@@ -50,9 +53,10 @@
 }
 
 .poem-title {
-    font-size: 2em;
+    font-family: var(--poem-serif);
+    font-size: 2.1em;
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
     line-height: 1.2;
     margin: 0 0 0.45em 0;
     color: var(--font-color);
@@ -66,6 +70,7 @@
 }
 
 .poem-author {
+    font-family: var(--poem-serif);
     font-style: italic;
     color: #888;
     font-size: var(--text-md);
@@ -117,8 +122,18 @@
     margin: 0 0 1.5em 0;
 }
 
+.poem-body {
+    font-family: var(--poem-serif);
+    font-size: 19px;
+}
+
+/* Hanging indent: a verse line that has to wrap continues indented, so it
+   reads as the same line rather than a new one. --indent carries any
+   .indent-N offset so the two add up instead of one replacing the other. */
 .poetry ul li {
-    padding: 0;
+    --hang: 1.5em;
+    padding: 0 0 0 calc(var(--indent, 0em) + var(--hang));
+    text-indent: calc(-1 * var(--hang));
     margin: 0;
 }
 
@@ -135,16 +150,16 @@
 }
 
 /* Indentation utility classes (from Ed. theme) */
-.indent-1  { padding-left: 1em; }
-.indent-2  { padding-left: 2em; }
-.indent-3  { padding-left: 3em; }
-.indent-4  { padding-left: 4em; }
-.indent-5  { padding-left: 5em; }
-.indent-6  { padding-left: 6em; }
-.indent-7  { padding-left: 7em; }
-.indent-8  { padding-left: 8em; }
-.indent-9  { padding-left: 9em; }
-.indent-10 { padding-left: 10em; }
+.indent-1  { padding-left: 1em; --indent: 1em; }
+.indent-2  { padding-left: 2em; --indent: 2em; }
+.indent-3  { padding-left: 3em; --indent: 3em; }
+.indent-4  { padding-left: 4em; --indent: 4em; }
+.indent-5  { padding-left: 5em; --indent: 5em; }
+.indent-6  { padding-left: 6em; --indent: 6em; }
+.indent-7  { padding-left: 7em; --indent: 7em; }
+.indent-8  { padding-left: 8em; --indent: 8em; }
+.indent-9  { padding-left: 9em; --indent: 9em; }
+.indent-10 { padding-left: 10em; --indent: 10em; }
 
 /* ── Comments ────────────────────────────────────────────── */
 .poem-notecomments {
@@ -346,7 +361,6 @@
 
 .stanza-block {
     display: flex;
-    gap: 2rem;
     align-items: flex-start;
 }
 
@@ -384,14 +398,20 @@
     width: auto;
 }
 
-/* Explanation card — collapsed until .open */
+/* Explanation card — collapsed until .open. Beside a stanza it also takes
+   no width while closed; otherwise the empty column squeezed the verse to
+   about half the card and long lines broke mid-line. */
 .stanza-explain-card {
-    width: 260px;
     flex-shrink: 0;
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
+    transition: max-height 0.3s ease, opacity 0.3s ease, width 0.3s ease, margin 0.3s ease;
+}
+
+.stanza-block .stanza-explain-card {
+    flex: none;   /* opt out of the flex: 1 that .stanza-block > div gives the verse */
+    width: 0;
 }
 
 .stanza-explain-card.open {
@@ -399,7 +419,15 @@
     opacity: 1;
 }
 
+.stanza-block .stanza-explain-card.open {
+    width: 260px;
+    margin-left: 2rem;
+}
+
+
+/* The cards are interface text, not verse, so they stay in the sans. */
 .stanza-explain-card-inner {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     padding: 10px 14px;
     background: var(--chip-bg);
     border-radius: 8px;
@@ -424,11 +452,16 @@
 
     .stanza-block {
         flex-direction: column;
-        gap: 0;
     }
 
-    .stanza-explain-card {
+    .stanza-block .stanza-explain-card,
+    .stanza-block .stanza-explain-card.open {
         width: auto;
+        margin-left: 0;
+    }
+
+    .poem-body {
+        font-size: 17px;
     }
 
 }

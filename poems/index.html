@@ -44,7 +44,23 @@ title: "Harshit Kumar | Poems"
         {% assign sorted_poems = site.poetry | sort: 'date' | reverse %}
         {% for item in sorted_poems %}
           {% assign category_classes = item.categories | join: ' ' | slugify %}
-          {% assign excerpt = item.content | strip_html | strip_newlines | truncatewords: 18 %}
+          {% comment %}
+            Preview: the poem's opening lines joined with " / ", the usual way
+            to quote verse inline (stripping newlines used to run lines
+            together). Liquid has no "\n" escape, so split on a captured newline.
+          {% endcomment %}
+          {% capture nl %}
+{% endcapture %}
+          {% assign raw_lines = item.content | strip_html | split: nl %}
+          {% assign excerpt = "" %}
+          {% for raw_line in raw_lines %}
+            {% assign verse_line = raw_line | strip %}
+            {% if verse_line != "" and verse_line != "&sect;" and verse_line != "§" %}
+              {% if excerpt == "" %}{% assign excerpt = verse_line %}{% else %}{% assign excerpt = excerpt | append: " / " | append: verse_line %}{% endif %}
+            {% endif %}
+            {% if excerpt.size > 160 %}{% break %}{% endif %}
+          {% endfor %}
+          {% assign excerpt = excerpt | truncatewords: 18 %}
           {% assign first_img_src = item.img_source | default: "" %}
           <li class="blog-list-item text-category-title {{ category_classes }}">
             <a href="{{ item.url }}">
