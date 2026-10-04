@@ -121,6 +121,26 @@
     border-left: 1px solid var(--line-strong);
 }
 
+/* The projects and blog figures are links. #showcase outranks the #main-art
+   link rules (teal colour, fade on hover). */
+#showcase a.hero-stat--link {
+    color: inherit;
+    text-decoration: none;
+    opacity: 1;
+}
+
+.hero-stat--link .hero-stat-value,
+.hero-stat--link .hero-stat-label {
+    transition: color 0.15s ease;
+}
+
+#showcase a.hero-stat--link:hover .hero-stat-value,
+#showcase a.hero-stat--link:hover .hero-stat-label,
+#showcase a.hero-stat--link:focus-visible .hero-stat-value,
+#showcase a.hero-stat--link:focus-visible .hero-stat-label {
+    color: var(--accent-color);
+}
+
 .hero-stat-value {
     font-size: 22px;
     font-weight: 500;

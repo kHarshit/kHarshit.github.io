@@ -9,8 +9,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }, { passive: true });
 
   // ── Typing loop for hero title ────────────────────────────
+  // The first title is already in the HTML, so the loop starts by holding it,
+  // then erases it and types the next. Reduced-motion visitors keep it static.
   var el = document.getElementById('hero-title');
-  if (el) {
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (el && !reduceMotion) {
     var titles = [
       'Machine Learning Engineer',
       'AI Research Engineer',
@@ -20,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
       'Deep Learning Engineer'
     ];
     var titleIndex = 0;
-    var charIndex = 0;
-    var isDeleting = false;
+    var charIndex = titles[0].length;
+    var isDeleting = true;
     var typeSpeed = 45;
     var deleteSpeed = 25;
     var pauseAfterType = 2000;
@@ -50,7 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(typeLoop, deleteSpeed);
       }
     }
-    typeLoop();
+    el.textContent = titles[0];
+    setTimeout(typeLoop, pauseAfterType);
   }
 
   // ── "More" nav dropdown ───────────────────────────────────

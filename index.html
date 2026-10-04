@@ -19,22 +19,19 @@ title: Harshit Kumar | Home
                     <img src="/img/site/harshit_nu.jpeg" alt="Harshit's Profile Picture" width="512" height="461" fetchpriority="high" decoding="async">
                 </div>
                 <div class="hero-text">
-                    <p class="hero-title" id="hero-title"></p>
+                    <p class="hero-title" id="hero-title">Machine Learning Engineer</p>
                     <p class="hero-bio">I build production-grade AI across LLMs, computer vision, and generative AI, <span class="tt-muted">from training large-scale models to shipping optimized inference.</span></p>
                     {% comment %}
                       Blog posts is counted at build time; years and projects are
                       hand-kept. js/site/stats.js counts the figures up on first view.
+                      The projects and blog figures double as the links to those pages.
                     {% endcomment %}
                     <div class="hero-stats">
                       <div class="hero-stat"><span class="hero-stat-value" data-count="3" data-suffix="+">3+</span><span class="hero-stat-label">Years in industry</span></div>
-                      <div class="hero-stat"><span class="hero-stat-value" data-count="15" data-suffix="+">15+</span><span class="hero-stat-label">Projects built</span></div>
-                      <div class="hero-stat"><span class="hero-stat-value" data-count="{{ site.posts.size }}">{{ site.posts.size }}</span><span class="hero-stat-label">Blog posts</span></div>
+                      <a class="hero-stat hero-stat--link" href="/projects/"><span class="hero-stat-value" data-count="15" data-suffix="+">15+</span><span class="hero-stat-label">Projects built <span aria-hidden="true">&#8599;</span></span></a>
+                      <a class="hero-stat hero-stat--link" href="/blog/"><span class="hero-stat-value" data-count="{{ site.posts.size }}">{{ site.posts.size }}</span><span class="hero-stat-label">Blog posts <span aria-hidden="true">&#8599;</span></span></a>
                     </div>
                     <script src="/js/site/stats.js" defer></script>
-                    <div class="cta-row">
-                      <a class="cta" href="/projects">Explore projects <span class="cta-arrow" aria-hidden="true">&#8599;</span></a>
-                      <a class="cta cta--ghost" href="/blog">Read the blog <span class="cta-arrow" aria-hidden="true">&#8599;</span></a>
-                    </div>
                     <div class="hero-social">
                       {% if site.linkedin_username %}<a href="https://linkedin.com/in/{{ site.linkedin_username }}" aria-label="LinkedIn" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>{% endif %}
                       {% if site.github_username %}<a href="https://github.com/{{ site.github_username }}" aria-label="GitHub" title="GitHub"><i class="fa-brands fa-github"></i></a>{% endif %}

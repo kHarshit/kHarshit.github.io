@@ -312,14 +312,6 @@ input#themeswitch {
    sit with the cards, with an arrow that nudges toward its corner on hover.
    color/opacity need !important to beat the id-scoped link rules
    (#main-art a, #projects-page a …) that colour every link teal. */
-.cta-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 20px;
-}
-
 .cta {
     display: inline-flex;
     align-items: center;
