@@ -323,6 +323,16 @@
     opacity: 1 !important;
 }
 
+.sidebar-post-cat {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+}
+
 .sidebar-post-date {
     font-size: var(--text-sm);
     color: var(--ink-muted);
