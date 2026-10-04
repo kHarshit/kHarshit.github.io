@@ -323,13 +323,13 @@ input#themeswitch {
 .cta {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 18px;
+    gap: 8px;
+    padding: 7px 14px;
     border: 1px solid var(--accent-color);
     border-radius: 6px;
     background: var(--accent-color);
     color: var(--on-accent) !important;
-    font-size: var(--text-md);
+    font-size: var(--text-sm);
     font-weight: 500;
     line-height: 1.4;
     text-decoration: none !important;
