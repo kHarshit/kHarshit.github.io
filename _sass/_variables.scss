@@ -1,4 +1,9 @@
 :root {
+  /* Tells the browser to render its own UI — scrollbars, form controls,
+     <select> menus — to match the active theme. Without this they stay
+     light even when the page is dark. */
+  color-scheme: light;
+
   /* ── Colour palette ───────────────────────────────────────── */
   --bg-color: #ffffff;
   --font-color: #282828;
@@ -25,6 +30,8 @@
 }
 
 [data-theme="dark"] {
+    color-scheme: dark;
+
     --bg-color: #282828;
     --font-color: #fff;
     --chip-bg: #3a3a3a;

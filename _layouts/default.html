@@ -86,6 +86,32 @@
 			HHHH        HHHH
 			HHHH        HHHH
 -->
+        {% comment %}
+          Theme resolution. This must stay in <head>, before any stylesheet, and
+          must stay a blocking inline script: it sets data-theme on <html> before
+          the first paint. Moving it to the body (or adding defer/async) brings
+          back the flash of light theme on every load for dark-mode visitors.
+
+          Precedence is: an explicit choice from the toggle, otherwise the OS
+          setting. The matching meta tag lives here rather than with the other
+          metas further down so both can be set in one pass.
+        {% endcomment %}
+        <meta name="theme-color" id="theme-color-meta" content="#ffffff">
+        <script>
+        (function () {
+            var stored = null;
+            // Access can throw in private mode / when storage is blocked.
+            try { stored = localStorage.getItem('theme'); } catch (e) {}
+            var theme = stored === 'dark' || stored === 'light'
+                ? stored
+                : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            // Values mirror --bg-color in _variables.scss.
+            document.getElementById('theme-color-meta')
+                .setAttribute('content', theme === 'dark' ? '#282828' : '#ffffff');
+        })();
+        </script>
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -115,12 +141,10 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/img/favicon_files/ms-icon-144x144.png">
         {% comment %}
-          Kept in sync with the actual applied theme by dark_theme.html. A
-          prefers-color-scheme media query would be wrong here: the theme comes
-          from the toggle in localStorage, not from the OS setting.
+          The theme-color meta tag is set alongside the theme-resolution script
+          near the top of <head>.
         {% endcomment %}
-        <meta name="theme-color" id="theme-color-meta" content="#ffffff">
-        
+
         {% if site.google_analytics and jekyll.environment == 'production' %}
             {% include analytics.html %}
         {% endif %}

@@ -1,34 +1,52 @@
 <script>
-const toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
-const currentTheme = localStorage.getItem('theme');
+// The theme is already resolved and applied to <html> by the blocking script in
+// <head> (see _layouts/default.html) — that has to happen before the first paint.
+// This script only wires up the toggle and keeps it in sync afterwards.
+(function () {
+    var toggleSwitch = document.querySelector('input#themeswitch[type="checkbox"]');
+    if (!toggleSwitch) return;
 
-// Keep the browser chrome (mobile address bar) matching the page background.
-// Values mirror --bg-color in _variables.scss.
-function syncThemeColor(theme) {
-    const meta = document.getElementById('theme-color-meta');
-    if (meta) meta.setAttribute('content', theme === 'dark' ? '#282828' : '#ffffff');
-}
+    var media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
-if (currentTheme) {
-    document.documentElement.setAttribute('data-theme', currentTheme);
-
-    if (currentTheme === 'dark') {
-        toggleSwitch.checked = true;
+    function storedTheme() {
+        try {
+            var value = localStorage.getItem('theme');
+            return value === 'dark' || value === 'light' ? value : null;
+        } catch (e) {
+            return null;
+        }
     }
-}
-syncThemeColor(currentTheme);
 
-function switchTheme(e) {
-    if (e.target.checked) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        syncThemeColor('dark');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-        syncThemeColor('light');
-    }    
-}
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        toggleSwitch.checked = theme === 'dark';
+        // Keep the browser chrome (mobile address bar) matching the page
+        // background. Values mirror --bg-color in _variables.scss.
+        var meta = document.getElementById('theme-color-meta');
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#282828' : '#ffffff');
+    }
 
-toggleSwitch.addEventListener('change', switchTheme, false);
+    // Reflect whatever the head script settled on, so the toggle starts correct.
+    applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+
+    toggleSwitch.addEventListener('change', function (e) {
+        var theme = e.target.checked ? 'dark' : 'light';
+        applyTheme(theme);
+        try { localStorage.setItem('theme', theme); } catch (err) {}
+    });
+
+    // Follow the OS when the visitor has never used the toggle. Once they have,
+    // their explicit choice wins and OS changes are ignored.
+    if (media) {
+        var onSystemChange = function (e) {
+            if (!storedTheme()) applyTheme(e.matches ? 'dark' : 'light');
+        };
+        if (media.addEventListener) {
+            media.addEventListener('change', onSystemChange);
+        } else if (media.addListener) {
+            // Safari < 14
+            media.addListener(onSystemChange);
+        }
+    }
+})();
 </script>
