@@ -312,8 +312,9 @@
 }
 
 /* Neutralise the first-child padding reset from main.css so all items
-   have identical padding regardless of which ones are hidden by filtering. */
-.blog-list .blog-list-item:first-child {
+   have identical padding regardless of which ones are hidden by filtering.
+   Divided lists only: glass-card lists (.blog-list--cards) space by gap. */
+.blog-list:not(.blog-list--cards) .blog-list-item:first-child {
     padding-top: 22px;
 }
 

@@ -383,3 +383,30 @@ input#themeswitch {
     background: rgba(32, 178, 170, 0.14);
     border-color: rgba(32, 178, 170, 0.32);
 }
+
+/* ── Glass cards ──────────────────────────────────────────── */
+/* The card used by every list of items: blog, category, poems and books
+   lists and the projects archive. Same look as the homepage Experience cards
+   (shared --glass-* tokens), without their backdrop blur: over the page's
+   smooth gradient the blur isn't visible, and it costs scrolling performance
+   across long lists. Layout (flex direction, gaps) stays with each list. */
+.glass-card {
+    padding: 16px;
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    background: var(--glass-bg);
+    box-shadow: var(--glass-shadow);
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.glass-card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .glass-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+

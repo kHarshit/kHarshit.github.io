@@ -27,6 +27,22 @@
     align-items: flex-start;
 }
 
+/* Lists whose items are .glass-card links (blog index, search results,
+   category pages, poems): the cards are spaced by gap instead of dividers. */
+.blog-list--cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.blog-list--cards .blog-list-item,
+.blog-list--cards .blog-list-item:first-child {
+    padding: 0;
+    border-bottom: none;
+}
+
+
+
 .blog-list-thumb {
     width: 200px;
     height: 130px;

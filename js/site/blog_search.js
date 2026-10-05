@@ -126,7 +126,7 @@
     // _sass/_blog-list.scss rules (including dark mode) apply unchanged.
     function renderItem(item) {
         var li = el('li', 'blog-list-item');
-        var a = el('a');
+        var a = el('a', 'glass-card');
         a.href = item.u;
         a.title = item.t;
 

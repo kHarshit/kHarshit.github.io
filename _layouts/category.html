@@ -22,7 +22,7 @@ layout: default
     <p class="blog-page-desc category-post-count">{{ cat_posts.size }} post{% if cat_posts.size != 1 %}s{% endif %}</p>
 
     <div id="post">
-      <ul class="blog-list">
+      <ul class="blog-list blog-list--cards">
         {% for post in cat_posts %}
           {% assign fi_content = post.content %}{% capture first_img_src %}{% include first_image.html %}{% endcapture %}
           {% assign first_img_src = first_img_src | strip %}
@@ -31,7 +31,7 @@ layout: default
           {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
 
           <li class="blog-list-item">
-            <a href="{{ post.url }}" title="{{ post.title }}">
+            <a class="glass-card" href="{{ post.url }}" title="{{ post.title }}">
               <div class="blog-list-thumb">
                 {% if first_img_src != "" %}
                   <img src="{{ first_img_src }}" alt="{{ post.title }}" loading="lazy">

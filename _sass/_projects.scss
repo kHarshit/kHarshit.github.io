@@ -1,24 +1,32 @@
 .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/* Each event is a .glass-card (see _components.scss); this sets its layout:
+   name and one-line description on the left, date on the right. */
 .events-item {
     display: flex;
-    align-items: baseline;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 16px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--line);
 }
 
-[data-theme="dark"] .events-item {
-    border-bottom-color: #383838;
+.events-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
 }
 
-.events-item:first-child {
-    padding-top: 0;
+.events-desc {
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--ink-soft);
 }
 
 .events-name {
@@ -29,7 +37,7 @@
 
 .events-date {
     font-size: var(--text-sm);
-    color: #999;
+    color: var(--ink-muted);
     white-space: nowrap;
     flex-shrink: 0;
 }
@@ -212,11 +220,6 @@
     margin-top: 4px;
 }
 
-.archive-dates {
-    margin-left: 4px;
-    font-size: 12.5px;
-    color: var(--ink-muted);
-}
 
 /* Archive: the year in its own column, a stack of project cards beside it. */
 .archive-group {
@@ -239,38 +242,20 @@
 .archive-rows {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 14px;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-/* Glass cards like the featured row and the homepage, but without the
-   backdrop blur: over the page's smooth gradient a blurred and an unblurred
-   card look the same, and 22 blurred cards cost scrolling performance. */
+/* Each archive entry is a .glass-card (see _components.scss); this sets its
+   layout. */
 .archive-row {
     display: flex;
     align-items: flex-start;
     gap: 16px;
-    padding: 14px;
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    background: var(--glass-bg);
-    box-shadow: var(--glass-shadow);
     color: var(--font-color);
     text-decoration: none;
-    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-a.archive-row:hover {
-    border-color: var(--accent-color);
-    transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] a.archive-row:hover {
-    background: rgba(255, 255, 255, 0.08);
 }
 
 /* Thumbnail at the start of each archive row. */

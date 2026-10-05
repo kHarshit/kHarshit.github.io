@@ -1,6 +1,5 @@
 # Projects shown on /projects/. Edit here, not in projects.html.
 #   year:        groups the archive (the latest year the project ran)
-#   dates:       optional, shown as written
 #   featured:    true pins it to the top row; short_title (optional) is used
 #                on that card
 #   offline:     the linked app no longer exists; listed without a link
@@ -93,7 +92,6 @@
   description: "Leveraged U-Net and pix2pix GAN to colorize grayscale historical paintings. Utilized CIELAB color space conversion and Patch discriminator for enhanced image-to-image translation."
 
 - title: "RL Navigation Agent (Banana Collection)"
-  dates: "Jul 2019 – Nov 2019"
   year: 2019
   url: "https://github.com/kHarshit/udacity-nanodegree-projects"
   image: "/img/projects/navigation.gif"
@@ -102,7 +100,6 @@
   description: "Trained a Deep Q-Network agent to navigate and collect bananas in a large square world using Unity ML-Agents."
 
 - title: "Continuous Control — Double-Jointed Arm Agent"
-  dates: "Jul 2019 – Nov 2019"
   year: 2019
   url: "https://github.com/kHarshit/udacity-nanodegree-projects"
   image: "/img/projects/reacher.gif"
@@ -111,7 +108,6 @@
   description: "Trained a DDPG agent to control a double-jointed arm to reach target locations using continuous action spaces."
 
 - title: "Collaborative Reinforcement Learning for Racket Sports Simulation"
-  dates: "Jul 2019 – Nov 2019"
   year: 2019
   url: "https://github.com/kHarshit/udacity-nanodegree-projects"
   image: "/img/projects/tennis.gif"
@@ -121,7 +117,6 @@
 
 - title: "Pothole Detection and Segmentation"
   short_title: "Pothole detection and segmentation"
-  dates: "Jan 2020 – Jun 2020"
   year: 2020
   url: "https://github.com/kHarshit/pothole-segmentation"
   image: "/img/projects/pothole.png"
@@ -131,7 +126,6 @@
   featured: true
 
 - title: "Image Captioning using Encoder-Decoder Architecture"
-  dates: "Jan 2019 – Feb 2019"
   year: 2019
   url: "https://github.com/kHarshit/image-captioner"
   image: "/img/blog/image-captioning-using-encoder-decoder/image_captioner_demo.png"
@@ -140,7 +134,6 @@
   description: "Image captioning application based on Neural Image Caption model using encoder-decoder architecture — pretrained CNN as encoder and LSTM as decoder."
 
 - title: "TV Script Generation and Face Generation using DCGAN"
-  dates: "Dec 2018 – Mar 2019"
   year: 2019
   url: "https://github.com/kHarshit/udacity-nanodegree-projects"
   image: "/img/projects/face_gen.png"
@@ -149,7 +142,6 @@
   description: "Generative models for realistic TV script generation and face synthesis using Deep Convolutional GAN (DCGAN)."
 
 - title: "Neural Style Transfer"
-  dates: "Dec 2018 – Mar 2019"
   year: 2019
   url: "https://github.com/kHarshit/udacity-nanodegree-projects"
   image: "/img/projects/style_transfer.png"
@@ -158,7 +150,6 @@
   description: "Artistic style transfer using VGG-19 feature maps to blend content and style of images."
 
 - title: "Sentiment Analysis using AWS SageMaker"
-  dates: "Dec 2018 – Mar 2019"
   year: 2019
   url: "https://github.com/kHarshit/udacity-nanodegree-projects"
   image: "/img/projects/aws_sagemaker.webp"
@@ -167,7 +158,6 @@
   description: "Deployed a sentiment analysis model using AWS SageMaker with a full MLOps pipeline including training, evaluation, and endpoint deployment."
 
 - title: "Local vs Global Temperature Trends"
-  dates: "Apr 2020 – Jun 2020"
   year: 2020
   url: "https://github.com/kHarshit/udacity-nanodegree-projects"
   image: "/img/projects/sql_weather.png"
@@ -176,7 +166,6 @@
   description: "Analyzed local and global temperature data using SQL and compared trends with moving average visualizations."
 
 - title: "A/B Test Analysis for E-Commerce Website"
-  dates: "Apr 2020 – Jun 2020"
   year: 2020
   url: "https://github.com/kHarshit/udacity-nanodegree-projects"
   image: "/img/projects/ab_test.png"
@@ -185,7 +174,6 @@
   description: "Statistical analysis of A/B test results to determine whether a new landing page improves conversion rates for an e-commerce site."
 
 - title: "WeRateDogs Tweet Data Wrangling"
-  dates: "Apr 2020 – Jun 2020"
   year: 2020
   url: "https://github.com/kHarshit/udacity-nanodegree-projects"
   image: "/img/projects/weratedogs.jpg"
@@ -194,7 +182,6 @@
   description: "Gathered, assessed, and cleaned WeRateDogs tweet data from multiple sources using programmatic and manual wrangling techniques."
 
 - title: "Flight Delay and Cancellation Analysis"
-  dates: "Apr 2020 – Jun 2020"
   year: 2020
   url: "https://github.com/kHarshit/udacity-nanodegree-projects"
   image: "/img/projects/eda_flight.png"
@@ -203,7 +190,6 @@
   description: "Explored flight cancellation and delay dataset with explanatory visualizations to communicate key findings."
 
 - title: "Real-Time Twietter Social Media Sentiment Analysis"
-  dates: "Jul 2018 – Aug 2018"
   year: 2018
   url: "https://tweetsenseapp.herokuapp.com"
   offline: true
@@ -213,7 +199,6 @@
   description: "Real-time tweet sentiment feedback via time series graph, with past-week history and Watson API tone analysis on user-provided text."
 
 - title: "Railway Ticketing System Built in Qt (C++ cross-platform framework)"
-  dates: "Apr 2018"
   year: 2018
   url: "https://github.com/kHarshit/railway-ticketing-system"
   image: "/img/projects/mainwindow.png"
@@ -222,7 +207,6 @@
   description: "Desktop app built in Qt (C++ cross-platform framework) for a railway ticketing system."
 
 - title: "Location-Based Dengue Prediction using Gradient Boosted Trees Model on Weather Features"
-  dates: "Jan 2018 – Mar 2018"
   year: 2018
   url: "https://dengueapp.herokuapp.com/"
   offline: true
@@ -232,7 +216,6 @@
   description: "Android app with gradient boosted trees model on weather features, hosted on Django API. Real-time location-based dengue risk index. Showcased at Smart India Hackathon 2018 grand finale."
 
 - title: "Blog created in Django with PostgreSQL database"
-  dates: "Mar 2017"
   year: 2017
   url: "https://harshitblog.herokuapp.com"
   offline: true

@@ -59,12 +59,12 @@ permalink: /projects/
                 {% for p in group.items %}
                     {% include project_link_kind.html project=p %}
                     <li class="project-item" data-category="{{ p.categories | join: ' ' }}">
-                        {% if p.offline %}<div class="archive-row archive-row--offline">{% else %}<a class="archive-row" href="{{ p.url }}"{% if link_external %} target="_blank" rel="noopener"{% endif %}>{% endif %}
+                        {% if p.offline %}<div class="archive-row archive-row--offline glass-card">{% else %}<a class="archive-row glass-card" href="{{ p.url }}"{% if link_external %} target="_blank" rel="noopener"{% endif %}>{% endif %}
                             {% if p.image %}<span class="archive-thumb"><img src="{{ p.image }}" alt="{{ p.image_alt | default: p.title }}" loading="lazy" decoding="async"></span>{% endif %}
                             <span class="archive-main">
                                 <span class="archive-title">{{ p.title }}</span>
                                 <span class="archive-desc">{{ p.description | truncatewords: 22 }}</span>
-                                <span class="archive-meta">{% include project_category_labels.html project=p %}{% if p.dates %}<span class="archive-dates">{{ p.dates }}</span>{% endif %}</span>
+                                <span class="archive-meta">{% include project_category_labels.html project=p %}</span>
                             </span>
                             <span class="archive-kind">{{ link_kind }}{% if link_external and p.offline != true %} <span aria-hidden="true">&#8599;</span>{% endif %}</span>
                         {% if p.offline %}</div>{% else %}</a>{% endif %}

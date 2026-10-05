@@ -57,7 +57,7 @@ title: Technical Fridays | Blog | Harshit Kumar
         <p class="blog-search-status" id="blog-search-status" role="status" aria-live="polite"></p>
       </div>
 
-      <ul class="blog-list" id="blog-paginated-list">
+      <ul class="blog-list blog-list--cards" id="blog-paginated-list">
 
         {% for post in paginator.posts %}
           {% assign fi_content = post.content %}{% capture first_img_src %}{% include first_image.html %}{% endcapture %}
@@ -67,7 +67,7 @@ title: Technical Fridays | Blog | Harshit Kumar
           {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
 
           <li class="blog-list-item">
-            <a href="{{ post.url }}" title="{{ post.title }}">
+            <a class="glass-card" href="{{ post.url }}" title="{{ post.title }}">
               <div class="blog-list-thumb">
                 {% if first_img_src != "" %}
                   <img src="{{ first_img_src }}" alt="{{ post.title }}" loading="lazy">
@@ -95,7 +95,7 @@ title: Technical Fridays | Blog | Harshit Kumar
       </ul>
 
       {%- comment -%}Results replace the list above while a query is active.{%- endcomment -%}
-      <ul class="blog-list" id="blog-search-results" aria-label="Search results" hidden></ul>
+      <ul class="blog-list blog-list--cards" id="blog-search-results" aria-label="Search results" hidden></ul>
 
       {% if paginator.total_pages > 1 %}
       <div class="pagination">

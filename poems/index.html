@@ -39,7 +39,7 @@ title: "Harshit Kumar | Poems"
         {% endfor %}
       </div>
 
-      <ul class="blog-list">
+      <ul class="blog-list blog-list--cards">
         {% if site.poetry %}
         {% assign sorted_poems = site.poetry | sort: 'date' | reverse %}
         {% for item in sorted_poems %}
@@ -63,7 +63,7 @@ title: "Harshit Kumar | Poems"
           {% assign excerpt = excerpt | truncatewords: 18 %}
           {% assign first_img_src = item.img_source | default: "" %}
           <li class="blog-list-item text-category-title {{ category_classes }}">
-            <a href="{{ item.url }}">
+            <a class="glass-card" href="{{ item.url }}">
               <div class="blog-list-thumb">
                 {% if first_img_src != "" %}
                   <img src="{{ first_img_src }}" alt="{{ item.title }}" loading="lazy">
