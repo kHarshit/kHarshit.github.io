@@ -218,12 +218,15 @@
     color: var(--ink-muted);
 }
 
-/* Archive: the year in its own column, compact one-project rows beside it. */
+/* Archive: the year in its own column, a stack of project cards beside it. */
 .archive-group {
     display: grid;
     grid-template-columns: 72px minmax(0, 1fr);
     gap: 0 18px;
-    border-top: 1px solid var(--line);
+}
+
+.archive-group + .archive-group {
+    margin-top: 22px;
 }
 
 .archive-year {
@@ -234,22 +237,40 @@
 }
 
 .archive-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.archive-rows li + li {
-    border-top: 1px solid var(--line);
-}
-
+/* Glass cards like the featured row and the homepage, but without the
+   backdrop blur: over the page's smooth gradient a blurred and an unblurred
+   card look the same, and 22 blurred cards cost scrolling performance. */
 .archive-row {
     display: flex;
     align-items: flex-start;
     gap: 16px;
-    padding: 12px 0;
+    padding: 14px;
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    background: var(--glass-bg);
+    box-shadow: var(--glass-shadow);
     color: var(--font-color);
     text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+a.archive-row:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] a.archive-row:hover {
+    background: rgba(255, 255, 255, 0.08);
 }
 
 /* Thumbnail at the start of each archive row. */
@@ -320,7 +341,7 @@ a.archive-row:hover .archive-title {
         grid-template-columns: minmax(0, 1fr);
     }
     .archive-year {
-        padding: 14px 0 0;
+        padding: 0 0 8px;
     }
     .archive-row {
         flex-direction: column;
