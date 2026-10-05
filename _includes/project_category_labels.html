@@ -1,0 +1,4 @@
+{%- comment -%}Category tags for include.project, in chip order, as .item-tag pills.{%- endcomment -%}
+{%- for cat in site.data.project_categories -%}
+  {%- if include.project.categories contains cat.slug -%}<span class="item-tag">{{ cat.label }}</span>{%- endif -%}
+{%- endfor -%}

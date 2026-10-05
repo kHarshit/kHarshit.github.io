@@ -1,0 +1,11 @@
+{%- comment -%}
+  Sets link_kind (the label shown on a project) and link_external for
+  include.project: an offline app, a GitHub repo, another website, or a page
+  on this site (a live demo).
+{%- endcomment -%}
+{%- assign link_external = false -%}
+{%- if include.project.url contains "://" -%}{%- assign link_external = true -%}{%- endif -%}
+{%- if include.project.offline -%}{%- assign link_kind = "App offline" -%}
+{%- elsif include.project.url contains "github.com" -%}{%- assign link_kind = "GitHub" -%}
+{%- elsif link_external -%}{%- assign link_kind = "Website" -%}
+{%- else -%}{%- assign link_kind = "Live demo" -%}{%- endif -%}

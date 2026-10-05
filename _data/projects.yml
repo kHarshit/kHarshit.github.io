@@ -1,0 +1,242 @@
+# Projects shown on /projects/. Edit here, not in projects.html.
+#   year:        groups the archive (the latest year the project ran)
+#   dates:       optional, shown as written
+#   featured:    true pins it to the top row; short_title (optional) is used
+#                on that card
+#   offline:     the linked app no longer exists; listed without a link
+#   categories:  slugs; labels and chip order live in _data/project_categories.yml
+
+- title: "Interactive Digit Classifier: CNN in your browser"
+  short_title: "CNN digit classifier in your browser"
+  year: 2026
+  url: "/nn-playground/"
+  image: "/img/projects/nn_playground.jpg"
+  image_alt: "NN Playground"
+  categories: [computer-vision]
+  description: "A real LeNet-5 convolutional neural network running entirely in the browser via ONNX.js. Draw digits and get instant predictions with confidence scores."
+  featured: true
+
+- title: "Multimodal Visual Question Answering with Generative AI utilizing LLM and Vision Language Models"
+  short_title: "Multimodal VQA with LLMs and vision-language models"
+  year: 2023
+  url: "https://github.com/kHarshit/visual-question-answering/"
+  image: "/img/projects/vqa_page.png"
+  image_alt: "VQA"
+  categories: [llm, computer-vision, nlp]
+  description: "Integrated Hugging Face pre-trained tokenizers, Visual Transformer for images, and LLMs for generating answers. Achieved 0.3 WUPS with RoBERTa and BEiT outperforming all 4 model combinations (ViT, DEiT with BERT, GPT). Deployed in Docker + Kubernetes."
+  featured: true
+
+- title: "Prompt Engineering and Few-Shot Learning with Flan-T5 for Dialogue Summarization"
+  year: 2024
+  url: "https://github.com/kHarshit/ds5983LLM/"
+  image: "/img/projects/prompt_eng_llm.webp"
+  image_alt: "Prompt Engineering"
+  categories: [nlp, llm]
+  description: "Performed prompt engineering on Flan-T5 using the DialogSum dataset with instructional prompts. Experimented with zero-shot and few-shot learning to assess impact on summary relevance and coherence."
+
+- title: "Fine-Tuning Flan-T5 with PEFT (LoRA)"
+  year: 2024
+  url: "https://github.com/kHarshit/ds5983LLM/"
+  image: "/img/projects/llm_peft_lora.webp"
+  image_alt: "LoRA"
+  categories: [nlp, llm]
+  description: "Fine-tuned Flan-T5 for dialogue summarization using Low-Rank Adaptation (LoRA), reducing computational cost while maintaining high ROUGE scores."
+
+- title: "Retrieval Augmented Generation (RAG) Chatbot for 10Q Financial Reports"
+  short_title: "RAG chatbot for 10-Q financial reports"
+  year: 2024
+  url: "https://github.com/kHarshit/Financial_Document_Summarization_through_RAG"
+  image: "/img/blog/rag/rag_chatbot_10q.png"
+  image_alt: "RAG Chatbot"
+  categories: [llm, nlp, data-science]
+  description: "Retrieval Augmented Generation pipeline for querying SEC 10Q financial documents using LLMs. Built document ingestion, vector store retrieval, and conversational interface."
+  featured: true
+
+- title: "Transformer Architecture and Machine Translation from Scratch"
+  year: 2024
+  url: "https://github.com/kHarshit/ds5983LLM/"
+  image: "/img/projects/transformer_arch.jpg"
+  image_alt: "Transformer Architecture"
+  categories: [nlp, llm]
+  description: "Implemented Transformer model architecture from scratch. Trained on German→English translation (Multi30k dataset) with both greedy decoding and beam search."
+
+- title: "Camera Calibration and Augmented Reality with Checkerboard"
+  year: 2024
+  url: "https://github.com/kHarshit/CS5330ComputerVision"
+  image: "/img/projects/ar_cs5330.png"
+  image_alt: "AR"
+  categories: [computer-vision]
+  description: "Applied calibration with checkerboard, camera pose estimation to align virtual objects within AR environment. Explored Harris corners and SURF feature detection, overlayed 3D virtual objects onto 2D video."
+
+- title: "Vehicle Re-Identification using YOLOv8 and feature-based similarity"
+  year: 2024
+  url: "https://github.com/kHarshit/vehicle-reidentification"
+  image: "/img/projects/veh_reid_demo.png"
+  image_alt: "Vehicle Re-ID"
+  categories: [computer-vision]
+  description: "Feature-based similarity matching for vehicle re-identification across camera feeds using YOLOv8 detections and descriptor matching."
+
+- title: "Financial Dashboard in Tableau"
+  year: 2024
+  url: "https://github.com/kHarshit/Financial-Analysis-Tableau"
+  image: "/img/projects/financialdashboard.png"
+  image_alt: "Financial-Analysis-Tableau"
+  categories: [data-science]
+  description: "Tableau dashboard to analyze financial trends in US based industries."
+
+- title: "Image Colorization of Historical Paintings with GAN"
+  year: 2023
+  url: "https://github.com/kHarshit/Colorization-of-paintings-GANs"
+  image: "/img/projects/colorization_GANs.png"
+  image_alt: "GAN Colorization"
+  categories: [computer-vision]
+  description: "Leveraged U-Net and pix2pix GAN to colorize grayscale historical paintings. Utilized CIELAB color space conversion and Patch discriminator for enhanced image-to-image translation."
+
+- title: "RL Navigation Agent (Banana Collection)"
+  dates: "Jul 2019 – Nov 2019"
+  year: 2019
+  url: "https://github.com/kHarshit/udacity-nanodegree-projects"
+  image: "/img/projects/navigation.gif"
+  image_alt: "SageMaker"
+  categories: [reinforcement-learning]
+  description: "Trained a Deep Q-Network agent to navigate and collect bananas in a large square world using Unity ML-Agents."
+
+- title: "Continuous Control — Double-Jointed Arm Agent"
+  dates: "Jul 2019 – Nov 2019"
+  year: 2019
+  url: "https://github.com/kHarshit/udacity-nanodegree-projects"
+  image: "/img/projects/reacher.gif"
+  image_alt: "SageMaker"
+  categories: [reinforcement-learning]
+  description: "Trained a DDPG agent to control a double-jointed arm to reach target locations using continuous action spaces."
+
+- title: "Collaborative Reinforcement Learning for Racket Sports Simulation"
+  dates: "Jul 2019 – Nov 2019"
+  year: 2019
+  url: "https://github.com/kHarshit/udacity-nanodegree-projects"
+  image: "/img/projects/tennis.gif"
+  image_alt: "Tennis RL"
+  categories: [reinforcement-learning]
+  description: "Trained two MADDPG agents to cooperatively play tennis, maximizing rally length across the net."
+
+- title: "Pothole Detection and Segmentation"
+  short_title: "Pothole detection and segmentation"
+  dates: "Jan 2020 – Jun 2020"
+  year: 2020
+  url: "https://github.com/kHarshit/pothole-segmentation"
+  image: "/img/projects/pothole.png"
+  image_alt: "Pothole"
+  categories: [computer-vision]
+  description: "Fine-tuned custom Mask R-CNN and YOLACT instance segmentation models for real-time pothole detection on Indian roads with PyTorch. Achieved 86% accuracy, 0.30 mAP on custom testing dataset."
+  featured: true
+
+- title: "Image Captioning using Encoder-Decoder Architecture"
+  dates: "Jan 2019 – Feb 2019"
+  year: 2019
+  url: "https://github.com/kHarshit/image-captioner"
+  image: "/img/blog/image-captioning-using-encoder-decoder/image_captioner_demo.png"
+  image_alt: "Image Captioning"
+  categories: [computer-vision, nlp]
+  description: "Image captioning application based on Neural Image Caption model using encoder-decoder architecture — pretrained CNN as encoder and LSTM as decoder."
+
+- title: "TV Script Generation and Face Generation using DCGAN"
+  dates: "Dec 2018 – Mar 2019"
+  year: 2019
+  url: "https://github.com/kHarshit/udacity-nanodegree-projects"
+  image: "/img/projects/face_gen.png"
+  image_alt: "DCGAN"
+  categories: [computer-vision]
+  description: "Generative models for realistic TV script generation and face synthesis using Deep Convolutional GAN (DCGAN)."
+
+- title: "Neural Style Transfer"
+  dates: "Dec 2018 – Mar 2019"
+  year: 2019
+  url: "https://github.com/kHarshit/udacity-nanodegree-projects"
+  image: "/img/projects/style_transfer.png"
+  image_alt: "Style Transfer"
+  categories: [computer-vision]
+  description: "Artistic style transfer using VGG-19 feature maps to blend content and style of images."
+
+- title: "Sentiment Analysis using AWS SageMaker"
+  dates: "Dec 2018 – Mar 2019"
+  year: 2019
+  url: "https://github.com/kHarshit/udacity-nanodegree-projects"
+  image: "/img/projects/aws_sagemaker.webp"
+  image_alt: "SageMaker"
+  categories: [nlp, data-science]
+  description: "Deployed a sentiment analysis model using AWS SageMaker with a full MLOps pipeline including training, evaluation, and endpoint deployment."
+
+- title: "Local vs Global Temperature Trends"
+  dates: "Apr 2020 – Jun 2020"
+  year: 2020
+  url: "https://github.com/kHarshit/udacity-nanodegree-projects"
+  image: "/img/projects/sql_weather.png"
+  image_alt: "Weather Trends"
+  categories: [data-science]
+  description: "Analyzed local and global temperature data using SQL and compared trends with moving average visualizations."
+
+- title: "A/B Test Analysis for E-Commerce Website"
+  dates: "Apr 2020 – Jun 2020"
+  year: 2020
+  url: "https://github.com/kHarshit/udacity-nanodegree-projects"
+  image: "/img/projects/ab_test.png"
+  image_alt: "A/B Testing"
+  categories: [data-science]
+  description: "Statistical analysis of A/B test results to determine whether a new landing page improves conversion rates for an e-commerce site."
+
+- title: "WeRateDogs Tweet Data Wrangling"
+  dates: "Apr 2020 – Jun 2020"
+  year: 2020
+  url: "https://github.com/kHarshit/udacity-nanodegree-projects"
+  image: "/img/projects/weratedogs.jpg"
+  image_alt: "A/B Testing"
+  categories: [nlp, data-science]
+  description: "Gathered, assessed, and cleaned WeRateDogs tweet data from multiple sources using programmatic and manual wrangling techniques."
+
+- title: "Flight Delay and Cancellation Analysis"
+  dates: "Apr 2020 – Jun 2020"
+  year: 2020
+  url: "https://github.com/kHarshit/udacity-nanodegree-projects"
+  image: "/img/projects/eda_flight.png"
+  image_alt: "Django Blog"
+  categories: [data-science]
+  description: "Explored flight cancellation and delay dataset with explanatory visualizations to communicate key findings."
+
+- title: "Real-Time Twietter Social Media Sentiment Analysis"
+  dates: "Jul 2018 – Aug 2018"
+  year: 2018
+  url: "https://tweetsenseapp.herokuapp.com"
+  offline: true
+  image: "/img/projects/Screenshot_2018-07-11 Rajasthan Sentiment App.png"
+  image_alt: "TweetSense"
+  categories: [nlp, data-science]
+  description: "Real-time tweet sentiment feedback via time series graph, with past-week history and Watson API tone analysis on user-provided text."
+
+- title: "Railway Ticketing System Built in Qt (C++ cross-platform framework)"
+  dates: "Apr 2018"
+  year: 2018
+  url: "https://github.com/kHarshit/railway-ticketing-system"
+  image: "/img/projects/mainwindow.png"
+  image_alt: "Railway"
+  categories: [data-science]
+  description: "Desktop app built in Qt (C++ cross-platform framework) for a railway ticketing system."
+
+- title: "Location-Based Dengue Prediction using Gradient Boosted Trees Model on Weather Features"
+  dates: "Jan 2018 – Mar 2018"
+  year: 2018
+  url: "https://dengueapp.herokuapp.com/"
+  offline: true
+  image: "/img/projects/Screenshot-2018-3-23 Dengue App.png"
+  image_alt: "DengueApp"
+  categories: [data-science]
+  description: "Android app with gradient boosted trees model on weather features, hosted on Django API. Real-time location-based dengue risk index. Showcased at Smart India Hackathon 2018 grand finale."
+
+- title: "Blog created in Django with PostgreSQL database"
+  dates: "Mar 2017"
+  year: 2017
+  url: "https://harshitblog.herokuapp.com"
+  offline: true
+  image: "/img/projects/harshit's_blog.png"
+  image_alt: "Django Blog"
+  categories: [data-science]
+  description: "A blog developed in Django using PostgreSQL database."

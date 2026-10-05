@@ -360,3 +360,26 @@ input#themeswitch {
     gap: 8px;
     font-size: var(--text-sm);
 }
+
+/* ── Item tags ────────────────────────────────────────────── */
+/* Category pills on the projects page (featured cards and archive rows). */
+.item-tag {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 2px 8px;
+    border: 1px solid rgba(32, 178, 170, 0.22);
+    border-radius: 10px;
+    background: rgba(32, 178, 170, 0.08);
+    color: var(--accent-color);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+[data-theme="dark"] .item-tag {
+    background: rgba(32, 178, 170, 0.14);
+    border-color: rgba(32, 178, 170, 0.32);
+}

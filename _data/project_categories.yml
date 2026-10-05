@@ -1,0 +1,11 @@
+# Filter chips on /projects/, in display order: slug -> label.
+- slug: llm
+  label: LLM
+- slug: computer-vision
+  label: Computer Vision
+- slug: nlp
+  label: NLP
+- slug: reinforcement-learning
+  label: Reinforcement Learning
+- slug: data-science
+  label: Data Science
