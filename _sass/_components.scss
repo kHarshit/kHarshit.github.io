@@ -401,9 +401,14 @@ input#themeswitch {
 
 .glass-card:hover {
     border-color: var(--accent-color);
-    transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.7);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Only cards that are links lift on hover; the rest (books, events, offline
+   projects) just highlight, like the homepage Experience cards. */
+a.glass-card:hover {
+    transform: translateY(-2px);
 }
 
 [data-theme="dark"] .glass-card:hover {
