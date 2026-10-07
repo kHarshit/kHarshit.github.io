@@ -140,7 +140,9 @@
       Array.prototype.forEach.call(body.querySelectorAll('ul > li'), function (li) {
         if (inCard(li) || afterRule(li)) return;
         current.push(li.textContent.trim());
-        if (li.querySelector('p')) { panels.push({ lines: current, read: 1 }); current = []; }
+        // The last item of a list ends its stanza too: poems made of several
+        // lists (separated by a centred glyph) don't get the <p> marker there.
+        if (li.querySelector('p') || !li.nextElementSibling) { panels.push({ lines: current, read: 1 }); current = []; }
       });
       if (current.length) panels.push({ lines: current, read: 1 });
       if (panels.length) return scene.maxLines ? splitLong(panels, scene.maxLines) : panels;
