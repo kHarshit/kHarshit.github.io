@@ -6,6 +6,7 @@ date: 2021-12-18 14:20 +05:30
 editor: Harshit Kumar
 categories: life
 img_source: /img/poems/SanskritShlokas.jpg
+immersive: diyas
 ---
 - विद्यां ददाति विनयं, विनयाद् याति पात्रताम्।
 - पात्रत्वात् धनमाप्नोति, धनात् धर्मं ततः सुखम्॥
