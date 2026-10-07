@@ -258,6 +258,7 @@ export function followPath(camera, curve, height, t, o) {
 }
 
 // ── Teardown ─────────────────────────────────────────────────────────────
+// Free a scene's GPU resources, then the renderer if one is given.
 export function disposeAll(world, gl) {
   world.traverse(function (o) {
     if (o.geometry) o.geometry.dispose();
@@ -268,6 +269,7 @@ export function disposeAll(world, gl) {
       m.dispose();
     });
   });
+  if (!gl) return;
   gl.dispose();
   gl.forceContextLoss();
 }
