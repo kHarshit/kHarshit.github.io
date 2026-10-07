@@ -113,9 +113,12 @@
     function escapeHtml(s) {
       return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
     }
+    // A scene's `emphasis` regex picks words to colour with its accent
+    // (V's speech lights every v-word red).
     function words(text) {
       return text.split(/\s+/).filter(Boolean).map(function (w) {
-        return '<span class="pi-word">' + escapeHtml(w) + '</span>';
+        var em = scene.emphasis && scene.emphasis.test(w) ? ' pi-em' : '';
+        return '<span class="pi-word' + em + '">' + escapeHtml(w) + '</span>';
       }).join(' ');
     }
     function getPref() { try { return localStorage.getItem(PREF_KEY); } catch (e) { return null; } }
@@ -125,24 +128,42 @@
     // Verse: lines are list items; kramdown wraps the last line of each
     // stanza in <p> because a blank line follows it, which marks the break.
     // Prose (no list): each paragraph is split at sentence ends into chunks
-    // of up to ~40 words, and longer chunks get longer to read.
+    // of up to ~40 words, and longer chunks get longer to read. A paragraph
+    // that is just an italic [stage direction] becomes a short caption.
+    // Reading stops at the first <hr> (footnotes and extras follow it), and
+    // skips explanation cards, since poem.js may have moved the text into
+    // its explanations grid by now.
     function readPanels() {
-      var panels = [], current = [];
-      var items = article.querySelectorAll('.poem-body > ul > li');
-      Array.prototype.forEach.call(items, function (li) {
+      var panels = [], current = [], body = article.querySelector('.poem-body'), hr = body.querySelector('hr');
+      function inCard(n) { return !!n.closest('.stanza-explain-card'); }
+      function afterRule(n) { return hr && !(hr.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_PRECEDING); }
+      Array.prototype.forEach.call(body.querySelectorAll('ul > li'), function (li) {
+        if (inCard(li) || afterRule(li)) return;
         current.push(li.textContent.trim());
         if (li.querySelector('p')) { panels.push({ lines: current, read: 1 }); current = []; }
       });
       if (current.length) panels.push({ lines: current, read: 1 });
       if (panels.length) return panels;
 
-      Array.prototype.forEach.call(article.querySelectorAll('.poem-body > p'), function (para) {
-        if (para.querySelector('img')) return;
-        var sentences = para.textContent.trim().match(/[^.!?]+[.!?]+["'\u2019\u201d)]*\s*|[^.!?]+$/g) || [];
+      var nodes = Array.prototype.slice.call(body.querySelectorAll('p, hr'));
+      for (var k = 0; k < nodes.length && nodes[k].tagName !== 'HR'; k++) {
+        var para = nodes[k], text = para.textContent.trim();
+        if (inCard(para) || para.querySelector('img') || !text) continue;
+        if (/^\[.*\]$/.test(text) && para.children.length === 1 && para.firstElementChild.tagName === 'EM') {
+          panels.push({ lines: [text.slice(1, -1)], direction: true, read: 0.5 });
+          continue;
+        }
+        readProse(text);
+      }
+      return panels;
+
+      function readProse(text) {
+        var sentences = text.match(/[^.!?]+[.!?]+["'\u2019\u201d)]*\s*|[^.!?]+$/g) || [];
         var chunk = '', n = 0;
         function flush() {
           if (!n) return;
-          panels.push({ lines: [chunk.trim()], prose: true, read: clamp(n / 30, 1, 2.6) });
+          // A line of one to three words ("Voilà!") is set large, as a title.
+          panels.push({ lines: [chunk.trim()], prose: n > 3, lead: n <= 3, read: clamp(n / 30, 1, 2.6) });
           chunk = '';
           n = 0;
         }
@@ -153,8 +174,7 @@
           n += w;
         });
         flush();
-      });
-      return panels;
+      }
     }
 
     var scene = SCENES[sceneName];
@@ -205,6 +225,7 @@
       section.style.setProperty('--pi-units', (TOTAL + 1).toFixed(2));
       // Daylight scenes can ask for a heavier shadow behind the text.
       if (scene.scrim != null) section.style.setProperty('--pi-scrim', scene.scrim);
+      if (scene.accent) section.style.setProperty('--pi-accent', scene.accent);
       var stage = el('div', 'pi-stage');
       var canvas = el('canvas', 'pi-canvas');
       canvas.setAttribute('aria-hidden', 'true');
@@ -221,9 +242,9 @@
       text.appendChild(intro);
 
       var panels = stanzas.map(function (st, i) {
-        var p = el('div', st.prose ? 'pi-panel pi-prose' : 'pi-panel');
+        var p = el('div', 'pi-panel' + (st.prose ? ' pi-prose' : '') + (st.lead ? ' pi-lead' : '') + (st.direction ? ' pi-direction' : ''));
         p.setAttribute('data-align', scene.align[i % scene.align.length]);
-        p.innerHTML = (st.prose ? '' : '<p class="pi-num">' + ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][i] + '</p>') +
+        p.innerHTML = (st.prose || st.lead || st.direction ? '' : '<p class="pi-num">' + ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][i] + '</p>') +
           st.lines.map(function (l) { return '<p class="pi-line">' + words(l) + '</p>'; }).join('');
         text.appendChild(p);
         return { el: p, words: Array.prototype.slice.call(p.querySelectorAll('.pi-word')), last: [] };

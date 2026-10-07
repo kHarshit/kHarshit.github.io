@@ -162,6 +162,30 @@ html.pi-pending main::before {
     line-height: 1.55;
 }
 
+/* A short prose line on its own ("Voilà!"), set like a title. */
+.pi-lead .pi-line {
+    font-size: clamp(2.6rem, 7vw, 5.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+/* Stage directions: a small italic caption, e.g. [carves V into wall]. */
+.pi-direction .pi-line {
+    font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+    font-style: italic;
+    letter-spacing: 0.12em;
+    color: var(--pi-ink-dim);
+}
+
+.pi-direction .pi-line::before { content: "[ "; }
+.pi-direction .pi-line::after { content: " ]"; }
+
+/* Words a scene asks to stand out, in its accent colour. */
+.pi-em {
+    color: var(--pi-accent, #ff5a4a);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--pi-accent, #ff5a4a) 45%, transparent), 0 2px 22px rgba(2, 4, 12, 0.85);
+}
+
 .pi-word {
     opacity: 0.14;
     transition: opacity 0.35s linear;
