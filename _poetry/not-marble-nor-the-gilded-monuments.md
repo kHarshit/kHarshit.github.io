@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: romantic
 img_source: /img/poems/Not_marble_nor_the_gilded_monuments.jpg
+immersive: monuments
 explanations:
   - >
     Neither "marble" nor "gilded monuments",
