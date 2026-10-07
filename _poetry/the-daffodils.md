@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: The Wordsworth Trust
 categories: life
 img_source: /img/poems/daffodils.jpg
+immersive: daffodils
 ---
 - I wandered lonely as a cloud
 - That floats on high o’er vales and hills,
