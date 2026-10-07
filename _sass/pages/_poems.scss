@@ -291,6 +291,15 @@
     color: var(--on-accent);
 }
 
+/* The Immersive pill isn't a category: a little gap sets it apart. */
+.poem-filters .filter-btn--immersive {
+    margin-right: 10px;
+}
+
+.poem-filters .filter-btn--immersive .fa-solid {
+    margin-right: 2px;
+}
+
 /* ── Links inside a poem ─────────────────────────────────── */
 .poetry a {
     color: var(--accent-color, #20B2AA);

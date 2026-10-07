@@ -21,6 +21,15 @@ title: "Harshit Kumar | Poems"
     <div id="post">
       <div id="category-filters" class="poem-filters">
         <button class="filter-btn active" onclick="filterSelection('all')">All</button>
+        {% comment %}
+          Poems with `immersive:` in front matter open in the scroll-driven 3D
+          view (js/site/immersive/); this pill filters to them. It isn't a
+          category, so it sits apart from the ones below.
+        {% endcomment %}
+        {% assign immersive_poems = site.poetry | where_exp: "p", "p.immersive" %}
+        {% if immersive_poems.size > 0 %}
+        <button class="filter-btn filter-btn--immersive" onclick="filterSelection('immersive')"><i class="fa-solid fa-mountain-sun" aria-hidden="true"></i> Immersive</button>
+        {% endif %}
         {% assign all_categories = "" %}
         {% if site.poetry %}
         {% for item in site.poetry %}
@@ -44,6 +53,7 @@ title: "Harshit Kumar | Poems"
         {% assign sorted_poems = site.poetry | sort: 'date' | reverse %}
         {% for item in sorted_poems %}
           {% assign category_classes = item.categories | join: ' ' | slugify %}
+          {% if item.immersive %}{% assign category_classes = category_classes | append: ' immersive' %}{% endif %}
           {% comment %}
             Preview: the poem's opening lines joined with " / ", the usual way
             to quote verse inline (stripping newlines used to run lines
@@ -81,6 +91,10 @@ title: "Harshit Kumar | Poems"
                 <p class="blog-list-excerpt">{{ excerpt }}</p>
                 <div class="blog-list-meta">
                   <span class="blog-list-date">{{ item.author }}</span>
+                  {% if item.immersive %}
+                  <span class="blog-list-sep" aria-hidden="true">&middot;</span>
+                  <span class="blog-list-date poem-immersive-badge"><i class="fa-solid fa-mountain-sun" aria-hidden="true"></i> Immersive</span>
+                  {% endif %}
                 </div>
               </div>
             </a>
