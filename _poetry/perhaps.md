@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: reddit.com/user/Poem_for_your_sprog/
 categories: life
 img_source: /img/poems/Perhaps.jpg
+immersive: perhaps
 ---
 - "Perhaps I'll be a sailor
 - and I'll sail the seas between -
