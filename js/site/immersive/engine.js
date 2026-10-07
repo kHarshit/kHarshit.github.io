@@ -18,7 +18,7 @@
  *   keys        keyframes [unit, camera, darkness, snowfall, wind, ...];
  *               "camera" means whatever the renderer wants (e.g. path progress)
  *   align       where each stanza sits: 'left' | 'right' | 'center'
- *   sound       optional { src, label, cues: [{ stanza, at, play(audioCtx, out) }] }
+ *   sound       optional { src, label, volume(row)?, cues: [{ stanza, at, play(audioCtx, out) }] }
  */
 (function () {
   'use strict';
@@ -143,7 +143,7 @@
         if (li.querySelector('p')) { panels.push({ lines: current, read: 1 }); current = []; }
       });
       if (current.length) panels.push({ lines: current, read: 1 });
-      if (panels.length) return panels;
+      if (panels.length) return scene.maxLines ? splitLong(panels, scene.maxLines) : panels;
 
       var nodes = Array.prototype.slice.call(body.querySelectorAll('p, hr'));
       for (var k = 0; k < nodes.length && nodes[k].tagName !== 'HR'; k++) {
@@ -156,6 +156,32 @@
         readProse(text);
       }
       return panels;
+
+      // A scene's `maxLines` splits taller stanzas into near-equal parts,
+      // breaking after a line that ends in punctuation where it can. Only
+      // the first part keeps the stanza's numeral.
+      function splitLong(list, max) {
+        var out = [];
+        list.forEach(function (p) {
+          var lines = p.lines, n = Math.ceil(lines.length / max);
+          if (n < 2) { out.push(p); return; }
+          var start = 0;
+          for (var k = 1; k <= n; k++) {
+            var end = lines.length;
+            if (k < n) {
+              var ideal = Math.round(k * lines.length / n), best = ideal;
+              [0, -1, 1, -2, 2].some(function (d) {
+                var e = ideal + d;
+                if (e > start && e - start <= max && /[.!?;:\u2014\u2013-]\s*$/.test(lines[e - 1])) { best = e; return true; }
+              });
+              end = best;
+            }
+            out.push({ lines: lines.slice(start, end), read: 1, cont: start > 0 });
+            start = end;
+          }
+        });
+        return out;
+      }
 
       function readProse(text) {
         var sentences = text.match(/[^.!?]+[.!?]+["'\u2019\u201d)]*\s*|[^.!?]+$/g) || [];
@@ -241,10 +267,13 @@
         '<p class="pi-cue"><span>Scroll to enter</span><i></i></p>');
       text.appendChild(intro);
 
+      var stanzaNo = 0;
       var panels = stanzas.map(function (st, i) {
         var p = el('div', 'pi-panel' + (st.prose ? ' pi-prose' : '') + (st.lead ? ' pi-lead' : '') + (st.direction ? ' pi-direction' : ''));
         p.setAttribute('data-align', scene.align[i % scene.align.length]);
-        p.innerHTML = (st.prose || st.lead || st.direction ? '' : '<p class="pi-num">' + ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][i] + '</p>') +
+        if (!st.prose && !st.lead && !st.direction && !st.cont) stanzaNo++;
+        p.innerHTML = (st.prose || st.lead || st.direction ? '' :
+                       '<p class="pi-num">' + (st.cont ? '&middot;' : ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][stanzaNo - 1]) + '</p>') +
           st.lines.map(function (l) { return '<p class="pi-line">' + words(l) + '</p>'; }).join('');
         text.appendChild(p);
         return { el: p, words: Array.prototype.slice.call(p.querySelectorAll('.pi-word')), last: [] };
@@ -373,7 +402,7 @@
         view.frame({ u: u, cam: st[0], dark: st[1], snow: st[2], wind: st[3], row: st,
                      mx: mx, my: my, dt: dt, time: time });
         updateText(u, dom);
-        updateSound(u, st[3], st[1]);
+        updateSound(u, st);
       }
 
       function updateText(u, dom) {
@@ -407,10 +436,12 @@
         dom.rail.style.transform = 'scaleY(' + (u / TOTAL).toFixed(4) + ')';
       }
 
-      function updateSound(u, wind, dark) {
+      // The loop follows the wind and fades in the dark, unless the scene
+      // gives its own volume(row) (e.g. a sea that roars in a storm).
+      function updateSound(u, st) {
         if (!sound.on) { sound.lastStanzaU = u; return; }
         if (sound.audio) {
-          var target = (0.12 + 0.5 * wind) * (1 - dark * 0.6);
+          var target = scene.sound.volume ? scene.sound.volume(st) : (0.12 + 0.5 * st[3]) * (1 - st[1] * 0.6);
           sound.audio.volume = clamp(lerp(sound.audio.volume, target, 0.05), 0, 1);
         }
         // Cues fire when reading forwards past their point, not on the way back.

@@ -14,7 +14,7 @@
  * Keyframes come from the panel list (prose chunks and stage directions).
  * Columns: [unit, path, gloom, rain, wind, yaw, spotlight, carve, fireworks, petals]
  */
-import { THREE, isSmall, makeRenderer, fitCamera, softSprite, skyDome, scatter, particleField,
+import { THREE, isSmall, makeRenderer, fitCamera, softSprite, skyDome, particleField, rainField,
          followPath, disposeAll } from '../kit.js';
 
 var PI = window.PoemImmersive;
@@ -332,15 +332,8 @@ function renderer3d(canvas, scene, env) {
                                colors: ['#b3101a', '#8f0c14', '#d0202a'], sway: 0.7, windSpeed: 1.5, alphaTest: 0.5 });
   world.add(petals.points);
 
-  // Rain: short streaks in a box round the camera.
-  var RAIN = small ? 1300 : 3200, BX = 16, BY = 14, BZ = 26;
-  var drops = new Float32Array(RAIN * 3), rainSeg = new Float32Array(RAIN * 6);
-  for (i = 0; i < RAIN; i++) { drops[i * 3] = (Math.random() - 0.5) * BX; drops[i * 3 + 1] = Math.random() * BY; drops[i * 3 + 2] = (Math.random() - 0.5) * BZ; }
-  var rainGeo = new THREE.BufferGeometry();
-  rainGeo.setAttribute('position', new THREE.BufferAttribute(rainSeg, 3));
-  var rain = new THREE.LineSegments(rainGeo, new THREE.LineBasicMaterial({ color: '#9fb0d0', transparent: true, opacity: 0.35, depthWrite: false }));
-  rain.frustumCulled = false;
-  world.add(rain);
+  var rain = rainField({ count: small ? 1300 : 3200 });
+  world.add(rain.lines);
 
   // Fireworks over the far bank: a pool of bursts, each a shell of points.
   var BURSTS = 14, PER = small ? 140 : 220, fwN = BURSTS * PER;
@@ -425,20 +418,7 @@ function renderer3d(canvas, scene, env) {
     rose.scale.setScalar(Math.max(smooth(0, 0.4, petalAmt), 0.0001));
     petals.update({ snow: petalAmt, wind: f.wind * 0.3, dt: dt, time: f.time }, camera.position, env.reduceMotion);
 
-    // Rain streaks, slanted by the wind.
-    var cx = camera.position.x, cy = camera.position.y, cz = camera.position.z, slow = env.reduceMotion ? 0.5 : 1;
-    var vy = -11 * slow, vx = f.wind * 3 * slow, nDraw = Math.floor(RAIN * clamp(f.snow, 0, 1));
-    for (i = 0; i < RAIN; i++) {
-      var q = i * 3, w6 = i * 6;
-      drops[q] += vx * dt; drops[q + 1] += vy * dt;
-      drops[q] = cx - BX / 2 + ((((drops[q] - cx + BX / 2) % BX) + BX) % BX);
-      drops[q + 1] = cy - 2 + ((((drops[q + 1] - cy + 2) % BY) + BY) % BY);
-      drops[q + 2] = cz - BZ / 2 + ((((drops[q + 2] - cz + BZ / 2) % BZ) + BZ) % BZ);
-      rainSeg[w6] = drops[q]; rainSeg[w6 + 1] = drops[q + 1]; rainSeg[w6 + 2] = drops[q + 2];
-      rainSeg[w6 + 3] = drops[q] - vx * 0.035; rainSeg[w6 + 4] = drops[q + 1] - vy * 0.035; rainSeg[w6 + 5] = drops[q + 2];
-    }
-    rainGeo.attributes.position.needsUpdate = true;
-    rainGeo.setDrawRange(0, nDraw * 2);
+    rain.update(f, camera.position, f.snow, env.reduceMotion);
 
     // Fireworks.
     burstClock += dt * fw * (env.reduceMotion ? 1 : 2.6);

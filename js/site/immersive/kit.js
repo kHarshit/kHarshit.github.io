@@ -238,6 +238,97 @@ export function particleField(o) {
 
 function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
 
+// Rain: short streaks in a box round the camera, slanted by the wind.
+// update(f, center, slow) moves them; `amount` (0..1) sets how many show.
+export function rainField(o) {
+  var N = o.count, B = o.box || [16, 14, 26], drops = new Float32Array(N * 3), seg = new Float32Array(N * 6);
+  for (var i = 0; i < N; i++) {
+    drops[i * 3] = (Math.random() - 0.5) * B[0];
+    drops[i * 3 + 1] = Math.random() * B[1];
+    drops[i * 3 + 2] = (Math.random() - 0.5) * B[2];
+  }
+  var geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(seg, 3));
+  var lines = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({ color: o.color || '#9fb0d0', transparent: true,
+                                                                       opacity: o.opacity || 0.35, depthWrite: false }));
+  lines.frustumCulled = false;
+
+  function wrap(v, lo, size) { return lo + ((((v - lo) % size) + size) % size); }
+
+  function update(f, center, amount, slow) {
+    var rate = slow ? 0.5 : 1, vy = -(o.speed || 11) * rate, vx = f.wind * (o.windSpeed || 3) * rate, dt = f.dt;
+    for (var i = 0; i < N; i++) {
+      var q = i * 3, w = i * 6;
+      drops[q] = wrap(drops[q] + vx * dt, center.x - B[0] / 2, B[0]);
+      drops[q + 1] = wrap(drops[q + 1] + vy * dt, center.y - 2, B[1]);
+      drops[q + 2] = wrap(drops[q + 2], center.z - B[2] / 2, B[2]);
+      seg[w] = drops[q]; seg[w + 1] = drops[q + 1]; seg[w + 2] = drops[q + 2];
+      seg[w + 3] = drops[q] - vx * 0.035; seg[w + 4] = drops[q + 1] - vy * 0.035; seg[w + 5] = drops[q + 2];
+    }
+    geo.attributes.position.needsUpdate = true;
+    geo.setDrawRange(0, Math.floor(N * clamp01(amount)) * 2);
+  }
+  return { lines: lines, update: update };
+}
+
+// ── Ocean ────────────────────────────────────────────────────────────────
+// A sum of travelling sine waves, displaced on the GPU (with normals from
+// the derivatives) and mirrored here in JS so boats and cameras can ride
+// them. Each wave is [dirX, dirZ, frequency, amplitude, speed]; `amp`
+// scales them all (calm to storm), crests whiten with `foam`, and the
+// surface reflects `uSky` (set it to the horizon colour) at grazing angles.
+export function waveHeight(waves, x, z, time, amp) {
+  var h = 0, dx = 0, dz = 0;
+  for (var i = 0; i < waves.length; i++) {
+    var w = waves[i], l = Math.hypot(w[0], w[1]), ux = w[0] / l, uz = w[1] / l;
+    var ph = (ux * x + uz * z) * w[2] + time * w[4], a = w[3] * amp;
+    h += a * Math.sin(ph);
+    var c = a * w[2] * Math.cos(ph);
+    dx += c * ux; dz += c * uz;
+  }
+  return { h: h, dx: dx, dz: dz };
+}
+
+export function oceanMaterial(o) {
+  var mat = new THREE.MeshPhongMaterial({ color: o.color, specular: o.specular || '#9fb6d6', shininess: o.shininess || 60 });
+  var uniforms = { uTime: { value: 0 }, uAmp: { value: 1 }, uFoam: { value: new THREE.Color(o.foam || '#dfe8f0') }, uFoamAmt: { value: 0 },
+                   uSky: { value: new THREE.Color(o.sky || '#000000') } };
+  var glsl = 'vec3 waves(vec2 p){ float h = 0.0, dx = 0.0, dz = 0.0; vec2 d; float ph, a, c;\n';
+  o.waves.forEach(function (w) {
+    var l = Math.hypot(w[0], w[1]);
+    glsl += ' d = vec2(' + (w[0] / l).toFixed(4) + ', ' + (w[1] / l).toFixed(4) + '); ph = dot(d, p) * ' + w[2].toFixed(4) +
+            ' + uTime * ' + w[4].toFixed(4) + '; a = ' + w[3].toFixed(4) + ' * uAmp; h += a * sin(ph); c = a * ' +
+            w[2].toFixed(4) + ' * cos(ph); dx += c * d.x; dz += c * d.y;\n';
+  });
+  glsl += ' return vec3(h, dx, dz); }\n';
+  mat.onBeforeCompile = function (sh) {
+    Object.assign(sh.uniforms, uniforms);
+    sh.vertexShader = 'uniform float uTime; uniform float uAmp; varying float vH;\n' + glsl + sh.vertexShader
+      .replace('#include <beginnormal_vertex>',
+        'vec4 wpos = modelMatrix * vec4(position, 1.0); vec3 wv = waves(wpos.xz); vH = wv.x;\n' +
+        'vec3 objectNormal = normalize(vec3(-wv.y, 1.0, -wv.z));')
+      .replace('#include <begin_vertex>', 'vec3 transformed = vec3(position); transformed.y += vH;');
+    sh.fragmentShader = 'uniform vec3 uFoam; uniform float uFoamAmt; uniform float uAmp; uniform vec3 uSky; varying float vH;\n' + sh.fragmentShader
+      .replace('#include <normal_fragment_maps>',
+        '#include <normal_fragment_maps>\n float fres = pow(1.0 - max(dot(normal, normalize(vViewPosition)), 0.0), 4.0);\n' +
+        ' totalEmissiveRadiance += uSky * (0.08 + fres * 0.95);')
+      .replace('#include <color_fragment>',
+        '#include <color_fragment>\n diffuseColor.rgb = mix(diffuseColor.rgb, uFoam, smoothstep(0.45, 1.0, vH / max(uAmp * 1.6, 0.001)) * uFoamAmt);');
+  };
+  mat.userData.uniforms = uniforms;
+  return mat;
+}
+
+// A square of ocean that follows the camera, snapped to its grid so the
+// waves don't swim. Fog hides the edges.
+export function oceanMesh(material, size, seg) {
+  var mesh = new THREE.Mesh(new THREE.PlaneGeometry(size, size, seg, seg).rotateX(-Math.PI / 2), material);
+  var step = size / seg;
+  mesh.frustumCulled = false;
+  mesh.userData.follow = function (p) { mesh.position.set(Math.round(p.x / step) * step, 0, Math.round(p.z / step) * step); };
+  return mesh;
+}
+
 // ── Camera ───────────────────────────────────────────────────────────────
 // Put the camera at progress t on a path, `eye` metres above the ground,
 // looking `ahead` (fraction of the path) further on, then turn by yaw/pitch
