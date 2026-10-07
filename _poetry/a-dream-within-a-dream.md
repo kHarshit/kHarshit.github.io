@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Poetry Foundation
 categories: life 
 img_source: /img/poems/ADreamWithinaDream.jpg
+immersive: dream-shore
 ---
 - Take this kiss upon the brow!
 - And, in parting from you now,
