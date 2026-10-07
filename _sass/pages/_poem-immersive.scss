@@ -1,0 +1,271 @@
+/* ── Immersive poem reading ───────────────────────────────── */
+/* Scroll-driven scene built by js/site/immersive/engine.js for poems with
+   `immersive:` in their front matter; compiled on its own to
+   /css/poem-immersive.css so other pages never load it. The section is tall
+   (one screen per timeline unit, set as --pi-units); the stage inside it
+   stays stuck to the viewport while the scroll drives the camera and the
+   verse. The stage stays dark whatever the site theme, so the light verse
+   reads over every scene. */
+
+/* Before the script runs: hold the stage's space so nothing jumps. */
+html.pi-pending main::before {
+    content: "";
+    display: block;
+    height: 100vh;
+    height: 100svh;
+    background: #03060f;
+}
+
+.pi {
+    --pi-ink: #eef2fb;
+    --pi-ink-dim: rgba(222, 230, 248, 0.62);
+    --pi-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    position: relative;
+    height: calc(var(--pi-units, 9) * 100vh);
+    height: calc(var(--pi-units, 9) * 100svh);
+    background: #03060f;
+    color: var(--pi-ink);
+}
+
+.pi-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+}
+
+.pi-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.pi-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 85% 75% at 50% 55%, transparent 55%, rgba(2, 4, 10, 0.6) 100%),
+        linear-gradient(to bottom, rgba(2, 4, 10, 0.35), transparent 22%);
+}
+
+.pi-text {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* Title card */
+.pi-intro {
+    position: absolute;
+    top: 44%;
+    left: 50%;
+    width: min(88vw, 46rem);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    animation: pi-rise 1.6s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+.pi-kicker {
+    margin: 0 0 1rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--pi-ink-dim);
+}
+
+.pi-title {
+    margin: 0;
+    font-family: var(--pi-serif);
+    font-size: clamp(2.3rem, 6.4vw, 4.6rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    text-shadow: 0 4px 40px rgba(2, 4, 12, 0.7);
+}
+
+.pi-cue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin: 3.2rem 0 0;
+    font-size: var(--text-xs);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--pi-ink-dim);
+}
+
+.pi-cue i {
+    display: block;
+    width: 1px;
+    height: 56px;
+    background: linear-gradient(to bottom, rgba(238, 242, 251, 0.9), transparent);
+    transform-origin: top;
+    animation: pi-cue 2.4s ease-in-out infinite;
+}
+
+/* Stanzas. JS drives opacity, blur and --y; alignment sets the anchor. */
+.pi-panel {
+    --y: 0px;
+    --tx: 0;
+    position: absolute;
+    top: 50%;
+    left: 9vw;
+    width: min(84vw, 34rem);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(var(--tx), calc(-50% + var(--y)));
+    will-change: opacity, transform, filter;
+}
+
+.pi-panel[data-align="right"] { left: auto; right: 9vw; }
+.pi-panel[data-align="center"] { --tx: -50%; left: 50%; text-align: center; }
+
+/* A soft pool of shadow behind the verse keeps it legible over the snow. */
+.pi-panel::before {
+    content: "";
+    position: absolute;
+    inset: -4rem -5rem;
+    z-index: -1;
+    background: radial-gradient(closest-side, rgba(3, 6, 15, 0.55), rgba(3, 6, 15, 0) 100%);
+}
+
+.pi-num {
+    margin: 0 0 1.1rem;
+    font-family: var(--pi-serif);
+    font-size: var(--text-sm);
+    font-style: italic;
+    letter-spacing: 0.12em;
+    color: var(--pi-ink-dim);
+}
+
+.pi-line {
+    margin: 0;
+    font-family: var(--pi-serif);
+    font-size: clamp(1.35rem, 2.5vw, 2.15rem);
+    font-weight: 400;
+    line-height: 1.45;
+    text-shadow: 0 2px 22px rgba(2, 4, 12, 0.85);
+}
+
+.pi-word {
+    opacity: 0.14;
+    transition: opacity 0.35s linear;
+}
+
+.pi-outro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    visibility: hidden;
+    text-align: center;
+}
+
+.pi-sign {
+    margin: 0;
+    font-family: var(--pi-serif);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-style: italic;
+    color: var(--pi-ink-dim);
+}
+
+/* Progress rail */
+.pi-rail {
+    position: absolute;
+    top: 50%;
+    right: 26px;
+    width: 1px;
+    height: 120px;
+    transform: translateY(-50%);
+    background: rgba(238, 242, 251, 0.18);
+}
+
+.pi-rail i {
+    position: absolute;
+    inset: 0;
+    background: rgba(238, 242, 251, 0.85);
+    transform: scaleY(0);
+    transform-origin: top;
+}
+
+/* Sound + text-view buttons */
+.pi-controls {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    gap: 8px;
+}
+
+.pi-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border: 1px solid rgba(238, 242, 251, 0.22);
+    border-radius: 999px;
+    background: rgba(8, 12, 26, 0.38);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: var(--pi-ink);
+    font-family: inherit;
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.pi-btn:hover { background: rgba(20, 28, 54, 0.6); border-color: rgba(238, 242, 251, 0.45); }
+.pi-btn:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+.pi-btn[aria-pressed="true"] { border-color: rgba(238, 242, 251, 0.6); }
+
+/* The scene stands in for the hero image while it is on. */
+.poetry.is-immersive .poem-hero-img { display: none !important; }
+
+@keyframes pi-rise {
+    from { opacity: 0; filter: blur(10px); }
+    to { opacity: 1; filter: blur(0); }
+}
+
+@keyframes pi-cue {
+    0% { transform: scaleY(0); opacity: 1; }
+    60% { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1); opacity: 0; }
+}
+
+@media (max-width: 700px) {
+    .pi-panel,
+    .pi-panel[data-align="right"] { --tx: -50%; left: 50%; right: auto; width: 90vw; text-align: center; }
+    .pi-line { font-size: clamp(1.05rem, 4.9vw, 1.4rem); }
+    .pi-rail { display: none; }
+    .pi-controls { left: 50%; transform: translateX(-50%); bottom: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pi-intro, .pi-cue i { animation: none; }
+    .pi-word { transition: none; }
+}
+
+/* Site chrome steps aside while the stage fills the viewport. */
+#top_header,
+.theme-switch-wrapper,
+#scroll_top {
+    transition: transform 0.45s ease, opacity 0.3s ease;
+}
+
+html.pi-immersed #top_header { transform: translateY(-100%); }
+
+html.pi-immersed .theme-switch-wrapper,
+html.pi-immersed #scroll_top {
+    opacity: 0;
+    pointer-events: none;
+}

@@ -2,10 +2,30 @@
 layout: default
 ---
 {% include header.html %}
+{% if page.immersive %}
+{% comment %}
+  Holds a dark stage-sized block before first paint so the article does not
+  flash and then jump when the immersive engine inserts the scene. Same rule as
+  the script: on unless turned off, or reduced motion without an opt-in.
+{% endcomment %}
+<script>
+(function () {
+    var pref = null;
+    try { pref = localStorage.getItem('poem-immersive'); } catch (e) {}
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (pref === 'on' || (pref !== 'off' && !reduce)) document.documentElement.classList.add('pi-pending');
+})();
+</script>
+{% endif %}
 
 <main>
 <div class="container">
-    <article class="poem poetry">
+    {% comment %}
+      `immersive: <scene>` in a poem's front matter turns on the scroll-driven
+      3D reading (js/site/immersive/). The script builds the scene from
+      the verse below, so without JS the page stays the plain text version.
+    {% endcomment %}
+    <article class="poem poetry"{% if page.immersive %} data-immersive="{{ page.immersive }}"{% endif %}>
 
         <div class="poem-header">
             {% comment %}
@@ -23,6 +43,11 @@ layout: default
             <div class="poem-meta-row">
                 <span class="poem-author">{{ page.author }}</span>
                 <div class="post-meta-actions">
+                    {% if page.immersive %}
+                    <button class="poem-explain-toggle" id="poem-immersive-toggle" hidden>
+                        <i class="fa-solid fa-mountain-sun"></i> <span>Immersive view</span>
+                    </button>
+                    {% endif %}
                     {% if page.explanations %}
                     <button class="poem-explain-toggle" id="poem-explain-toggle">
                         <i class="fa-solid fa-circle-info"></i> Show explanations
@@ -119,6 +144,11 @@ layout: default
 
     <script src="/js/site/soundscape.js" defer></script>
     <script src="/js/site/poem.js" defer></script>
+    {% if page.immersive %}
+    {% comment %}Engine first: each scene file registers itself with it.{% endcomment %}
+    <script src="/js/site/immersive/engine.js" defer></script>
+    <script src="/js/site/immersive/scenes/{{ page.immersive }}.js" defer></script>
+    {% endif %}
 
 </div>
 </main>

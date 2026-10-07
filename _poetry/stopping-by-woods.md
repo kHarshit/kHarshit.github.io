@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: motivational
 img_source: /img/poems/StoppingbyWoodsonaSnowyEvening.jpg
+immersive: snowy-woods
 ---
 - Whose woods these are I think I know.
 - His house is in the village though;
