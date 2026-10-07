@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: life
 img_source: /img/poems/Anonymous.jpg
+immersive: vendetta
 explanations:
   - >
     V introduces himself as a "vaudevillian veteran" (a theatrical performer with
