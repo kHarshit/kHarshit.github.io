@@ -6,6 +6,7 @@ date: 2023-04-17 15:58 -04:00
 editor: Harshit Kumar
 categories: romantic
 img_source: /img/poems/Letmenottothemarriageoftrueminds.jpg
+immersive: fixed-mark
 explanations:
   - >
     The poem declares that true love admits no obstacles. Love is not
