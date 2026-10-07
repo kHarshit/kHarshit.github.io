@@ -236,9 +236,6 @@ html.pi-pending main::before {
 .pi-btn:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
 .pi-btn[aria-pressed="true"] { border-color: rgba(238, 242, 251, 0.6); }
 
-/* The scene stands in for the hero image while it is on. */
-.poetry.is-immersive .poem-hero-img { display: none !important; }
-
 @keyframes pi-rise {
     from { opacity: 0; filter: blur(10px); }
     to { opacity: 1; filter: blur(0); }

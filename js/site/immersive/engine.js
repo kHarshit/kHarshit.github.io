@@ -432,16 +432,13 @@
       section._cleanup();
       section.remove();
       section = null;
-      article.classList.remove('is-immersive');
       updateToggle();
       if (scrollToText) article.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
 
     function enter(scrollToScene) {
       if (section) return;
-      article.classList.add('is-immersive');
       if (!start()) {
-        article.classList.remove('is-immersive');
         if (toggle) toggle.remove();
         toggle = null;
         return;
