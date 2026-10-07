@@ -172,7 +172,7 @@
               var ideal = Math.round(k * lines.length / n), best = ideal;
               [0, -1, 1, -2, 2].some(function (d) {
                 var e = ideal + d;
-                if (e > start && e - start <= max && /[.!?;:\u2014\u2013-]\s*$/.test(lines[e - 1])) { best = e; return true; }
+                if (e > start && e - start <= max && /[.!?;:)\u2014\u2013-]\s*$/.test(lines[e - 1])) { best = e; return true; }
               });
               end = best;
             }

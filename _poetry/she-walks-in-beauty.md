@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source:
 categories: romantic
 img_source: /img/poems/SheWalksInBeauty.jpg
+immersive: night-beauty
 explanations:
   - >
     The poem compares the woman's beauty to a cloudless, star-filled night.
