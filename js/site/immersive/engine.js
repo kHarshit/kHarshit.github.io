@@ -1,25 +1,30 @@
 /*
  * Immersive poem reading: the shared engine.
  *
- * A poem with `immersive: <scene>` in its front matter loads this file plus
- * js/site/immersive/scenes/<scene>.js (see _layouts/poem.html). The scene
- * file registers itself with PoemImmersive.register(); this file does the
- * rest: a tall section with a sticky full-screen stage above the article,
+ * A poem with `immersive: <scene>` in its front matter loads this file,
+ * which then loads js/site/immersive/scenes/<scene>.js (or the one named by
+ * `?scene=` in the URL). The scene file registers itself with
+ * PoemImmersive.register(); this file does the rest: a tall section with a sticky full-screen stage above the article,
  * where a camera dollies through the scene's layers while each stanza fades
  * in and lights up word by word. The plain article stays below as the text
  * version, so the scene is decoration (aria-hidden) and the page still works
  * without JS.
  *
- * Rendering is one <canvas>: every layer is a set of Path2D shapes authored
+ * The default renderer is a 2D <canvas>: every layer is a set of Path2D shapes authored
  * in a 2000x1200 box with the horizon at y=720, placed at a depth `z`. A
  * layer at distance d = z - camZ is drawn at scale z/d around the vanishing
  * point, so near layers grow and slide past while far ones barely move.
  * Snow is a particle field in the same camera space, so it rushes towards
  * the reader when they scroll.
  *
+ * A scene can instead bring its own renderer (e.g. three.js) via
+ * `renderer`; the engine still owns the timeline, text, controls and sound.
+ *
  * A scene supplies:
  *   build(ctx)  -> layers [{ z, items: [{ path, fill | stroke, width }], fog?, glow? }]
- *   keys        camera keyframes [unit, depth, darkness, snowfall, wind]
+ *     or renderer(canvas, scene, env) -> { resize(w, h, dpr), frame(f), destroy? }
+ *   keys        camera keyframes [unit, camera, darkness, snowfall, wind];
+ *               "camera" means whatever the renderer wants (depth, path progress)
  *   align       where each stanza sits: 'left' | 'right' | 'center'
  *   sky         gradient stops, top to horizon
  *   stars, moon optional sky dressing
@@ -115,22 +120,253 @@
     return g;
   }
 
+  // ── Synthesised sound cues scenes can share ───────────────────────────
+  // A short shake of sleigh bells: bright inharmonic partials, fast decay.
+  function sleighBells(ac, out) {
+    var now = ac.currentTime;
+    for (var i = 0; i < 9; i++) {
+      var t = now + i * 0.065 + Math.random() * 0.035;
+      var f = 2300 + Math.random() * 1100;
+      [1, 2.76, 5.4].forEach(function (m, j) {
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sine';
+        o.frequency.value = f * m;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.07 / (j + 1), t + 0.004);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7 / (j + 1));
+        o.connect(g);
+        g.connect(out);
+        o.start(t);
+        o.stop(t + 0.75);
+      });
+    }
+  }
+
+  // ── Default renderer: depth-sorted canvas layers + 3D snowfall ────────
+  // A renderer is a factory (canvas, scene, env) -> { resize, frame, destroy }.
+  // frame(f) gets the sampled timeline: f.cam (the scene's camera value, here
+  // a depth in layer units), f.dark, f.snow, f.wind, plus f.mx/f.my pointer
+  // offsets in -1..1, f.dt, f.time, f.leap (true after a scroll jump) and
+  // f.row, the whole sampled keyframe row, for scenes with extra columns.
+  function layerRenderer(canvas, scene, env) {
+    var ctx = canvas.getContext('2d');
+    var layers = scene.build(ctx);
+    var W = 0, H = 0, dpr = 1, k = 1, vpx = 0, vpy = 0, skyGrad = null, cam = null;
+    var F = 800;   // focal length shared by layers and snow
+
+    // Stars in normalised screen space, above the horizon.
+    var sr = rng(5), stars = [];
+    for (var i = 0; i < (scene.stars || 0); i++) stars.push([sr(), sr() * 0.6, sr() * 0.8 + 0.2, sr() * 6.28, 0.5 + sr() * 2]);
+
+    // Soft snowflake sprite.
+    var flake = document.createElement('canvas');
+    flake.width = flake.height = 32;
+    var fx = flake.getContext('2d'), fg = fx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    fg.addColorStop(0, 'rgba(255,255,255,1)');
+    fg.addColorStop(0.35, 'rgba(240,246,255,0.8)');
+    fg.addColorStop(1, 'rgba(230,240,255,0)');
+    fx.fillStyle = fg;
+    fx.fillRect(0, 0, 32, 32);
+
+    var N = window.innerWidth < 700 ? 260 : 520, DEPTH = 2400;
+    var PX = new Float32Array(N), PY = new Float32Array(N), PD = new Float32Array(N),
+        PS = new Float32Array(N), PF = new Float32Array(N), PH = new Float32Array(N),
+        P0 = new Float32Array(N), PA = new Float32Array(N);
+    function spanX(d) { return (W / 2 + 200) / (k * F) * d; }
+    function spanY(d) { return H / (k * F) * d; }
+    // P0 is the depth a flake was placed at and PA its age, so new flakes
+    // fade in rather than pop.
+    function spawn(i, d) {
+      PD[i] = P0[i] = d;
+      PA[i] = 0;
+      PX[i] = (Math.random() * 2 - 1) * spanX(d);
+      PY[i] = (Math.random() * 2 - 1) * spanY(d);
+    }
+
+    function resize(w, h, ratio) {
+      W = w; H = h; dpr = ratio;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      // Cover the stage like `slice`, but never show less than ~1000 units of
+      // width, so portrait phones still see both sides of the clearing.
+      k = Math.min(Math.max(W / 2000, H / 1200), W / 1000);
+      vpx = W / 2;
+      vpy = H * 0.62;
+      skyGrad = ctx.createLinearGradient(0, 0, 0, vpy);
+      scene.sky.forEach(function (c, i) { skyGrad.addColorStop(i / (scene.sky.length - 1), c); });
+      if (cam === null) {
+        for (var i = 0; i < N; i++) {
+          spawn(i, 20 + Math.random() * DEPTH);
+          PS[i] = 1 + Math.random() * 1.3;
+          PF[i] = 16 + Math.random() * 16;
+          PH[i] = Math.random() * 6.28;
+        }
+      }
+    }
+
+    function drawLayer(L, d, ox, oy, time) {
+      var rel = L.z / d, s = k * rel;
+      var alpha = clamp((d - 30) / Math.min(200, (L.z - 30) * 0.7), 0, 1);
+      if (alpha <= 0) return;
+      ctx.globalAlpha = alpha;
+      ctx.setTransform(s * dpr, 0, 0, s * dpr, (vpx + ox - 1000 * s) * dpr, (vpy + oy - 720 * s) * dpr);
+      L.items.forEach(function (it) {
+        if (it.fill) { ctx.fillStyle = it.fill; ctx.fill(it.path); }
+        if (it.stroke) { ctx.strokeStyle = it.stroke; ctx.lineWidth = it.width; ctx.stroke(it.path); }
+      });
+      if (L.fog) {
+        var f = L.fog, cx = 1000 + Math.sin(time / 30) * f.drift * 10 + time * f.drift;
+        cx = ((cx % 3000) + 3000) % 3000 - 500;
+        [cx - 1500, cx, cx + 1500].forEach(function (x) {
+          ctx.save();
+          ctx.translate(x, f.cy);
+          ctx.scale(f.rx, f.ry);
+          var g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+          g.addColorStop(0, 'rgba(190,205,235,' + f.a + ')');
+          g.addColorStop(1, 'rgba(190,205,235,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(0, 0, 1, 0, 6.2832);
+          ctx.fill();
+          ctx.restore();
+        });
+      }
+      if (L.glow) {
+        ctx.globalCompositeOperation = 'lighter';
+        L.glow.forEach(function (w, j) {
+          var flick = 0.85 + 0.15 * Math.sin(time * 3 + j * 1.7) * Math.sin(time * 1.3 + j);
+          var g = ctx.createRadialGradient(w[0], w[1], 0, w[0], w[1], w[2] * 6);
+          g.addColorStop(0, 'rgba(255,205,130,' + 0.55 * flick + ')');
+          g.addColorStop(1, 'rgba(255,170,90,0)');
+          ctx.fillStyle = g;
+          ctx.fillRect(w[0] - w[2] * 6, w[1] - w[2] * 6, w[2] * 12, w[2] * 12);
+          ctx.fillStyle = 'rgba(255,214,150,' + flick + ')';
+          ctx.fillRect(w[0] - w[2] / 2, w[1] - w[2] / 2, w[2], w[2] * 0.9);
+        });
+        ctx.globalCompositeOperation = 'source-over';
+      }
+    }
+
+    function drawMoon(dark, mx, my) {
+      var mxp = scene.moon.x * W - mx * 10, myp = scene.moon.y * H - my * 6, mr = Math.min(W, H) * 0.045;
+      ctx.globalAlpha = 1 - dark * 0.55;
+      var mg = ctx.createRadialGradient(mxp, myp, mr * 0.8, mxp, myp, mr * 9);
+      mg.addColorStop(0, 'rgba(200,215,255,0.35)');
+      mg.addColorStop(1, 'rgba(120,140,200,0)');
+      ctx.fillStyle = mg;
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#eef3ff';
+      ctx.beginPath();
+      ctx.arc(mxp, myp, mr, 0, 6.2832);
+      ctx.fill();
+      ctx.fillStyle = 'rgba(160,175,210,0.25)';
+      ctx.beginPath();
+      ctx.arc(mxp - mr * 0.3, myp - mr * 0.2, mr * 0.28, 0, 6.2832);
+      ctx.arc(mxp + mr * 0.35, myp + mr * 0.3, mr * 0.18, 0, 6.2832);
+      ctx.fill();
+    }
+
+    function frame(f) {
+      var camZ = f.cam, dark = f.dark, mx = f.mx, my = f.my, dt = f.dt, time = f.time, i;
+      var dCam = f.leap || cam === null ? 0 : camZ - cam;
+      cam = camZ;
+      if (f.leap) for (i = 0; i < N; i++) spawn(i, 20 + Math.random() * DEPTH);
+      var P = 22000 * W / 1440;
+
+      // Sky, stars, moon (screen space).
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = scene.sky[scene.sky.length - 1];
+      ctx.fillRect(0, vpy, W, H - vpy);
+      ctx.fillStyle = '#dfe7fa';
+      stars.forEach(function (s) {
+        var a = s[2] * (0.6 + 0.4 * Math.sin(time * s[4] + s[3]));
+        ctx.globalAlpha = a * (1 - s[1] / 0.75);
+        ctx.fillRect(s[0] * W - mx * 4, s[1] * H - my * 3, 1.4, 1.4);
+      });
+      if (scene.moon) drawMoon(dark, mx, my);
+
+      // Layers, far to near.
+      for (var li = 0; li < layers.length; li++) {
+        var L = layers[li], d = L.z - camZ;
+        if (d <= 30) continue;
+        drawLayer(L, d, -mx * P / d, -my * P * 0.35 / d, time);
+      }
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.globalAlpha = 1;
+      if (dark > 0) {
+        ctx.fillStyle = 'rgba(2,3,9,' + dark + ')';
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      // Snow in camera space.
+      var n = Math.floor(N * f.snow), sScale = k * F;
+      var windX = f.wind * 140, fall = env.reduceMotion ? 0.5 : 1;
+      for (i = 0; i < N; i++) {
+        PD[i] -= dCam;
+        PA[i] += dt;
+        if (PD[i] < 12) spawn(i, PD[i] + DEPTH);
+        // Backing up, flakes recede towards the vanishing point and leave the
+        // edges bare; recycle them anywhere in the volume once they have
+        // drifted well past where they started.
+        else if (PD[i] > DEPTH + 20 || (dCam < 0 && PD[i] > P0[i] * 1.6 + 150)) spawn(i, 20 + Math.random() * DEPTH);
+        PY[i] += PF[i] * dt * fall;
+        PX[i] += (windX + Math.sin(time * 0.8 + PH[i]) * 9) * dt * fall;
+        if (i >= n) continue;
+        var dd = PD[i], s = sScale / dd;
+        var sx = vpx - mx * P / dd + PX[i] * s, sy = vpy - my * P * 0.35 / dd + PY[i] * s;
+        var rr = Math.min(PS[i] * s, 38);
+        if (sy > H + rr + 10) { PY[i] -= (H + rr * 2 + 20) / s; continue; }
+        if (sx < -rr - 60) { PX[i] += (W + rr * 2 + 120) / s; continue; }
+        if (sx > W + rr + 60) { PX[i] -= (W + rr * 2 + 120) / s; continue; }
+        if (rr < 0.5) rr = 0.5;
+        ctx.globalAlpha = Math.min(1, dd / 90, PA[i] / 0.6) * clamp(1.35 - dd / DEPTH, 0, 1) * (1 - dark * 0.5) * 0.9;
+        ctx.drawImage(flake, sx - rr * 1.6, sy - rr * 1.6, rr * 3.2, rr * 3.2);
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    return { resize: resize, frame: frame };
+  }
+
   window.PoemImmersive = {
-    register: function (name, scene) { SCENES[name] = scene; },
+    register: function (name, scene) {
+      SCENES[name] = scene;
+      if (name === wanted) boot();
+    },
     util: { clamp: clamp, smooth: smooth, lerp: lerp, rng: rng },
+    sounds: { sleighBells: sleighBells },
     shapes: { ridgePath: ridgePath, pine: pine, groundPath: groundPath, treeRow: treeRow, vgrad: vgrad }
   };
 
-  // Scene files are deferred scripts after this one, so they have all
-  // registered by DOMContentLoaded.
-  document.addEventListener('DOMContentLoaded', boot);
+  // ── Loader ────────────────────────────────────────────────────────────
+  // The poem names its scene in front matter; `?scene=<name>` overrides it,
+  // so alternative scenes for the same poem can be compared. The scene file
+  // is loaded as a module (it may import a library such as three.js) and
+  // starts the engine when it registers.
+  var article = document.querySelector('.poetry[data-immersive]');
+  var root = document.documentElement;
+  var wanted = null, booted = false;
+  if (article) {
+    var override = new URLSearchParams(location.search).get('scene');
+    wanted = /^[a-z0-9-]+$/.test(override || '') ? override : article.getAttribute('data-immersive');
+    var tag = document.createElement('script');
+    tag.type = 'module';
+    tag.src = '/js/site/immersive/scenes/' + wanted + '.js';
+    tag.onerror = function () { root.classList.remove('pi-pending'); };
+    document.head.appendChild(tag);
+  } else {
+    root.classList.remove('pi-pending');
+  }
 
   function boot() {
-    var article = document.querySelector('.poetry[data-immersive]');
-    var root = document.documentElement;
-    if (!article) { root.classList.remove('pi-pending'); return; }
+    if (booted) return;
+    booted = true;
 
-    var sceneName = article.getAttribute('data-immersive');
+    var sceneName = wanted;
     var toggle = document.getElementById('poem-immersive-toggle');
     var PREF_KEY = 'poem-immersive';
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -294,66 +530,17 @@
       }
     }
 
-    // ── Renderer ──────────────────────────────────────────────────────────
+    // ── Frame loop: timeline + pointer -> renderer, text and sound ───────
     function start() {
       var dom = buildDom();
-      var canvas = dom.canvas, ctx = canvas.getContext('2d');
-      var layers = scene.build(ctx);
-      var W = 0, H = 0, dpr = 1, k = 1, vpx = 0, vpy = 0, skyGrad = null;
-      var F = 800;   // focal length shared by layers and snow
-
-      // Stars in normalised screen space, above the horizon.
-      var sr = rng(5), stars = [];
-      for (var i = 0; i < (scene.stars || 0); i++) stars.push([sr(), sr() * 0.6, sr() * 0.8 + 0.2, sr() * 6.28, 0.5 + sr() * 2]);
-
-      // Soft snowflake sprite.
-      var flake = document.createElement('canvas');
-      flake.width = flake.height = 32;
-      var fx = flake.getContext('2d'), fg = fx.createRadialGradient(16, 16, 0, 16, 16, 16);
-      fg.addColorStop(0, 'rgba(255,255,255,1)');
-      fg.addColorStop(0.35, 'rgba(240,246,255,0.8)');
-      fg.addColorStop(1, 'rgba(230,240,255,0)');
-      fx.fillStyle = fg;
-      fx.fillRect(0, 0, 32, 32);
-
-      var N = window.innerWidth < 700 ? 260 : 520, DEPTH = 2400;
-      var PX = new Float32Array(N), PY = new Float32Array(N), PD = new Float32Array(N),
-          PS = new Float32Array(N), PF = new Float32Array(N), PH = new Float32Array(N),
-          P0 = new Float32Array(N), PA = new Float32Array(N);
-      function spanX(d) { return (W / 2 + 200) / (k * F) * d; }
-      function spanY(d) { return H / (k * F) * d; }
-      // P0 is the depth a flake was placed at and PA its age, so new flakes
-      // fade in rather than pop.
-      function spawn(i, d) {
-        PD[i] = P0[i] = d;
-        PA[i] = 0;
-        PX[i] = (Math.random() * 2 - 1) * spanX(d);
-        PY[i] = (Math.random() * 2 - 1) * spanY(d);
-      }
+      var view = (scene.renderer || layerRenderer)(dom.canvas, scene, { reduceMotion: reduceMotion });
 
       function resize() {
-        dpr = Math.min(window.devicePixelRatio || 1, 1.75);
-        W = dom.stage.clientWidth;
-        H = dom.stage.clientHeight;
-        canvas.width = Math.round(W * dpr);
-        canvas.height = Math.round(H * dpr);
-        // Cover the stage like `slice`, but never show less than ~1000 units of
-        // width, so portrait phones still see both sides of the clearing.
-        k = Math.min(Math.max(W / 2000, H / 1200), W / 1000);
-        vpx = W / 2;
-        vpy = H * 0.62;
-        skyGrad = ctx.createLinearGradient(0, 0, 0, vpy);
-        scene.sky.forEach(function (c, i) { skyGrad.addColorStop(i / (scene.sky.length - 1), c); });
+        view.resize(dom.stage.clientWidth, dom.stage.clientHeight, Math.min(window.devicePixelRatio || 1, 1.75));
       }
       resize();
-      for (i = 0; i < N; i++) {
-        spawn(i, 20 + Math.random() * DEPTH);
-        PS[i] = 1 + Math.random() * 1.3;
-        PF[i] = 16 + Math.random() * 16;
-        PH[i] = Math.random() * 6.28;
-      }
 
-      var u = progressTarget(), cam = sample(u)[0], last = performance.now(), time = 0;
+      var u = progressTarget(), last = performance.now(), time = 0;
       var mx = 0, my = 0, tmx = 0, tmy = 0, finePointer = window.matchMedia('(pointer: fine)').matches;
 
       function onPointer(e) {
@@ -374,69 +561,6 @@
         return clamp(-rect.top / range, 0, 1) * TOTAL;
       }
 
-      function drawLayer(L, d, ox, oy) {
-        var rel = L.z / d, s = k * rel;
-        var alpha = clamp((d - 30) / Math.min(200, (L.z - 30) * 0.7), 0, 1);
-        if (alpha <= 0) return;
-        ctx.globalAlpha = alpha;
-        ctx.setTransform(s * dpr, 0, 0, s * dpr, (vpx + ox - 1000 * s) * dpr, (vpy + oy - 720 * s) * dpr);
-        L.items.forEach(function (it) {
-          if (it.fill) { ctx.fillStyle = it.fill; ctx.fill(it.path); }
-          if (it.stroke) { ctx.strokeStyle = it.stroke; ctx.lineWidth = it.width; ctx.stroke(it.path); }
-        });
-        if (L.fog) {
-          var f = L.fog, cx = 1000 + Math.sin(time / 30) * f.drift * 10 + time * f.drift;
-          cx = ((cx % 3000) + 3000) % 3000 - 500;
-          [cx - 1500, cx, cx + 1500].forEach(function (x) {
-            ctx.save();
-            ctx.translate(x, f.cy);
-            ctx.scale(f.rx, f.ry);
-            var g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
-            g.addColorStop(0, 'rgba(190,205,235,' + f.a + ')');
-            g.addColorStop(1, 'rgba(190,205,235,0)');
-            ctx.fillStyle = g;
-            ctx.beginPath();
-            ctx.arc(0, 0, 1, 0, 6.2832);
-            ctx.fill();
-            ctx.restore();
-          });
-        }
-        if (L.glow) {
-          ctx.globalCompositeOperation = 'lighter';
-          L.glow.forEach(function (w, j) {
-            var flick = 0.85 + 0.15 * Math.sin(time * 3 + j * 1.7) * Math.sin(time * 1.3 + j);
-            var g = ctx.createRadialGradient(w[0], w[1], 0, w[0], w[1], w[2] * 6);
-            g.addColorStop(0, 'rgba(255,205,130,' + 0.55 * flick + ')');
-            g.addColorStop(1, 'rgba(255,170,90,0)');
-            ctx.fillStyle = g;
-            ctx.fillRect(w[0] - w[2] * 6, w[1] - w[2] * 6, w[2] * 12, w[2] * 12);
-            ctx.fillStyle = 'rgba(255,214,150,' + flick + ')';
-            ctx.fillRect(w[0] - w[2] / 2, w[1] - w[2] / 2, w[2], w[2] * 0.9);
-          });
-          ctx.globalCompositeOperation = 'source-over';
-        }
-      }
-
-      function drawMoon(dark) {
-        var mxp = scene.moon.x * W - mx * 10, myp = scene.moon.y * H - my * 6, mr = Math.min(W, H) * 0.045;
-        var moonA = 1 - dark * 0.55;
-        ctx.globalAlpha = moonA;
-        var mg = ctx.createRadialGradient(mxp, myp, mr * 0.8, mxp, myp, mr * 9);
-        mg.addColorStop(0, 'rgba(200,215,255,0.35)');
-        mg.addColorStop(1, 'rgba(120,140,200,0)');
-        ctx.fillStyle = mg;
-        ctx.fillRect(0, 0, W, H);
-        ctx.fillStyle = '#eef3ff';
-        ctx.beginPath();
-        ctx.arc(mxp, myp, mr, 0, 6.2832);
-        ctx.fill();
-        ctx.fillStyle = 'rgba(160,175,210,0.25)';
-        ctx.beginPath();
-        ctx.arc(mxp - mr * 0.3, myp - mr * 0.2, mr * 0.28, 0, 6.2832);
-        ctx.arc(mxp + mr * 0.35, myp + mr * 0.3, mr * 0.18, 0, 6.2832);
-        ctx.fill();
-      }
-
       function frame(now) {
         raf = running ? requestAnimationFrame(frame) : 0;
         var dt = Math.min((now - last) / 1000, 0.05);
@@ -448,10 +572,7 @@
         var ut = progressTarget(), leap = Math.abs(ut - u) > 1.2;
         u = leap ? ut : u + (ut - u) * (1 - Math.exp(-dt * 5));
         if (Math.abs(ut - u) < 0.0005) u = ut;
-        var st = sample(u), camZ = st[0], dark = st[1], snow = st[2], wind = st[3];
-        var dCam = leap ? 0 : camZ - cam;
-        cam = camZ;
-        if (leap) for (i = 0; i < N; i++) spawn(i, 20 + Math.random() * DEPTH);
+        var st = sample(u);
 
         if (finePointer && !reduceMotion) {
           mx += (tmx - mx) * (1 - Math.exp(-dt * 3));
@@ -460,65 +581,11 @@
           mx = Math.sin(time * 0.13) * 0.25;
           my = Math.sin(time * 0.09) * 0.1;
         }
-        var P = 22000 * W / 1440;
 
-        // Sky, stars, moon (screen space).
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = skyGrad;
-        ctx.fillRect(0, 0, W, H);
-        ctx.fillStyle = scene.sky[scene.sky.length - 1];
-        ctx.fillRect(0, vpy, W, H - vpy);
-        ctx.fillStyle = '#dfe7fa';
-        stars.forEach(function (s) {
-          var a = s[2] * (0.6 + 0.4 * Math.sin(time * s[4] + s[3]));
-          ctx.globalAlpha = a * (1 - s[1] / 0.75);
-          ctx.fillRect(s[0] * W - mx * 4, s[1] * H - my * 3, 1.4, 1.4);
-        });
-        if (scene.moon) drawMoon(dark);
-
-        // Layers, far to near.
-        for (var li = 0; li < layers.length; li++) {
-          var L = layers[li], d = L.z - camZ;
-          if (d <= 30) continue;
-          drawLayer(L, d, -mx * P / d, -my * P * 0.35 / d);
-        }
-
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.globalAlpha = 1;
-        if (dark > 0) {
-          ctx.fillStyle = 'rgba(2,3,9,' + dark + ')';
-          ctx.fillRect(0, 0, W, H);
-        }
-
-        // Snow in camera space.
-        var n = Math.floor(N * snow), sScale = k * F;
-        var windX = wind * 140, fall = reduceMotion ? 0.5 : 1;
-        for (i = 0; i < N; i++) {
-          PD[i] -= dCam;
-          PA[i] += dt;
-          if (PD[i] < 12) spawn(i, PD[i] + DEPTH);
-          // Backing up, flakes recede towards the vanishing point and leave the
-          // edges bare; recycle them anywhere in the volume once they have
-          // drifted well past where they started.
-          else if (PD[i] > DEPTH + 20 || (dCam < 0 && PD[i] > P0[i] * 1.6 + 150)) spawn(i, 20 + Math.random() * DEPTH);
-          PY[i] += PF[i] * dt * fall;
-          PX[i] += (windX + Math.sin(time * 0.8 + PH[i]) * 9) * dt * fall;
-          if (i >= n) continue;
-          var dd = PD[i], s = sScale / dd;
-          var sx = vpx - mx * P / dd + PX[i] * s, sy = vpy - my * P * 0.35 / dd + PY[i] * s;
-          var rr = Math.min(PS[i] * s, 38);
-          if (sy > H + rr + 10) { PY[i] -= (H + rr * 2 + 20) / s; continue; }
-          if (sx < -rr - 60) { PX[i] += (W + rr * 2 + 120) / s; continue; }
-          if (sx > W + rr + 60) { PX[i] -= (W + rr * 2 + 120) / s; continue; }
-          if (rr < 0.5) rr = 0.5;
-          ctx.globalAlpha = Math.min(1, dd / 90, PA[i] / 0.6) * clamp(1.35 - dd / DEPTH, 0, 1) * (1 - dark * 0.5) * 0.9;
-          ctx.drawImage(flake, sx - rr * 1.6, sy - rr * 1.6, rr * 3.2, rr * 3.2);
-        }
-        ctx.globalAlpha = 1;
-
+        view.frame({ u: u, cam: st[0], dark: st[1], snow: st[2], wind: st[3], row: st,
+                     mx: mx, my: my, dt: dt, time: time, leap: leap });
         updateText(u, dom);
-        updateSound(u, wind, dark);
+        updateSound(u, st[3], st[1]);
       }
 
       function updateText(u, dom) {
@@ -580,6 +647,7 @@
 
       section._cleanup = function () {
         root.classList.remove('pi-immersed');
+        if (view.destroy) view.destroy();
         window.removeEventListener('pointermove', onPointer);
         window.removeEventListener('resize', resize);
       };

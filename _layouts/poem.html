@@ -144,11 +144,8 @@ layout: default
 
     <script src="/js/site/soundscape.js" defer></script>
     <script src="/js/site/poem.js" defer></script>
-    {% if page.immersive %}
-    {% comment %}Engine first: each scene file registers itself with it.{% endcomment %}
-    <script src="/js/site/immersive/engine.js" defer></script>
-    <script src="/js/site/immersive/scenes/{{ page.immersive }}.js" defer></script>
-    {% endif %}
+    {% comment %}The engine loads the scene file itself (see its header).{% endcomment %}
+    {% if page.immersive %}<script src="/js/site/immersive/engine.js" defer></script>{% endif %}
 
 </div>
 </main>

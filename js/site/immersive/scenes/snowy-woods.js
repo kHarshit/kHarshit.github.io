@@ -1,8 +1,7 @@
 /*
  * Scene for "Stopping by Woods on a Snowy Evening": a moonlit walk past a
- * village and a frozen lake into deep pine woods. Loaded by
- * _layouts/poem.html for poems with `immersive: snowy-woods`; the engine is
- * js/site/immersive/engine.js.
+ * village and a frozen lake into deep pine woods, drawn as canvas layers.
+ * Loaded by js/site/immersive/engine.js for `immersive: snowy-woods`.
  */
 (function () {
   'use strict';
@@ -11,27 +10,6 @@
   if (!PI) return;
   var rng = PI.util.rng, S = PI.shapes;
   var ridgePath = S.ridgePath, treeRow = S.treeRow, groundPath = S.groundPath, vgrad = S.vgrad;
-
-  // Sleigh bells for "He gives his harness bells a shake".
-  function jingle(ac, out) {
-    var now = ac.currentTime;
-    for (var i = 0; i < 9; i++) {
-      var t = now + i * 0.065 + Math.random() * 0.035;
-      var f = 2300 + Math.random() * 1100;
-      [1, 2.76, 5.4].forEach(function (m, j) {
-        var o = ac.createOscillator(), g = ac.createGain();
-        o.type = 'sine';
-        o.frequency.value = f * m;
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.07 / (j + 1), t + 0.004);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7 / (j + 1));
-        o.connect(g);
-        g.connect(out);
-        o.start(t);
-        o.stop(t + 0.75);
-      });
-    }
-  }
 
   PI.register('snowy-woods', {
     align: ['left', 'right', 'left', 'center'],
@@ -53,7 +31,7 @@
     sound: {
       src: '/audio/wind.mp3',
       label: 'Play wind and sleigh bells',
-      cues: [{ stanza: 2, at: 0.35, play: jingle }]
+      cues: [{ stanza: 2, at: 0.35, play: PI.sounds.sleighBells }]
     },
     stars: 220,
     sky: ['#03060f', '#0b1530', '#22335c', '#3b4d78'],
