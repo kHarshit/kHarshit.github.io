@@ -103,11 +103,15 @@ function softSprite(inner, outer) {
 
 // ── Renderer ─────────────────────────────────────────────────────────────
 function renderer3d(canvas, scene, env) {
-  var small = window.innerWidth < 800 || !window.matchMedia('(pointer: fine)').matches;
+  // env.capture: rendering stills for the image-layer scene (transparent
+  // background, full quality whatever the device).
+  var capture = !!env.capture;
+  var small = !capture && (window.innerWidth < 800 || !window.matchMedia('(pointer: fine)').matches);
   var r = rng(17);
 
-  var gl = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: 'high-performance' });
-  gl.setClearColor('#03060f');
+  var gl = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: 'high-performance',
+                                     alpha: capture, preserveDrawingBuffer: capture });
+  gl.setClearColor('#03060f', capture ? 0 : 1);
   gl.toneMapping = THREE.ACESFilmicToneMapping;
   gl.outputColorSpace = THREE.SRGBColorSpace;
   gl.shadowMap.enabled = !small;
@@ -179,6 +183,7 @@ function renderer3d(canvas, scene, env) {
   var snowMat = new THREE.MeshLambertMaterial({ color: '#d4def2' });
   var groundMesh = new THREE.Mesh(ground, snowMat);
   groundMesh.receiveShadow = true;
+  groundMesh.name = 'ground';
   world.add(groundMesh);
 
   // Frozen lake: dark ice that catches the moon.
@@ -186,6 +191,7 @@ function renderer3d(canvas, scene, env) {
     new THREE.MeshPhongMaterial({ color: '#2b3c64', specular: '#b9c9f2', shininess: 140 }));
   lake.position.set(LAKE.x, LAKE.y, LAKE.z);
   lake.receiveShadow = true;
+  lake.name = 'ground';
   world.add(lake);
 
   // Sleigh-runner tracks along the path: two slightly darker grooves.
@@ -205,6 +211,7 @@ function renderer3d(canvas, scene, env) {
   trackGeo.computeVertexNormals();
   var tracks = new THREE.Mesh(trackGeo, new THREE.MeshLambertMaterial({ color: '#a9b7dc', side: THREE.DoubleSide }));
   tracks.receiveShadow = true;
+  tracks.name = 'ground';
   world.add(tracks);
 
   // Pines, placed by density: open meadow towards the village, a clear
@@ -369,7 +376,12 @@ function renderer3d(canvas, scene, env) {
     gl.forceContextLoss();
   }
 
-  return { resize: resize, frame: frame, destroy: destroy };
+  // `parts` lets scripts/immersive/capture-layers.js reuse this world to
+  // render the image-layer version of the scene.
+  return {
+    resize: resize, frame: frame, destroy: destroy,
+    parts: { gl: gl, world: world, camera: camera, sky: sky, snow: snowPts, height: height, curve: curve }
+  };
 }
 
 PI.register('snowy-woods-3d', {

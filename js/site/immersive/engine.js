@@ -151,6 +151,7 @@
   function layerRenderer(canvas, scene, env) {
     var ctx = canvas.getContext('2d');
     var layers = scene.build(ctx);
+    ctx.imageSmoothingQuality = 'high';
     var W = 0, H = 0, dpr = 1, k = 1, vpx = 0, vpy = 0, skyGrad = null, cam = null;
     var F = 800;   // focal length shared by layers and snow
 
@@ -211,6 +212,7 @@
       ctx.globalAlpha = alpha;
       ctx.setTransform(s * dpr, 0, 0, s * dpr, (vpx + ox - 1000 * s) * dpr, (vpy + oy - 720 * s) * dpr);
       L.items.forEach(function (it) {
+        if (it.image) { ctx.drawImage(it.image, it.x, it.y, it.w, it.h); return; }
         if (it.fill) { ctx.fillStyle = it.fill; ctx.fill(it.path); }
         if (it.stroke) { ctx.strokeStyle = it.stroke; ctx.lineWidth = it.width; ctx.stroke(it.path); }
       });
@@ -332,11 +334,46 @@
     return { resize: resize, frame: frame };
   }
 
+  // ── Image-layer scenes ────────────────────────────────────────────────
+  // A scene made of pictures instead of shapes: `dir` holds layers.json,
+  //   { "layers": [{ "src": "far.webp", "z": 2500, "x": -300, "y": 554, "w": 2600, "h": 226 }, ...] }
+  // where x/y/w/h place each (transparent) image in the 2000x1200 layer space
+  // and z is its depth. Painted layers or renders from
+  // scripts/immersive/capture-layers.js both work. `opts` is the rest of the
+  // scene (keys, align, sky, ...). The engine waits for every image.
+  function imageScene(dir, opts) {
+    var loaded = [];
+    var scene = Object.assign({}, opts, {
+      build: function () {
+        return loaded.map(function (l) {
+          return { z: l.z, items: [{ image: l.img, x: l.x, y: l.y, w: l.w, h: l.h }] };
+        }).sort(function (a, b) { return b.z - a.z; });
+      }
+    });
+    scene.ready = fetch(dir + 'layers.json').then(function (r) { return r.json(); }).then(function (m) {
+      return Promise.all(m.layers.map(function (l) {
+        // Wait for `load`, not decode(): browsers hold decode() back while
+        // the tab is in the background, which would stall the scene.
+        var img = new Image();
+        return new Promise(function (res, rej) {
+          img.onload = res;
+          img.onerror = rej;
+          img.src = dir + l.src;
+        }).then(function () { loaded.push(Object.assign({ img: img }, l)); });
+      }));
+    });
+    return scene;
+  }
+
   window.PoemImmersive = {
+    // A scene may carry a `ready` promise (e.g. images loading); the engine
+    // starts once it settles, or gives up and leaves the plain text if it fails.
     register: function (name, scene) {
       SCENES[name] = scene;
-      if (name === wanted) boot();
+      if (name !== wanted) return;
+      Promise.resolve(scene.ready).then(boot, function () { root.classList.remove('pi-pending'); });
     },
+    imageScene: imageScene,
     util: { clamp: clamp, smooth: smooth, lerp: lerp, rng: rng },
     sounds: { sleighBells: sleighBells },
     shapes: { ridgePath: ridgePath, pine: pine, groundPath: groundPath, treeRow: treeRow, vgrad: vgrad }
