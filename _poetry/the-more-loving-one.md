@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Poets.org
 categories: romantic
 img_source: /img/poems/TheMoreLovingOne.jpg
+immersive: empty-sky
 ---
 - Looking up at the stars, I know quite well  
 - That, for all they care, I can go to hell,  
