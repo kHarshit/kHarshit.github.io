@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Poetry Foundation
 categories: motivational
 img_source: /img/poems/Invictus.jpg
+immersive: captain
 ---
 - Out of the night that covers me,
 - {:.indent-2}Black as the pit from pole to pole,
