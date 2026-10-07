@@ -96,8 +96,11 @@
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // ── Timeline, in "units" of one screen of scroll ──────────────────────
+    // Each panel (a stanza, or a chunk of prose) fades in over 0.3, reads
+    // for `read` units (1 for a stanza, longer for long prose) and fades out
+    // over 0.3.
     var INTRO = 1.0;      // title card; the camera starts moving at 0.7
-    var STANZA = 1.6;     // 0.3 fade in, 1.0 reading, 0.3 fade out
+    var FADE = 0.3;
     var OUTRO = 1.2;
 
     // ── DOM helpers ─────────────────────────────────────────────────────
@@ -118,33 +121,64 @@
     function getPref() { try { return localStorage.getItem(PREF_KEY); } catch (e) { return null; } }
     function setPref(v) { try { localStorage.setItem(PREF_KEY, v); } catch (e) {} }
 
-    // ── Read the verse out of the rendered article ────────────────────────
-    // Lines are list items; kramdown wraps the last line of each stanza in <p>
-    // because a blank line follows it, which is what marks the stanza break.
-    function readStanzas() {
-      var stanzas = [], current = [];
+    // ── Read the text out of the rendered article ─────────────────────────
+    // Verse: lines are list items; kramdown wraps the last line of each
+    // stanza in <p> because a blank line follows it, which marks the break.
+    // Prose (no list): each paragraph is split at sentence ends into chunks
+    // of up to ~40 words, and longer chunks get longer to read.
+    function readPanels() {
+      var panels = [], current = [];
       var items = article.querySelectorAll('.poem-body > ul > li');
       Array.prototype.forEach.call(items, function (li) {
         current.push(li.textContent.trim());
-        if (li.querySelector('p')) { stanzas.push(current); current = []; }
+        if (li.querySelector('p')) { panels.push({ lines: current, read: 1 }); current = []; }
       });
-      if (current.length) stanzas.push(current);
-      return stanzas;
+      if (current.length) panels.push({ lines: current, read: 1 });
+      if (panels.length) return panels;
+
+      Array.prototype.forEach.call(article.querySelectorAll('.poem-body > p'), function (para) {
+        if (para.querySelector('img')) return;
+        var sentences = para.textContent.trim().match(/[^.!?]+[.!?]+["'\u2019\u201d)]*\s*|[^.!?]+$/g) || [];
+        var chunk = '', n = 0;
+        function flush() {
+          if (!n) return;
+          panels.push({ lines: [chunk.trim()], prose: true, read: clamp(n / 30, 1, 2.6) });
+          chunk = '';
+          n = 0;
+        }
+        sentences.forEach(function (sentence) {
+          var w = sentence.split(/\s+/).filter(Boolean).length;
+          if (n && n + w > 40) flush();
+          chunk += sentence;
+          n += w;
+        });
+        flush();
+      });
+      return panels;
     }
 
     var scene = SCENES[sceneName];
     if (!scene) { root.classList.remove('pi-pending'); return; }
 
-    var stanzas = readStanzas();
+    var stanzas = readPanels();
     if (!stanzas.length) { root.classList.remove('pi-pending'); return; }
 
-    var TOTAL = INTRO + stanzas.length * STANZA + OUTRO;
-    function stanzaStart(i) { return INTRO + i * STANZA; }
+    var starts = [], t0 = INTRO;
+    stanzas.forEach(function (p) { starts.push(t0); t0 += FADE * 2 + p.read; });
+    var TOTAL = t0 + OUTRO;
+    function stanzaStart(i) { return starts[i]; }
+    function stanzaEnd(i) { return starts[i] + FADE * 2 + stanzas[i].read; }
 
-    // Camera keyframes are authored for the scene's own stanza count; if the
-    // poem has a different number, stretch them over the actual timeline.
-    var keyEnd = scene.keys[scene.keys.length - 1][0];
-    var keys = scene.keys.map(function (k) { return [k[0] * TOTAL / keyEnd].concat(k.slice(1)); });
+    // Keyframes are either a function of the timeline (for scenes whose
+    // panel count depends on the text, like prose) or a fixed list authored
+    // for a fixed stanza count, stretched if the poem differs.
+    var keys;
+    if (typeof scene.keys === 'function') {
+      keys = scene.keys({ count: stanzas.length, total: TOTAL, intro: INTRO, start: stanzaStart, end: stanzaEnd });
+    } else {
+      var keyEnd = scene.keys[scene.keys.length - 1][0];
+      keys = scene.keys.map(function (k) { return [k[0] * TOTAL / keyEnd].concat(k.slice(1)); });
+    }
 
     function sample(u) {
       var out = keys[keys.length - 1].slice(1);
@@ -169,6 +203,8 @@
 
       section = el('section', 'pi');
       section.style.setProperty('--pi-units', (TOTAL + 1).toFixed(2));
+      // Daylight scenes can ask for a heavier shadow behind the text.
+      if (scene.scrim != null) section.style.setProperty('--pi-scrim', scene.scrim);
       var stage = el('div', 'pi-stage');
       var canvas = el('canvas', 'pi-canvas');
       canvas.setAttribute('aria-hidden', 'true');
@@ -184,11 +220,11 @@
         '<p class="pi-cue"><span>Scroll to enter</span><i></i></p>');
       text.appendChild(intro);
 
-      var panels = stanzas.map(function (lines, i) {
-        var p = el('div', 'pi-panel');
+      var panels = stanzas.map(function (st, i) {
+        var p = el('div', st.prose ? 'pi-panel pi-prose' : 'pi-panel');
         p.setAttribute('data-align', scene.align[i % scene.align.length]);
-        p.innerHTML = '<p class="pi-num">' + ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'][i] + '</p>' +
-          lines.map(function (l) { return '<p class="pi-line">' + words(l) + '</p>'; }).join('');
+        p.innerHTML = (st.prose ? '' : '<p class="pi-num">' + ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][i] + '</p>') +
+          st.lines.map(function (l) { return '<p class="pi-line">' + words(l) + '</p>'; }).join('');
         text.appendChild(p);
         return { el: p, words: Array.prototype.slice.call(p.querySelectorAll('.pi-word')), last: [] };
       });
@@ -327,8 +363,8 @@
         dom.intro.style.visibility = oi > 0 ? 'visible' : 'hidden';
 
         dom.panels.forEach(function (p, i) {
-          var S = stanzaStart(i);
-          var fin = smooth(S, S + 0.3, u), fout = smooth(S + 1.3, S + 1.6, u);
+          var S = stanzaStart(i), E = stanzaEnd(i), read = stanzas[i].read;
+          var fin = smooth(S, S + FADE, u), fout = smooth(E - FADE, E, u);
           var o = fin * (1 - fout);
           var y = (1 - fin) * 50 - fout * 50;
           p.el.style.opacity = o.toFixed(3);
@@ -336,7 +372,7 @@
           p.el.style.setProperty('--y', y.toFixed(1) + 'px');
           p.el.style.filter = o < 0.99 ? 'blur(' + ((1 - o) * 8).toFixed(1) + 'px)' : 'none';
           if (o <= 0) return;
-          var prog = clamp((u - (S + 0.15)) / 1.0, 0, 1), nw = p.words.length;
+          var prog = clamp((u - (S + 0.15)) / read, 0, 1), nw = p.words.length;
           for (var w = 0; w < nw; w++) {
             var lit = clamp((prog * (nw + 3) - w) / 3, 0, 1);
             var v = Math.round((0.14 + 0.86 * lit) * 100) / 100;
