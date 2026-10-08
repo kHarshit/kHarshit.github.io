@@ -9,6 +9,7 @@ source_url: https://www.reddit.com/user/Poem_for_your_sprog/
 rights: "© Sam Garland (u/Poem_for_your_sprog)"
 categories: motivational
 img_source: /img/poems/WithAllThatExtraTime.jpg
+immersive: extra-day
 ---
 - With all that extra time I had,
 - With all that extra time...
