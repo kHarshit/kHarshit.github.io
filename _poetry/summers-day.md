@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: romantic
 img_source: /img/poems/ShallIcomparetheetoasummersday.jpg
+immersive: summer-meadow
 explanations:
   - >
     Shall I compare you to a summer's day? You are more lovely and more
