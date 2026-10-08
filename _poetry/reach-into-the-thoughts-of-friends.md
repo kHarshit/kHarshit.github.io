@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Linux song poems
 categories: life
 img_source: /img/poems/Reachintothethoughtsoffriends.jpg
+immersive: stained-glass
 ---
 - Reach into the thoughts of friends,
 - And find they do not know your name.
