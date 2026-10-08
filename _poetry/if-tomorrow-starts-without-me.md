@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: life
 img_source: /img/poems/IfTomorrowStartsWithoutMe.jpg
+immersive: tomorrow-light
 ---
 - When tomorrow starts without me,
 - And I'm not there to see,
