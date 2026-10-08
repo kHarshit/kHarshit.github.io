@@ -137,9 +137,16 @@
       var panels = [], current = [], body = article.querySelector('.poem-body'), hr = body.querySelector('hr');
       function inCard(n) { return !!n.closest('.stanza-explain-card'); }
       function afterRule(n) { return hr && !(hr.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_PRECEDING); }
+      // A line's text without its footnote markers (<sup>1</sup>), which
+      // would otherwise read as "streets1".
+      function lineText(n) {
+        var c = n.cloneNode(true);
+        Array.prototype.forEach.call(c.querySelectorAll('sup'), function (s) { s.remove(); });
+        return c.textContent.trim();
+      }
       Array.prototype.forEach.call(body.querySelectorAll('ul > li'), function (li) {
         if (inCard(li) || afterRule(li)) return;
-        current.push(li.textContent.trim());
+        current.push(lineText(li));
         // The last item of a list ends its stanza too: poems made of several
         // lists (separated by a centred glyph) don't get the <p> marker there.
         if (li.querySelector('p') || !li.nextElementSibling) { panels.push({ lines: current, read: 1 }); current = []; }
