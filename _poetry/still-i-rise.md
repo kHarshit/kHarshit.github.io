@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Poem Hunter
 categories: motivational
 img_source: /img/poems/StillIRise.jpg
+immersive: daybreak
 ---
 - You may write me down in history
 - With your bitter, twisted lies,
