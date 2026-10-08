@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: r/OCPoetry
 categories: romantic
 img_source: /img/poems/VeinsofMarble.jpg
+immersive: marble-garden
 ---
 - If lovers turned to stone
 - Would you still envy them
