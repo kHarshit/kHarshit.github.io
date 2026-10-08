@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Poets.org
 categories: romantic
 img_source: /img/poems/Faults.jpg
+immersive: kintsugi
 ---
 - They came to tell your faults to me,
 - They named them over one by one;
