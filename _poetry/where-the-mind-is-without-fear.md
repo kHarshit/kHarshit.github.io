@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Gitanjali
 categories: life
 img_source: /img/poems/WhereTheMindIsWithoutFear.jpg
+immersive: without-fear
 ---
 - Where the mind is without fear and the head is held high;
 - Where knowledge is free;
