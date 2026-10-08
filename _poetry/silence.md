@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: PoemHunter
 categories: life
 img_source: /img/poems/silence.jpg
+immersive: silence
 ---
 - I have known the silence of the stars and of the sea,
 - And the silence of the city when it pauses,
