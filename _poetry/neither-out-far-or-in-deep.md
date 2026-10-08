@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: life
 img_source: /img/poems/NeitherOutFarOrInDeep.jpg
+immersive: watchers
 ---
 - The people along the sand All turn and look one way. They turn their back on the land. They look at the sea all day.
 
