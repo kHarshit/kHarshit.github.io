@@ -121,6 +121,10 @@
         return '<span class="pi-word' + em + '">' + escapeHtml(w) + '</span>';
       }).join(' ');
     }
+    // Stanza numerals; some poems run past ten stanzas.
+    function roman(n) {
+      return ['', 'X', 'XX'][Math.floor(n / 10)] + ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'][n % 10];
+    }
     function getPref() { try { return localStorage.getItem(PREF_KEY); } catch (e) { return null; } }
     function setPref(v) { try { localStorage.setItem(PREF_KEY, v); } catch (e) {} }
 
@@ -282,7 +286,7 @@
         p.setAttribute('data-align', scene.align[i % scene.align.length]);
         if (!st.prose && !st.lead && !st.direction && !st.cont) stanzaNo++;
         p.innerHTML = (st.prose || st.lead || st.direction ? '' :
-                       '<p class="pi-num">' + (st.cont ? '&middot;' : ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][stanzaNo - 1]) + '</p>') +
+                       '<p class="pi-num">' + (st.cont ? '&middot;' : roman(stanzaNo)) + '</p>') +
           st.lines.map(function (l) { return '<p class="pi-line">' + words(l) + '</p>'; }).join('');
         text.appendChild(p);
         return { el: p, words: Array.prototype.slice.call(p.querySelectorAll('.pi-word')), last: [] };
