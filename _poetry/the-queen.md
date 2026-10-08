@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Genuis.com
 categories: romantic
 img_source: /img/poems/queen.jpg
+immersive: red-gold-carpet
 ---
 - I have named you queen.
 - There are taller than you, taller.
