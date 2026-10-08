@@ -9,6 +9,7 @@ source_url: https://www.familyfriendpoems.com/poem/let-kids-be-kids
 rights: "© Jennifer Caldwell"
 categories: life
 img_source: /img/poems/LetKidsBeKids.jpg
+immersive: toy-world
 ---
 - Let kids be kids; just let them be
 - Princesses, pirates; let the bath be the sea!
