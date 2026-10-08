@@ -6,14 +6,14 @@ layout: default
 {% comment %}
   Holds a dark stage-sized block before first paint so the article does not
   flash and then jump when the immersive engine inserts the scene. Same rule as
-  the script: on unless turned off, or reduced motion without an opt-in.
+  the script: always on, except reduced motion without an opt-in.
 {% endcomment %}
 <script>
 (function () {
     var pref = null;
     try { pref = localStorage.getItem('poem-immersive'); } catch (e) {}
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (pref === 'on' || (pref !== 'off' && !reduce)) document.documentElement.classList.add('pi-pending');
+    if (pref === 'on' || !reduce) document.documentElement.classList.add('pi-pending');
 })();
 </script>
 {% endif %}
@@ -23,7 +23,9 @@ layout: default
     {% comment %}
       `immersive: <scene>` in a poem's front matter turns on the scroll-driven
       3D reading (js/site/immersive/). The script builds the scene from
-      the verse below, so without JS the page stays the plain text version.
+      the verse below and, while it is on, hides this article and moves Similar
+      Poems and the comments into a dark epilogue under the scene. Without JS
+      the page stays the plain text version.
     {% endcomment %}
     <article class="poem poetry"{% if page.immersive %} data-immersive="{{ page.immersive }}"{% endif %}>
 
