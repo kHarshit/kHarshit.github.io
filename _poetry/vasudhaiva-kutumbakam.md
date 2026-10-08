@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Wikipedia, [Quora answer](https://qr.ae/T94I4v)
 categories: life
 img_source: /img/poems/blue-marble.jpg
+immersive: one-family
 ---
 - अयं निजः परो वे/ति गणना लघुचेतसाम् ।
 - उदारचरितानां तु वसुधैव कुटुम्बकम् ॥
