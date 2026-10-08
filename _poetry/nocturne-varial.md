@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Poetry Nook
 categories: motivational
 img_source: /img/poems/NocturneVarial.jpg
+immersive: nocturne
 ---
 - I came as a shadow,
 - I stand now a light;
