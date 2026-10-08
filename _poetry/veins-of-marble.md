@@ -4,7 +4,9 @@ title: Veins of Marble
 author: u/OlivesBark
 date: 2020-01-20 11:50 +05:30
 editor: Harshit Kumar
-source: r/OCPoetry
+source: "r/OCPoetry, u/OlivesBark"
+source_url: https://www.reddit.com/user/OlivesBark/
+rights: "© u/OlivesBark"
 categories: romantic
 img_source: /img/poems/VeinsofMarble.jpg
 ---

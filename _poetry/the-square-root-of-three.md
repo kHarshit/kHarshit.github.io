@@ -5,6 +5,7 @@ author: David Feinberg
 date: 2019-11-15 22:18 +05:30
 editor: Harshit Kumar
 source: Genius.com
+rights: "© David Feinberg"
 categories: romantic
 img_source: /img/poems/TheSquarRootofThree.jpg
 immersive: root-three

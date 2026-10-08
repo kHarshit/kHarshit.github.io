@@ -5,6 +5,7 @@ author: William Wordsworth
 date: 2020-01-07 20:50 +05:30
 editor: Harshit Kumar
 source: The Wordsworth Trust
+rights: "Public domain"
 categories: life
 img_source: /img/poems/daffodils.jpg
 immersive: daffodils

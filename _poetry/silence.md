@@ -4,7 +4,9 @@ title: Silence
 author: Edgar Lee Masters
 date: 2019-11-15 21:00 +05:30
 editor: Harshit Kumar
-source: PoemHunter
+source: "Songs and Satires (1916)"
+source_url: https://gutenberg.org/files/36149/36149-h/36149-h.htm
+rights: "Public domain"
 categories: life
 img_source: /img/poems/silence.jpg
 immersive: silence

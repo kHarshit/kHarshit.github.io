@@ -5,6 +5,7 @@ author: William Ernest Henley
 date: 2019-11-15 20:19 +05:30
 editor: Harshit Kumar
 source: Poetry Foundation
+rights: "Public domain"
 categories: motivational
 img_source: /img/poems/Invictus.jpg
 immersive: captain

@@ -80,11 +80,25 @@ layout: default
             {% endif %}
         </div>
 
-        {% if page.source %}
+        {% comment %}
+          Credits and a takedown note on every poem. `source` may hold
+          Markdown (a link); `source_url` links the whole source line;
+          `rights` names the copyright holder, or says public domain.
+        {% endcomment %}
         <footer class="poem-source">
-            Source: {{ page.source }}
+            {% if page.source and page.source != "" %}
+            {% assign poem_src = page.source | markdownify | remove: '<p>' | remove: '</p>' | strip %}
+            <p class="poem-credit">Source: {% if page.source_url %}<a href="{{ page.source_url }}" target="_blank" rel="noopener">{{ poem_src }}</a>{% else %}{{ poem_src }}{% endif %}</p>
+            {% endif %}
+            {% if page.rights %}<p class="poem-credit">{{ page.rights }}</p>{% endif %}
+            <p class="poem-fineprint">
+                Poems here are shared for personal, non-commercial appreciation, with credit
+                to their authors. All rights remain with the authors and rights holders, and
+                no copyright infringement is intended. If you hold the rights to this work and
+                would like it removed or credited differently, please tell me through the
+                <a href="{{ site.baseurl }}/#chat-section">chat on my homepage</a> and it will be taken down promptly.
+            </p>
         </footer>
-        {% endif %}
 
     </article>
 

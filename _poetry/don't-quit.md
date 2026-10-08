@@ -1,10 +1,12 @@
 ---
 layout: poem
 title: Don't Quit
-author: John Greenleaf Whittier
+author: Edgar A. Guest
 date: 2019-12-12 11:30 +05:30
 editor: Harshit Kumar
-source: Public Domain
+source: "Quote Investigator (first published as \"Keep Going\", 1921)"
+source_url: https://quoteinvestigator.com/2017/04/21/do-not-quit/
+rights: "Public domain"
 categories: motivational
 img_source: /img/poems/DontQuit.jpg
 immersive: uphill-road

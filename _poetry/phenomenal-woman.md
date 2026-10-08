@@ -4,7 +4,9 @@ title: Phenomenal Woman
 author: Maya Angelou
 date: 2019-11-15 20:58 +05:30
 editor: Harshit Kumar
-source: Famous Poets and Poems
+source: "Poetry Foundation"
+source_url: https://www.poetryfoundation.org/poems/48985/phenomenal-woman
+rights: "© 1978 Maya Angelou"
 categories: motivational
 img_source: /img/poems/PhenomenalWoman.jpg
 immersive: sunflowers

@@ -5,6 +5,7 @@ author: Mary Elizabeth Frye
 date: 2019-11-15 22:02 +05:30
 editor: Harshit Kumar
 source: Poem Hunter
+rights: "© Mary Elizabeth Frye (c. 1932); copyright status unclear"
 categories: life
 img_source: /img/poems/DoNotStandAtMyGraveAndWeep.jpg
 immersive: thousand-winds

@@ -4,7 +4,9 @@ title: Neither Out Far Or In Deep
 author: Robert Frost
 date: 2020-04-19 10:24 +05:30
 editor: Harshit Kumar
-source: 
+source: "A Further Range (Henry Holt, 1936)"
+source_url: https://yalereview.org/article/robert-frost-sea-poem
+rights: "© 1936 Robert Frost"
 categories: life
 img_source: /img/poems/NeitherOutFarOrInDeep.jpg
 immersive: watchers

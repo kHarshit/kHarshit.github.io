@@ -4,7 +4,8 @@ title: I Worried
 author: Mary Oliver
 date: 2020-01-25 15:02 +05:30
 editor: Harshit Kumar
-source: 
+source: "Swan (Beacon Press, 2010)"
+rights: "© 2010 Mary Oliver"
 categories: life
 img_source: /img/poems/IWorried.jpg
 immersive: worry-garden

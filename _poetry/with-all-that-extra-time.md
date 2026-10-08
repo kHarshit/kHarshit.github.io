@@ -4,7 +4,9 @@ title: With All That Extra Time
 author: Poem_for_your_sprog
 date: 2019-11-16 16:18 +05:30
 editor: Harshit Kumar
-source: reddit.com/user/Poem_for_your_sprog/
+source: "Reddit, u/Poem_for_your_sprog"
+source_url: https://www.reddit.com/user/Poem_for_your_sprog/
+rights: "© Sam Garland (u/Poem_for_your_sprog)"
 categories: motivational
 img_source: /img/poems/WithAllThatExtraTime.jpg
 ---

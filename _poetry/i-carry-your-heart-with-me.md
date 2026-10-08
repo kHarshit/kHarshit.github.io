@@ -4,7 +4,9 @@ title: I carry your Heart with me
 author: E. E. Cummings
 date: 2023-06-11 08:35 -04:00
 editor: Harshit Kumar
-source: Poets.org
+source: "Poetry Foundation"
+source_url: https://www.poetryfoundation.org/poetrymagazine/poems/49493/i-carry-your-heart-with-mei-carry-it-in
+rights: "© 1952, renewed 1980, 1991, by the Trustees for the E. E. Cummings Trust"
 categories: romantic
 img_source: /img/poems/IcarryyourHeartwithme.jpg
 immersive: heart-tree

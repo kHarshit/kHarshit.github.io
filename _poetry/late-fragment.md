@@ -4,7 +4,9 @@ title: Late Fragment
 author: Raymond Carver
 date: 2019-11-18 22:54 +05:30
 editor: Harshit Kumar
-source: Words for the year
+source: "A New Path to the Waterfall (1989)"
+source_url: https://poemsontheunderground.org/late-fragment
+rights: "© 1989 the Estate of Raymond Carver"
 categories: life
 img_source: /img/poems/LateFragment.jpg
 immersive: beloved-earth

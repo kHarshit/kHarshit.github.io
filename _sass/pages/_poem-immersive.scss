@@ -430,6 +430,7 @@ html.pi-pending .poem.poetry {
 .pi-notes a { color: var(--accent-color); }
 .pi-notes h1, .pi-notes h2, .pi-notes h3, .pi-notes h4, .pi-notes strong { color: #eef2fb; }
 .pi-notes .poem-source { margin: 1rem 0 0; padding: 0; border: 0; color: rgba(222, 230, 248, 0.55); }
+.pi-notes .poem-source a { color: rgba(222, 230, 248, 0.75); }
 
 .pi-epilogue .poem-related-heading {
     color: #eef2fb;

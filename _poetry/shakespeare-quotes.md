@@ -6,6 +6,7 @@ date: 2023-05-06 13:00 -04:00
 editor: Harshit Kumar
 categories: romantic
 img_source: /img/poems/ShakespeareQuotes.jpg
+rights: "Public domain"
 ---
 - Shall I compare thee to a summer's day?
 

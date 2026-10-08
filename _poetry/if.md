@@ -5,6 +5,7 @@ author: Rudyard Kipling
 date: 2019-11-16 15:58 +05:30
 editor: Harshit Kumar
 source: Poets.org
+rights: "Public domain"
 categories: motivational
 img_source: /img/poems/If.jpg
 immersive: cairn

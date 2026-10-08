@@ -4,7 +4,9 @@ title: The More Loving One
 author: W. H. Auden
 date: 2023-06-11 08:12 -04:00
 editor: Harshit Kumar
-source: Poets.org
+source: "Poets.org"
+source_url: https://poets.org/poem/more-loving-one
+rights: "© 1957 W. H. Auden, renewed"
 categories: romantic
 img_source: /img/poems/TheMoreLovingOne.jpg
 immersive: empty-sky

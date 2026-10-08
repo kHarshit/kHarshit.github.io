@@ -4,7 +4,8 @@ title: The Queen
 author: Pablo Neruda
 date: 2019-11-16 16:11 +05:30
 editor: Harshit Kumar
-source: Genuis.com
+source: "The Captain's Verses, trans. Donald D. Walsh (New Directions, 1972)"
+rights: "© Fundación Pablo Neruda; English translation © 1972 Donald D. Walsh"
 categories: romantic
 img_source: /img/poems/queen.jpg
 immersive: red-gold-carpet

@@ -4,7 +4,8 @@ title: V's speech
 author: V for Vendetta
 date: 2020-06-26 10:40 +05:30
 editor: Harshit Kumar
-source: 
+source: "V for Vendetta (2005 film), screenplay by the Wachowskis"
+rights: "© 2005 Warner Bros."
 categories: life
 img_source: /img/poems/Anonymous.jpg
 immersive: vendetta

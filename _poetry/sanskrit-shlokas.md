@@ -7,6 +7,7 @@ editor: Harshit Kumar
 categories: life
 img_source: /img/poems/SanskritShlokas.jpg
 immersive: diyas
+rights: "Original texts public domain; English translations © their translators"
 ---
 - विद्यां ददाति विनयं, विनयाद् याति पात्रताम्।
 - पात्रत्वात् धनमाप्नोति, धनात् धर्मं ततः सुखम्॥

@@ -4,7 +4,8 @@ title: Not Marble nor the Gilded Monuments
 author: William Shakespeare
 date: 2026-06-26
 editor: Harshit Kumar
-source: 
+source: "Shakespeare's Sonnets (1609), Sonnet 55"
+rights: "Public domain"
 categories: romantic
 img_source: /img/poems/Not_marble_nor_the_gilded_monuments.jpg
 immersive: monuments

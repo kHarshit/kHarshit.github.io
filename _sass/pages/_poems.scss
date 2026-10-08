@@ -115,6 +115,16 @@
     color: #777;
 }
 
+.poem-source p { margin: 0 0 0.35rem; }
+.poem-source a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+.poem-source .poem-fineprint {
+    margin-top: 1rem;
+    font-size: var(--text-xs);
+    line-height: 1.55;
+    opacity: 0.85;
+}
+
 /* Poem lines rendered as a list */
 .poetry ul {
     list-style: none;

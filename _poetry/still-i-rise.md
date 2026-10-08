@@ -4,7 +4,9 @@ title: Still I Rise
 author: Maya Angelou
 date: 2019-11-15 21:50 +05:30
 editor: Harshit Kumar
-source: Poem Hunter
+source: "Poetry Foundation"
+source_url: https://www.poetryfoundation.org/poems/46446/still-i-rise
+rights: "© 1978 Maya Angelou"
 categories: motivational
 img_source: /img/poems/StillIRise.jpg
 immersive: daybreak

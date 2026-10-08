@@ -4,7 +4,8 @@ title: If You Forget Me
 author: Pablo Neruda
 date: 2019-11-15 20:51 +05:30
 editor: Harshit Kumar
-source: PoetryHunter
+source: "The Captain's Verses, trans. Donald D. Walsh (New Directions, 1972)"
+rights: "© Fundación Pablo Neruda; English translation © 1972 Donald D. Walsh"
 categories: romantic
 img_source: /img/poems/IfYouForgetMe.jpg
 ---

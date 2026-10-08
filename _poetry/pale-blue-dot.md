@@ -4,7 +4,9 @@ title: Pale Blue Dot
 author: Carl Sagan
 date: 2020-12-03 10:00 +05:30
 editor: Harshit Kumar
-source: 
+source: "Pale Blue Dot (Random House, 1994)"
+source_url: https://planetary.org/worlds/pale-blue-dot
+rights: "© 1994 Democritus Properties, LLC (Carl Sagan)"
 categories: life
 img_source: /img/poems/pale_blue_dot_revisited.jpg
 immersive: pale-blue-dot
