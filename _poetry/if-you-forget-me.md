@@ -8,6 +8,7 @@ source: "The Captain's Verses, trans. Donald D. Walsh (New Directions, 1972)"
 rights: "© Fundación Pablo Neruda; English translation © 1972 Donald D. Walsh"
 categories: romantic
 img_source: /img/poems/IfYouForgetMe.jpg
+immersive: isles
 ---
 - I want you to know
 - one thing.
