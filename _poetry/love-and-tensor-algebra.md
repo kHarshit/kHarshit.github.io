@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Poetry Foundation
 categories: romantic
 img_source: /img/poems/LoveandTensorAlgebrafromTheCyriad.jpg
+immersive: lemniscate
 ---
 - Come, let us hasten to a higher plane
 - Where dyads tread the fairy fields of Venn,
