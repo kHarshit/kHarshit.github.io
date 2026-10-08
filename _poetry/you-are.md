@@ -9,6 +9,7 @@ source_url: https://www.reddit.com/user/Poem_for_your_sprog/
 rights: "© Sam Garland (u/Poem_for_your_sprog)"
 categories: romantic
 img_source: /img/poems/YouAre.jpg
+immersive: sunbeam
 ---
 - You're my comfort and my pleasure,
 - You're the apple of my eye!
