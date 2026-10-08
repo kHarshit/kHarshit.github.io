@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: 
 categories: life
 img_source: /img/poems/nature.jpg
+immersive: encroach
 ---
 - The heavens roared with thunder
 - as lightning filled the skies
