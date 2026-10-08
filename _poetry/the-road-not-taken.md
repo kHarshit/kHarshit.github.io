@@ -5,6 +5,7 @@ author: Robert Frost
 date: 2019-11-20 22:23 +05:30
 editor: Harshit Kumar
 source: Poetry Foundation
+rights: "Public domain"
 categories: life
 img_source: /img/poems/roads.jpg
 immersive: yellow-wood

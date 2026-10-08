@@ -4,7 +4,9 @@ title: If Tomorrow Starts Without Me
 author: Unknown
 date: 2019-11-19 20:07 +05:30
 editor: Harshit Kumar
-source: 
+source: "AllPoetry"
+source_url: https://allpoetry.com/poem/12625396
+rights: "© the author; often attributed to David M. Romano"
 categories: life
 img_source: /img/poems/IfTomorrowStartsWithoutMe.jpg
 immersive: tomorrow-light

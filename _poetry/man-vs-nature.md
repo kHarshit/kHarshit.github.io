@@ -4,7 +4,9 @@ title: Man Vs Nature
 author: Norman Littleford
 date: 2020-04-22 21:16 +05:30
 editor: Harshit Kumar
-source: 
+source: "AllPoetry"
+source_url: https://allpoetry.com/poem/2412913-Man-vs-Nature-by-serious-clown
+rights: "© Norman Littleford"
 categories: life
 img_source: /img/poems/nature.jpg
 immersive: encroach

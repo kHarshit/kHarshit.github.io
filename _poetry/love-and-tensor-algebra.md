@@ -4,7 +4,8 @@ title: Love and Tensor Algebra from "The Cyriad"
 author: Stanislaw Lem
 date: 2019-11-15 21:57 +05:30
 editor: Harshit Kumar
-source: Poetry Foundation
+source: "The Cyberiad, trans. Michael Kandel (1974)"
+rights: "© Stanisław Lem estate; English translation © Michael Kandel"
 categories: romantic
 img_source: /img/poems/LoveandTensorAlgebrafromTheCyriad.jpg
 immersive: lemniscate

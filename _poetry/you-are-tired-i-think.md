@@ -4,7 +4,8 @@ title: You Are Tired, (I think)
 author: E. E. Cummings
 date: 2020-04-19 10:24 +05:30
 editor: Harshit Kumar
-source: 
+source: "Tulips & Chimneys (1923)"
+rights: "Public domain"
 categories: life
 img_source: /img/poems/YouAreTiredIthink.jpg
 ---

@@ -4,7 +4,8 @@ title: She Walks in Beauty
 author: Lord Byron
 date: 2026-06-27
 editor: Harshit Kumar
-source:
+source: "Hebrew Melodies (1815)"
+rights: "Public domain"
 categories: romantic
 img_source: /img/poems/SheWalksInBeauty.jpg
 immersive: night-beauty

@@ -7,8 +7,11 @@
  * renderer (three.js); this file owns everything else: a tall section with
  * a sticky full-screen stage above the article, the scroll timeline, each
  * stanza fading in and lighting up word by word, the controls and sound.
- * The plain article stays below as the text version, so the scene is
- * decoration (aria-hidden) and the page still works without JS or WebGL.
+ * The page shows one reading at a time: while the scene is on, the plain
+ * article is hidden (kept for screen readers, since the scene is
+ * aria-hidden) and Similar Poems and the comments move into a dark epilogue
+ * below the stage; the Text view button puts them all back. Without JS or
+ * WebGL the page stays the plain text version.
  *
  * A scene supplies:
  *   renderer(canvas, scene, env) -> { resize(w, h, dpr), frame(f), destroy? }
@@ -63,7 +66,11 @@
   window.PoemImmersive = {
     register: function (name, scene) {
       SCENES[name] = scene;
-      if (name === wanted) boot();
+      // Wait for poem.js (it regroups the verse for explanations on
+      // DOMContentLoaded) so the panels can find their stanza.
+      if (name !== wanted) return;
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+      else boot();
     },
     util: { clamp: clamp, smooth: smooth, lerp: lerp, rng: rng },
     sounds: { sleighBells: sleighBells }
@@ -126,7 +133,7 @@
       return ['', 'X', 'XX'][Math.floor(n / 10)] + ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'][n % 10];
     }
     function getPref() { try { return localStorage.getItem(PREF_KEY); } catch (e) { return null; } }
-    function setPref(v) { try { localStorage.setItem(PREF_KEY, v); } catch (e) {} }
+    function setPref(v) { try { if (v) localStorage.setItem(PREF_KEY, v); else localStorage.removeItem(PREF_KEY); } catch (e) {} }
 
     // ── Read the text out of the rendered article ─────────────────────────
     // Verse: lines are list items; kramdown wraps the last line of each
@@ -138,7 +145,7 @@
     // skips explanation cards, since poem.js may have moved the text into
     // its explanations grid by now.
     function readPanels() {
-      var panels = [], current = [], body = article.querySelector('.poem-body'), hr = body.querySelector('hr');
+      var panels = [], current = [], first = null, body = article.querySelector('.poem-body'), hr = body.querySelector('hr');
       function inCard(n) { return !!n.closest('.stanza-explain-card'); }
       function afterRule(n) { return hr && !(hr.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_PRECEDING); }
       // A line's text without its footnote markers (<sup>1</sup>), which
@@ -150,12 +157,13 @@
       }
       Array.prototype.forEach.call(body.querySelectorAll('ul > li'), function (li) {
         if (inCard(li) || afterRule(li)) return;
+        if (!current.length) first = li;
         current.push(lineText(li));
         // The last item of a list ends its stanza too: poems made of several
         // lists (separated by a centred glyph) don't get the <p> marker there.
-        if (li.querySelector('p') || !li.nextElementSibling) { panels.push({ lines: current, read: 1 }); current = []; }
+        if (li.querySelector('p') || !li.nextElementSibling) { panels.push({ lines: current, read: 1, src: first }); current = []; }
       });
-      if (current.length) panels.push({ lines: current, read: 1 });
+      if (current.length) panels.push({ lines: current, read: 1, src: first });
       if (panels.length) return scene.maxLines ? splitLong(panels, scene.maxLines) : panels;
 
       var nodes = Array.prototype.slice.call(body.querySelectorAll('p, hr'));
@@ -163,10 +171,10 @@
         var para = nodes[k], text = para.textContent.trim();
         if (inCard(para) || para.querySelector('img') || !text) continue;
         if (/^\[.*\]$/.test(text) && para.children.length === 1 && para.firstElementChild.tagName === 'EM') {
-          panels.push({ lines: [text.slice(1, -1)], direction: true, read: 0.5 });
+          panels.push({ lines: [text.slice(1, -1)], direction: true, read: 0.5, src: para });
           continue;
         }
-        readProse(text);
+        readProse(text, para);
       }
       return panels;
 
@@ -189,20 +197,20 @@
               });
               end = best;
             }
-            out.push({ lines: lines.slice(start, end), read: 1, cont: start > 0 });
+            out.push({ lines: lines.slice(start, end), read: 1, cont: start > 0, src: p.src });
             start = end;
           }
         });
         return out;
       }
 
-      function readProse(text) {
+      function readProse(text, para) {
         var sentences = text.match(/[^.!?]+[.!?]+["'\u2019\u201d)]*\s*|[^.!?]+$/g) || [];
         var chunk = '', n = 0;
         function flush() {
           if (!n) return;
           // A line of one to three words ("Voilà!") is set large, as a title.
-          panels.push({ lines: [chunk.trim()], prose: n > 3, lead: n <= 3, read: clamp(n / 30, 1, 2.6) });
+          panels.push({ lines: [chunk.trim()], prose: n > 3, lead: n <= 3, read: clamp(n / 30, 1, 2.6), src: para });
           chunk = '';
           n = 0;
         }
@@ -253,7 +261,7 @@
     }
 
     // ── State shared by build / teardown ──────────────────────────────────
-    var section = null, raf = 0, running = false, io = null;
+    var section = null, epilogue = null, raf = 0, running = false, io = null;
     var sound = { on: false, audio: null, ctx: null, master: null, lastStanzaU: 0 };
 
     function buildDom() {
@@ -280,14 +288,15 @@
         '<p class="pi-cue"><span>Scroll to enter</span><i></i></p>');
       text.appendChild(intro);
 
-      var stanzaNo = 0;
+      var stanzaNo = 0, notes = explanations();
       var panels = stanzas.map(function (st, i) {
         var p = el('div', 'pi-panel' + (st.prose ? ' pi-prose' : '') + (st.lead ? ' pi-lead' : '') + (st.direction ? ' pi-direction' : ''));
         p.setAttribute('data-align', scene.align[i % scene.align.length]);
         if (!st.prose && !st.lead && !st.direction && !st.cont) stanzaNo++;
         p.innerHTML = (st.prose || st.lead || st.direction ? '' :
                        '<p class="pi-num">' + (st.cont ? '&middot;' : roman(stanzaNo)) + '</p>') +
-          st.lines.map(function (l) { return '<p class="pi-line">' + words(l) + '</p>'; }).join('');
+          st.lines.map(function (l) { return '<p class="pi-line">' + words(l) + '</p>'; }).join('') +
+          (notes && notes[i] ? '<div class="pi-explain">' + notes[i] + '</div>' : '');
         text.appendChild(p);
         return { el: p, words: Array.prototype.slice.call(p.querySelectorAll('.pi-word')), last: [] };
       });
@@ -300,18 +309,91 @@
       rail.setAttribute('aria-hidden', 'true');
 
       var controls = el('div', 'pi-controls');
-      if (scene.sound) {
-        var soundBtn = el('button', 'pi-btn', '<i class="fa-solid fa-volume-xmark"></i><span>Sound</span>');
+      // One Sound menu: the scene's own sound, or one of the text view's
+      // ambient sounds (rain, ocean...). Those are driven through the text
+      // view's soundscape controls, so a pick carries across both views.
+      var ambientToggle = document.getElementById('poem-soundscape-toggle');
+      var ambientPanel = document.getElementById('poem-soundscape-panel');
+      var ambientOpts = ambientPanel ? Array.prototype.slice.call(ambientPanel.querySelectorAll('.poem-soundscape-option')) : [];
+      var choices = [];
+      if (scene.sound) choices.push({ id: 'scene', html: '\u2728 ' + escapeHtml((scene.sound.label || 'This scene').replace(/^Play /, '').replace(/^./, function (c) { return c.toUpperCase(); })) });
+      ambientOpts.forEach(function (o) { choices.push({ id: o.getAttribute('data-sound'), html: o.innerHTML, opt: o }); });
+      if (choices.length) {
+        var soundWrap = el('div', 'pi-sound');
+        // Split button: the main part turns the page's default sound (the
+        // scene's own, else the first ambient one) on and off; the arrow
+        // opens the menu to pick another.
+        var soundBtn = el('button', 'pi-btn pi-sound-main', '<i class="fa-solid fa-volume-xmark"></i><span>Sound</span>');
         soundBtn.type = 'button';
-        soundBtn.setAttribute('aria-pressed', 'false');
-        soundBtn.setAttribute('aria-label', scene.sound.label || 'Play sound');
-        soundBtn.addEventListener('click', function () { setSound(!sound.on, soundBtn); });
-        controls.appendChild(soundBtn);
+        soundBtn.setAttribute('aria-label', 'Sound');
+        var moreBtn = el('button', 'pi-btn pi-sound-more', '<i class="fa-solid fa-chevron-up"></i>');
+        moreBtn.type = 'button';
+        moreBtn.setAttribute('aria-haspopup', 'true');
+        moreBtn.setAttribute('aria-expanded', 'false');
+        moreBtn.setAttribute('aria-label', 'Choose a sound');
+        var menu = el('div', 'pi-sound-menu');
+        choices.forEach(function (c) {
+          var b = el('button', 'pi-sound-option', c.html);
+          b.type = 'button';
+          b.setAttribute('data-sound', c.id);
+          b.addEventListener('click', function () { pickSound(c.id); setMenu(false); });
+          menu.appendChild(b);
+        });
+        soundWrap.appendChild(soundBtn);
+        soundWrap.appendChild(moreBtn);
+        soundWrap.appendChild(menu);
+        controls.appendChild(soundWrap);
+
+        var current = 'off';
+        ambientOpts.forEach(function (o) { if (o.classList.contains('active')) current = o.getAttribute('data-sound'); });
+        var setMenu = function (open) {
+          menu.classList.toggle('open', open);
+          moreBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        };
+        var renderSound = function () {
+          soundBtn.querySelector('i').className = current === 'off' ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+          soundBtn.setAttribute('aria-pressed', current === 'off' ? 'false' : 'true');
+          Array.prototype.forEach.call(menu.children, function (b) { b.classList.toggle('active', b.getAttribute('data-sound') === current); });
+        };
+        var pickSound = function (id) {
+          if (id !== 'scene' && sound.on) setSound(false);
+          // Stop any ambient sound by its own toggle, which turns it off when active.
+          if (id !== current && ambientToggle && ambientToggle.classList.contains('active')) ambientToggle.click();
+          if (id === 'scene') setSound(true);
+          else if (id !== 'off' && id !== current) choices.filter(function (c) { return c.id === id; })[0].opt.click();
+          current = id;
+          renderSound();
+        };
+        soundBtn.addEventListener('click', function () { setMenu(false); pickSound(current === 'off' ? choices[0].id : 'off'); });
+        moreBtn.addEventListener('click', function (e) { e.stopPropagation(); setMenu(!menu.classList.contains('open')); });
+        menu.addEventListener('click', function (e) { e.stopPropagation(); });
+        document.addEventListener('click', function () { setMenu(false); });
+        renderSound();
+      }
+      if (notes) {
+        var explainBtn = el('button', 'pi-btn', '<i class="fa-solid fa-circle-info"></i><span>Explain</span>');
+        explainBtn.type = 'button';
+        explainBtn.setAttribute('aria-pressed', 'false');
+        explainBtn.setAttribute('aria-label', 'Show explanations');
+        explainBtn.addEventListener('click', function () {
+          var on = section.classList.toggle('pi-explaining');
+          explainBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+          explainBtn.setAttribute('aria-label', on ? 'Hide explanations' : 'Show explanations');
+        });
+        controls.appendChild(explainBtn);
       }
       var textBtn = el('button', 'pi-btn', '<i class="fa-solid fa-align-left"></i><span>Text view</span>');
       textBtn.type = 'button';
       textBtn.setAttribute('aria-label', 'Leave the immersive view and read the plain text');
       controls.appendChild(textBtn);
+
+      // Category tag and the way back to the list, as above the text view's title.
+      var eyebrow = article.querySelector('.poem-eyebrow');
+      if (eyebrow) {
+        var nav = eyebrow.cloneNode(true);
+        nav.classList.add('pi-nav');
+        stage.appendChild(nav);
+      }
 
       stage.appendChild(canvas);
       stage.appendChild(vignette);
@@ -323,16 +405,14 @@
       var container = article.closest('.container');
       container.parentNode.insertBefore(section, container);
 
-      textBtn.addEventListener('click', function () { setPref('off'); exit(true); });
+      textBtn.addEventListener('click', function () { setPref(null); exit(true); });
 
       return { stage: stage, canvas: canvas, text: text, intro: intro, outro: outro, panels: panels, rail: rail.firstChild };
     }
 
     // ── Sound: the scene's ambient loop, plus one-off cues it synthesises ─
-    function setSound(on, btn) {
+    function setSound(on) {
       sound.on = on;
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      btn.querySelector('i').className = on ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
       if (on) {
         if (!sound.audio) {
           sound.audio = new Audio(scene.sound.src);
@@ -360,6 +440,7 @@
         view = scene.renderer(dom.canvas, scene, { reduceMotion: reduceMotion });
       } catch (e) {
         // No WebGL (old device, or disabled): drop the stage, keep the text.
+        restoreMoved();
         section.remove();
         section = null;
         return false;
@@ -486,6 +567,88 @@
       return true;
     }
 
+    // Explanations for each panel, from the front matter: the first panel
+    // of each stanza block poem.js built gets that block's text.
+    function explanations() {
+      var data = document.getElementById('poem-explanations'), texts;
+      if (!data) return null;
+      try { texts = JSON.parse(data.textContent); } catch (e) { return null; }
+      var blocks = Array.prototype.slice.call(article.querySelectorAll('.poem-explain-grid > *'));
+      if (!texts || !texts.length || !blocks.length) return null;
+      var seen = {}, any = false;
+      var out = stanzas.map(function (st) {
+        var i = st.src ? blocks.indexOf(st.src.closest('.stanza-block, .stanza-block-column')) : -1;
+        if (i < 0 || i >= texts.length || seen[i]) return null;
+        seen[i] = any = true;
+        return texts[i];
+      });
+      return any ? out : null;
+    }
+
+    // Nodes borrowed from the text view (Similar Poems, comments)
+    // move in and back out, so nothing is built twice and their listeners
+    // and the shuffled related cards stay as they were.
+    var moved = [];
+    function move(node, into) {
+      moved.push({ node: node, parent: node.parentNode, next: node.nextSibling });
+      into.appendChild(node);
+    }
+    function restoreMoved() {
+      for (var i = moved.length - 1; i >= 0; i--) moved[i].parent.insertBefore(moved[i].node, moved[i].next);
+      moved = [];
+    }
+
+    // ── Epilogue: notes, Similar Poems and comments, carried on in the dark ─
+    function buildEpilogue() {
+      epilogue = el('section', 'pi-epilogue');
+      var inner = el('div', 'pi-epilogue-inner');
+      // Footnotes and other notes after the rule, and the source line, are
+      // copied (the text view keeps its own), without ids; footnote
+      // back-links would point into the hidden article, so they go.
+      var body = article.querySelector('.poem-body'), hr = body.querySelector('hr');
+      var extra = el('div', 'pi-notes');
+      if (hr) {
+        for (var n = hr.nextSibling; n; n = n.nextSibling) {
+          if (n.nodeType === 1 && n.tagName === 'SCRIPT') continue;
+          extra.appendChild(n.cloneNode(true));
+        }
+        Array.prototype.forEach.call(extra.querySelectorAll('.reversefootnote, script'), function (r) { r.remove(); });
+      }
+      var source = article.querySelector('.poem-source');
+      if (source) extra.appendChild(source.cloneNode(true));
+      Array.prototype.forEach.call(extra.querySelectorAll('[id]'), function (n) { n.removeAttribute('id'); });
+      if (extra.textContent.trim()) inner.appendChild(extra);
+      ['.poem-related', '.poem-notecomments'].forEach(function (sel) {
+        var node = document.querySelector('.container ' + sel);
+        if (node) move(node, inner);
+      });
+      epilogue.appendChild(inner);
+      section.parentNode.insertBefore(epilogue, section.nextSibling);
+      giscusTheme(true);
+    }
+
+    function dropEpilogue() {
+      if (!epilogue) return;
+      epilogue.remove();
+      epilogue = null;
+      giscusTheme(false);
+    }
+
+    // Giscus is themed from its script tag, which is light; while the scene
+    // is on, switch the frame to a dark theme. The frame loads lazily and
+    // its first messages can arrive before it applies a theme, so answer
+    // each one (setConfig itself sends nothing back).
+    var giscusScript = document.querySelector('script[src*="giscus.app/client.js"]');
+    var lightTheme = giscusScript ? giscusScript.getAttribute('data-theme') : null;
+    function giscusTheme(dark) {
+      var frame = document.querySelector('iframe.giscus-frame');
+      if (!frame || !frame.contentWindow || !lightTheme) return;
+      frame.contentWindow.postMessage({ giscus: { setConfig: { theme: dark ? 'transparent_dark' : lightTheme } } }, 'https://giscus.app');
+    }
+    window.addEventListener('message', function (e) {
+      if (e.origin === 'https://giscus.app' && epilogue) giscusTheme(true);
+    });
+
     function exit(scrollToText) {
       if (!section) return;
       if (io) io.disconnect();
@@ -495,8 +658,11 @@
       if (sound.audio) sound.audio.pause();
       sound.on = false;
       section._cleanup();
+      restoreMoved();
+      dropEpilogue();
       section.remove();
       section = null;
+      root.classList.remove('pi-on');
       updateToggle();
       if (scrollToText) article.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
@@ -508,6 +674,8 @@
         toggle = null;
         return;
       }
+      root.classList.add('pi-on');
+      buildEpilogue();
       updateToggle();
       if (scrollToScene) window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY, behavior: 'auto' });
     }
@@ -520,16 +688,17 @@
 
     if (toggle) {
       toggle.addEventListener('click', function () {
-        if (section) { setPref('off'); exit(true); }
+        if (section) { setPref(null); exit(true); }
         else { setPref('on'); enter(true); }
       });
     }
 
-    // Auto-start unless the reader turned it off, or asks for reduced motion
-    // and hasn't opted in. The inline script in _layouts/poem.html applies the
-    // same rule before first paint to hold space for the stage.
-    var pref = getPref();
-    if (pref === 'on' || (pref !== 'off' && !reduceMotion)) enter(false);
+    // Immersive is the default on every visit; Text view only lasts for the
+    // page it was clicked on. Readers who ask for reduced motion start on
+    // the text unless they opted in with the header button. The inline
+    // script in _layouts/poem.html applies the same rule before first paint
+    // to hold space for the stage.
+    if (getPref() === 'on' || !reduceMotion) enter(false);
     else updateToggle();
     root.classList.remove('pi-pending');
   }

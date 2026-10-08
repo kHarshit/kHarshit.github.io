@@ -24,6 +24,8 @@ explanations:
     The poet stakes his entire legacy on this definition of love: if
     anyone proves him wrong, then he never wrote a word and no one ever
     truly loved.
+source: "Shakespeare's Sonnets (1609), Sonnet 116"
+rights: "Public domain"
 ---
 - Let me not to the marriage of true minds
 - Admit impediments. Love is not love

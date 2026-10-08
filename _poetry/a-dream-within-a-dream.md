@@ -5,6 +5,7 @@ author: Edgar Allan Poe
 date: 2019-11-15 20:54 +05:30
 editor: Harshit Kumar
 source: Poetry Foundation
+rights: "Public domain"
 categories: life 
 img_source: /img/poems/ADreamWithinaDream.jpg
 immersive: dream-shore

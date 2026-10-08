@@ -5,6 +5,7 @@ author: Christopher Brennan
 date: 2020-01-20 11:57 +05:30
 editor: Harshit Kumar
 source: AllPoetry
+rights: "Public domain"
 categories: romantic
 img_source: /img/poems/BecauseSheWouldAskMeWhyILovedHer.jpg
 ---

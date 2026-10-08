@@ -6,14 +6,14 @@ layout: default
 {% comment %}
   Holds a dark stage-sized block before first paint so the article does not
   flash and then jump when the immersive engine inserts the scene. Same rule as
-  the script: on unless turned off, or reduced motion without an opt-in.
+  the script: always on, except reduced motion without an opt-in.
 {% endcomment %}
 <script>
 (function () {
     var pref = null;
     try { pref = localStorage.getItem('poem-immersive'); } catch (e) {}
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (pref === 'on' || (pref !== 'off' && !reduce)) document.documentElement.classList.add('pi-pending');
+    if (pref === 'on' || !reduce) document.documentElement.classList.add('pi-pending');
 })();
 </script>
 {% endif %}
@@ -23,7 +23,9 @@ layout: default
     {% comment %}
       `immersive: <scene>` in a poem's front matter turns on the scroll-driven
       3D reading (js/site/immersive/). The script builds the scene from
-      the verse below, so without JS the page stays the plain text version.
+      the verse below and, while it is on, hides this article and moves Similar
+      Poems and the comments into a dark epilogue under the scene. Without JS
+      the page stays the plain text version.
     {% endcomment %}
     <article class="poem poetry"{% if page.immersive %} data-immersive="{{ page.immersive }}"{% endif %}>
 
@@ -78,11 +80,25 @@ layout: default
             {% endif %}
         </div>
 
-        {% if page.source %}
+        {% comment %}
+          Credits and a takedown note on every poem. `source` may hold
+          Markdown (a link); `source_url` links the whole source line;
+          `rights` names the copyright holder, or says public domain.
+        {% endcomment %}
         <footer class="poem-source">
-            Source: {{ page.source }}
+            {% if page.source and page.source != "" %}
+            {% assign poem_src = page.source | markdownify | remove: '<p>' | remove: '</p>' | strip %}
+            <p class="poem-credit">Source: {% if page.source_url %}<a href="{{ page.source_url }}" target="_blank" rel="noopener">{{ poem_src }}</a>{% else %}{{ poem_src }}{% endif %}</p>
+            {% endif %}
+            {% if page.rights %}<p class="poem-credit">{{ page.rights }}</p>{% endif %}
+            <p class="poem-fineprint">
+                Poems here are shared for personal, non-commercial appreciation, with credit
+                to their authors. All rights remain with the authors and rights holders, and
+                no copyright infringement is intended. If you hold the rights to this work and
+                would like it removed or credited differently, please tell me through the
+                <a href="{{ site.baseurl }}/#chat-section">chat on my homepage</a> and it will be taken down promptly.
+            </p>
         </footer>
-        {% endif %}
 
     </article>
 

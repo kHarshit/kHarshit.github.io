@@ -4,7 +4,8 @@ title: Silentium!
 author: Fyodor Tyutchev
 date: 2020-01-20 12:05 +05:30
 editor: Harshit Kumar
-source: Culturedarm
+source: "Three Russian Poets, trans. Vladimir Nabokov (1944)"
+rights: "Original (1830) public domain; English translation © the Vladimir Nabokov estate"
 categories: life
 img_source: /img/poems/Silentium.jpg
 immersive: still-water

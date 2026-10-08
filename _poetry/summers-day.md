@@ -4,7 +4,8 @@ title: Shall I compare thee to a summer’s day?
 author: William Shakespeare
 date: 2020-09-30 22:10 +05:30
 editor: Harshit Kumar
-source: 
+source: "Shakespeare's Sonnets (1609), Sonnet 18"
+rights: "Public domain"
 categories: romantic
 img_source: /img/poems/ShallIcomparetheetoasummersday.jpg
 immersive: summer-meadow

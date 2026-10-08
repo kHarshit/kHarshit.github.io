@@ -4,7 +4,9 @@ title: If Only She Knew
 author: Kiara Wilson
 date: 2020-04-22 21:10 +05:30
 editor: Harshit Kumar
-source: Family Friend Poems
+source: "Family Friend Poems"
+source_url: https://www.familyfriendpoems.com/poem/if-only-she-knew
+rights: "© Kiara Wilson"
 categories: romantic
 img_source: /img/poems/IfOnlySheKnew.jpg
 ---

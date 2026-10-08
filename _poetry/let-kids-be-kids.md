@@ -4,7 +4,9 @@ title: Let Kids Be Kids
 author: Jennifer Caldwell
 date: 2020-04-19 10:25 +05:30
 editor: Harshit Kumar
-source: 
+source: "Family Friend Poems"
+source_url: https://www.familyfriendpoems.com/poem/let-kids-be-kids
+rights: "© Jennifer Caldwell"
 categories: life
 img_source: /img/poems/LetKidsBeKids.jpg
 ---

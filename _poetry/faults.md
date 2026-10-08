@@ -5,6 +5,7 @@ author: Sara Teasdale
 date: 2019-11-16 16:06 +05:30
 editor: Harshit Kumar
 source: Poets.org
+rights: "Public domain"
 categories: romantic
 img_source: /img/poems/Faults.jpg
 immersive: kintsugi

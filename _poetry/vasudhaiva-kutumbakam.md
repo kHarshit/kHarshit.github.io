@@ -5,6 +5,7 @@ author: Maha Upanishad 6.71–75
 date: 2019-11-16 21:28 +05:30
 editor: Harshit Kumar
 source: Wikipedia, [Quora answer](https://qr.ae/T94I4v)
+rights: "Original text public domain; English translation © its author"
 categories: life
 img_source: /img/poems/blue-marble.jpg
 immersive: one-family

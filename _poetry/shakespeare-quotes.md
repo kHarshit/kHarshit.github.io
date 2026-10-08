@@ -7,6 +7,7 @@ editor: Harshit Kumar
 categories: romantic
 img_source: /img/poems/ShakespeareQuotes.jpg
 immersive: globe-theatre
+rights: "Public domain"
 ---
 - Shall I compare thee to a summer's day?
 

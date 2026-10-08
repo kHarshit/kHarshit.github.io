@@ -5,6 +5,7 @@ author: Rabindranath Tagore
 date: 2019-11-20 21:59 +05:30
 editor: Harshit Kumar
 source: Gitanjali
+rights: "Public domain"
 categories: life
 img_source: /img/poems/WhereTheMindIsWithoutFear.jpg
 immersive: without-fear

@@ -4,7 +4,8 @@ title: There Will Come Soft Rains
 author: Sara Teasdale
 date: 2020-01-25 15:07 +05:30
 editor: Harshit Kumar
-source: 
+source: "Flame and Shadow (1920)"
+rights: "Public domain"
 categories: life
 img_source: /img/poems/ThereWillComeSoftRains.jpg
 immersive: soft-rains

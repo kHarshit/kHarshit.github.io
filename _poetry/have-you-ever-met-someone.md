@@ -4,7 +4,9 @@ title: Have You Ever Met Someone
 author: Jason J. Beaton
 date: 2023-07-14 11:10 -04:00
 editor: Harshit Kumar
-source: familyfriendpoems.com
+source: "Family Friend Poems"
+source_url: https://www.familyfriendpoems.com/poem/have-you-ever-met-someone
+rights: "© Jason J. Beaton"
 categories: romantic
 img_source: /img/poems/HaveYouEverMetSomeone.jpg
 immersive: lanterns

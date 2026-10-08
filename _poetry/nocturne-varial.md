@@ -5,6 +5,7 @@ author: Lewis Alexander
 date: 2019-11-16 16:06 +05:30
 editor: Harshit Kumar
 source: Poetry Nook
+rights: "Public domain"
 categories: motivational
 img_source: /img/poems/NocturneVarial.jpg
 immersive: nocturne

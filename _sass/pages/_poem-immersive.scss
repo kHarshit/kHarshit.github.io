@@ -260,6 +260,81 @@ html.pi-pending main::before {
 .pi-btn:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
 .pi-btn[aria-pressed="true"] { border-color: rgba(238, 242, 251, 0.6); }
 
+/* Category tag and "All poems", top left, as above the text view's title. */
+.pi-nav {
+    position: absolute;
+    top: 20px;
+    left: 24px;
+    z-index: 2;
+    margin: 0;
+}
+
+.pi-nav .page-eyebrow-meta { color: rgba(238, 242, 251, 0.8); text-decoration: none; text-shadow: 0 1px 8px rgba(2, 4, 12, 0.8); }
+.pi-nav .page-eyebrow-meta:hover { color: var(--pi-ink); }
+
+/* Explanations: hidden until the Explain button turns them on. */
+.pi-explain {
+    display: none;
+    margin: 1.2rem 0 0;
+    padding: 0.8rem 1rem;
+    border-left: 2px solid var(--pi-accent, var(--accent-color));
+    border-radius: 0 8px 8px 0;
+    background: rgba(3, 6, 15, 0.55);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: rgba(238, 242, 251, 0.85);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    text-align: left;
+}
+
+.pi-explain p { margin: 0; }
+.pi-explaining .pi-explain { display: block; }
+
+/* Sound menu: the scene's own sound or an ambient one; opens upward. */
+.pi-sound { position: relative; display: inline-flex; }
+
+.pi-sound .pi-sound-main { border-top-right-radius: 0; border-bottom-right-radius: 0; border-right-width: 0; }
+.pi-sound .pi-sound-more { padding: 7px 10px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.pi-sound-more i { font-size: 0.8em; }
+
+.pi-sound-menu {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 8px);
+    display: flex;
+    flex-direction: column;
+    min-width: 11rem;
+    max-width: min(80vw, 18rem);
+    padding: 6px 0;
+    border: 1px solid rgba(238, 242, 251, 0.15);
+    border-radius: 12px;
+    background: rgba(8, 12, 26, 0.85);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+}
+
+.pi-sound-menu.open { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.pi-sound-option {
+    padding: 8px 14px;
+    border: 0;
+    background: transparent;
+    color: var(--pi-ink);
+    font-family: inherit;
+    font-size: var(--text-xs);
+    text-align: left;
+    cursor: pointer;
+}
+
+.pi-sound-option:hover { background: rgba(238, 242, 251, 0.08); }
+.pi-sound-option:focus-visible { outline: 2px solid var(--accent-color); outline-offset: -2px; }
+.pi-sound-option.active { color: var(--accent-color); font-weight: 600; }
+
 @keyframes pi-rise {
     from { opacity: 0; filter: blur(10px); }
     to { opacity: 1; filter: blur(0); }
@@ -277,6 +352,8 @@ html.pi-pending main::before {
     .pi-line { font-size: clamp(1.05rem, 4.9vw, 1.4rem); }
     .pi-rail { display: none; }
     .pi-controls { left: 50%; transform: translateX(-50%); bottom: 18px; }
+    .pi-btn span { display: none; }
+    .pi-nav { left: 16px; top: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -298,3 +375,84 @@ html.pi-immersed #scroll_top {
     opacity: 0;
     pointer-events: none;
 }
+
+/* ── One reading at a time ───────────────────────────────────────────── */
+/* While the scene is on (or about to be), the plain article is hidden from
+   sight but kept for screen readers, since the stage text is aria-hidden. */
+html.pi-on .poem.poetry,
+html.pi-pending .poem.poetry {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Similar Poems and comments carry on below the stage, in its dark. */
+.pi-epilogue {
+    position: relative;
+    background: #03060f;
+    color: #eef2fb;
+    padding: 4rem 16px 4rem;
+}
+
+.pi-epilogue::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 18vh;
+    background: linear-gradient(to bottom, rgba(3, 6, 15, 0), #03060f);
+    pointer-events: none;
+}
+
+.pi-epilogue-inner {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.pi-epilogue .poem-related { margin-bottom: 3rem; }
+
+/* Footnotes and the source line from after the poem. */
+.pi-notes {
+    margin: 0 0.5rem 3rem;
+    color: rgba(222, 230, 248, 0.7);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+}
+
+.pi-notes hr { display: none; }
+.pi-notes a { color: var(--accent-color); }
+.pi-notes h1, .pi-notes h2, .pi-notes h3, .pi-notes h4, .pi-notes strong { color: #eef2fb; }
+.pi-notes .poem-source { margin: 1rem 0 0; padding: 0; border: 0; color: rgba(222, 230, 248, 0.55); }
+.pi-notes .poem-source a { color: rgba(222, 230, 248, 0.75); }
+
+.pi-epilogue .poem-related-heading {
+    color: #eef2fb;
+    border-bottom-color: rgba(238, 242, 251, 0.14);
+    font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    font-weight: 500;
+}
+
+.pi-epilogue .poem-related-card {
+    border-color: rgba(238, 242, 251, 0.12);
+    background: rgba(238, 242, 251, 0.03);
+}
+
+.pi-epilogue .poem-related-card:hover {
+    border-color: var(--accent-color);
+    background: rgba(238, 242, 251, 0.06);
+}
+
+.pi-epilogue .poem-related-thumb { background: rgba(238, 242, 251, 0.06); }
+.pi-epilogue .poem-related-thumb-placeholder { color: rgba(238, 242, 251, 0.35); }
+.pi-epilogue .poem-related-title { color: #eef2fb; }
+.pi-epilogue .poem-related-author { color: rgba(222, 230, 248, 0.55); }
+
+.pi-epilogue .poem-notecomments { color-scheme: dark; }
+.pi-epilogue .comments-heading { color: #eef2fb; }

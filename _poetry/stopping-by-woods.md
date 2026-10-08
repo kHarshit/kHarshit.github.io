@@ -4,7 +4,8 @@ title: Stopping by Woods on a Snowy Evening
 author: Robert Frost
 date: 2020-02-28 21:41 +05:30
 editor: Harshit Kumar
-source: 
+source: "New Hampshire (1923)"
+rights: "Public domain"
 categories: motivational
 img_source: /img/poems/StoppingbyWoodsonaSnowyEvening.jpg
 immersive: snowy-woods
