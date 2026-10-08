@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Public Domain
 categories: motivational
 img_source: /img/poems/DontQuit.jpg
+immersive: uphill-road
 ---
 - When things go wrong as they sometimes will,
 - When the road you're trudging seems all up hill,
