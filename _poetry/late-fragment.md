@@ -7,6 +7,7 @@ editor: Harshit Kumar
 source: Words for the year
 categories: life
 img_source: /img/poems/LateFragment.jpg
+immersive: beloved-earth
 ---
 - And did you get what
 - you wanted from this life, even so?
