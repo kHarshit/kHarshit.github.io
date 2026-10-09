@@ -9,6 +9,7 @@ source_url: https://www.familyfriendpoems.com/poem/if-only-she-knew
 rights: "© Kiara Wilson"
 categories: romantic
 img_source: /img/poems/IfOnlySheKnew.jpg
+immersive: rainy-turnaround
 ---
 - She has her own special way
 - Of turning around my terrible day.
