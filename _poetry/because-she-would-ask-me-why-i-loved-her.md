@@ -8,6 +8,7 @@ source: AllPoetry
 rights: "Public domain"
 categories: romantic
 img_source: /img/poems/BecauseSheWouldAskMeWhyILovedHer.jpg
+immersive: wordless
 ---
 - If questioning would make us wise
 - No eyes would ever gaze in eyes;
